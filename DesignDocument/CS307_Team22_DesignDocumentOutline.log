@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  29 JAN 2018 21:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  29 JAN 2018 23:21
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -132,17 +132,15 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-<example-image-1x1.png, id=1, 250.9375pt x 250.9375pt>
-File: example-image-1x1.png Graphic file (type png)
-
-<use example-image-1x1.png>
-Package pdftex.def Info: example-image-1x1.png used on input line 15.
-(pdftex.def)             Requested size: 58.49762pt x 58.49551pt.
+<images/logo.png, id=1, 903.375pt x 652.4375pt>
+File: images/logo.png Graphic file (type png)
+ <use images/logo.png>
+Package pdftex.def Info: images/logo.png used on input line 15.
+(pdftex.def)             Requested size: 234.00238pt x 169.00255pt.
  [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} </usr/lo
-cal/texlive/2016/texmf-dist/tex/latex/mwe/example-image-1x1.png>] (./CS307_Team
-22_DesignDocumentOutline.toc
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./image
+s/logo.png>] (./CS307_Team22_DesignDocumentOutline.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -159,23 +157,23 @@ Overfull \vbox (21.58337pt too high) has occurred while \output is active []
 
 [2] (./CS307_Team22_DesignDocumentOutline.aux) ) 
 Here is how much of TeX's memory you used:
- 1500 strings out of 493014
- 21983 string characters out of 6133351
+ 1501 strings out of 493014
+ 21953 string characters out of 6133351
  83600 words of memory out of 5000000
  5047 multiletter control sequences out of 15000+600000
  9750 words of font info for 34 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,4n,23p,272b,150s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,4n,23p,272b,152s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2016/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on CS307_Team22_DesignDocumentOutline.pdf (3 pages, 58840 bytes)
+Output written on CS307_Team22_DesignDocumentOutline.pdf (3 pages, 95488 bytes)
 .
 PDF statistics:
- 31 PDF objects out of 1000 (max. 8388607)
- 20 compressed objects within 1 object stream
+ 33 PDF objects out of 1000 (max. 8388607)
+ 21 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
