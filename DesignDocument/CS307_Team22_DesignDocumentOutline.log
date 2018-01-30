@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  29 JAN 2018 21:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  29 JAN 2018 21:20
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -154,7 +154,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout3 = `CS307_Team22_DesignDocumentOutline.toc'.
 
  [1]
-Overfull \vbox (25.71672pt too high) has occurred while \output is active []
+Overfull \vbox (21.58337pt too high) has occurred while \output is active []
 
 
 [2] (./CS307_Team22_DesignDocumentOutline.aux) ) 
@@ -171,7 +171,7 @@ dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2016/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on CS307_Team22_DesignDocumentOutline.pdf (3 pages, 57284 bytes)
+Output written on CS307_Team22_DesignDocumentOutline.pdf (3 pages, 58840 bytes)
 .
 PDF statistics:
  31 PDF objects out of 1000 (max. 8388607)
