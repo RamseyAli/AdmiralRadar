@@ -1,0 +1,13 @@
+This is an example tex file to show you how to load text, images, and tables. It should demonstrate how simple it is to use the LaTeX framework I've written. To start, type any text you'd like in plaintext, just like this paragraph is. The source code for this paragraph, which is the example, is Sample.tex in the "sources" folder. As you can see by examining it, all of this paragraph has just been written in simple plain text. The next fancy thing we'd like to do is add a picture. The first step here is to save the picture you'd like to use, preferably as a PNG file, in the "images" directory. I have saved an example image called "gustavo.png" in this folder for this example. In order to show the image in your document, all I need to do is end the paragraph and include the line below. In this example, the caption for the image is "Gustavo, Our King."
+
+\samimage[Gustavo, Our King]{gustavo}
+
+Note that the name inside the brackets is the name of the image file without the extension. Once this is done, the typesetting compiler will load the image and place it in the appropreate location. The other important feature we should discuss is tables. We're going to make this super simple as well: the primary thing you need to do is save your table in CSV format in the directory "tables." I've saved "enterprise.csv" in this directory as an example. Like the image example above, all you have to do is end your paragraph and type the following line into the .tex file, using the proper name of your CSV file and the desired caption.
+
+\samtable[Enterprise Crew]{enterprise}
+
+As you can see, the CSV file is loaded into the document as a table. The top line will be the header, and data will be loaded in like you'd expect. In BOTH the image and the table, you MUST include a caption, or else the document will include "All Hail The Mighty Image/Table" as captions. 
+
+\samimage{gustavo}
+
+If you have special requirements for your table, talk to me (Sam), but try to give me your data as a CSV and I'll try to make it work. This concludes the sample file. It should be all we need to complete the document.
