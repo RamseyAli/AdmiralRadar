@@ -1,1 +1,20 @@
-\blindtext[2]
+	\textit{Admiral Radar}'s desktop client software will provide the user with a GUI for interactive gameplay. The GUI will connect to the backend classes of the client software using a Model-View-Controller design paradigm, allowing the graphical view and interface to be developed in a modular fashion. The unique challenge in developing the interface will be that there are multiple seperate interfaces which must be included just during the game: one each for each game role. Additionally, a seperate layout must be developed for the program in order to allow the user to connect to the server and begin a game. Finally, several special interfaces are required for two infrequent-yet-important game situations: responding to a radar pulse and going on a spacewalk. 
+
+	The interface is planned to be implemented in Java's Swing library. The reason for this choice was primarily due to its familiarity to the members of the team and its simple polymorphic design. The application will display the user one central window capable of taking on alternate arrangements of a core set of display windows. The five primary arrangements, which we refer to as interface modes, correspond to the Captain, First Officer, Engineer, and Radio Officer roles, in addition to a connection settings screen. Contained within these windows should be, in different configurations, sub-panels for the map with the vessel path, map with the speculated enemy path, dials representing system status, submarine health, network connection status, engineering component status, chat window, and game status messages. Each of these panels can be displayed in multiple sizes and in multiple locations on the screen, depending on the interface mode required. Additional overlay windows will provide the functionality required for Radar and Spacewalk interactions. The general design for these panels is shown in figure F.
+
+	\samimage[Sample Component Panels]{gustavo}
+
+
+	%%CO SCREEN
+
+	%%XO SCREEN
+
+	%%EO SCREEN
+
+	%%RO SCREEN
+
+	%%Connection Screen
+
+	%%Radar response
+
+	%%Spacewalk Interface
