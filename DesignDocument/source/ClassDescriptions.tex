@@ -1,2 +1,67 @@
-Figure 4.1.1 depicts a representation of how our classes will be structured when we start the programming of our design. This is of course a mock design and can undergo changes as we realize different requirements or limitations in the process of our implementation.
+\samimage[Class Diagram]{ClassDiagram}
 
+Figure X depicts a representation of how our classes will be structured when we implement our design. This is a mock design and can undergo changes based on requirements or limitations encountered in the process of our implementation. The major classes included in our code would resemble the following descriptions: 
+
+\begin{enumerate}
+\item Client
+\begin{itemize}
+\item Each player in a game is imagined to be a separate client and interacts with the server independently.
+\item Contains data teamNo (which team the player belongs to) and clientType (what role does the player play in the team).
+\item Can send commands to the server for a change in the position or system state of the spaceship.
+\item Can send messages to the server to send it to his other team members.
+\item Can get messages of fellow team members from the server.
+\item Is accessed by the player through the GUI.
+\end{itemize}
+\item GUIController
+\begin{itemize}
+\item Is the visual representation for the Client class.
+\item Consists of four sub-classes: Captain, Engineer, First Officer, Radio Officer.
+\item Can display Login window on the start of the game.
+\item Can ask to start game.
+\item Can ask to select role.
+\item Can display recursively updated interface for the selected role.
+\end{itemize}
+\item Server
+\begin{itemize}
+\item Main controller where all the actions would take place.
+\item Can get commands from the clients.
+\item Can update current Maps object based on the command.
+\item Can update current Spaceships object based on the command.
+\item Can get messages from a player and send it to all his teammates.
+\item Can access and update database of user accounts.
+\end{itemize}
+\item Spaceships
+\begin{itemize}
+\item Represents unique spaceships of each team.
+\item Contains data shipPosition (where is the ship on the map), shipPath (string of letters based on the path the ship has taken), shipHealth (what is the health of the ship, i.e. from 1 to 4), shipSystems (object of class ShipSystems).
+\item Can initialize object when the game is started.
+\item Can get the next direction from the player based on the command.
+\item Can update the path of the ship based on recent movement.
+\item Can return all the data of the ship to the client.
+\end{itemize}
+\item Maps
+\begin{itemize}
+\item Represents all the types of maps the players can play on.
+\item Contains data asteroidPosition (array of positions where all the asteroids are present) and minesPosition (where are the mines been placed).
+\item Can calculate crash based on the movement.
+\item Can calculate all the positions mine blast would affect.
+\item Can calculate all the positions missile blast would affect.
+\end{itemize}
+\item ShipSystems
+\begin{itemize}
+\item Represents all the systems in a spaceship.
+\item Contains data missile (missile system), mine (mine system), sonar (sonar system), drone (drone system), silence (silence system).
+\item Can return the status of each system.
+\item Can update the status of each system.
+\end{itemize}
+\item Database
+\begin{itemize}
+\item Used to store all the user account data.
+\item Contains data userId (which player is playing), password (password to login), numGames (no of games played by the user), wins (no. of games won by the user) and avatar (picture chosen by user).
+\item Can initialize a new user.
+\item Can check the password entered for login.
+\item Can update password after login.
+\item Can see statistics of player.
+\item Can update new avatar from a list of choices.
+\end{itemize}
+\end{enumerate}

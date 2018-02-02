@@ -1,1 +1,11 @@
-\blindtext[2]
+From the above Class Diagram, we can say that the classes are related to each other in the following ways:
+
+\begin{itemize}
+\item Client is related to GUIController in a one to one cardinality. This means that each client will have only one GUI representing it and it would be based on the clientType. GUI displays the data present in client in a graphical manner.
+\item Client is related to Server in a 2..* to 1 cardinality. This means that there is only one sever but the server can have clients from 2 to n. Client interacts with Server by sending commands, messages, getting ship object etc.
+\item Client is related to Spaceships in a one to one cardinality. This means that each client can have only one ship as its object. The client gets the ship object from Server and can only get the ship statistics but cannot manipulate the ship data directly.
+\item Server is related to Spaceships in a 1 to 2..* cardinality. This means that there is only one server but the server can have spaceships from to 2 to n based on the number of teams playing. Server can manipulate all the data in the Spaceships class and sends the Spaceship object back to the client after every update.
+\item Spaceships is related to ShipSystems in a one to one cardinality. This means that each spaceship will have only one set of systems. Spaceships can manipulate all the data in ShipSystems based on commands received.
+\item Server is related to Maps in a 1 to 2..* cardinality. This means that there can be multiple maps that the user can choose to play on and based on this choice the map will be initialized. Server can manipulate the data in Maps class and send the updated map to players.
+\item Server is related to Database in a one to one cardinality. This means that there is only one server and one database which we will be dealing with in our game. Server can access and update the data in Database based on the user?s choice.
+\end{itemize}
