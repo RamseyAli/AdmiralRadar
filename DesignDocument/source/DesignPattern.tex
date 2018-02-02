@@ -1,15 +1,24 @@
 We decided to implement a client-server model for our project. Since our project is a game that allows many users to play together and requires coordination between team members, we thought that this design pattern was appropriate. Each instance of the server handles a single game of Admiral Radar and connects to multiple clients, one for each user. Also,  when a player logs in to their account the server will access a database for authentication.
 
-1.	Desktop Client
-a. Each player will have their own client, with changes in GUI based on player role.
-b. Clients send player actions to, and receive information about the states of the game, from the Server.
-c. Clients update GUI based on game data received from the server.
+\begin{enumerate}
+\item Desktop Client
+\begin{enumerate}
+\item Each player will have their own client, with changes in GUI based on player role.
+\item Clients send player actions to, and receive information about the states of the game, from the Server.
+\item Clients update GUI based on game data received from the server.
+\end{enumerate}
 
-2.	Game Server
-a. Performs the majority of calculations required for the game.
-b. Accepts requests for information and commands from the clients, and performs the appropriate action.
-c. Queries Login Database for user authentication info.
-d. Stores all information related to game state. (Position and Health of ships, Location of Mines etc.)
+\item Game Server
+\begin{enumerate}
+\item Performs the majority of calculations required for the game.
+\item Accepts requests for information and commands from the clients, and performs the appropriate action.
+\item Queries Login Database for user authentication info.
+\item Stores all information related to game state. (Position and Health of ships, Location of Mines etc.)
+\end{enumerate}
 
-3.	Login Database
-a. Contain User Data for each account. Data includes Username, Avatar, Past Game Statistics.
+\item Login Database
+\begin{enumerate}
+\item Contain User Data for each account. Data includes Username, Password, Avatar, Past Game Statistics.
+\item Provide authentication for user connections.
+\end{enumerate}
+\end{enumerate}
