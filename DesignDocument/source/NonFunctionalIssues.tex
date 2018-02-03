@@ -28,7 +28,7 @@ Having to go one at a time brings back a bit of that board game feel where playe
 \subsubsection*{Issue: \textit{How will the clients handle a server disconnection?}}
 
   \begin{itemize}
-    \item \textbf{Pause the game for up to ~30 seconds and, if a connection isn't restored, return the user to the lobby.}
+    \item \textbf{Pause the game for up to around 30 seconds and, if a connection isn't restored, return the user to the lobby.}
     \item Once diconnection occurs, push any actions along with time stamps held by the clients on a temporary queue to then be sent to the server once connection is restored and the server will sort each action in the order of the time performed and execute it in that order. 
   \end{itemize}
 
