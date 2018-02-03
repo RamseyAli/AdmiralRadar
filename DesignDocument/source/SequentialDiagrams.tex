@@ -1,38 +1,35 @@
-\begin{enumerate}
-\item Login
+\subsubsection*{Login}
 
-\samimage[Sequence Diagram for Login]{SequenceDiagramLogin}
+\newsamimage[0.95]{Sequence Diagram for Login}{SequenceDiagramLogin}
 
 When a player sends his login details like username and password through GUIController, the details are sent to the Client and then to the Server. The Sever sends this data to the Database to check the password. Once the password is confirmed, the Database sends user details like the username, avatar, statistics etc. back to the user in the form of a GUI.
 
-\item Captain
+\subsubsection*{Captain}
 
-\samimage[Sequence Diagram for Captain]{SequenceDiagramCaptain}
+\newsamimage[0.95]{Sequence Diagram for Captai}{SequenceDiagramCaptain}
 
 The Captain is tasked with navigating the spaceship by telling which direction to move. He also has other tasks like commanding when to use the spaceship systems which have been activated. These commands all update the objects of maps and spaceships based on the commands. In case the Captain commands to place a mine, the map stores details of the mine. If the Captain shoots a missile, the Server should calculate the blast effect. After these updates, the updated GUI is displayed to the captain.
 
-\item First Officer
+\subsubsection*{First Officer}
 
-\samimage[Sequence Diagram for First Officer]{SequenceDiagramFirstOfficer}
+\newsamimage[0.95]{Sequence Diagram for First Officer}{SequenceDiagramFirstOfficer}
 
 First Officer charges the systems with each move. As the systems of the ship are charged, they are activated and the object of ShipSystems is updated. This makes the system available to use by the team. The updated GUI is sent to the First Officer.
 
-\item Engineer
+\subsubsection*{Engineer}
 
-\samimage[Sequence Diagram for Engineer]{SequenceDiagramEngineer}
+\newsamimage[0.95]{Sequence Diagram for Engineer}{SequenceDiagramEngineer}
 
 Engineer has the responsibility to disable a system of the ship with each move based on the direction moved. As the systems of the ship are disabled, they are deactivated and the object of ShipSystems is updated. This makes the system unavailable to use by the team. The updated GUI is sent to the Engineer.
 
-\item Radio Officer
+\subsubsection*{Radio Officer}
 
-\samimage[Sequence Diagram for Radio Officer]{SequenceDiagramRadioOfficer}
+\newsamimage[0.95]{Sequence Diagram for Radio Officer}{SequenceDiagramRadioOfficer}
 
 Radio Officer plays a very important role which involves interaction between the GUI, client and server. When the Radio Officer requests a new possible path the GUI is supposed to plot a path of the opponent ship by getting it through the server. Radio Officer is supposed to keep the team members updated on the possible positions of the opponents.
 
-\item Messages
+\subsubsection*{Messages}
 
-\samimage[Sequence Diagram for Messages]{SequenceDiagramMessages}
+\newsamimage[0.95]{Sequence Diagram for Messages}{SequenceDiagramMessages}
 
 Each player can message his/her fellow team mates at any time in the game. This messaging system is highly essential for the team members to play the game efficiently. The message is sent to the server through client and it is distributed to the rest of the team mates. This is a simple implementation of IRC server
-
-\end{enumerate}
