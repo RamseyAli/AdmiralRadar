@@ -23,16 +23,16 @@ We've collectively had more experience with SwingWeb and have had no issues in u
     \item \textbf{Each game will run on a seperate thread.}
   \end{itemize}
 
-There wouldn't be enough functionality to warrent running multiple processes for a single server request as the game logic is fairly simple. We may consider other options in the future should we decide to greatly improve game performance and efficiancy and/or implement new features that would potentially make the game unstable.
+There wouldn't be enough functionality to warrent running multiple processes for a single server request as the game logic is fairly simple. However, we may consider other options in the future should we decide to greatly improve game's performance and efficiancy and/or if we decide to implement new features that would potentially make the game unstable.
 
 \subsubsection*{Issue: \textit{How will realtime gameplay be handled?}}
 
   \begin{itemize}
     \item \textbf{Orders will be processed by the time they are recieved by the server.}
-    \item The client will enqueue each order into a type of "OrdersBuffer" queue that would then be sent to the server for pe
+    \item The client will enqueue each order into a type of "OrdersBuffer" queue that would then be sent to the server for processing at every given arbitrary quantum.
   \end{itemize}
 
-Some Text
+The buffered option, while easier to implement, would most likely be more temperamental should the server lag. A great many orders could be lost and would be most irritating to the player.
 
 \subsubsection*{Issue: \textit{How will the AI interact with the team members?}}
 
