@@ -1,11 +1,11 @@
 \subsubsection*{Issue: \textit{What kind of database will we use?}}
 
   \begin{itemize}
-    \item MySQL
-    \item \textbf{NoSQL}
+    \item MongoDB
+    \item \textbf{SQL}
   \end{itemize}
 
-Some Text
+The game is structured in such a way where the stored data would be easily interconnected through relational entities, making SQL (or any SQL option) the simplest to implement.
 
 \subsubsection*{Issue: \textit{How will a team play with fewer than four members?}}
 
@@ -23,31 +23,31 @@ This is a very simple fix and potentially the most fun for players. The challeng
     \item The users would have to each move at the same time with the arrow keys.
   \end{itemize}
 
-Some Text
+Having to go one at a time brings back a bit of that board game feel where players share the same physical space and creates tension with the entire team watching one player move accross the board.
 
 \subsubsection*{Issue: \textit{How will the clients handle a server disconnection?}}
 
   \begin{itemize}
-    \item Pause the game for up to ~30 seconds and return the user to the lobby, if a connection isn't restored.
-    \item 
+    \item \textbf{Pause the game for up to ~30 seconds and, if a connection isn't restored, return the user to the lobby.}
+    \item Once diconnection occurs, push any actions along with time stamps held by the clients on a temporary queue to then be sent to the server once connection is restored and the server will sort each action in the order of the time performed and execute it in that order. 
   \end{itemize}
 
-Some Text
+Pausing the game and having players wait will be the simplest to implement given the time restrainsts, and even we were able to implement the other option competently, players might find a way to leverage server timing to get certain actions performed before others, so it also acts as a preventative cheating measure.
 
 \subsubsection*{Issue: \textit{How will the server handle a database disconnection?}}
 
   \begin{itemize}
-    \item Allow the game to complete and cache results until connection is restored. No further login would be allowed during that time.
-    \item 
+    \item \textbf{Send a message to the player letting them know what happened, then allow the game to complete and cache results until connection is re-established. No further login would be allowed during that time.}
+    \item Have the player on a loading screen at startup until connection is restablished.
   \end{itemize}
 
-Some Text
+Having the player know what is wrong with the internals of the game as it happens will dispell any confusion with the issue. The player won't have to troubleshoot the error themselves.
 
 \subsubsection*{Issue: \textit{On what hardware will the server be implemented?}}
 
   \begin{itemize}
-    \item Linux servers operated by team members.
     \item 
+    \item \textbf{It will be implemented on Linux servers operated by team members.}
   \end{itemize}
 
 Some Text
