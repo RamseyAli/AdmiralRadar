@@ -19,16 +19,16 @@ We've collectively had more experience with SwingWeb and have had no issues in u
 \subsubsection*{Issue: \textit{How will multiple games run simultaneously on the server?}}
 
   \begin{itemize}
-    \item Each game will run on a seperate pool of threads.
-    \item \textbf{Each game will run on a seperate thread.}
+    \item Each game will run on a separate pool of threads.
+    \item \textbf{Each game will run on a separate thread.}
   \end{itemize}
 
-There wouldn't be enough functionality to warrent running multiple processes for a single server request as the game logic is fairly simple. However, we may consider other options in the future should we decide to greatly improve game's performance and efficiancy and/or if we decide to implement new features that would potentially make the game unstable.
+There wouldn't be enough functionality to warrant running multiple processes for a single server request as the game logic is fairly simple. However, we may consider other options in the future should we decide to greatly improve game's performance and efficiency and/or if we decide to implement new features that would potentially make the game unstable.
 
 \subsubsection*{Issue: \textit{How will realtime gameplay be handled?}}
 
   \begin{itemize}
-    \item \textbf{Orders will be processed by the time they are recieved by the server.}
+    \item \textbf{Orders will be processed by the time they are received by the server.}
     \item The client will enqueue each order into a type of "OrdersBuffer" queue that would then be sent to the server for processing at every given arbitrary quantum.
   \end{itemize}
 
