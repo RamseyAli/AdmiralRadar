@@ -16,6 +16,16 @@
 
 %%%% ------------------------ FUNCTION DEFINITIONS ------------------------ %%%%
 
+\newcommand{\newsamimage}[3][0.1]{
+\begin{minipage}{\textwidth}
+    {\centering
+    \vspace{0.5cm}
+    \includegraphics[width=#1\textwidth]{#3}
+    \captionof{myfig}{#2}
+    \label{fig:#3}
+    \vspace{0.5cm}}
+    \end{minipage}
+}
 
 \newcommand{\samimage}[2][{All Hail The Mighty Image!}]{
 \begin{minipage}{\textwidth}
