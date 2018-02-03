@@ -1,53 +1,53 @@
 \subsubsection*{Issue: \textit{How will users communicate with the other users on their team?}}
 
   \begin{itemize}
-    \item \textbf{They will use a simple IRC based chat room.}
+    \item \textbf{They will communicate through a simple IRC based chat room.}
     \item They will communicate through voice chat.
   \end{itemize}
 
-The main reason for choosing this option is 
+The main reason for choosing this option is that it'll be simpler to implement as well as be less stressful on the server. However, these options aren't mutually exclusive (in fact both would be optimal as is common in most modern video games), so we may choose to implement the voice chat option at a later time in a game update.
 
 \subsubsection*{Issue: \textit{How will we convert a Java Swing based desktop application into a web based application?}}
 
   \begin{itemize}
-    \item We will use API called Swing Web
-    \item 
+    \item \textbf{We will use an API called SwingWeb.}
+    \item We will use Mia Transformer.
   \end{itemize}
 
-Some Text
+We've collectively had more experience with SwingWeb and have had no issues in using it whatsoever. Taking the time to learn an alternative method would be most unwise as our software would be prone to more bugs.
 
 \subsubsection*{Issue: \textit{How will multiple games run simultaneously on the server?}}
 
   \begin{itemize}
-    \item Each game will run on a seperate thread.
-    \item 
+    \item Each game will run on a seperate pool of threads.
+    \item \textbf{Each game will run on a seperate thread.}
   \end{itemize}
 
-Some Text
+There wouldn't be enough functionality to warrent running multiple processes for a single server request as the game logic is fairly simple. However, we may consider other options in the future should we decide to greatly improve game's performance and efficiancy and/or if we decide to implement new features that would potentially make the game unstable.
 
 \subsubsection*{Issue: \textit{How will realtime gameplay be handled?}}
 
   \begin{itemize}
-    \item Orders will be processed by the time they are recieved by the server.
-    \item 
+    \item \textbf{Orders will be processed by the time they are recieved by the server.}
+    \item The client will enqueue each order into a type of "OrdersBuffer" queue that would then be sent to the server for processing at every given arbitrary quantum.
   \end{itemize}
 
-Some Text
+The buffered option, while easier to implement, would most likely be more temperamental should the server lag. A great many orders could be lost and would be most irritating to the player.
 
 \subsubsection*{Issue: \textit{How will the AI interact with the team members?}}
 
   \begin{itemize}
-    \item Through a Swing based GUI
-    \item 
+    \item They will interact through console commands via the chat window.
+    \item \textbf{They will interact through a Swing based GUI.}
   \end{itemize}
 
-Some Text
+A GUI will allow players to easily keep track of each submodules and the game as a whole, as well as be more aesthetically pleasing. Using a text based AI wouldn't be very engaging nor easy to monitor.
 
 \subsubsection*{Issue: \textit{How will the actions required of the different players be presented graphically?}}
 
   \begin{itemize}
-    \item Through a visual design consistent with game theme and intuitive usability standards.
-    \item 
+    \item Through game/server messages presented at the side of the screen.
+    \item \textbf{Through a visual design consistent with game theme and intuitive usability standards.}
   \end{itemize}
 
-Some Text
+The bold option is not only logical but also engaging and entertaining. Having a flashy visual and audio representation of a player's actions is far more pleasing than having meaningless text pop up on the screen as it follows the old adage, "Show don't tell".
