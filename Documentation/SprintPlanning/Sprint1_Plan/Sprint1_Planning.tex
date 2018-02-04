@@ -1,5 +1,85 @@
 \documentclass[12pt]{article}
+
+%%%% ------------------------ PACKAGE IMPORTS ------------------------ %%%%
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage{blindtext}
+\usepackage{csvsimple}
+\usepackage{caption}
+\usepackage{enumitem, titlesec}
+
+%%%% ------------------------ SET OPTIONS ------------------------ %%%%
+\graphicspath{ {source/} }
+\def \listmargin {2cm}
+\DeclareCaptionType{myfig}[Figure][List of myfig]
+\DeclareCaptionType{mytab}[Table][List of mytab]
+\titlespacing*{\subsection}{0.5cm}{1ex}{1em}
+\titlespacing*{\subsubsection}{1cm}{1ex}{1em}
+
+
+%%%% ------------------------ FUNCTION DEFINITIONS ------------------------ %%%%
+
+
+
+\newcommand{\newsamimage}[3][0.1]{
+\begin{minipage}{\textwidth}
+    {\centering
+    \vspace{0.5cm}
+    \includegraphics[width=#1\textwidth]{#3}
+    \captionof{myfig}{#2}
+    \label{fig:#3}
+    \vspace{0.5cm}}
+    \end{minipage}
+}
+
+\newcommand{\samimage}[2][{All Hail The Mighty Image!}]{
+\begin{minipage}{\textwidth}
+    {\centering
+    \vspace{0.5cm}
+    \includegraphics[width=0.9\textwidth]{#2}
+    \captionof{myfig}{#1}
+    \label{fig:#2}
+    \vspace{0.5cm}}
+    \end{minipage}
+}
+
+\newcommand{\samtable}[2][{All Hail The Mighty Table!}]{
+\begin{minipage}{\textwidth}
+   { \centering
+    \vspace{0.5cm}
+    \csvautotabular{tables/#2.csv}
+   \captionof{mytab}{#1}
+   \label{#2}
+    \vspace{0.5cm}}
+   \end{minipage}
+}
+
+%%%% ------------------------ DOCUMENT CONTENTS ------------------------ %%%%
 \begin{document}
+
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.9\textwidth]{logo}\par\vspace{1cm}
+	{\scshape\LARGE CS 30700 \par}
+	{\scshape\Large Sprint 1 Planning Document\par}
+	\vspace{1.5cm}
+	{\Huge\bfseries Admiral Radar\par}
+	\vspace{1.5cm}
+	{\large\itshape Utkarsh Agarwal\\ Ramsey Ali \\ Sam Buck \\ Panagiotis Kostouros \\ Delun Shi \par}
+
+	\vfill
+	{\large 5 February, 2018 \par}
+\end{titlepage}
+
+\section{Sprint Overview}
+\input{source/Overview}
+
+\section{Sprint Detail}
+\input{source/Detail}
+
+\section{Sprint Backlog}
+\input{source/Backlog}
 
 
 
