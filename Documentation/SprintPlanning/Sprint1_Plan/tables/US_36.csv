@@ -1,0 +1,4 @@
+Task, Description, Time (hr), Owner (Team Member)
+1, Implement a database structure that reflects the data being stored, 3, Ramsey
+2, Implement a database that stores images for user avatars, 6, Ramsey
+3, Implement the ability to display media stored in database, in client, 6, Ramsey

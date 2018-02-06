@@ -1,0 +1,4 @@
+Task, Description, Time (hr), Owner (Team Member)
+1, Implement client/user roles, 3, Delun
+2, Implement distinct client/user communication, 2, Delun
+3, Implement player turns for each action, 3, Delun

@@ -1,0 +1,11 @@
+\subsection*{41. As a Developer, I would like the server to receive all inputs from each of 4 clients before executing the team?s move.}
+
+\samtable[User Story 41]{US_41}
+
+\subsubsection*{Acceptance Criteria:}
+
+\begin{itemize}
+\item The server should wait for response from Captain, Engineer and First Officer before updating the Ship object.
+\item Given that the server has received all inputs from the clients and the server hasn?t given the go ahead to the clients for further inputs yet, the clients should not be able to change game state.
+\item Given that a team is performing an action, when the server receives all necessary inputs from clients and then executes it, it should send updates to all teams about a move made, also, it should notify the executing team that their action is complete.
+\end{itemize}
