@@ -1,7 +1,4 @@
-First Name,Last Name,Rank,Pips,Title
-Jean Luc,Picard,Captain,4,Commanding Officer
-William,Riker,Commander,3,Executive Officer
-Data,Soong,Lieutenant Commander,2.5,Operations Officer
-Worf,Son of Mogh,Lieutenant,2,Tactical Officer
-Geordi,LaForge,Lieutenant,2,Chief Engineer
-Beverly,Crusher,Commander,3,Chief Medical Officer
+Task, Description, hrs, Owner
+1, Implement Login GUI, 3, Sam
+2, Connect server to database, 3, Ramsey
+3, Connect Client to Server, 5, Pano

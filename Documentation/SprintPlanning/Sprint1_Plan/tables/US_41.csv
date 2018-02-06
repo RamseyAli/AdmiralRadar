@@ -1,4 +1,4 @@
-Task, Description, Time (hr), Owner (Team Member)
+Task, Description, hrs, Owner
 1, Implement proper listening constraints for the server, 3, Utkarsh
 2, Implement client sided listeners to await further instructions from server, 4, Utkarsh
 3, Implement proper messaging for each client from the server, 2, Utkarsh
