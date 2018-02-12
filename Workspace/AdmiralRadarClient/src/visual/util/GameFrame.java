@@ -24,6 +24,8 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 		
 		
+		
+		
 	}
 	
 	private void transparent(boolean b) {

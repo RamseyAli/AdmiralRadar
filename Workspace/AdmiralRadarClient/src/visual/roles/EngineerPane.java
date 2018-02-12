@@ -2,18 +2,22 @@ package visual.roles;
 
 import java.awt.Color;
 
-import javax.swing.JLabel;
-
 public class EngineerPane extends ShipPanel {
 
-	public EngineerPane(){
-		Color x = Color.RED;
-		background = new Color(x.getRed(),x.getGreen(),x.getBlue(), 200);
-		
-		RoleComponentPaneColor();
-		
-		add(new JLabel("Hello Ground"));
-		setVisible(true);
+	public EngineerPane() {
+		super(Color.CYAN);
 	}
-	
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	@Override
+	public void draw() {
+		defaultDraw(Color.GREEN, Color.BLUE);
+		
+	}
 }

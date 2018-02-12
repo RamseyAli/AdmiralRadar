@@ -12,8 +12,6 @@ public class GUITestMain {
 		GameFrame x = new GameFrame(p);
 		
 		Thread.sleep(10000);
-
-		System.out.println("Beep");
 		
 		System.exit(1);
 	
