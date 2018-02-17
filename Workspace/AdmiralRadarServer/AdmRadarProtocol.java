@@ -20,14 +20,15 @@ public class AdmRadarProtocol {
     public String processInput(String theInput) {
         String theOutput = null;
 
-        if (state == WAITING) {
-            theOutput = "Please wait";
-            state = ACCEPTCOMMAND;
-        } else if (state == ACCEPTCOMMAND){
-            if (theInput.equalsIgnoreCase("NORTH")) {
-                theOutput = "Move North";
-                state = EXECUTECOMMAND;
-            } else if (theInput.equalsIgnoreCase("SOUTH")) {
+
+	if (state == WAITING) {
+	    theOutput = "Please enter command";
+	    state = ACCEPTCOMMAND;
+	} else if (state == ACCEPTCOMMAND){
+	    if (theInput.equalsIgnoreCase("NORTH")) {
+		theOutput = "Move North";
+		state = EXECUTECOMMAND;
+	    } else if (theInput.equalsIgnoreCase("SOUTH")) {
 		theOutput = "Move South";
 		state = EXECUTECOMMAND;
 	    } else if (theInput.equalsIgnoreCase("EAST")) {
@@ -37,10 +38,10 @@ public class AdmRadarProtocol {
 		theOutput = "Move West";
 		state = EXECUTECOMMAND;
 	    } else {
-                theOutput = "You're supposed to say \"Direction\"! " +
+		theOutput = "You're supposed to say \"Direction\"! " +
 			    "Try again.";
-            }
-        } 
-        return theOutput;
-    }
+	    }
+	} 
+	return theOutput;
+	}
 }

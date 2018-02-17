@@ -3,7 +3,7 @@ import java.net.*;
 
 public class AdmRadarClient {
     public static void main(String[] args) throws IOException {
-        
+
         if (args.length != 2) {
             System.err.println(
                 "Usage: java AdmRadarClient <host name> <port number>");
@@ -28,7 +28,7 @@ public class AdmRadarClient {
                 System.out.println("Server: " + fromServer);
                 if (fromServer.equals("Bye."))
                     break;
-                
+
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
                     System.out.println("Client: " + fromUser);
