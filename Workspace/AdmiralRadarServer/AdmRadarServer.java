@@ -12,12 +12,12 @@ public class AdmRadarServer {
         int portNumber = Integer.parseInt(args[0]);
 
         try ( 
-            ServerSocket serverSocket = new ServerSocket(portNumber);
-            Socket clientSocket = serverSocket.accept();
-            PrintWriter out =
-                new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(
-                new InputStreamReader(clientSocket.getInputStream()));
+		ServerSocket serverSocket = new ServerSocket(portNumber);
+		Socket clientSocket = serverSocket.accept();
+		PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		ObjectOutputStream os = new ObjectOutputStream(clientSocket.getOutputStream());
+		ObjectInputStream is = new ObjectInputStream(clientSocket.getInputStream());
         ) {
         
             String inputLine, outputLine;
@@ -30,6 +30,8 @@ public class AdmRadarServer {
             while ((inputLine = in.readLine()) != null) {
                 outputLine = arp.processInput(inputLine);
                 out.println(outputLine);
+		outputLine = arp.processInput(null);
+		out.println(outputLine);
                 if (outputLine.equals("Bye."))
                     break;
             }

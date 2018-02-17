@@ -14,20 +14,32 @@ public class AdmRadarClient {
         int portNumber = Integer.parseInt(args[1]);
 
         try (
-            Socket arSocket = new Socket(hostName, portNumber);
-            PrintWriter out = new PrintWriter(arSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(
-                new InputStreamReader(arSocket.getInputStream()));
+		Socket arSocket = new Socket(hostName, portNumber);
+		PrintWriter out = new PrintWriter(arSocket.getOutputStream(), true);
+		BufferedReader in = new BufferedReader(new InputStreamReader(arSocket.getInputStream()));
+		ObjectOutputStream os = new ObjectOutputStream(arSocket.getOutputStream());
+		ObjectInputStream is = new ObjectInputStream(arSocket.getInputStream());
         ) {
             BufferedReader stdIn =
                 new BufferedReader(new InputStreamReader(System.in));
             String fromServer;
             String fromUser;
 
+	    fromServer = in.readLine();
+		System.out.println("Server: " + fromServer);
+
+                fromUser = stdIn.readLine();
+                if (fromUser != null) {
+                    System.out.println("Client: " + fromUser);
+                    out.println(fromUser);
+		}
+	    
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("Server: " + fromServer);
                 if (fromServer.equals("Bye."))
                     break;
+		fromServer = in.readLine();
+		System.out.println("Server: " + fromServer);
 
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {

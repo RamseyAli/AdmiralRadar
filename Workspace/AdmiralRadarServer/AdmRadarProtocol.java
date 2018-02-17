@@ -22,26 +22,35 @@ public class AdmRadarProtocol {
 
 
 	if (state == WAITING) {
-	    theOutput = "Please enter command";
-	    state = ACCEPTCOMMAND;
-	} else if (state == ACCEPTCOMMAND){
-	    if (theInput.equalsIgnoreCase("NORTH")) {
-		theOutput = "Move North";
-		state = EXECUTECOMMAND;
-	    } else if (theInput.equalsIgnoreCase("SOUTH")) {
-		theOutput = "Move South";
-		state = EXECUTECOMMAND;
-	    } else if (theInput.equalsIgnoreCase("EAST")) {
-		theOutput = "Move East";
-		state = EXECUTECOMMAND;
-	    } else if (theInput.equalsIgnoreCase("WEST")) {
-		theOutput = "Move West";
-		state = EXECUTECOMMAND;
-	    } else {
-		theOutput = "You're supposed to say \"Direction\"! " +
-			    "Try again.";
-	    }
-	} 
+		theOutput = "Please enter command";
+		state = ACCEPTCOMMAND;
+		}
+	else if (state == ACCEPTCOMMAND){
+		if (theInput.equalsIgnoreCase("NORTH")) {
+			theOutput = "Move North";
+			state = WAITING;
+		}
+		else if (theInput.equalsIgnoreCase("SOUTH")) {
+			theOutput = "Move South";
+			state = WAITING;
+		}
+		else if (theInput.equalsIgnoreCase("EAST")) {
+			theOutput = "Move East";
+			state = WAITING;
+		}
+		else if (theInput.equalsIgnoreCase("WEST")) {
+			theOutput = "Move West";
+			state = WAITING;
+		}
+		else if (theInput.equalsIgnoreCase("exit")) {
+			theOutput = "Bye,.";
+			state = EXECUTECOMMAND;
+		}
+		else {
+			theOutput = "You're supposed to say \"Direction\"!\n Try again.";
+		}
+	}
+	
 	return theOutput;
 	}
 }
