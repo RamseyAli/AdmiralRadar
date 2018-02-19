@@ -34,14 +34,16 @@ public class AdmRadarServer
 			outputLine = arp.processMessages(null);
 			out.println(outputLine);
 			
-			while ((inputLine = in.readLine()) != null)
+			while(true)
 			{
+				inputLine = in.readLine();
 				outputLine = arp.processMessages(inputLine);
 				out.println(outputLine);
+				if (inputLine.equals("exit"))
+					break;
+				
 				outputLine = arp.processMessages(null);
 				out.println(outputLine);
-				if (outputLine.equals("Bye."))
-				break;
 			}
 		} catch (IOException e) {
 			System.out.println("Exception caught when trying to listen on port " + portNumber + " or listening for a connection");

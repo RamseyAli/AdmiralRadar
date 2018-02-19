@@ -28,13 +28,13 @@ public class AdmRadarClient
 			String fromUser;
 			
 			Maps map1 = new Maps();
-			//map1 = (Maps) is.readObject();
+			map1 = (Maps) is.readObject();
 			
 			map1.printAsteroids();
 			
 			fromServer = in.readLine();
 			System.out.println("Server: " + fromServer);
-
+			
 			fromUser = stdIn.readLine();
 			if (fromUser != null)
 			{
@@ -42,14 +42,15 @@ public class AdmRadarClient
 				out.println(fromUser);
 			}
 	    
-			while ((fromServer = in.readLine()) != null)
+			while (true)
 			{
+				fromServer = in.readLine();
 				System.out.println("Server: " + fromServer);
 				if (fromServer.equals("Bye."))
 					break;
 				fromServer = in.readLine();
 				System.out.println("Server: " + fromServer);
-
+				
 				fromUser = stdIn.readLine();
 				if (fromUser != null)
 				{
@@ -60,8 +61,12 @@ public class AdmRadarClient
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + hostName);
 			System.exit(1);
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.err.println("Couldn't get I/O for the connection to " + hostName);
+			System.exit(1);
+		} catch (ClassNotFoundException e) {
+			System.err.println("Other Exceptions");
+			System.out.println(e.getMessage());
 			System.exit(1);
 		}
 	}
