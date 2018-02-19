@@ -1,17 +1,26 @@
 import java.net.*;
 import java.io.*;
 
-public class Maps {
-	Position [] asteroids;
-	Position [] mines;
+public class Maps implements Serializable
+{
 	
-	Maps()
+	Position [] asteroids;
+	
+	public Maps()
 	{
 		asteroids[0] = new Position();
-		mines[0] = new Position();
+		asteroids[0].setPosition(1,2);
+		asteroids[1] = new Position();
+		asteroids[1].setPosition(1,3);
+		asteroids[2] = new Position();
+		asteroids[2].setPosition(5,4);
+		asteroids[3] = new Position();
+		asteroids[3].setPosition(5,5);
+		asteroids[4] = new Position();
+		asteroids[4].setPosition(6,5);
 	}
 	
-	int calculateCrash(Spaceship s)
+	public int calculateCrash(Spaceship s)
 	{
 		Position p = s.pos;
 		int i=0;
@@ -24,5 +33,15 @@ public class Maps {
 			i++;
 		}
 		return 0;
+	}
+	
+	public void printAsteroids()
+	{
+		int i=0;
+		while(asteroids[i] != null)
+		{
+			System.out.println("x="+asteroids[i].x+"\ty="+asteroids[i].y);
+			i++;
+		}
 	}
 }

@@ -1,12 +1,13 @@
 import java.net.*;
 import java.io.*;
 
-public class Spaceship {
+public class Spaceship
+{
 	Position pos;
 	String path;
 	int health;
 	ShipSystems sys;
-	
+
 	Spaceship(Position p)
 	{
 		pos = p;
@@ -14,7 +15,7 @@ public class Spaceship {
 		health = 4;
 		sys = new ShipSystems();
 	}
-	
+
 	void getNextDirection(String dir)
 	{
 		path = path+" "+dir;
@@ -35,22 +36,22 @@ public class Spaceship {
 			pos.x -= 1;
 		}
 	}
-	
+
 	String getPath()
 	{
 		return path;
 	}
-	
+
 	Position getPosition()
 	{
 		return pos;
 	}
-	
+
 	int getHealth()
 	{
 		return health;
 	}
-	
+
 	ShipSystems getShipSystem()
 	{
 		return sys;

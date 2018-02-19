@@ -1,23 +1,24 @@
 import java.net.*;
 import java.io.*;
 
-public class Position {
+public class Position
+{
 	int x;
 	int y;
 	
-	Position()
+	public Position()
 	{
 		x=0;
 		y=0;
 	}
 	
-	void setPosition(int a,int b)
+	public void setPosition(int a,int b)
 	{
 		x=a;
 		y=b;
 	}
 	
-	Position getPosition()
+	public Position getPosition()
 	{
 		return this;
 	}

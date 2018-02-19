@@ -1,14 +1,15 @@
 import java.net.*;
 import java.io.*;
 
-public class ShipSystems {
+public class ShipSystems
+{
 	int sonar;
 	int missile;
 	int mine;
 	int drone;
 	int silent;
 	
-	ShipSystems()
+	public ShipSystems()
 	{
 		sonar = 0;
 		missile = 0;
