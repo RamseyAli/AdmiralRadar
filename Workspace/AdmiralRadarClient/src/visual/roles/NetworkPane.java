@@ -1,10 +1,6 @@
 package visual.roles;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class NetworkPane extends ShipPanel {
 	
