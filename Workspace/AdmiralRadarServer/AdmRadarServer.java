@@ -142,8 +142,10 @@ public class AdmRadarServer
 			while (DBobj.rs.next()) {
 				if (user.equals(DBobj.rs.getString("USERNAME"))) {
 					if (user.equals(DBobj.rs.getString("PASSWORD"))) {
+                        DBobj.close();
 						return 0;
 					} else {
+                        DBobj.close();
 						return 2;
 					}
 				}
