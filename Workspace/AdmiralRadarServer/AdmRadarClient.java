@@ -1,14 +1,42 @@
 import java.io.*;
 import java.net.*;
 
-public class AdmRadarClient
-{
-	public static void main(String[] args) throws IOException
-	{
+public class AdmRadarClient {
+	private Socket primeSocket;
+	private PrintWriter outStream;
+	private BufferedReader inStream;
+	
+	private void connect_Server(String hostName, int portNumber) throws Exception {
+		primeSocket = new Socket(hostName, portNumber);
+		
+		outStream = new PrintWriter(primeSocket.getOutputStream(), true);
+		inStream = new BufferedReader(new InputStreamReader(primeSocket.getInputStream()));
+	}
+	
+	public void login() {} // TODO: Database stuff
 
-		if (args.length != 2)
-		{
-			System.err.println("Usage: java AdmRadarClient <host name> <port number>");
+	public void sendCommands() {
+
+	}
+	
+	public void sendMessages(String msg) {
+		outStream.println(msg);
+	}
+	public void getMessages() throws IOException {
+		inStream.readLine();
+	}
+	public void getShipObject(){
+		
+	}
+	static int callClientTypeGUI(){
+		return 0;
+	}
+
+	public static void main(String[] args) throws IOException {
+		
+		if (args.length != 2) {
+			System.err.println(
+				"Usage: java AdmRadarClient <host name> <port number>");
 			System.exit(1);
 		}
 

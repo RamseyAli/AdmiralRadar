@@ -53,12 +53,13 @@ public class AdmRadarProtocol
 			}
 			else if (theInput.equalsIgnoreCase("exit"))
 			{
-				theOutput = "Bye,.";
+				theOutput = "Bye.";
 				state = EXECUTECOMMAND;
 			}
 			else
 			{
-				theOutput = "You're supposed to say \"Direction\"!\n Try again.";
+				theOutput = "You're supposed to say \"Direction\"! Try again.";
+				state = WAITING;
 			}
 		}
 	

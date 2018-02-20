@@ -3,8 +3,7 @@ import java.io.*;
 
 public class Maps implements Serializable
 {
-	
-	Position [] asteroids;
+	Position [] asteroids = new Position[5];
 	
 	public Maps()
 	{
@@ -37,11 +36,9 @@ public class Maps implements Serializable
 	
 	public void printAsteroids()
 	{
-		int i=0;
-		while(asteroids[i] != null)
+		for(int i=0;i<5;i++)
 		{
 			System.out.println("x="+asteroids[i].x+"\ty="+asteroids[i].y);
-			i++;
 		}
 	}
 }
