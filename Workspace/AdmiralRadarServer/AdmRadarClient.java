@@ -56,7 +56,7 @@ public class AdmRadarClient {
 			String fromUser;
 			
 			Maps map1 = new Maps();
-			//map1 = (Maps) is.readObject();
+			map1 = (Maps) is.readObject();
 			
 			map1.printAsteroids();
 			

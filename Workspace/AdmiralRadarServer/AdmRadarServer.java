@@ -5,6 +5,70 @@ import java.util.*;
 
 public class AdmRadarServer
 {
+	ArrayList<PrintWriter> clientOutpurStreams;
+	ArrayList<BufferedReader> clientInputStreams;
+	static int nPlayers;
+	
+	public class ClientHandler implements Runnable 
+	{
+		BufferedReader reader;
+		Socket sock;
+		PrintWriter writer;
+		ObjectOutputStream oos;
+		ObjectInputStream ois;
+				
+		public ClientHandler(Socket clientSock)
+		{
+			try
+			{
+				sock = clientSock;
+				reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+				writer = new PrintWriter(sock.getOutputStream(),true);
+				oos = new ObjectOutputStream(sock.getOutputStream());
+				ois = new ObjectInputStream(sock.getInputStream());
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		public void run()
+		{
+			try {
+				if(nPlayers<3)
+					Thread.sleep(7500);
+				
+				AdmRadarProtocol arp = new AdmRadarProtocol();
+				
+				Maps m = new Maps();
+				m = arp.updateMap();
+				oos.writeObject(m);
+				
+				String inputLine, outputLine;
+				
+				outputLine = arp.processMessages(null);
+				writer.println(outputLine);
+				
+				while(true)
+				{
+					inputLine = reader.readLine();
+					outputLine = arp.processMessages(inputLine);
+					writer.println(outputLine);
+					if (inputLine.equals("exit"))
+					{
+						nPlayers--;
+						break;
+					}
+					
+					outputLine = arp.processMessages(null);
+					writer.println(outputLine);
+				}
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	
 	public static void main(String[] args) throws IOException
 	{
         
@@ -13,49 +77,42 @@ public class AdmRadarServer
 			System.err.println("Usage: java AdmRadarServer <port number>");
 			System.exit(1);
 		}
-
+		
+		nPlayers = 0;
+		
 		int portNumber = Integer.parseInt(args[0]);
-
-		try ( 
-			ServerSocket serverSocket = new ServerSocket(portNumber);
-			Socket clientSocket = serverSocket.accept();
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			ObjectOutputStream os = new ObjectOutputStream(clientSocket.getOutputStream());
-			ObjectInputStream is = new ObjectInputStream(clientSocket.getInputStream());
-		) {
-			String inputLine, outputLine;
-			
-			// Initiate conversation with client
-			AdmRadarProtocol arp = new AdmRadarProtocol();
-			
-			Maps m = new Maps();
-			m = arp.updateMap();
-			os.writeObject(m);
-			
-			outputLine = arp.processMessages(null);
-			out.println(outputLine);
+		new AdmRadarServer().go(portNumber);
+	}
+	
+	public void go(int port)
+	{
+		clientOutpurStreams = new ArrayList<PrintWriter>();
+		clientInputStreams = new ArrayList<BufferedReader>();
+		
+		try {
+			ServerSocket serverSocket = new ServerSocket(port);
 			
 			while(true)
 			{
-				inputLine = in.readLine();
-				outputLine = arp.processMessages(inputLine);
-				out.println(outputLine);
-				if (inputLine.equals("exit"))
-					break;
+				Socket clientSocket = serverSocket.accept();
+				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+				clientOutpurStreams.add(out);
+				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				clientInputStreams.add(in);
 				
-				outputLine = arp.processMessages(null);
-				out.println(outputLine);
+				Thread t = new Thread(new ClientHandler(clientSocket));
+				t.start();
+				nPlayers++;
+				
+				System.out.println("Got a player");
 			}
-		} catch (IOException e) {
-			System.out.println("Exception caught when trying to listen on port " + portNumber + " or listening for a connection");
+		} catch (Exception e) {
+			System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
 			System.out.println(e.getMessage());
 		}
-
-
 	}
 
-	public static class dbQuery {
+	/*public static class dbQuery {
 		Connection conn = null;
 		Statement statement = null;
 		ResultSet rs = null;
@@ -133,7 +190,7 @@ public class AdmRadarServer
 	0 - Success
 	1 - Invalid Username
 	2 - Invalid Password
-	*/
+	
 	public static int login(String user, String pw) {
 
 		dbQuery DBobj = query("SELECT USERNAME, PASSWORD FROM USER");
@@ -142,10 +199,8 @@ public class AdmRadarServer
 			while (DBobj.rs.next()) {
 				if (user.equals(DBobj.rs.getString("USERNAME"))) {
 					if (user.equals(DBobj.rs.getString("PASSWORD"))) {
-                        DBobj.close();
 						return 0;
 					} else {
-                        DBobj.close();
 						return 2;
 					}
 				}
@@ -157,8 +212,5 @@ public class AdmRadarServer
 			DBobj.close();
 			return 1;
 		}
-
-	}
-
-
+	}*/
 }
