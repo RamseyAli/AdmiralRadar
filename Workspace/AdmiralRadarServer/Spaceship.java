@@ -37,22 +37,22 @@ public class Spaceship
 		}
 	}
 
-	String getPath()
+	public String getPath()
 	{
 		return path;
 	}
 
-	Position getPosition()
+	public Position getPosition()
 	{
 		return pos;
 	}
 
-	int getHealth()
+	public int getHealth()
 	{
 		return health;
 	}
 
-	ShipSystems getShipSystem()
+	public ShipSystems getShipSystem()
 	{
 		return sys;
 	}

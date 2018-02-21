@@ -2,10 +2,13 @@ import java.io.*;
 import java.net.*;
 
 public class AdmRadarClient {
+	// Variables //
 	private Socket primeSocket;
 	private PrintWriter outStream;
 	private BufferedReader inStream;
+	private Spaceship teamShip; // team's own spaceship, not opponents'
 	
+	// Member Functions //
 	private void connect_Server(String hostName, int portNumber) throws Exception {
 		primeSocket = new Socket(hostName, portNumber);
 		
@@ -13,10 +16,10 @@ public class AdmRadarClient {
 		inStream = new BufferedReader(new InputStreamReader(primeSocket.getInputStream()));
 	}
 	
-	public void login() {} // TODO: Database stuff
+	public void login(String ipAddress, String userName, String password) {} // TODO: Database stuff
 
-	public void sendCommands() {
-
+	public void sendCommands(String commandText) {
+		outStream.println(commandText);
 	}
 	
 	public void sendMessages(String msg) {
@@ -25,13 +28,15 @@ public class AdmRadarClient {
 	public void getMessages() throws IOException {
 		inStream.readLine();
 	}
-	public void getShipObject(){
-		
+	public Spaceship getShipObject(){
+		return teamShip;
 	}
 	static int callClientTypeGUI(){
 		return 0;
 	}
 
+	// Temporary Test Main //
+	
 	public static void main(String[] args) throws IOException {
 		
 		if (args.length != 2) {
@@ -39,14 +44,6 @@ public class AdmRadarClient {
 				"Usage: java AdmRadarClient <host name> <port number>");
 			System.exit(1);
 		}
-		// Login Authentication
-		/*
-		if ((int logV = login(user, pw))) {
-			System.out.println(logV == 1 ? "username is incorrect or does not exist" :
-				"password is incorrect or does not exist");
-			System.exit(1);
-		}
-		*/
 
 		String hostName = args[0];
 		int portNumber = Integer.parseInt(args[1]);
@@ -64,7 +61,7 @@ public class AdmRadarClient {
 			String fromUser;
 			
 			Maps map1 = new Maps();
-			map1 = (Maps) is.readObject();
+			//map1 = (Maps) is.readObject();
 			
 			map1.printAsteroids();
 			
