@@ -39,6 +39,14 @@ public class AdmRadarClient {
 				"Usage: java AdmRadarClient <host name> <port number>");
 			System.exit(1);
 		}
+		// Login Authentication
+		/*
+		if ((int logV = login(user, pw))) {
+			System.out.println(logV == 1 ? "username is incorrect or does not exist" :
+				"password is incorrect or does not exist");
+			System.exit(1);
+		}
+		*/
 
 		String hostName = args[0];
 		int portNumber = Integer.parseInt(args[1]);
