@@ -4,7 +4,7 @@ import java.io.*;
 public class Maps implements Serializable
 {
 	Position [] asteroids = new Position[5];
-
+	
 	public Maps()
 	{
 		asteroids[0] = new Position();

@@ -7,6 +7,7 @@ public class AdmRadarServer
 {
 	ArrayList<PrintWriter> clientOutpurStreams;
 	ArrayList<BufferedReader> clientInputStreams;
+	ArrayList<Thread> clientThreads;
 	static int nPlayers;
 	
 	public class ClientHandler implements Runnable 
@@ -16,7 +17,8 @@ public class AdmRadarServer
 		PrintWriter writer;
 		ObjectOutputStream oos;
 		ObjectInputStream ois;
-				
+		Object object;
+		
 		public ClientHandler(Socket clientSock)
 		{
 			try
@@ -26,6 +28,7 @@ public class AdmRadarServer
 				writer = new PrintWriter(sock.getOutputStream(),true);
 				oos = new ObjectOutputStream(sock.getOutputStream());
 				ois = new ObjectInputStream(sock.getInputStream());
+				object = new Object();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -34,9 +37,6 @@ public class AdmRadarServer
 		public void run()
 		{
 			try {
-				if(nPlayers<3)
-					Thread.sleep(7500);
-				
 				AdmRadarProtocol arp = new AdmRadarProtocol();
 				
 				Maps m = new Maps();
@@ -88,6 +88,7 @@ public class AdmRadarServer
 	{
 		clientOutpurStreams = new ArrayList<PrintWriter>();
 		clientInputStreams = new ArrayList<BufferedReader>();
+		clientThreads = new ArrayList<Thread>();
 		
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
@@ -101,9 +102,17 @@ public class AdmRadarServer
 				clientInputStreams.add(in);
 				
 				Thread t = new Thread(new ClientHandler(clientSocket));
-				t.start();
+				clientThreads.add(t);
+				
 				nPlayers++;
 				
+				if(nPlayers == 4)
+				{
+					for(Thread t1:clientThreads)
+					{
+						t1.start();
+					}
+				}
 				System.out.println("Got a player");
 			}
 		} catch (Exception e) {
@@ -112,7 +121,7 @@ public class AdmRadarServer
 		}
 	}
 
-	/*public static class dbQuery {
+	public static class dbQuery {
 		Connection conn = null;
 		Statement statement = null;
 		ResultSet rs = null;
@@ -190,7 +199,7 @@ public class AdmRadarServer
 	0 - Success
 	1 - Invalid Username
 	2 - Invalid Password
-	
+	*/
 	public static int login(String user, String pw) {
 
 		dbQuery DBobj = query("SELECT USERNAME, PASSWORD FROM USER");
@@ -212,5 +221,5 @@ public class AdmRadarServer
 			DBobj.close();
 			return 1;
 		}
-	}*/
+	}
 }
