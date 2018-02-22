@@ -50,39 +50,43 @@ public class AdmRadarClient {
 			ObjectOutputStream os = new ObjectOutputStream(arSocket.getOutputStream());
 			ObjectInputStream is = new ObjectInputStream(arSocket.getInputStream());
 		) {
-			BufferedReader stdIn =
-			new BufferedReader(new InputStreamReader(System.in));
-			String fromServer;
+			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+			
 			String fromUser;
 			
 			Maps map1 = new Maps();
-			map1 = (Maps) is.readObject();
+			map1 = (Maps) is.readUnshared();
 			
 			map1.printAsteroids();
 			
-			fromServer = in.readLine();
-			System.out.println("Server: " + fromServer);
-
+			System.out.println("Enter your location x,y : ");
 			fromUser = stdIn.readLine();
-			if (fromUser != null)
+			
+			String[] coordinates = fromUser.split(",");
+			int a = Integer.parseInt(coordinates[0]);
+			int b = Integer.parseInt(coordinates[1]);
+			
+			Position p = new Position();
+			p.setPosition(a,b);
+			
+			os.writeObject(p);
+						
+			Spaceship teamShip = (Spaceship) is.readUnshared();
+			
+			while (teamShip != null)
 			{
-				System.out.println("Client: " + fromUser);
-				out.println(fromUser);
-			}
-	    
-			while ((fromServer = in.readLine()) != null)
-			{
-				System.out.println("Server: " + fromServer);
-				if (fromServer.equals("Bye."))
-					break;
-				fromServer = in.readLine();
-				System.out.println("Server: " + fromServer);
-
 				fromUser = stdIn.readLine();
 				if (fromUser != null)
 				{
 					System.out.println("Client: " + fromUser);
 					out.println(fromUser);
+				}
+				teamShip = (Spaceship) is.readUnshared();
+				if(teamShip != null)
+				{
+					teamShip.printPosition();
+					System.out.print("Ship path : ");
+					System.out.println(teamShip.getPath());
 				}
 			}
 		} catch (UnknownHostException e) {

@@ -17,7 +17,7 @@ public class AdmRadarServer
 		PrintWriter writer;
 		ObjectOutputStream oos;
 		ObjectInputStream ois;
-		Object object;
+		Spaceship ship;
 		
 		public ClientHandler(Socket clientSock)
 		{
@@ -28,7 +28,6 @@ public class AdmRadarServer
 				writer = new PrintWriter(sock.getOutputStream(),true);
 				oos = new ObjectOutputStream(sock.getOutputStream());
 				ois = new ObjectInputStream(sock.getInputStream());
-				object = new Object();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -41,26 +40,34 @@ public class AdmRadarServer
 				
 				Maps m = new Maps();
 				m = arp.updateMap();
-				oos.writeObject(m);
+				oos.writeUnshared(m);
 				
-				String inputLine, outputLine;
+				String inputLine;
 				
-				outputLine = arp.processMessages(null);
-				writer.println(outputLine);
+				Position p = new Position();
+				p = (Position) ois.readUnshared();
+				
+				ship = new Spaceship();
+				ship.setPos(p);
+				
+				oos.writeUnshared(ship);
 				
 				while(true)
 				{
 					inputLine = reader.readLine();
-					outputLine = arp.processMessages(inputLine);
-					writer.println(outputLine);
+					ship = arp.processCommands(inputLine,ship);
+					if(ship != null)
+					{
+						Position temp = ship.getPosition();
+						System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+					}
+					oos.writeUnshared(ship);
+					
 					if (inputLine.equals("exit"))
 					{
 						nPlayers--;
 						break;
 					}
-					
-					outputLine = arp.processMessages(null);
-					writer.println(outputLine);
 				}
 			} catch(Exception ex) {
 				ex.printStackTrace();
@@ -106,7 +113,7 @@ public class AdmRadarServer
 				
 				nPlayers++;
 				
-				if(nPlayers == 4)
+				if(nPlayers == 1)
 				{
 					for(Thread t1:clientThreads)
 					{

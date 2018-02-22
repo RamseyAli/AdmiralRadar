@@ -1,7 +1,7 @@
 import java.net.*;
 import java.io.*;
 
-public class ShipSystems
+public class ShipSystems implements Serializable
 {
 	int sonar;
 	int missile;
