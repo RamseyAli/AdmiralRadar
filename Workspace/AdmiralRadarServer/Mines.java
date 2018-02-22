@@ -30,6 +30,7 @@ public class Mines {
                         ship.health -= 1;
                     }
                 }
+                mines.remove(currentMine);
                 return;
             }
         }
