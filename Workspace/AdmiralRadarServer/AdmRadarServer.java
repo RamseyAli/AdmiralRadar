@@ -41,6 +41,7 @@ public class AdmRadarServer
 				Maps m = new Maps();
 				m = arp.updateMap();
 				oos.writeUnshared(m);
+				oos.reset();
 				
 				String inputLine;
 				
@@ -51,17 +52,14 @@ public class AdmRadarServer
 				ship.setPos(p);
 				
 				oos.writeUnshared(ship);
+				oos.reset();
 				
 				while(true)
 				{
 					inputLine = reader.readLine();
 					ship = arp.processCommands(inputLine,ship);
-					if(ship != null)
-					{
-						Position temp = ship.getPosition();
-						System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
-					}
 					oos.writeUnshared(ship);
+					oos.reset();
 					
 					if (inputLine.equals("exit"))
 					{
@@ -113,7 +111,7 @@ public class AdmRadarServer
 				
 				nPlayers++;
 				
-				if(nPlayers == 1)
+				if(nPlayers == 4)
 				{
 					for(Thread t1:clientThreads)
 					{

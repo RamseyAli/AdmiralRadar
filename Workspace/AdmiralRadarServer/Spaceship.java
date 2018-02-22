@@ -6,14 +6,14 @@ public class Spaceship implements Serializable
 	Position pos;
 	String path;
 	int health;
-	ShipSystems sys;
+	ShipSystems systems;
 
 	Spaceship()
 	{
 		pos = new Position();
 		path = "";
 		health = 4;
-		sys = new ShipSystems();
+		systems = new ShipSystems();
 	}
 
 	void setPos(Position p)
@@ -23,9 +23,7 @@ public class Spaceship implements Serializable
 	
 	void getNextDirection(String dir)
 	{
-		System.out.println("Check 2");
 		path = path+" "+dir;
-		System.out.println(path);
 		if (dir.equalsIgnoreCase("N"))
 		{
 			pos.y -= 1;
@@ -43,12 +41,33 @@ public class Spaceship implements Serializable
 			pos.x -= 1;
 		}
 	}
-	
-	public void printPosition()
+
+	public void chargeSystem(String sys)
 	{
-		System.out.println("Ship at x = "+pos.x+" y = "+pos.y);
+		if (sys.equalsIgnoreCase("Sonar"))
+		{
+			systems.sonar[0] += 1;
+		}
+		else if(sys.equalsIgnoreCase("Missile"))
+		{
+			systems.missile[0] += 1;
+		}
+		else if(sys.equalsIgnoreCase("Mine"))
+		{
+			systems.mine[0] +=1;
+		}
+		else if(sys.equalsIgnoreCase("Drone"))
+		{
+			systems.drone[0] += 1;
+		}
+		else if(sys.equalsIgnoreCase("Silent"))
+		{
+			systems.silent[0] += 1;
+		}
+		
+		systems.checkActive();
 	}
-	
+		
 	public String getPath()
 	{
 		return path;
@@ -66,6 +85,6 @@ public class Spaceship implements Serializable
 
 	public ShipSystems getShipSystem()
 	{
-		return sys;
+		return systems;
 	}
 }

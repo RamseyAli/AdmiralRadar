@@ -15,7 +15,6 @@ public class AdmRadarProtocol
 	
 	public Spaceship processCommands(String command,Spaceship ship)
 	{
-		System.out.println("Check 1");
 		if (command.equalsIgnoreCase("NORTH"))
 		{
 			ship.getNextDirection("N");
@@ -31,6 +30,26 @@ public class AdmRadarProtocol
 		else if (command.equalsIgnoreCase("WEST"))
 		{
 			ship.getNextDirection("W");
+		}
+		else if (command.equalsIgnoreCase("Charge Sonar"))
+		{
+			ship.chargeSystem("Sonar");
+		}
+		else if (command.equalsIgnoreCase("Charge Missile"))
+		{
+			ship.chargeSystem("Missile");
+		}
+		else if (command.equalsIgnoreCase("Charge Mine"))
+		{
+			ship.chargeSystem("Mine");
+		}
+		else if (command.equalsIgnoreCase("Charge Drone"))
+		{
+			ship.chargeSystem("Drone");
+		}
+		else if (command.equalsIgnoreCase("Charge Silent"))
+		{
+			ship.chargeSystem("Silent");
 		}
 		else if (command.equalsIgnoreCase("exit"))
 		{

@@ -70,7 +70,7 @@ public class AdmRadarClient {
 			p.setPosition(a,b);
 			
 			os.writeObject(p);
-						
+			
 			Spaceship teamShip = (Spaceship) is.readUnshared();
 			
 			while (teamShip != null)
@@ -84,9 +84,9 @@ public class AdmRadarClient {
 				teamShip = (Spaceship) is.readUnshared();
 				if(teamShip != null)
 				{
-					teamShip.printPosition();
-					System.out.print("Ship path : ");
-					System.out.println(teamShip.getPath());
+					Position temp = teamShip.getPosition();
+					System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+					System.out.println("Ship path :"+teamShip.getPath());
 				}
 			}
 		} catch (UnknownHostException e) {
