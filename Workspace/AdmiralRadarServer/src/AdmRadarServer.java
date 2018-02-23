@@ -346,7 +346,7 @@ public class AdmRadarServer
 	private static String encrypt(String string) {
 		try {
 			String text = string;
-			String key = "Bar12345Bar12345";
+			String key = "raB54321raB54321";
 			// Create key and cipher
 			Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
 			Cipher cipher = Cipher.getInstance("AES");
@@ -366,12 +366,12 @@ public class AdmRadarServer
 	*/
 	public static String avatarURL(String user) {
 
-		dbQuery DBobj = query("SELECT USERNAME, URL FROM USER");
+		dbQuery DBobj = query("SELECT USERNAME, AVATAR FROM USER");
 
 		try {
 			while (DBobj.rs.next()) {
 				if (user.equals(DBobj.rs.getString("USERNAME"))) {
-					return DBobj.rs.getString("URL");
+					return DBobj.rs.getString("AVATAR");
 				} else {
 					return "ERROR";
 				}
