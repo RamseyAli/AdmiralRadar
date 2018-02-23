@@ -78,7 +78,7 @@ public abstract class ShipPanel extends JPanel{
 		
 		//System.out.println(panelSize);
 		//setMinimumSize(s);
-		setPreferredSize(panelSize);
+		if (p != PanelPosition.SIDETOP) setPreferredSize(panelSize);
 		//setMaximumSize(l);
 		
 	}

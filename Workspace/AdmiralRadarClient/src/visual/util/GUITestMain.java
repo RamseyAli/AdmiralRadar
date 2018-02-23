@@ -1,10 +1,8 @@
 package visual.util;
 
-import javax.swing.JFrame;
 
 import general.Role;
-import visual.roles.ExecutivePane;
-import visual.roles.HealthPane;
+import visual.roles.CaptainPane;
 import visual.roles.ShipPanel;
 
 public class GUITestMain {
@@ -15,8 +13,8 @@ public class GUITestMain {
 		
 		if (a){
 			GameFrame f = new GameFrame();
-			ShipPanel h = new ExecutivePane();
-			f.setSize(400,400);
+			ShipPanel h = new CaptainPane();
+			f.setSize(1000,600);
 			f.setPanel(h);
 			f.repaint();
 			h.repaint();
@@ -26,7 +24,7 @@ public class GUITestMain {
 		else{
 		
 		GameFrame f = new GameFrame();
-		GamePanel p = new GamePanel(Role.CAPTAIN);
+		GamePanel p = new GamePanel(Role.FIRST);
 		
 		f.setPanel(p);
 		f.setVisible(true);
@@ -35,7 +33,7 @@ public class GUITestMain {
 		Thread.sleep(1000);
 		
 		}
-		Thread.sleep(20000);
+		Thread.sleep(40000);
 		
 		System.exit(1);
 		
