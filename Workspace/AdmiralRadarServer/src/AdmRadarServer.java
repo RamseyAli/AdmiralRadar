@@ -1,4 +1,3 @@
-import java.security.*;
 import javax.crypto.spec.*;
 import javax.crypto.*;
 import java.net.*;
@@ -137,6 +136,31 @@ public class AdmRadarServer
 		}
 		
 		nPlayers = 0;
+		//Database test
+		/*
+			String username = "TEST_USER";
+			String password = "TEST_PASSWORD";
+			System.out.println("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
+			int result = login(username, password);
+			if(result == 0) {
+				System.out.println("Welcome " + username + "!");
+				int wins = wins(username);
+				int losses = losses(username);
+
+				if (wins != -1 && losses != -1) {
+					System.out.println("Your stats are " + wins + " Win(s) and " + losses + " Loss(es).");
+				} else {
+					System.out.println("ERROR: Stats not loaded properly");
+				}
+
+			} else {
+				if (result == 1) {
+					System.out.println("ERROR: Login Failed - Invalid username");
+				} else {
+					System.out.println("ERROR: Login Failed - Invalid password");
+				}
+			}
+			*/
 		
 		int portNumber = Integer.parseInt(args[0]);
 		new AdmRadarServer().go(portNumber);
@@ -216,6 +240,7 @@ public class AdmRadarServer
 		}
 
 		public boolean close() {
+			/*
 			try {
 				if (rs != null) {
 					rs.close();
@@ -231,7 +256,10 @@ public class AdmRadarServer
 				return false;
 			}
 			return true;
+			*/
+			return true;
 		}
+
 	}
 
 
@@ -256,7 +284,7 @@ public class AdmRadarServer
 		}
 
 		if (conn != null) {
-			System.out.println("Successfully connected to MySQL database");
+			//System.out.println("Successfully connected to MySQL database");
 		} else {
 			System.out.println("Could not connect to MySQL database");
 			return null;
@@ -289,12 +317,22 @@ public class AdmRadarServer
 		dbQuery DBobj = query("SELECT USERNAME, PASSWORD FROM USER");
 
 		try {
+			byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
+			SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
+			DesEncrypter encrypter = new DesEncrypter(key);
+			pw = encrypter.encrypt("Don't tell anybody!");
+		} catch (Exception ex) {
+			pw = pw; //do nothing (pw not encrypted)
+		}
+
+		try {
 			while (DBobj.rs.next()) {
 				if (user.equals(DBobj.rs.getString("USERNAME"))) {
 					if (pw.equals(DBobj.rs.getString("PASSWORD"))) {
 						DBobj.close();
 						return 0;
 					} else {
+						System.out.println("PW: " + pw + " | " + DBobj.rs.getString("PASSWORD"));
 						DBobj.close();
 						return 2;
 					}
@@ -303,10 +341,9 @@ public class AdmRadarServer
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("There's an issue retrieving info. from query results");
-		} finally {
-			DBobj.close();
-			return 1;
 		}
+		DBobj.close();
+		return 1;
 	}
 
 	/*
@@ -333,33 +370,39 @@ public class AdmRadarServer
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("There's an issue retrieving info. from query results");
-		} finally {
-			DBobj.close();
-			return 1;
 		}
+		DBobj.close();
+		return 1;
+
 	}
 
 	/*
-		Credit for encrpytion method goes to Vignesh @ StackOverflow
+		Credit for encrpytion method goes to Java2S.com
 	 */
 
-	private static String encrypt(String string) {
-		try {
-			String text = string;
-			String key = "raB54321raB54321";
-			// Create key and cipher
-			Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-			Cipher cipher = Cipher.getInstance("AES");
-			// encrypt the text
-			cipher.init(Cipher.ENCRYPT_MODE, aesKey);
-			byte[] encrypted = cipher.doFinal(text.getBytes());
-			return new String(encrypted);
-		} catch (Exception ex) {
-			System.out.println("Error in encryption");
-			return "ERROR";
+///
+
+	static class DesEncrypter {
+		Cipher ecipher;
+
+		DesEncrypter(SecretKey key) throws Exception {
+			ecipher = Cipher.getInstance("DES");
+			ecipher.init(Cipher.ENCRYPT_MODE, key);
 		}
+
+		public String encrypt(String str) throws Exception {
+			// Encode the string into bytes using utf-8
+			byte[] utf8 = str.getBytes("UTF8");
+			// Encrypt
+			byte[] enc = ecipher.doFinal(utf8);
+			// Encode bytes to base64 to get a string
+			return new sun.misc.BASE64Encoder().encode(enc);
+		}
+
 	}
 
+
+	///
 	/*
 	[url returned] - Success
 	ERROR - Invalid username / Misc.
@@ -379,10 +422,10 @@ public class AdmRadarServer
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("There's an issue retrieving info. from query results");
-		} finally {
-			DBobj.close();
-			return "ERROR";
 		}
+		DBobj.close();
+		return "ERROR";
+
 	}
 
 	/*
@@ -403,10 +446,10 @@ public class AdmRadarServer
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("There's an issue retrieving info. from query results");
-		} finally {
-			DBobj.close();
-			return -1;
 		}
+		DBobj.close();
+		return -1;
+
 	}
 
 	/*
@@ -427,10 +470,10 @@ public class AdmRadarServer
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("There's an issue retrieving info. from query results");
-		} finally {
-			DBobj.close();
-			return -1;
 		}
+		DBobj.close();
+		return -1;
+
 	}
 
 
