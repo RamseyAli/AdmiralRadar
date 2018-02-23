@@ -1,3 +1,6 @@
+import java.security.*;
+import javax.crypto.spec.*;
+import javax.crypto.*;
 import java.net.*;
 import java.io.*;
 import java.sql.*;
@@ -288,9 +291,11 @@ public class AdmRadarServer
 		try {
 			while (DBobj.rs.next()) {
 				if (user.equals(DBobj.rs.getString("USERNAME"))) {
-					if (user.equals(DBobj.rs.getString("PASSWORD"))) {
+					if (pw.equals(DBobj.rs.getString("PASSWORD"))) {
+						DBobj.close();
 						return 0;
 					} else {
+						DBobj.close();
 						return 2;
 					}
 				}
@@ -303,4 +308,82 @@ public class AdmRadarServer
 			return 1;
 		}
 	}
+
+	/*
+	0 - Success
+	1 - Invalid Username
+	2 - Invalid PIN
+	*/
+	public static int reset(String user, int pin) {
+
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");
+
+		try {
+			while (DBobj.rs.next()) {
+				if (user.equals(DBobj.rs.getString("USERNAME"))) {
+					if (pin == DBobj.rs.getInt("PIN")) {
+						DBobj.close();
+						return 0;
+					} else {
+						DBobj.close();
+						return 2;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("There's an issue retrieving info. from query results");
+		} finally {
+			DBobj.close();
+			return 1;
+		}
+	}
+
+	/*
+		Credit for encrpytion method goes to Vignesh @ StackOverflow
+	 */
+
+	private static String encrypt(String string) {
+		try {
+			String text = string;
+			String key = "Bar12345Bar12345";
+			// Create key and cipher
+			Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+			Cipher cipher = Cipher.getInstance("AES");
+			// encrypt the text
+			cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+			byte[] encrypted = cipher.doFinal(text.getBytes());
+			return new String(encrypted);
+		} catch (Exception ex) {
+			System.out.println("Error in encryption");
+			return "ERROR";
+		}
+	}
+
+	/*
+	[url returned] - Success
+	ERROR - Invalid username / Misc.
+	*/
+	public static String avatarURL(String user) {
+
+		dbQuery DBobj = query("SELECT USERNAME, URL FROM USER");
+
+		try {
+			while (DBobj.rs.next()) {
+				if (user.equals(DBobj.rs.getString("USERNAME"))) {
+					return DBobj.rs.getString("URL");
+				} else {
+					return "ERROR";
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("There's an issue retrieving info. from query results");
+		} finally {
+			DBobj.close();
+			return "ERROR";
+		}
+	}
+
+
 }
