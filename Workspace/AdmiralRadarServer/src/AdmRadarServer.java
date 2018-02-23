@@ -243,7 +243,7 @@ public class AdmRadarServer
 
 			String url = "jdbc:mysql://radar.c87i64zdxk4i.us-east-2.rds.amazonaws.com:3306/AdmiralRadar";
 			Properties info = new Properties();
-			info.put("user", "admin");
+			info.put("user", "api_user");
 			info.put("password", "password1234");
 
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
@@ -382,6 +382,54 @@ public class AdmRadarServer
 		} finally {
 			DBobj.close();
 			return "ERROR";
+		}
+	}
+
+	/*
+	[# Wins] - Success
+	-1 - Invalid Username
+	*/
+	public static int wins(String user) {
+
+		dbQuery DBobj = query("SELECT USERNAME, WINS FROM USER");
+
+		try {
+			while (DBobj.rs.next()) {
+				if (user.equals(DBobj.rs.getString("USERNAME"))) {
+					DBobj.close();
+					return DBobj.rs.getInt("WINS");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("There's an issue retrieving info. from query results");
+		} finally {
+			DBobj.close();
+			return -1;
+		}
+	}
+
+	/*
+	[# Losses] - Success
+	-1 - Invalid Username
+	*/
+	public static int losses(String user) {
+
+		dbQuery DBobj = query("SELECT USERNAME, LOSSES FROM USER");
+
+		try {
+			while (DBobj.rs.next()) {
+				if (user.equals(DBobj.rs.getString("USERNAME"))) {
+					DBobj.close();
+					return DBobj.rs.getInt("LOSSES");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("There's an issue retrieving info. from query results");
+		} finally {
+			DBobj.close();
+			return -1;
 		}
 	}
 
