@@ -12,3 +12,5 @@ Documentation/.DS_Store
 .recommenders
 Documentation/.DS_Store
 .DS_Store
+*.class
+Workspace/AdmiralRadarServer/src/cmd.exe
