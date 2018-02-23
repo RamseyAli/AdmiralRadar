@@ -154,6 +154,21 @@ public class AdmRadarServer
 					System.out.println("ERROR: Login Failed - Invalid password");
 				}
 			}
+			System.out.println("What would you like the new password to be?");
+			Scanner reader = new Scanner(System.in);
+			String new_pw = reader.nextLine();
+			System.out.println("What is your PIN?");
+			int pin = reader.nextInt();
+			result = reset(username, new_pw, pin);
+			if (result == 0) {
+				System.out.println("Password changed successfully!");
+			} else {
+				if (result == 1) {
+					System.out.println("ERROR: Reset Failed - Invalid Username");
+				} else {
+					System.out.println("ERROR: Reset Failed - Invalid PIN");
+				}
+			}
 			*/
 		
 		int portNumber = Integer.parseInt(args[0]);
@@ -314,7 +329,7 @@ public class AdmRadarServer
 			byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
 			SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
 			DesEncrypter encrypter = new DesEncrypter(key);
-			pw = encrypter.encrypt("Don't tell anybody!");
+			pw = encrypter.encrypt(pw);
 		} catch (Exception ex) {
 			pw = pw; //do nothing (pw not encrypted)
 		}
@@ -345,7 +360,7 @@ public class AdmRadarServer
 	1 - Invalid Username
 	2 - Invalid PIN
 	*/
-	public static int reset(String user, int pin) {
+	public static int reset(String user, String pw, int pin) {
 
 		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");
 
@@ -353,8 +368,29 @@ public class AdmRadarServer
 			while (DBobj.rs.next()) {
 				if (user.equals(DBobj.rs.getString("USERNAME"))) {
 					if (pin == DBobj.rs.getInt("PIN")) {
-						DBobj.close();
+
+						//encrypt the new pw
+						try {
+							byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
+							SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
+							DesEncrypter encrypter = new DesEncrypter(key);
+							pw = encrypter.encrypt(pw);
+						} catch (Exception ex) {
+							pw = pw; //do nothing (pw not encrypted)
+						}
+
+						String query = "UPDATE USER SET PASSWORD = ? WHERE USERNAME = ?";
+						PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+						preparedStmt.setString   (1, pw);
+						preparedStmt.setString(2, user);
+
+						System.out.println("Prepared Statement: " + preparedStmt);
+
+						// execute the java preparedstatement
+						preparedStmt.executeUpdate();
+
 						return 0;
+
 					} else {
 						DBobj.close();
 						return 2;
