@@ -1,42 +1,73 @@
 import java.net.*;
 import java.io.*;
 
-public class Spaceship
+public class Spaceship implements Serializable
 {
 	Position pos;
 	String path;
 	int health;
-	ShipSystems sys;
+	ShipSystems systems;
 
-	Spaceship(Position p)
+	Spaceship()
 	{
-		pos = p;
+		pos = new Position();
 		path = "";
 		health = 4;
-		sys = new ShipSystems();
+		systems = new ShipSystems();
 	}
 
+	void setPos(Position p)
+	{
+		pos = p;
+	}
+	
 	void getNextDirection(String dir)
 	{
 		path = path+" "+dir;
-		if (dir == "N")
+		if (dir.equalsIgnoreCase("N"))
 		{
 			pos.y -= 1;
 		}
-		else if(dir == "S")
+		else if(dir.equalsIgnoreCase("S"))
 		{
 			pos.y += 1;
 		}
-		else if(dir == "E")
+		else if(dir.equalsIgnoreCase("E"))
 		{
 			pos.x +=1;
 		}
-		else if(dir == "W")
+		else if(dir.equalsIgnoreCase("W"))
 		{
 			pos.x -= 1;
 		}
 	}
 
+	public void chargeSystem(String sys)
+	{
+		if (sys.equalsIgnoreCase("Sonar"))
+		{
+			systems.sonar[0] += 1;
+		}
+		else if(sys.equalsIgnoreCase("Missile"))
+		{
+			systems.missile[0] += 1;
+		}
+		else if(sys.equalsIgnoreCase("Mine"))
+		{
+			systems.mine[0] +=1;
+		}
+		else if(sys.equalsIgnoreCase("Drone"))
+		{
+			systems.drone[0] += 1;
+		}
+		else if(sys.equalsIgnoreCase("Silent"))
+		{
+			systems.silent[0] += 1;
+		}
+		
+		systems.checkActive();
+	}
+		
 	public String getPath()
 	{
 		return path;
@@ -54,6 +85,6 @@ public class Spaceship
 
 	public ShipSystems getShipSystem()
 	{
-		return sys;
+		return systems;
 	}
 }

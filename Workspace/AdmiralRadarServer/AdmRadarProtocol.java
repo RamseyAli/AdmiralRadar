@@ -4,13 +4,7 @@ import java.io.*;
 
 public class AdmRadarProtocol
 {
-	private static final int WAITING = 0;
-	private static final int ACCEPTCOMMAND = 1;
-	private static final int EXECUTECOMMAND = 2;
-
 	private static final int NUMCOMMANDS = 0;
-
-	private int state = WAITING;
 	
 	Maps map1;
 	
@@ -19,51 +13,50 @@ public class AdmRadarProtocol
 		map1 = new Maps();
 	}
 	
-	public String processMessages(String theInput)
+	public Spaceship processCommands(String command,Spaceship ship)
 	{
-		String theOutput = null;
-
-
-		if (state == WAITING)
+		if (command.equalsIgnoreCase("NORTH"))
 		{
-			theOutput = "Please enter command";
-			state = ACCEPTCOMMAND;
+			ship.getNextDirection("N");
 		}
-		else if (state == ACCEPTCOMMAND)
+		else if (command.equalsIgnoreCase("SOUTH"))
 		{
-			if (theInput.equalsIgnoreCase("NORTH"))
-			{
-				theOutput = "Move North";
-				state = WAITING;
-			}
-			else if (theInput.equalsIgnoreCase("SOUTH"))
-			{
-				theOutput = "Move South";
-				state = WAITING;
-			}
-			else if (theInput.equalsIgnoreCase("EAST"))
-			{
-				theOutput = "Move East";
-				state = WAITING;
-			}
-			else if (theInput.equalsIgnoreCase("WEST"))
-			{
-				theOutput = "Move West";
-				state = WAITING;
-			}
-			else if (theInput.equalsIgnoreCase("exit"))
-			{
-				theOutput = "Bye.";
-				state = EXECUTECOMMAND;
-			}
-			else
-			{
-				theOutput = "You're supposed to say \"Direction\"! Try again.";
-				state = WAITING;
-			}
+			ship.getNextDirection("S");
+		}
+		else if (command.equalsIgnoreCase("EAST"))
+		{
+			ship.getNextDirection("E");
+		}
+		else if (command.equalsIgnoreCase("WEST"))
+		{
+			ship.getNextDirection("W");
+		}
+		else if (command.equalsIgnoreCase("Charge Sonar"))
+		{
+			ship.chargeSystem("Sonar");
+		}
+		else if (command.equalsIgnoreCase("Charge Missile"))
+		{
+			ship.chargeSystem("Missile");
+		}
+		else if (command.equalsIgnoreCase("Charge Mine"))
+		{
+			ship.chargeSystem("Mine");
+		}
+		else if (command.equalsIgnoreCase("Charge Drone"))
+		{
+			ship.chargeSystem("Drone");
+		}
+		else if (command.equalsIgnoreCase("Charge Silent"))
+		{
+			ship.chargeSystem("Silent");
+		}
+		else if (command.equalsIgnoreCase("exit"))
+		{
+			ship = null;
 		}
 	
-		return theOutput;
+		return ship;
 	}
 	
 	public Maps updateMap()

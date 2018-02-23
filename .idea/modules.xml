@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Workspace/AdmiralRadarClient/AdmiralRadarClient.iml" filepath="$PROJECT_DIR$/Workspace/AdmiralRadarClient/AdmiralRadarClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Workspace/Workspace.iml" filepath="$PROJECT_DIR$/Workspace/Workspace.iml" />
+    </modules>
+  </component>
+</project>
