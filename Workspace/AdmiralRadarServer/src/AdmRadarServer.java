@@ -8,8 +8,9 @@ public class AdmRadarServer
 	ArrayList<PrintWriter> clientOutpurStreams;
 	ArrayList<BufferedReader> clientInputStreams;
 	ArrayList<Thread> clientThreads;
+	ArrayList<Spaceship> spaceship;
 	static int nPlayers;
-	
+
 	public class ClientHandler implements Runnable 
 	{
 		BufferedReader reader;
@@ -18,9 +19,11 @@ public class AdmRadarServer
 		ObjectOutputStream oos;
 		ObjectInputStream ois;
 		Spaceship ship;
+		int i;
 		
-		public ClientHandler(Socket clientSock)
+		public ClientHandler(Socket clientSock,int index)
 		{
+			i = index;
 			try
 			{
 				sock = clientSock;
@@ -45,26 +48,73 @@ public class AdmRadarServer
 				
 				String inputLine;
 				
-				Position p = new Position();
-				p = (Position) ois.readUnshared();
-				
-				ship = new Spaceship();
-				ship.setPos(p);
-				
-				oos.writeUnshared(ship);
-				oos.reset();
-				
-				while(true)
+				inputLine = reader.readLine();
+			
+				if(inputLine.equalsIgnoreCase("Captain"))
 				{
-					inputLine = reader.readLine();
-					ship = arp.processCommands(inputLine,ship);
-					oos.writeUnshared(ship);
+					Position p = new Position();
+					p = (Position) ois.readUnshared();
+
+					ship = new Spaceship();
+					ship.setPos(p);
+					spaceship.set(i,ship);
+					
+					oos.writeUnshared(spaceship.get(i));
 					oos.reset();
 					
-					if (inputLine.equals("exit"))
+					while(true)
 					{
-						nPlayers--;
-						break;
+						if(Thread.currentThread().isInterrupted())
+						{
+							inputLine = reader.readLine();
+							oos.writeUnshared(null);
+							oos.reset();
+							break;
+						}
+						inputLine = reader.readLine();
+						ship = spaceship.get(i);
+						ship = arp.processCommands(inputLine,ship);
+						spaceship.set(i,ship);
+						oos.writeUnshared(spaceship.get(i));
+						oos.reset();
+						
+						if (inputLine.equals("exit"))
+						{
+							nPlayers--;
+							stopAllThreads();
+							break;
+						}
+					}
+				}
+				else if(inputLine.equalsIgnoreCase("First Officer"))
+				{
+					ship = spaceship.get(i);
+					
+					oos.writeUnshared(spaceship.get(i));
+					oos.reset();
+					
+					while(true)
+					{
+						if(Thread.currentThread().isInterrupted())
+						{
+							inputLine = reader.readLine();
+							oos.writeUnshared(null);
+							oos.reset();
+							break;
+						}
+						inputLine = reader.readLine();
+						ship = spaceship.get(i);
+						ship = arp.processCommands(inputLine,ship);
+						spaceship.set(i,ship);
+						oos.writeUnshared(spaceship.get(i));
+						oos.reset();
+						
+						if (inputLine.equals("exit"))
+						{
+							nPlayers--;
+							stopAllThreads();
+							break;
+						}
 					}
 				}
 			} catch(Exception ex) {
@@ -94,7 +144,11 @@ public class AdmRadarServer
 		clientOutpurStreams = new ArrayList<PrintWriter>();
 		clientInputStreams = new ArrayList<BufferedReader>();
 		clientThreads = new ArrayList<Thread>();
+		spaceship = new ArrayList<Spaceship>();
 		
+		System.out.println("GAME LOBBY");
+		System.out.println("Error: Not enough players");
+		System.out.println("Game Mode: Turn Based");
 		try {
 			ServerSocket serverSocket = new ServerSocket(port);
 			
@@ -106,26 +160,48 @@ public class AdmRadarServer
 				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				clientInputStreams.add(in);
 				
-				Thread t = new Thread(new ClientHandler(clientSocket));
-				clientThreads.add(t);
-				
+				Thread t = new Thread(new ClientHandler(clientSocket,nPlayers%2));
+				clientThreads.add(nPlayers,t);
 				nPlayers++;
 				
-				if(nPlayers == 4)
+				System.out.println("Got a player");
+				if(nPlayers < 4)
 				{
+					System.out.println("Waiting for other players...");
+				}
+				else if(nPlayers == 4)
+				{
+					System.out.println("GAME BEGINS");
+					Spaceship initial = new Spaceship();
+					spaceship.add(0,initial);
+					spaceship.add(1,initial);
 					for(Thread t1:clientThreads)
 					{
 						t1.start();
 					}
 				}
-				System.out.println("Got a player");
 			}
 		} catch (Exception e) {
 			System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
+	public void stopAllThreads()
+	{
+		for (Thread t1 : clientThreads)
+		{
+			if (t1.isAlive())
+			{
+				try
+				{
+					t1.interrupt();
+				} catch (Exception e) {}
+			}
+		}
+		System.out.println("GAME ENDED");
+        }
+	
 	public static class dbQuery {
 		Connection conn = null;
 		Statement statement = null;

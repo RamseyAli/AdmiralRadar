@@ -46,4 +46,13 @@ public class ShipSystems implements Serializable
 			silent[1] = 1;
 		}
 	}
+	
+	public void printSystems()
+	{
+		System.out.println("Sonar at "+sonar[0]);
+		System.out.println("Missile at "+missile[0]);
+		System.out.println("Mine at "+mine[0]);
+		System.out.println("Drone at "+drone[0]);
+		System.out.println("Silent at "+silent[0]);
+	}
 }

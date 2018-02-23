@@ -84,40 +84,85 @@ public class AdmRadarClient {
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
 			String fromUser;
-
-			Maps map1 = new Maps();
-			map1 = (Maps) is.readUnshared();
-
-			map1.printAsteroids();
-
-			System.out.println("Enter your location x,y : ");
+			System.out.println("Enter role :");
 			fromUser = stdIn.readLine();
-
-			String[] coordinates = fromUser.split(",");
-			int a = Integer.parseInt(coordinates[0]);
-			int b = Integer.parseInt(coordinates[1]);
-
-			Position p = new Position();
-			p.setPosition(a,b);
-
-			os.writeObject(p);
-
-			Spaceship teamShip = (Spaceship) is.readUnshared();
-
-			while (teamShip != null)
+			if (fromUser != null)
 			{
+				System.out.println("Player is a " + fromUser);
+				out.println(fromUser);
+			}
+			
+			String fromServer;
+			
+			if(fromUser.equals("Captain"))
+			{
+				//fromServer = in.readLine();
+				//System.out.println(fromServer);
+				
+				Maps map1 = new Maps();
+				map1 = (Maps) is.readUnshared();
+
+				map1.printAsteroids();
+
+				System.out.println("Enter your location x,y :");
 				fromUser = stdIn.readLine();
-				if (fromUser != null)
+
+				String[] coordinates = fromUser.split(",");
+				int a = Integer.parseInt(coordinates[0]);
+				int b = Integer.parseInt(coordinates[1]);
+
+				Position p = new Position();
+				p.setPosition(a,b);
+
+				os.writeObject(p);
+
+				Spaceship teamShip = (Spaceship) is.readUnshared();
+
+				while (teamShip != null)
 				{
-					System.out.println("Client: " + fromUser);
-					out.println(fromUser);
+					fromUser = stdIn.readLine();
+					if (fromUser != null)
+					{
+						System.out.println("Player: " + fromUser);
+						out.println(fromUser);
+					}
+					teamShip = (Spaceship) is.readUnshared();
+					if(teamShip != null)
+					{
+						Position temp = teamShip.getPosition();
+						System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+						System.out.println("Ship path :"+teamShip.getPath());
+					}
 				}
-				teamShip = (Spaceship) is.readUnshared();
-				if(teamShip != null)
+			}
+			else if(fromUser.equals("First Officer"))
+			{
+				Maps map1 = new Maps();
+				map1 = (Maps) is.readUnshared();
+
+				map1.printAsteroids();
+
+				System.out.println("Waiting for Captain");
+
+				Spaceship teamShip = (Spaceship) is.readUnshared();
+
+				while (teamShip != null)
 				{
-					Position temp = teamShip.getPosition();
-					System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
-					System.out.println("Ship path :"+teamShip.getPath());
+					fromUser = stdIn.readLine();
+					if (fromUser != null)
+					{
+						System.out.println("Player: " + fromUser);
+						out.println(fromUser);
+					}
+					teamShip = (Spaceship) is.readUnshared();
+					if(teamShip != null)
+					{
+						Position tempP = teamShip.getPosition();
+						System.out.println("Ship at x = "+tempP.x+" y = "+tempP.y);
+						ShipSystems tempS = teamShip.getShipSystem();
+						tempS.printSystems();
+					}
+					System.out.println("Waiting for Captain");
 				}
 			}
 		} catch (UnknownHostException e) {
