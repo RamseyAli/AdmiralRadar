@@ -67,13 +67,6 @@ public class AdmRadarServer
 					
 					while(true)
 					{
-						if(Thread.currentThread().isInterrupted())
-						{
-							inputLine = reader.readLine();
-							oos.writeUnshared(null);
-							oos.reset();
-							break;
-						}
 						inputLine = reader.readLine();
 						ship = spaceship.get(i);
 						ship = arp.processCommands(inputLine,ship);
@@ -85,6 +78,10 @@ public class AdmRadarServer
 						{
 							nPlayers--;
 							stopAllThreads();
+							break;
+						}
+						if(Thread.currentThread().isInterrupted())
+						{
 							break;
 						}
 					}
@@ -98,13 +95,6 @@ public class AdmRadarServer
 					
 					while(true)
 					{
-						if(Thread.currentThread().isInterrupted())
-						{
-							inputLine = reader.readLine();
-							oos.writeUnshared(null);
-							oos.reset();
-							break;
-						}
 						inputLine = reader.readLine();
 						ship = spaceship.get(i);
 						ship = arp.processCommands(inputLine,ship);
@@ -116,6 +106,10 @@ public class AdmRadarServer
 						{
 							nPlayers--;
 							stopAllThreads();
+							break;
+						}
+						if(Thread.currentThread().isInterrupted())
+						{
 							break;
 						}
 					}
