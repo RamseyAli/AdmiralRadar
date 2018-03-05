@@ -1,4 +1,4 @@
-package visual.util;
+package visual.util.components;
 
 public enum PanelPosition {
 	SIDERECT,

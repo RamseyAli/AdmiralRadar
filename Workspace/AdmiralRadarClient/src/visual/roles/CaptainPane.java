@@ -1,9 +1,9 @@
 package visual.roles;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Point;
+
+import visual.util.operations.GUIController;
 
 public class CaptainPane extends ShipPanel {
 
@@ -16,8 +16,8 @@ public class CaptainPane extends ShipPanel {
 	private static final long serialVersionUID = 1L;
 
 
-	public CaptainPane() {
-		super(Color.GREEN);
+	public CaptainPane(GUIController cx) {
+		super(cx);
 		
 		start = new Point(3,5);
 		

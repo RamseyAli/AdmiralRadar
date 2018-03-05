@@ -4,7 +4,14 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
-public class EngineerPane extends ShipPanel {
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
+
+import javax.swing.SwingUtilities;
+
+import visual.util.operations.GUIController;
+public class EngineerPane extends ShipPanel implements MouseListener{
 	
 	private float A = 0.5f;
 	private float B = 0.5f;
@@ -24,12 +31,21 @@ public class EngineerPane extends ShipPanel {
 	private int[][] orange = new int[2][5];
 	private int[][] grey = new int[2][3];
 	
+	Rectangle west;
+	Rectangle north;
+	Rectangle south;
+	Rectangle east;
+	
 	private boolean []buttons = new boolean[24];
 	
-	public EngineerPane() {
-		super(Color.CYAN);
+	
+	public EngineerPane(GUIController cx) {
+		super(cx);
 		
-		for (int i = 0; i < 24; i++) buttons[i] = false;
+		for (int i = 0; i < 24; i++) buttons[i] = true;
+		
+		
+		addMouseListener(this);
 		
 	}
 
@@ -42,6 +58,7 @@ public class EngineerPane extends ShipPanel {
 
 	@Override
 	public void draw() {
+	
 		
 		int x = getSize().width;
 		int y = getSize().height;
@@ -50,10 +67,10 @@ public class EngineerPane extends ShipPanel {
 		int boxH = (int) (y / 1.2);
 		
 		
-		Rectangle west = new Rectangle(margin, (y - boxH) / 2, boxW - 2*margin, boxH);
-		Rectangle north = new Rectangle(margin + (x) / 4, (y - boxH) / 2, boxW - 2*margin, boxH);
-		Rectangle south = new Rectangle(margin + (2*x) / 4, (y - boxH) / 2, boxW - 2*margin, boxH);
-		Rectangle east = new Rectangle(margin + (3*x) / 4, (y - boxH) / 2, boxW - 2*margin, boxH);
+		west = new Rectangle(margin, (y - boxH) / 2, boxW - 2*margin, boxH);
+		north = new Rectangle(margin + (x) / 4, (y - boxH) / 2, boxW - 2*margin, boxH);
+		south = new Rectangle(margin + (2*x) / 4, (y - boxH) / 2, boxW - 2*margin, boxH);
+		east = new Rectangle(margin + (3*x) / 4, (y - boxH) / 2, boxW - 2*margin, boxH);
 		
 		g.setColor(Color.LIGHT_GRAY);
 		g.fill(west);
@@ -140,13 +157,13 @@ public class EngineerPane extends ShipPanel {
 		
 		
 		
-		drawPart(o,new Point(1,1),3,buttons[0], Color.ORANGE);
-		drawPart(o,new Point(1,2),1,buttons[1], Color.ORANGE);
-		drawPart(o,new Point(3,2),3,buttons[2], Color.ORANGE);
+		drawPart(o,new Point(1,1),3,buttons[6], Color.ORANGE);
+		drawPart(o,new Point(1,2),1,buttons[7], Color.ORANGE);
+		drawPart(o,new Point(3,2),3,buttons[8], Color.ORANGE);
 		
-		drawPart(o,new Point(1,3),2,buttons[3]);
-		drawPart(o,new Point(2,3),1,buttons[4]);
-		drawPart(o,new Point(3,3),4,buttons[5]);
+		drawPart(o,new Point(1,3),2,buttons[9], null);
+		drawPart(o,new Point(2,3),1,buttons[10], null);
+		drawPart(o,new Point(3,3),4,buttons[11], null);
 		
 		
 	}
@@ -154,13 +171,13 @@ public class EngineerPane extends ShipPanel {
 
 	private void drawEastBox(Rectangle o) {
 		
-		drawPart(o,new Point(1,1),2,buttons[0], Color.ORANGE);
-		drawPart(o,new Point(1,2),3,buttons[1], Color.DARK_GRAY);
-		drawPart(o,new Point(3,2),1,buttons[2], Color.BLUE);
+		drawPart(o,new Point(1,1),2,buttons[18], Color.ORANGE);
+		drawPart(o,new Point(1,2),3,buttons[19], Color.DARK_GRAY);
+		drawPart(o,new Point(3,2),1,buttons[20], Color.BLUE);
 		
-		drawPart(o,new Point(1,3),4,buttons[3]);
-		drawPart(o,new Point(2,3),2,buttons[4]);
-		drawPart(o,new Point(3,3),4,buttons[5]);
+		drawPart(o,new Point(1,3),4,buttons[21], null);
+		drawPart(o,new Point(2,3),2,buttons[22], null);
+		drawPart(o,new Point(3,3),4,buttons[23], null);
 		
 		
 	}
@@ -168,13 +185,13 @@ public class EngineerPane extends ShipPanel {
 
 	private void drawSouthBox(Rectangle o) {
 		
-		drawPart(o,new Point(1,1),2,buttons[0], Color.DARK_GRAY);
-		drawPart(o,new Point(1,2),3,buttons[1], Color.DARK_GRAY);
-		drawPart(o,new Point(3,2),1,buttons[2], Color.DARK_GRAY);
+		drawPart(o,new Point(1,1),2,buttons[12], Color.DARK_GRAY);
+		drawPart(o,new Point(1,2),3,buttons[13], Color.DARK_GRAY);
+		drawPart(o,new Point(3,2),1,buttons[14], Color.DARK_GRAY);
 		
-		drawPart(o,new Point(1,3),1,buttons[3]);
-		drawPart(o,new Point(2,3),4,buttons[4]);
-		drawPart(o,new Point(3,3),3,buttons[5]);
+		drawPart(o,new Point(1,3),1,buttons[15], null);
+		drawPart(o,new Point(2,3),4,buttons[16], null);
+		drawPart(o,new Point(3,3),3,buttons[17], null);
 		
 		
 	}
@@ -186,23 +203,110 @@ public class EngineerPane extends ShipPanel {
 		drawPart(o,new Point(3,1),3,buttons[1], Color.BLUE);
 		drawPart(o,new Point(3,2),2,buttons[2], Color.BLUE);
 		
-		drawPart(o,new Point(1,3),2,buttons[3]);
-		drawPart(o,new Point(2,3),4,buttons[4]);
-		drawPart(o,new Point(3,3),4,buttons[5]);
+		drawPart(o,new Point(1,3),2,buttons[3], null);
+		drawPart(o,new Point(2,3),4,buttons[4], null);
+		drawPart(o,new Point(3,3),4,buttons[5], null);
 		
 		
 	}
 	
+
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		Rectangle r = null;
+		
+		if (west.contains(e.getPoint())){
+			r = west;
+		} else if (north.contains(e.getPoint())){
+			r = north;
+		} else if (south.contains(e.getPoint())){
+			r = south;
+		} else if (east.contains(e.getPoint())){
+			r = east;
+		} else return;
+		 
+		 clickCheck(r, e.getPoint().x , e.getPoint().y);
+		 
+		 SwingUtilities.invokeLater(new Runnable() {
+			    public void run() {
+			        repaint();
+			    }
+			});
+		
+		
+	}
+
+
+	private void clickCheck(Rectangle r, int x1, int y1) {
+		
+		double a = (int) (r.width / (2 * (A + 1)));
+		double b = (int) (r.height / (2 * (B + 1)));
+		double rad = (int) 40;
+		
+		int i = 0;
+		int j = 0;
+		Point p = null;
+		
+		for (i = 0; i < 4; i++) for (j = 0; j < 4; j++){
+				if ((new Ellipse2D.Double(r.x + (int) (A*a) + a*(i - 1) - rad, r.y + (int) (B*b) + b*(j - 1) - rad, 2*rad , 2*rad)).contains(new Point(x1 , y1)))
+				p = new Point(i, j);
+			}
+			
+		if (p == null) return;
+		
+		int ding = 0;
+		
+		//IF BOTTOM PANEL
+		if (p.y == 3) ding = 3 + p.x; 
+		
+		//IF NORTHWEST
+		if ((p.y == 1)&&(p.x == 1)) ding = 1; 
+		
+		//IF SOUTHEAST
+		if ((p.y == 2)&&(p.x == 3)) ding = 3; 
+		
+		//IF NORTHEAST (ONLY FIRST)
+		if (r == west) {
+			if ((p.y == 1)&&(p.x == 3)) ding = 2; 
+		} else{
+			if ((p.y == 2)&&(p.x == 1)) ding = 2; 
+		}
+		
+		if (r == west){
+			buttons[ding - 1] = false;
+		} else if (r == north){
+			buttons[5 + ding] = false;
+		} else if (r == south){
+			buttons[11 + ding] = false;
+		} else if (r == east){
+			buttons[17 + ding] = false;
+		}
+		
+	}
+
 	//1 - Red, 2-Green, 3-Yellow, 4-Atomic
-	private void drawPart(Rectangle r , Point p, int type, boolean active){
-		//r = Bounding Rect
-		//p = Coordinates in our system
+	private void drawPart(Rectangle r , Point p, int type, boolean active, Color system){
 		
 		int a = (int) (r.width / (2 * (A + 1)));
 		int b = (int) (r.height / (2 * (B + 1)));
+		int rad = (int) (a / 2.5);
+		int x_o = r.x + (int) (A*a) + a*(p.x - 1);
+		int y_o = r.y + (int) (B*b) + b*(p.y - 1);
+		
+		
+		if (system == null)
+			g.setColor(Color.BLACK);
+		else g.setColor(system);
+		g.fillOval(x_o - rad, y_o - rad, 2*rad , 2*rad);
+		
+		
+		
 		int ap = (int) (A*a);
 		int bp = (int) (B*b);
-		int rad = a / 3;
+		rad = a / 3;
 		
 		switch(type){
 		case 1: g.setColor(ACTIVE_WEAPON); break;
@@ -211,11 +315,14 @@ public class EngineerPane extends ShipPanel {
 		case 4: g.setColor(ACTIVE_REACTR); break;
 		}
 		
-		int x_o = r.x + ap + a*(p.x - 1);
-		int y_o = r.y + bp + b*(p.y - 1);
+		x_o = r.x + ap + a*(p.x - 1);
+		y_o = r.y + bp + b*(p.y - 1);
+		
 		g.fillOval(x_o - rad, y_o - rad, 2*rad , 2*rad );
 		
+		
 		if (active ) return;
+	
 		
 		switch(type){
 		case 1: g.setColor(BROKEN_WEAPON); break;
@@ -228,22 +335,31 @@ public class EngineerPane extends ShipPanel {
 		g.fillOval(x_o - rad2, y_o - rad2, 2*rad2 , 2*rad2 );
 		
 	}
-	
-	//1 - Red, 2-Green, 3-Yellow, 4-Atomic
-	private void drawPart(Rectangle r , Point p, int type, boolean active, Color system){
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
-		int a = (int) (r.width / (2 * (A + 1)));
-		int b = (int) (r.height / (2 * (B + 1)));
-		int rad = (int) (a / 2.5);
-		int x_o = r.x + (int) (A*a) + a*(p.x - 1);
-		int y_o = r.y + (int) (B*b) + b*(p.y - 1);
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
-		g.setColor(system);
-		
-		g.fillOval(x_o - rad, y_o - rad, 2*rad , 2*rad);
-		
-		drawPart( r ,  p,  type, active);
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

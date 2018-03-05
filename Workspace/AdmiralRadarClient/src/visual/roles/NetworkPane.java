@@ -1,9 +1,22 @@
 package visual.roles;
 
-import java.awt.Color;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import visual.util.Preferences;
+import visual.util.operations.GUIController;
 
 public class NetworkPane extends ShipPanel {
 	
+	
+	JPanel x,con; 
+	JComboBox<String> svr;
+	JTextField usr;
+	JTextField pwd;
+	JButton cxt , clr , log;
 	
 	//0 - Login
 	//1 - Game Select
@@ -11,12 +24,34 @@ public class NetworkPane extends ShipPanel {
 	private int state = 0;
 	
 	
-	public NetworkPane() {
-		super(Color.ORANGE);
+	public NetworkPane(GUIController cx) {
+		super(cx);
 		
-	//	add(new JTextField(20));
-	//	add(new JTextField(20));
-	//	add(new JTextField(20));
+		x = new JPanel();
+		con = new JPanel();
+		
+		svr = new JComboBox<>(Preferences.getIPs());
+		svr.setEditable(true);
+		usr = new JTextField("Username" , 20);
+		pwd = new JTextField("Password", 20);
+		cxt = new JButton("Connect");
+		cxt.addActionListener(control.login());
+		clr = new JButton("Clear");
+		log = new JButton("Login");
+		
+		
+		con.setLayout(new BoxLayout(con , BoxLayout.X_AXIS));
+		x.setLayout(new BoxLayout(x , BoxLayout.Y_AXIS));
+		
+		con.add(svr);
+		con.add(clr);
+		con.add(cxt);
+		
+		x.add(con);
+		x.add(usr);
+		x.add(pwd);
+		x.add(log);
+		add(x);
 	}
 
 

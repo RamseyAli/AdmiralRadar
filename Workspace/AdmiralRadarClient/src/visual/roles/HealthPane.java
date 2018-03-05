@@ -2,6 +2,8 @@ package visual.roles;
 
 import java.awt.Color;
 
+import visual.util.operations.GUIController;
+
 public class HealthPane extends ShipPanel {
 
 	/**
@@ -9,8 +11,8 @@ public class HealthPane extends ShipPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public HealthPane() {
-		super(Color.PINK);
+	public HealthPane(GUIController cx) {
+		super(cx);
 	}
 
 	@Override

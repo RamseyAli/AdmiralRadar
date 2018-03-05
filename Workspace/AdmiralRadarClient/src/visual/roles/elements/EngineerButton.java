@@ -1,72 +1,78 @@
 package visual.roles.elements;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Ellipse2D;
 
-public class EngineerButton implements Shape {
+public class EngineerButton extends Ellipse2D.Double {
 
-	@Override
-	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * 
+	 */
+	
+	private float A = 0.5f;
+	private float B = 0.5f;
+
+	private int margin = 10;
+	
+	private Color ACTIVE_WEAPON = Color.RED;
+	private Color BROKEN_WEAPON = Color.DARK_GRAY;
+	private Color ACTIVE_SENSOR = Color.GREEN;
+	private Color BROKEN_SENSOR = Color.DARK_GRAY;
+	private Color ACTIVE_EXTRAS = Color.YELLOW;
+	private Color BROKEN_EXTRAS = Color.DARK_GRAY;
+	private Color ACTIVE_REACTR = Color.GRAY;
+	private Color BROKEN_REACTR = Color.DARK_GRAY;
+	
+	private int BORDER = 5;
+	private Color col;
+	private Color sys;
+	private double rad;
+	private boolean selected;
+	private static final long serialVersionUID = 1L;
+	
+	public EngineerButton(double x, double y, double r, Color c, Color s, boolean b){
+		super(x,y,2*r,2*r);
+		col = c;
+		sys = s;
+		selected = b;
+		rad = r;
+		
+		System.out.println("create");
 	}
 
-	@Override
-	public Rectangle2D getBounds2D() {
-		// TODO Auto-generated method stub
-		return null;
+	public void draw(Graphics2D g) {
+		
+
+		int rad = (int) (height / 2.0f);
+		int rad2 = (int) (height / 2.25f);
+		int rad3 = (int) (height / 2.5f);
+		int x_o = (int) x + rad;
+		int y_o = (int) y + rad;
+		
+		if (sys != null){
+			g.setColor(sys);
+			g.fillOval(x_o - rad, y_o - rad, 2*rad , 2*rad);
+		}
+		
+		g.setColor(col);
+		g.fillOval(x_o - rad2, y_o - rad2, 2*rad2 , 2*rad2 );
+		
+		if (!selected) return;
+		g.setColor(Color.DARK_GRAY);
+		g.fillOval(x_o - rad3, y_o - rad3, 2*rad3 , 2*rad3 );
+		
+		System.out.println("beep");
 	}
 
-	@Override
-	public boolean contains(double x, double y) {
-		// TODO Auto-generated method stub
-		return false;
+	public void click() {
+		selected = !selected;
+		System.out.println("SWAP" + selected);
+		
 	}
-
-	@Override
-	public boolean contains(Point2D p) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean intersects(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean intersects(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean contains(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean contains(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public PathIterator getPathIterator(AffineTransform at) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
+	
 }
+
