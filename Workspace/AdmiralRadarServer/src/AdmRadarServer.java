@@ -131,9 +131,9 @@ public class AdmRadarServer
 		
 		nPlayers = 0;
 		//Database test
-		/*
+
 			String username = "TEST_USER";
-			String password = "TEST_PASSWORD";
+			String password = "test";
 			System.out.println("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
 			int result = login(username, password);
 			if(result == 0) {
@@ -169,10 +169,10 @@ public class AdmRadarServer
 					System.out.println("ERROR: Reset Failed - Invalid PIN");
 				}
 			}
-			*/
+
 		
-		int portNumber = Integer.parseInt(args[0]);
-		new AdmRadarServer().go(portNumber);
+		//int portNumber = Integer.parseInt(args[0]);
+		//new AdmRadarServer().go(portNumber);
 	}
 	
 	public void go(int port)
@@ -278,7 +278,7 @@ public class AdmRadarServer
 
 		try {
 
-			String url = "jdbc:mysql://radar.c87i64zdxk4i.us-east-2.rds.amazonaws.com:3306/AdmiralRadar";
+			String url = "jdbc:mysql://radar.c87i64zdxk4i.us-east-2.rds.amazonaws.com:3306/AdmiralRadar?verifyServerCertificate=false&useSSL=true&requireSSL=true";
 			Properties info = new Properties();
 			info.put("user", "api_user");
 			info.put("password", "password1234");
@@ -341,7 +341,7 @@ public class AdmRadarServer
 						DBobj.close();
 						return 0;
 					} else {
-						System.out.println("PW: " + pw + " | " + DBobj.rs.getString("PASSWORD"));
+						//System.out.println("PW: " + pw + " | " + DBobj.rs.getString("PASSWORD"));
 						DBobj.close();
 						return 2;
 					}
