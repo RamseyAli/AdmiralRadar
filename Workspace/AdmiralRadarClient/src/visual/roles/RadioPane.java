@@ -2,10 +2,12 @@ package visual.roles;
 
 import java.awt.Color;
 
+import visual.util.operations.GUIController;
+
 public class RadioPane extends ShipPanel {
 
-	public RadioPane() {
-		super(Color.YELLOW);
+	public RadioPane(GUIController cx) {
+		super(cx);
 	}
 
 

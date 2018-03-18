@@ -7,7 +7,7 @@ import java.util.*;
 
 public class AdmRadarServer
 {
-	ArrayList<PrintWriter> clientOutpurStreams;
+	ArrayList<PrintWriter> clientOutputStreams;
 	ArrayList<BufferedReader> clientInputStreams;
 	ArrayList<Thread> clientThreads;
 	ArrayList<Spaceship> spaceship;
@@ -177,7 +177,7 @@ public class AdmRadarServer
 	
 	public void go(int port)
 	{
-		clientOutpurStreams = new ArrayList<PrintWriter>();
+		clientOutputStreams = new ArrayList<PrintWriter>();
 		clientInputStreams = new ArrayList<BufferedReader>();
 		clientThreads = new ArrayList<Thread>();
 		spaceship = new ArrayList<Spaceship>();
@@ -192,7 +192,7 @@ public class AdmRadarServer
 			{
 				Socket clientSocket = serverSocket.accept();
 				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-				clientOutpurStreams.add(out);
+				clientOutputStreams.add(out);
 				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				clientInputStreams.add(in);
 				

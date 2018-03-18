@@ -1,4 +1,4 @@
-package visual.util;
+package visual.util.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

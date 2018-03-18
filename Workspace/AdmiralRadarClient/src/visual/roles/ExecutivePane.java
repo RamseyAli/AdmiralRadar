@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 
 import visual.roles.elements.SystemStatusGauge;
+import visual.util.operations.GUIController;
 
 public class ExecutivePane extends ShipPanel {
 
@@ -16,8 +17,8 @@ public class ExecutivePane extends ShipPanel {
 	
 	
 	
-	public ExecutivePane() {
-		super(Color.MAGENTA);
+	public ExecutivePane(GUIController cx) {
+		super(cx);
 		this.setLayout(new GridLayout(2,3));
 		add(mineG);
 		add(dronG);

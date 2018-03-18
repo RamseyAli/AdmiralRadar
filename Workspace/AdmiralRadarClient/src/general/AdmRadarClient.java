@@ -1,20 +1,24 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class AdmRadarClient {
-	static final int PORT = 12019;
 	// Variables //
+	int portNum = 12019;
 	private Socket primeSocket;
+
 
 	private PrintWriter outStream;
 	private BufferedReader inStream;
 	private ObjectOutputStream objOutput;
 	private ObjectInputStream objInput;
-	
+
+	private String playerRole;
 	private Spaceship teamShip; // team's own spaceship, not opponents'
 	
 	// Member Functions //
-	private void connect_Server(String hostName, int portNumber, String username, String password) throws Exception {
+	private void connect_Server(String hostName, int portNumber, String username, String password) throws IOException
+	{
 		primeSocket = new Socket(hostName, portNumber);
 		
 		outStream = new PrintWriter(primeSocket.getOutputStream(), true);
@@ -22,32 +26,49 @@ public class AdmRadarClient {
 		objOutput = new ObjectOutputStream(primeSocket.getOutputStream());
 		objInput = new ObjectInputStream(primeSocket.getInputStream());
 	}
-	
-	public void login(String ipAddress, String username, String password) {
-		int portNum = PORT;
+
+	// Returns TRUE if successfully connected to the Server //
+	public boolean login(String ipAddress, String username, String password) throws IOException
+	{
 		try {
 			connect_Server(ipAddress, portNum, username, password);
 		}
 		catch (Exception ex)
 		{
-			// Connection failed, do something
+			// Connection failed, close everything //
+			if (outStream != null)
+				outStream.close();
+			if (inStream != null)
+				inStream.close();
+			if (objOutput != null)
+				objOutput.close();
+			if (objInput != null)
+				objInput.close();
+
+			return false;
 		}
+
+		return true;
 	} // TODO: Database stuff
 
-	public void sendCommands(String commandText) {
+	public void sendCommands(String commandText)
+	{
 		outStream.println(commandText);
 	}
-	
-	public void sendMessages(String msg) {
+	public void sendMessages(String msg)
+	{
 		outStream.println(msg);
 	}
-	public void getMessages() throws IOException {
+	public void getMessages() throws IOException
+	{
 		inStream.readLine();
 	}
-	public Spaceship getShipObject(){
+	public Spaceship getShipObject()
+	{
 		return teamShip;
 	}
-	static int callClientTypeGUI(){
+	static int callClientTypeGUI()
+	{
 		return 0;
 	}
 
@@ -57,11 +78,76 @@ public class AdmRadarClient {
 				"Usage: java AdmRadarClient <host name> <port number>");
 			System.exit(1);
 		}
-		
+
+		AdmRadarClient mainClient = new AdmRadarClient();
+
+		if (mainClient == null)
+			System.exit(1);
+
 		String hostName = args[0];
 		int portNumber = Integer.parseInt(args[1]);
+		String username = args[2];
+		String password = args[3];
+
+		try {
+			mainClient.login(hostName, username, password);
+
+			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+
+			String fromUser;
+
+			Maps map1 = new Maps();
+			map1 = (Maps) mainClient.objInput.readUnshared();
+
+			map1.printAsteroids();
+
+			System.out.println("Enter your location x,y : ");
+			fromUser = stdIn.readLine();
+
+			String[] coordinates = fromUser.split(",");
+			int a = Integer.parseInt(coordinates[0]);
+			int b = Integer.parseInt(coordinates[1]);
+
+			Position p = new Position();
+			p.setPosition(a,b);
+
+			mainClient.objOutput.writeObject(p);
+
+			Spaceship teamShip = (Spaceship) mainClient.objInput.readUnshared();
+
+			while (teamShip != null)
+			{
+				fromUser = stdIn.readLine();
+				if (fromUser != null)
+				{
+					System.out.println("Client: " + fromUser);
+					mainClient.outStream.println(fromUser);
+				}
+				teamShip = (Spaceship) mainClient.objInput.readUnshared();
+				if(teamShip != null)
+				{
+					Position temp = teamShip.getPosition();
+					System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+					System.out.println("Ship path :"+teamShip.getPath());
+				}
+			}
+		} catch (UnknownHostException ex) {
+			System.err.println("Don't know about host " + hostName);
+			System.exit(1);
+		} catch (Exception e) {
+			System.err.println("Couldn't get I/O for the connection to " + hostName);
+			System.exit(1);
+		}
+
 	}
-	
+
+	public class commandHandler implements Runnable {
+		public void run()
+		{
+
+		}
+	}
+
 	// Temporary Test Main //
 	public static void main(String[] args) throws IOException {
 
@@ -84,40 +170,85 @@ public class AdmRadarClient {
 			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
 			String fromUser;
-
-			Maps map1 = new Maps();
-			map1 = (Maps) is.readUnshared();
-
-			map1.printAsteroids();
-
-			System.out.println("Enter your location x,y : ");
+			System.out.println("Enter role :");
 			fromUser = stdIn.readLine();
-
-			String[] coordinates = fromUser.split(",");
-			int a = Integer.parseInt(coordinates[0]);
-			int b = Integer.parseInt(coordinates[1]);
-
-			Position p = new Position();
-			p.setPosition(a,b);
-
-			os.writeObject(p);
-
-			Spaceship teamShip = (Spaceship) is.readUnshared();
-
-			while (teamShip != null)
+			if (fromUser != null)
 			{
+				System.out.println("Player is a " + fromUser);
+				out.println(fromUser);
+			}
+
+			String fromServer;
+
+			if(fromUser.equals("Captain"))
+			{
+				//fromServer = in.readLine();
+				//System.out.println(fromServer);
+
+				Maps map1 = new Maps();
+				map1 = (Maps) is.readUnshared();
+
+				map1.printAsteroids();
+
+				System.out.println("Enter your location x,y :");
 				fromUser = stdIn.readLine();
-				if (fromUser != null)
+
+				String[] coordinates = fromUser.split(",");
+				int a = Integer.parseInt(coordinates[0]);
+				int b = Integer.parseInt(coordinates[1]);
+
+				Position p = new Position();
+				p.setPosition(a,b);
+
+				os.writeObject(p);
+
+				Spaceship teamShip = (Spaceship) is.readUnshared();
+
+				while (teamShip != null)
 				{
-					System.out.println("Client: " + fromUser);
-					out.println(fromUser);
+					fromUser = stdIn.readLine();
+					if (fromUser != null)
+					{
+						System.out.println("Player: " + fromUser);
+						out.println(fromUser);
+					}
+					teamShip = (Spaceship) is.readUnshared();
+					if(teamShip != null)
+					{
+						Position temp = teamShip.getPosition();
+						System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+						System.out.println("Ship path :"+teamShip.getPath());
+					}
 				}
-				teamShip = (Spaceship) is.readUnshared();
-				if(teamShip != null)
+			}
+			else if(fromUser.equals("First Officer"))
+			{
+				Maps map1 = new Maps();
+				map1 = (Maps) is.readUnshared();
+
+				map1.printAsteroids();
+
+				System.out.println("Waiting for Captain");
+
+				Spaceship teamShip = (Spaceship) is.readUnshared();
+
+				while (teamShip != null)
 				{
-					Position temp = teamShip.getPosition();
-					System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
-					System.out.println("Ship path :"+teamShip.getPath());
+					fromUser = stdIn.readLine();
+					if (fromUser != null)
+					{
+						System.out.println("Player: " + fromUser);
+						out.println(fromUser);
+					}
+					teamShip = (Spaceship) is.readUnshared();
+					if(teamShip != null)
+					{
+						Position tempP = teamShip.getPosition();
+						System.out.println("Ship at x = "+tempP.x+" y = "+tempP.y);
+						ShipSystems tempS = teamShip.getShipSystem();
+						tempS.printSystems();
+					}
+					System.out.println("Waiting for Captain");
 				}
 			}
 		} catch (UnknownHostException e) {
@@ -127,5 +258,5 @@ public class AdmRadarClient {
 			System.err.println("Couldn't get I/O for the connection to " + hostName);
 			System.exit(1);
 		}
-	}	
+	}
 }

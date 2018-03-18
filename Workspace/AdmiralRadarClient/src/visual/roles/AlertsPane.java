@@ -1,6 +1,6 @@
 package visual.roles;
 
-import java.awt.Color;
+import visual.util.operations.GUIController;
 
 public class AlertsPane extends ShipPanel{
 
@@ -14,8 +14,8 @@ public class AlertsPane extends ShipPanel{
 	 */
 	
 
-	public AlertsPane() {
-		super(Color.RED);
+	public AlertsPane(GUIController cx) {
+		super(cx);
 	}
 
 	@Override

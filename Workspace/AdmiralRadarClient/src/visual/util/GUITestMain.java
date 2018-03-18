@@ -1,40 +1,22 @@
 package visual.util;
 
-
-import general.Role;
-import visual.roles.CaptainPane;
-import visual.roles.ShipPanel;
+import visual.util.operations.GUIFactory;
 
 public class GUITestMain {
 
 	public static void main(String[] args) throws InterruptedException {
 		
-		boolean a = true;
+		//Create GUI Factory
+		GUIFactory factory = new GUIFactory();
 		
-		if (a){
-			GameFrame f = new GameFrame();
-			ShipPanel h = new CaptainPane();
-			f.setSize(1000,600);
-			f.setPanel(h);
-			f.repaint();
-			h.repaint();
-			f.setVisible(true);
-		}
-		
-		else{
-		
-		GameFrame f = new GameFrame();
-		GamePanel p = new GamePanel(Role.FIRST);
-		
-		f.setPanel(p);
-		f.setVisible(true);
+		//Create and Show GUI
+		new Thread(() ->  factory.beginGUI()).start();
 		
 		
-		Thread.sleep(1000);
 		
-		}
-		Thread.sleep(40000);
 		
+		
+		Thread.sleep(20000);
 		System.exit(1);
 		
 		

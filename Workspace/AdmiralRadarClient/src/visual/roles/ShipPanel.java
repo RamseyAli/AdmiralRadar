@@ -7,22 +7,21 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import visual.util.PanelPosition;
+import visual.util.components.PanelPosition;
+import visual.util.operations.GUIController;
 
 public abstract class ShipPanel extends JPanel{
 
 	public static final long serialVersionUID = 1L;
-	
+	protected GUIController control;
 	protected Color background;
 	private Dimension panelSize;
 	Graphics2D g;
 	
-	public ShipPanel(Color c){
-		background = new Color(c.getRed(),c.getGreen(),c.getBlue(), 200);
+	public ShipPanel(GUIController ctr){
 		
-		setBackground(background);
+		control = ctr;
 		
-		setVisible(true);
 	}
 	
 	protected void paintComponent(Graphics gin){

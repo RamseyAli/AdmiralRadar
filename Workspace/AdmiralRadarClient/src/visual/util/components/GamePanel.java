@@ -1,4 +1,4 @@
-package visual.util;
+package visual.util.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,13 +32,13 @@ public class GamePanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		display = r;
-		net = new NetworkPane();
-		rad = new RadioPane();
-		xo = new ExecutivePane();
-		egr = new EngineerPane();
-		cap = new CaptainPane();
-		itl = new AlertsPane();
-		hth = new HealthPane();
+	//	net = new NetworkPane();
+	//	rad = new RadioPane();
+	//	xo = new ExecutivePane();
+	//	egr = new EngineerPane();
+	//	cap = new CaptainPane();
+	//	itl = new AlertsPane();
+	//	hth = new HealthPane();
 		
 	}
 	
