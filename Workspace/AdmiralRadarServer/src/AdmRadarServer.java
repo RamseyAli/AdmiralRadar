@@ -1,3 +1,5 @@
+package src;  // Something Pano needs to run, (maybe) comment out if your're not Pano
+
 import javax.crypto.spec.*;
 import javax.crypto.*;
 import java.net.*;

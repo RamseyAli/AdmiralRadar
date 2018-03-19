@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="mysql-connector-java-5.1.45-bin" level="project" />
+    <orderEntry type="module" module-name="Workspace" />
   </component>
 </module>
