@@ -2,4 +2,4 @@ javac -cp ..\mysql-connector-java-5.1.45-bin.jar AdmRadarClient.java AdmRadarSer
 
 java AdmRadarServer 12019
 
-Java AdmRadarClient localhost 12019
+java AdmRadarClient localhost 12019
