@@ -76,8 +76,6 @@ public class AdmRadarClient {
 
 		try (
 				Socket arSocket = new Socket(hostName, portNumber);
-				PrintWriter out = new PrintWriter(arSocket.getOutputStream(), true);
-				BufferedReader in = new BufferedReader(new InputStreamReader(arSocket.getInputStream()));
 				ObjectOutputStream os = new ObjectOutputStream(arSocket.getOutputStream());
 				ObjectInputStream is = new ObjectInputStream(arSocket.getInputStream());
 		) {
@@ -89,21 +87,20 @@ public class AdmRadarClient {
 			if (fromUser != null)
 			{
 				System.out.println("Player is a " + fromUser);
-				out.println(fromUser);
 			}
 			
 			String fromServer;
 			
 			if(fromUser.equals("Captain"))
 			{
-				//fromServer = in.readLine();
-				//System.out.println(fromServer);
-				
 				Maps map1 = new Maps();
 				map1 = (Maps) is.readUnshared();
 
 				map1.printAsteroids();
-
+				
+				os.writeUnshared(fromUser);
+				os.reset();
+				
 				System.out.println("Enter your location x,y :");
 				fromUser = stdIn.readLine();
 
@@ -114,7 +111,8 @@ public class AdmRadarClient {
 				Position p = new Position();
 				p.setPosition(a,b);
 
-				os.writeObject(p);
+				os.writeUnshared(p);
+				os.reset();
 
 				Spaceship teamShip = (Spaceship) is.readUnshared();
 
@@ -124,7 +122,8 @@ public class AdmRadarClient {
 					if (fromUser != null)
 					{
 						System.out.println("Player: " + fromUser);
-						out.println(fromUser);
+						os.writeUnshared(fromUser);
+						os.reset();
 					}
 					teamShip = (Spaceship) is.readUnshared();
 					if(teamShip != null)
@@ -152,7 +151,8 @@ public class AdmRadarClient {
 					if (fromUser != null)
 					{
 						System.out.println("Player: " + fromUser);
-						out.println(fromUser);
+						os.writeUnshared(fromUser);
+						os.reset();
 					}
 					teamShip = (Spaceship) is.readUnshared();
 					if(teamShip != null)

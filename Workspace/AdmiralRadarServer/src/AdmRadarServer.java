@@ -29,8 +29,6 @@ public class AdmRadarServer
 			try
 			{
 				sock = clientSock;
-				reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-				writer = new PrintWriter(sock.getOutputStream(),true);
 				oos = new ObjectOutputStream(sock.getOutputStream());
 				ois = new ObjectInputStream(sock.getInputStream());
 			} catch (Exception ex) {
@@ -50,8 +48,8 @@ public class AdmRadarServer
 				
 				String inputLine;
 				
-				inputLine = reader.readLine();
-			
+				inputLine = (String) ois.readUnshared();
+				
 				if(inputLine.equalsIgnoreCase("Captain"))
 				{
 					Position p = new Position();
@@ -66,7 +64,7 @@ public class AdmRadarServer
 					
 					while(true)
 					{
-						inputLine = reader.readLine();
+						inputLine = (String) ois.readUnshared();
 						ship = spaceship.get(i);
 						ship = arp.processCommands(inputLine,ship);
 						spaceship.set(i,ship);
@@ -94,7 +92,7 @@ public class AdmRadarServer
 					
 					while(true)
 					{
-						inputLine = reader.readLine();
+						inputLine = (String) ois.readUnshared();
 						ship = spaceship.get(i);
 						ship = arp.processCommands(inputLine,ship);
 						spaceship.set(i,ship);
@@ -132,7 +130,7 @@ public class AdmRadarServer
 		nPlayers = 0;
 		//Database test
 
-			String username = "TEST_USER";
+		/*	String username = "TEST_USER";
 			String password = "test";
 			System.out.println("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
 			int result = login(username, password);
@@ -168,11 +166,10 @@ public class AdmRadarServer
 				} else {
 					System.out.println("ERROR: Reset Failed - Invalid PIN");
 				}
-			}
-
+			}*/
 		
-		//int portNumber = Integer.parseInt(args[0]);
-		//new AdmRadarServer().go(portNumber);
+		int portNumber = Integer.parseInt(args[0]);
+		new AdmRadarServer().go(portNumber);
 	}
 	
 	public void go(int port)
