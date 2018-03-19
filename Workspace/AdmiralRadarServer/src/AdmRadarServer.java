@@ -1,6 +1,10 @@
-package src;  // Something Pano needs to run, (maybe) comment out if your're not Pano
 
 import javax.crypto.spec.*;
+
+import game.Maps;
+import game.Position;
+import game.Spaceship;
+
 import javax.crypto.*;
 import java.net.*;
 import java.io.*;
@@ -419,6 +423,7 @@ public class AdmRadarServer
 			ecipher.init(Cipher.ENCRYPT_MODE, key);
 		}
 
+		@SuppressWarnings("restriction")
 		public String encrypt(String str) throws Exception {
 			// Encode the string into bytes using utf-8
 			byte[] utf8 = str.getBytes("UTF8");

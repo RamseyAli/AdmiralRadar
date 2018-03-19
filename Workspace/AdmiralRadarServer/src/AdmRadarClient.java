@@ -1,7 +1,12 @@
-package src;
+
 
 import java.io.*;
 import java.net.*;
+
+import game.Maps;
+import game.Position;
+import game.ShipSystems;
+import game.Spaceship;
 
 public class AdmRadarClient {
 	static final int PORT = 12019;

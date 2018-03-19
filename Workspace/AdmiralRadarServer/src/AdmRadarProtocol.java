@@ -1,6 +1,9 @@
-package src;  // Something Pano needs to run, (maybe) comment out if your're not Pano
 
 import java.net.*;
+
+import game.Maps;
+import game.Spaceship;
+
 import java.io.*;
 
 public class AdmRadarProtocol

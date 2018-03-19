@@ -1,10 +1,11 @@
 package general;  // Something Pano needs to run, (maybe) comment out if your're not Pano
 
-import src.*;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+
+import game.*;
 
 public class AdmRadarClient {
 	// Variables //

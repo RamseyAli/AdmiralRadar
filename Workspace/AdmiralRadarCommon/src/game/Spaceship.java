@@ -1,4 +1,4 @@
-package src;  // Something Pano needs to run, (maybe) comment out if your're not Pano
+package game;
 
 import java.net.*;
 import java.io.*;
@@ -10,7 +10,7 @@ public class Spaceship implements Serializable
 	int health;
 	ShipSystems systems;
 
-	Spaceship()
+	public Spaceship()
 	{
 		pos = new Position();
 		path = "";
@@ -18,12 +18,12 @@ public class Spaceship implements Serializable
 		systems = new ShipSystems();
 	}
 
-	void setPos(Position p)
+	public void setPos(Position p)
 	{
 		pos = p;
 	}
 	
-	void getNextDirection(String dir)
+	public void getNextDirection(String dir)
 	{
 		path = path+" "+dir;
 		if (dir.equalsIgnoreCase("N"))

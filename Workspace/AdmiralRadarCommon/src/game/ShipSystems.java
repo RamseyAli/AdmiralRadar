@@ -1,4 +1,4 @@
-package src; // Something Pano needs to run comment out if your're not Pano
+package game;
 
 import java.net.*;
 import java.io.*;

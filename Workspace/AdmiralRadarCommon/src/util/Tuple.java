@@ -1,4 +1,4 @@
-package general;
+package util;
 
 public class Tuple< X , Y > {
 
