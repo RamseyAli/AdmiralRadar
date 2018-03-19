@@ -1,5 +1,9 @@
 
 import java.net.*;
+
+import game.Maps;
+import game.Spaceship;
+
 import java.io.*;
 
 public class AdmRadarProtocol

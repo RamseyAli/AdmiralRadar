@@ -7,7 +7,7 @@ import java.awt.Component;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import general.Role;
+import game.Role;
 import visual.roles.*;
 
 public class GamePanel extends JPanel {

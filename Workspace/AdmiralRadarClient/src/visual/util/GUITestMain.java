@@ -12,11 +12,15 @@ public class GUITestMain {
 		//Create and Show GUI
 		new Thread(() ->  factory.beginGUI()).start();
 		
+		//Start local test server
+		TestServer ts = new TestServer();
+		Thread t = new Thread(ts);
+		t.run();
 		
 		
 		
 		
-		Thread.sleep(20000);
+		Thread.sleep(40000);
 		System.exit(1);
 		
 		

@@ -1,0 +1,5 @@
+javac -cp ..\mysql-connector-java-5.1.45-bin.jar AdmRadarClient.java AdmRadarServer.java AdmRadarProtocol.java Maps.java Mines.java ShipSystems.java Spaceship.java Position.java
+
+java AdmRadarServer 12019
+
+java AdmRadarClient localhost 12019

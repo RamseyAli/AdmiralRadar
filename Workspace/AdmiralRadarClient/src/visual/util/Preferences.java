@@ -17,6 +17,10 @@ public class Preferences {
 		
 	}
 	
+	public static ArrayList<String> getIPArrayList(){
+		
+		return servers;
+	}
 	
 	public static String[] getIPs(){
 		String[] img = new String[servers.size()];
@@ -26,6 +30,11 @@ public class Preferences {
 	
 	public static void addIP(String s){
 		servers.add(s);
+	}
+
+	public static void clearIPs() {
+		servers.clear();
+		
 	}
 	
 }

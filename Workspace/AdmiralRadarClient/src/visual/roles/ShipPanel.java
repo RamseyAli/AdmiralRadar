@@ -21,6 +21,7 @@ public abstract class ShipPanel extends JPanel{
 	public ShipPanel(GUIController ctr){
 		
 		control = ctr;
+		ctr.addToUpdatePuddle(this);
 		
 	}
 	

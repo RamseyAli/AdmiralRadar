@@ -1,4 +1,4 @@
-package general;
+package game;
 
 public enum Role {
 	
