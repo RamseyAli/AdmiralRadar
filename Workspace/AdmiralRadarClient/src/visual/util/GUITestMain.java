@@ -12,6 +12,7 @@ public class GUITestMain {
 		//Create and Show GUI
 		new Thread(() ->  factory.beginGUI()).start();
 		
+		
 		//Start local test server
 		TestServer ts = new TestServer();
 		Thread t = new Thread(ts);

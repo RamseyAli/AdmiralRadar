@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 public class Preferences {
 
-	private final static boolean FULLSCREEN = false;
-	private final static String PREF_FILE = "prefs.rdr";
+	public final static boolean FULLSCREEN = false;
+	//public final static String PREF_FILE = "prefs.rdr";
+	private final static int PORT = 2069;
 	private static ArrayList<String> servers;
-	private static ArrayList<String> users; 
+	//private static ArrayList<String> users; 
 	
 	static{
 		
 		servers = new ArrayList<String>();
-		servers.add("localhost");
+		servers.add("127.0.0.1");
 		servers.add("nonlocalhost");
 		
 	}
@@ -35,6 +36,11 @@ public class Preferences {
 	public static void clearIPs() {
 		servers.clear();
 		
+	}
+	
+	public static int getPort(){
+		
+		return PORT;
 	}
 	
 }

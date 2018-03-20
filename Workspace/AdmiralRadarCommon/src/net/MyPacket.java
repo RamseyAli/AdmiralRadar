@@ -18,6 +18,10 @@ public class MyPacket<T> implements Serializable{
 		objectClass = n;
 	}
 	
+	public MyPacket(T p) {
+		this(p, p.getClass().getSimpleName());
+	}
+
 	public T getObject(){
 		
 		return payload;

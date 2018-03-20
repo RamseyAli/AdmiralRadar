@@ -7,30 +7,27 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import network.ConnectionManager;
 import visual.roles.ShipPanel;
 
 public class GUIController {
 	
 	private String avURL = "http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg";
 	ArrayList<ShipPanel> toUpdate = new ArrayList<ShipPanel>();
+	ConnectionManager cm;
 	
 	// 2 - Connection Failure
 	// 3 - Connected to Server
 	// 4 - Logged In To Server
 	public int login(String user, String pswd) {
-		
-		return 5;
-		
+		return cm.loginToServer(user, pswd);
 	}
 
 	// 2 - Connection Failure
 	// 3 - Connected to Server
 	// 4 - Logged In To Server
 	public int connect(InetAddress url) throws IOException{
-		
-		return 3;
-		
-		
+		return cm.connectToServer(url);	
 	}
 	
 	
@@ -48,37 +45,24 @@ public class GUIController {
 		return new String[] {"Aang", "1" , " 20" , avURL};
 	}
 
-	public void setAvatar(String s) {
-		
-		avURL = s;
-		
+	public void setAvatar(String s) {		
+		avURL = s;		
 	}
 
 	public void addToUpdatePuddle(ShipPanel sp) {
-		toUpdate.add(sp);
-		
+		toUpdate.add(sp);		
 	}
 	
 	public void removeFromUpdatePuddle(ShipPanel sp) {
 		toUpdate.remove(sp);
-		
 	}
 	
 	public void updatePuddle(){
-		for (ShipPanel s: toUpdate) {
-			 	
-			
-			}
+	
 	}
-	
-	
 
-	
-
-
-
-	
-	
-	
+	public void setConnector(ConnectionManager n) {
+		cm = n;	
+	}
 
 }
