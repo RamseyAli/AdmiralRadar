@@ -16,54 +16,59 @@ public class MyPacketInputStream extends ObjectInputStream {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public User getNextUser() throws IOException {
 		try {
-			return (User) readObject();
+			return ((MyPacket<User>) readObject()).getObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
-			
 		}
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	public Spaceship getNextSpaceship() throws IOException {
 		try {
-			return (Spaceship) readObject();
+			return ((MyPacket<Spaceship>) readObject()).getObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	public GameMap getNextMap() throws IOException {
 		try {
-			return (GameMap) readObject();
+			return ((MyPacket<GameMap>) readObject()).getObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	public String getNextString() throws IOException {
 		try {
-			return (String) readObject();
+			return ((MyPacket<String>) readObject()).getObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	public Role getNextRole() throws IOException {
 		try {
-			return (Role) readObject();
+			return ((MyPacket<Role>) readObject()).getObject();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	
 
-	
 	
 }
