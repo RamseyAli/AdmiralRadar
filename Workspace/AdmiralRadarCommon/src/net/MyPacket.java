@@ -13,12 +13,12 @@ public class MyPacket<T> implements Serializable{
 	private T payload;
 	private String objectClass;
 	
-	public MyPacket(T p, String n){
+	private MyPacket(T p, String n){
 		payload = p;
 		objectClass = n;
 	}
 	
-	public MyPacket(T p) {
+	MyPacket(T p) {
 		this(p, p.getClass().getSimpleName());
 	}
 

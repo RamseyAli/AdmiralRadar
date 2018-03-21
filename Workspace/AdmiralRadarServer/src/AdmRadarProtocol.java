@@ -1,7 +1,7 @@
 
 import java.net.*;
 
-import game.Maps;
+import game.GameMap;
 import game.Spaceship;
 
 import java.io.*;
@@ -10,11 +10,11 @@ public class AdmRadarProtocol
 {
 	private static final int NUMCOMMANDS = 0;
 	
-	Maps map1;
+	GameMap map1;
 	
 	public AdmRadarProtocol()
 	{
-		map1 = new Maps();
+		map1 = new GameMap();
 	}
 	
 	public Spaceship processCommands(String command,Spaceship ship)
@@ -63,7 +63,7 @@ public class AdmRadarProtocol
 		return ship;
 	}
 	
-	public Maps updateMap()
+	public GameMap updateMap()
 	{
 		return map1;
 	}

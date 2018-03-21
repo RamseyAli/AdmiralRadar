@@ -1,7 +1,7 @@
 
 import javax.crypto.spec.*;
 
-import game.Maps;
+import game.GameMap;
 import game.Position;
 import game.Spaceship;
 
@@ -47,7 +47,7 @@ public class AdmRadarServer
 			try {
 				AdmRadarProtocol arp = new AdmRadarProtocol();
 				
-				Maps m = new Maps();
+				GameMap m = new GameMap();
 				m = arp.updateMap();
 				oos.writeUnshared(m);
 				oos.reset();
