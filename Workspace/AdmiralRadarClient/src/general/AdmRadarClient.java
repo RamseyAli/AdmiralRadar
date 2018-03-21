@@ -101,8 +101,8 @@ public class AdmRadarClient {
 
 			String fromUser;
 
-			Maps map1 = new Maps();
-			map1 = (Maps) mainClient.objInput.readUnshared();
+			GameMap map1 = new GameMap();
+			map1 = (GameMap) mainClient.objInput.readUnshared();
 
 			map1.printAsteroids();
 
@@ -190,8 +190,8 @@ public class AdmRadarClient {
 				//fromServer = in.readLine();
 				//System.out.println(fromServer);
 
-				Maps map1 = new Maps();
-				map1 = (Maps) is.readUnshared();
+				GameMap map1 = new GameMap();
+				map1 = (GameMap) is.readUnshared();
 
 				map1.printAsteroids();
 
@@ -228,8 +228,8 @@ public class AdmRadarClient {
 			}
 			else if(fromUser.equals("First Officer"))
 			{
-				Maps map1 = new Maps();
-				map1 = (Maps) is.readUnshared();
+				GameMap map1 = new GameMap();
+				map1 = (GameMap) is.readUnshared();
 
 				map1.printAsteroids();
 
