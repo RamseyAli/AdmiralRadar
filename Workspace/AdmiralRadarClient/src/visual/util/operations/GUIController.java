@@ -70,4 +70,8 @@ public class GUIController {
 		
 	}
 
+	public int ready() {
+		return cm.ready();
+	}
+
 }
