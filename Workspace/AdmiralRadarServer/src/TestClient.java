@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
 
-import game.Maps;
+import game.GameMap;
 import game.Position;
 import game.ShipSystems;
 import game.Spaceship;
@@ -90,8 +90,8 @@ public class TestClient {
 			
 			if(fromUser.equals("Captain"))
 			{
-				Maps map1 = new Maps();
-				map1 = (Maps) is.readUnshared();
+				GameMap map1 = new GameMap();
+				map1 = (GameMap) is.readUnshared();
 
 				map1.printAsteroids();
 				
@@ -133,8 +133,8 @@ public class TestClient {
 			}
 			else if(fromUser.equals("First Officer"))
 			{
-				Maps map1 = new Maps();
-				map1 = (Maps) is.readUnshared();
+				GameMap map1 = new GameMap();
+				map1 = (GameMap) is.readUnshared();
 
 				map1.printAsteroids();
 
