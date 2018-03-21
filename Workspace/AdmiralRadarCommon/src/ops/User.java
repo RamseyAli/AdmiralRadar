@@ -1,8 +1,8 @@
-package net;
+package ops;
 
 import java.io.Serializable;
 
-public class LoggerInner implements Serializable{
+public class User implements Serializable{
 
 	
 	/**
@@ -13,10 +13,15 @@ public class LoggerInner implements Serializable{
 	private String password_enc;
 	private int success;
 	
-	public LoggerInner(String u, String p){
+	private int wins = -1;
+	private int loss = -1;
+	private String avatar = "NONE";
+	
+	public User(String u, String p){
 		username = u;
 		password_enc = p;
 		success = -1;
+		
 	}
 	
 	public String getUsername(){
@@ -34,5 +39,32 @@ public class LoggerInner implements Serializable{
 	
 	public int getResult(){
 		return success;
+	}
+	
+	public int getWins(){		
+		return wins;
+	}
+	
+	public int getLosses(){		
+		return loss;
+	}
+	
+	public String getAvatar(){
+		return avatar;
+	}
+
+	public void setAvatar(String s) {
+		avatar = s;
+		
+	}
+
+	public void setLoss(int i) {
+		loss = i;
+		
+	}
+
+	public void setWins(int i) {
+		wins = i;
+		
 	}
 }

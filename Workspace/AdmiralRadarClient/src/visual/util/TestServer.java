@@ -5,9 +5,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Random;
 
-import net.LoggerInner;
 import net.MyPacket;
+import ops.User;
 
 public class TestServer implements Runnable{
 
@@ -35,10 +36,16 @@ public class TestServer implements Runnable{
 					while (true){
 						if((inputLine = in.readObject()) != null) {
 							@SuppressWarnings("unchecked")
-							MyPacket<LoggerInner> mp = ((MyPacket<LoggerInner>) inputLine);
+							MyPacket<User> mp = ((MyPacket<User>) inputLine);
 							
-								mp.getObject().loginSuccessful((mp.getObject().getUsername().equals("Username"))&&
+								User u = mp.getObject();
+								u.loginSuccessful((mp.getObject().getUsername().equals("Username"))&&
 										(mp.getObject().getEncryptedPassword().equals("Password")));
+								
+
+								u.setWins(new Random().nextInt() % 20);
+								u.setLoss(new Random().nextInt() % 20);
+								u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");
 								
 							out.writeObject(inputLine);
 							out.flush();

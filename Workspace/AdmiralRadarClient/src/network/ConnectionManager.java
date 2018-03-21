@@ -7,10 +7,10 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import net.LoggerInner;
 import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
+import ops.User;
 import visual.util.Preferences;
 import visual.util.operations.GUIController;
 
@@ -24,8 +24,8 @@ public class ConnectionManager implements Runnable{
 	MyPacketInputStream ois;
 	
 	GUIController interrupt;
+	User u;
 	
-	boolean loggedIn = false;
 	
 	public ConnectionManager(GUIController nexus){
 		interrupt = nexus;
@@ -34,17 +34,14 @@ public class ConnectionManager implements Runnable{
 	
 	private void main(){
 		while(true){
-			if (loggedIn){
-				
-				
-				
-				
-				
-				
-				
-				
-				
-			}		
+			
+			
+			
+			
+			
+			
+			
+			
 		}
 	}
 	
@@ -57,8 +54,7 @@ public class ConnectionManager implements Runnable{
 			oos 	= 	new MyPacketOutputStream(s.getOutputStream());
             in 		= 	new BufferedReader(new InputStreamReader(s.getInputStream()));
             ois 	= 	new MyPacketInputStream(s.getInputStream());
-    		//Enable Socket Listening Loop
-    		new Thread(this).start();
+
     		
 		} catch (IOException e) {
 			System.out.println(e);
@@ -73,12 +69,14 @@ public class ConnectionManager implements Runnable{
 	public int loginToServer(String user, String hash){
 		
 		try {
-			oos.sendLoggerInner(new LoggerInner(user, hash));
+			oos.sendUser(new User(user, hash));
 			
 			
 			@SuppressWarnings("unchecked")
-			MyPacket<LoggerInner> x = (MyPacket<LoggerInner>) ois.readObject();
-			System.out.println("MK:" + x.getObject().getResult());
+			MyPacket<User> x = (MyPacket<User>) ois.readObject();
+			
+			interrupt.setUser(x.getObject());
+			
 			switch(x.getObject().getResult()){
 			case -1: return 2;
 			case 0: return 4;
@@ -92,22 +90,32 @@ public class ConnectionManager implements Runnable{
 		} catch (ClassNotFoundException e) {
 			return 2;
 		}
+		
+		//Enable Socket Listening Loop
+		new Thread(this).start();
+		
 		return 2;
 	
 		
 	}
 	
 	public void disconnect(){
-		
-	//	interrupt.disconnected();
+		//	interrupt.disconnected();
 	}
 
 
 	@Override
 	public void run() {
-		
-		main();
-		
+		main();	
+	}
+
+	public void newAvatar(String s) {
+		u.setAvatar(s);
+		try {
+			oos.sendUser(u);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
