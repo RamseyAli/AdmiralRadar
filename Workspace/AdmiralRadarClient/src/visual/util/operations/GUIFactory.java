@@ -1,5 +1,6 @@
 package visual.util.operations;
 
+import network.ConnectionManager;
 import visual.roles.NetworkPane;
 import visual.roles.ShipPanel;
 import visual.util.components.GameFrame;
@@ -13,6 +14,7 @@ public class GUIFactory {
 	
 	private GameFrame f;
 	private ShipPanel h;
+	private ConnectionManager n;
 	
 	public GUIFactory() {
 		
@@ -21,6 +23,8 @@ public class GUIFactory {
 		
 		f = new GameFrame();
 		h = new NetworkPane(nexus);
+		n = new ConnectionManager(nexus);
+		nexus.setConnector(n);
 		
 	}
 

@@ -7,30 +7,27 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import network.ConnectionManager;
+import ops.User;
 import visual.roles.ShipPanel;
 
 public class GUIController {
 	
-	private String avURL = "http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg";
 	ArrayList<ShipPanel> toUpdate = new ArrayList<ShipPanel>();
-	
+	ConnectionManager cm;
+	User u;
 	// 2 - Connection Failure
 	// 3 - Connected to Server
 	// 4 - Logged In To Server
 	public int login(String user, String pswd) {
-		
-		return 5;
-		
+		return cm.loginToServer(user, pswd);
 	}
 
 	// 2 - Connection Failure
 	// 3 - Connected to Server
 	// 4 - Logged In To Server
 	public int connect(InetAddress url) throws IOException{
-		
-		return 3;
-		
-		
+		return cm.connectToServer(url);	
 	}
 	
 	
@@ -45,40 +42,32 @@ public class GUIController {
 	//[username, win, loss, avatar]
 	public String[] getUserInfo() {
 		
-		return new String[] {"Aang", "1" , " 20" , avURL};
+		return new String[] {u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar() };
 	}
 
-	public void setAvatar(String s) {
-		
-		avURL = s;
-		
+	public void setAvatar(String s) {		
+		cm.newAvatar(s);
 	}
 
 	public void addToUpdatePuddle(ShipPanel sp) {
-		toUpdate.add(sp);
-		
+		toUpdate.add(sp);		
 	}
 	
 	public void removeFromUpdatePuddle(ShipPanel sp) {
 		toUpdate.remove(sp);
-		
 	}
 	
 	public void updatePuddle(){
-		for (ShipPanel s: toUpdate) {
-			 	
-			
-			}
+	
 	}
-	
-	
 
-	
+	public void setConnector(ConnectionManager n) {
+		cm = n;	
+	}
 
-
-
-	
-	
-	
+	public void setUser(User usr) {
+		u = usr;
+		
+	}
 
 }

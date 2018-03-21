@@ -231,8 +231,6 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			String user = usr.getText();
 			String pswd = new String(pwd.getPassword());
 
-			System.out.println("|" + user + ":" + pswd + "|");
-
 			setState(control.login(user, pswd));
 		}
 		else if (e.getSource() == avatarButton){
@@ -251,7 +249,8 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	// 1 - No Connection
 	// 2 - Connection Failure
 	// 3 - Connected to Server
-	// 4 - Logged In To Server
+	// 4 - Not Logged In To Server
+	// 5 - Logged In 
 	public void setState(int i){
 		switch(i){
 		case 1: {
