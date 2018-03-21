@@ -73,9 +73,7 @@ public class TestClient {
 				ObjectOutputStream os = new ObjectOutputStream(arSocket.getOutputStream());
 				ObjectInputStream is = new ObjectInputStream(arSocket.getInputStream());
 		) {
-			User u = new User("username","password");
 			
-			MyPacket<User> mp = new MyPacket<User>(u,User);
 			/*BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
 			String fromUser;

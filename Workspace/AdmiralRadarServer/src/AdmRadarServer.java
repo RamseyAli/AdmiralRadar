@@ -5,6 +5,8 @@ import game.GameMap;
 import game.Position;
 import game.Spaceship;
 import net.MyPacket;
+import net.MyPacketInputStream;
+import net.MyPacketOutputStream;
 import ops.User;
 
 import javax.crypto.*;
@@ -26,8 +28,8 @@ public class AdmRadarServer
 		BufferedReader reader;
 		Socket sock;
 		PrintWriter writer;
-		ObjectOutputStream oos;
-		ObjectInputStream ois;
+		MyPacketOutputStream mpos;
+		MyPacketInputStream mpis;
 		Spaceship ship;
 		int i;
 		
@@ -37,8 +39,8 @@ public class AdmRadarServer
 			try
 			{
 				sock = clientSock;
-				oos = new ObjectOutputStream(sock.getOutputStream());
-				ois = new ObjectInputStream(sock.getInputStream());
+				mpos = new MyPacketOutputStream(sock.getOutputStream());
+				mpis = new MyPacketInputStream(sock.getInputStream());
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -51,35 +53,32 @@ public class AdmRadarServer
 				{
 					
 					Object inputObject;
-					if((inputObject = ois.readUnshared()) != null)
+					if((inputObject = mpis.getNextUser()) != null)
 					{
-						@SuppressWarnings("unchecked")
-						MyPacket<User> mp = (MyPacket<User>) inputObject;
+						//@SuppressWarnings("unchecked")
 						
-							User u = mp.getObject();
-							String username = u.getUsername();
-							String encPassword = u.getEncryptedPassword();
+						User u = (User)inputObject;
+						String username = u.getUsername();
+						String encPassword = u.getEncryptedPassword();
 							
-							int success = login(username,encPassword);
-							u.loginSuccessful(success);
-							
-							if(success == 0)
-							{
-								u.setWins(getWins(username));
-								u.setLoss(getLosses(username));
-								u.setAvatar(getAvatar(username));
+						int success = login(username,encPassword);
+						u.loginSuccessful(success);
+						
+						if(success == 0)
+						{
+							u.setWins(getWins(username));
+							u.setLoss(getLosses(username));
+							u.setAvatar(getAvatar(username));
 								
-								oos.writeUnshared(u);
-								oos.reset();
-							}
-							else
-							{
-								oos.writeUnshared(u);
-								oos.reset();
-							}
+							mpos.sendUser(u);
+						}
+						else
+						{
+							mpos.sendUser(u);
+						}
 					}
 					
-					AdmRadarProtocol arp = new AdmRadarProtocol();
+					/*AdmRadarProtocol arp = new AdmRadarProtocol();
 					
 					GameMap m = new GameMap();
 					m = arp.updateMap();
@@ -150,7 +149,7 @@ public class AdmRadarServer
 								break;
 							}
 						}
-					}
+					}*/
 				}
 			} catch(Exception ex) {
 				ex.printStackTrace();
@@ -543,7 +542,10 @@ public class AdmRadarServer
 		DBobj.close();
 		return -1;
 
+	} 
+
+	public static String getAvatar(String user) {
+		//TODO BY RAMSEY
+		return "HAHA";
 	}
-
-
 }
