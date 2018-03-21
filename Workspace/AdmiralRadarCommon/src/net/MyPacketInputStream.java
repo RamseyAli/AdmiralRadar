@@ -11,10 +11,18 @@ import ops.User;
 
 public class MyPacketInputStream extends ObjectInputStream {
 
+	MyPacket<?> buffer;
 	public MyPacketInputStream(InputStream in) throws IOException {
 		super(in);
 	}
 	
+	
+	public Class<?> getClassOfNext() throws ClassNotFoundException, IOException{
+			buffer = ((MyPacket<?>) readObject());
+			return buffer.getClass();
+			
+		
+	}
 	
 	@SuppressWarnings("unchecked")
 	public User getNextUser() throws IOException {
