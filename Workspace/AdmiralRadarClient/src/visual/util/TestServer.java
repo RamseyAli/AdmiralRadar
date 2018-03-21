@@ -39,8 +39,17 @@ public class TestServer implements Runnable{
 							MyPacket<User> mp = ((MyPacket<User>) inputLine);
 							
 								User u = mp.getObject();
-								u.loginSuccessful((mp.getObject().getUsername().equals("Username"))&&
-										(mp.getObject().getEncryptedPassword().equals("Password")));
+								if(mp.getObject().getUsername().equals("Username"))
+								{
+									if(mp.getObject().getEncryptedPassword().equals("Password"))
+										u.loginSuccessful(0);
+									else
+										u.loginSuccessful(2);
+								}
+								else
+								{
+									u.loginSuccessful(1);
+								}
 								
 
 								u.setWins(new Random().nextInt() % 20);

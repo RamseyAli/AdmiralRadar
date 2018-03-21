@@ -1,5 +1,3 @@
-
-
 import java.io.*;
 import java.net.*;
 
@@ -8,26 +6,16 @@ import game.Position;
 import game.ShipSystems;
 import game.Spaceship;
 
-public class AdmRadarClient {
+public class TestClient {
 	static final int PORT = 12019;
 	// Variables //
 	private Socket primeSocket;
 
-	private PrintWriter outStream;
-	private BufferedReader inStream;
-	private ObjectOutputStream objOutput;
-	private ObjectInputStream objInput;
-	
 	private Spaceship teamShip; // team's own spaceship, not opponents'
 	
 	// Member Functions //
 	private void connect_Server(String hostName, int portNumber, String username, String password) throws Exception {
 		primeSocket = new Socket(hostName, portNumber);
-		
-		outStream = new PrintWriter(primeSocket.getOutputStream(), true);
-		inStream = new BufferedReader(new InputStreamReader(primeSocket.getInputStream()));
-		objOutput = new ObjectOutputStream(primeSocket.getOutputStream());
-		objInput = new ObjectInputStream(primeSocket.getInputStream());
 	}
 	
 	public void login(String ipAddress, String username, String password) {
@@ -42,18 +30,17 @@ public class AdmRadarClient {
 	} // TODO: Database stuff
 
 	public void sendCommands(String commandText) {
-		outStream.println(commandText);
 	}
 	
 	public void sendMessages(String msg) {
-		outStream.println(msg);
 	}
 	public void getMessages() throws IOException {
-		inStream.readLine();
 	}
+	
 	public Spaceship getShipObject(){
 		return teamShip;
 	}
+	
 	static int callClientTypeGUI(){
 		return 0;
 	}
@@ -65,8 +52,8 @@ public class AdmRadarClient {
 			System.exit(1);
 		}
 		
-		String hostName = args[0];
-		int portNumber = Integer.parseInt(args[1]);
+		//String hostName = args[0];
+		//int portNumber = Integer.parseInt(args[1]);
 	}
 	
 	// Temporary Test Main //
@@ -86,7 +73,10 @@ public class AdmRadarClient {
 				ObjectOutputStream os = new ObjectOutputStream(arSocket.getOutputStream());
 				ObjectInputStream is = new ObjectInputStream(arSocket.getInputStream());
 		) {
-			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+			User u = new User("username","password");
+			
+			MyPacket<User> mp = new MyPacket<User>(u,User);
+			/*BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
 			String fromUser;
 			System.out.println("Enter role :");
@@ -171,7 +161,7 @@ public class AdmRadarClient {
 					}
 					System.out.println("Waiting for Captain");
 				}
-			}
+			}*/
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + hostName);
 			System.exit(1);

@@ -4,6 +4,8 @@ import javax.crypto.spec.*;
 import game.Maps;
 import game.Position;
 import game.Spaceship;
+import net.MyPacket;
+import ops.User;
 
 import javax.crypto.*;
 import java.net.*;
@@ -45,75 +47,108 @@ public class AdmRadarServer
 		public void run()
 		{
 			try {
-				AdmRadarProtocol arp = new AdmRadarProtocol();
-				
-				Maps m = new Maps();
-				m = arp.updateMap();
-				oos.writeUnshared(m);
-				oos.reset();
-				
-				String inputLine;
-				
-				inputLine = (String) ois.readUnshared();
-				
-				if(inputLine.equalsIgnoreCase("Captain"))
+				while(true)
 				{
-					Position p = new Position();
-					p = (Position) ois.readUnshared();
-
-					ship = new Spaceship();
-					ship.setPos(p);
-					spaceship.set(i,ship);
 					
-					oos.writeUnshared(spaceship.get(i));
+					Object inputObject;
+					if((inputObject = ois.readUnshared()) != null)
+					{
+						@SuppressWarnings("unchecked")
+						MyPacket<User> mp = (MyPacket<User>) inputObject;
+						
+							User u = mp.getObject();
+							String username = u.getUsername();
+							String encPassword = u.getEncryptedPassword();
+							
+							int success = login(username,encPassword);
+							u.loginSuccessful(success);
+							
+							if(success == 0)
+							{
+								u.setWins(getWins(username));
+								u.setLoss(getLosses(username));
+								u.setAvatar(getAvatar(username));
+								
+								oos.writeUnshared(u);
+								oos.reset();
+							}
+							else
+							{
+								oos.writeUnshared(u);
+								oos.reset();
+							}
+					}
+					
+					AdmRadarProtocol arp = new AdmRadarProtocol();
+					
+					Maps m = new Maps();
+					m = arp.updateMap();
+					oos.writeUnshared(m);
 					oos.reset();
 					
-					while(true)
+					String inputLine;
+					
+					inputLine = (String) ois.readUnshared();
+					
+					if(inputLine.equalsIgnoreCase("Captain"))
 					{
-						inputLine = (String) ois.readUnshared();
-						ship = spaceship.get(i);
-						ship = arp.processCommands(inputLine,ship);
+						Position p = new Position();
+						p = (Position) ois.readUnshared();
+	
+						ship = new Spaceship();
+						ship.setPos(p);
 						spaceship.set(i,ship);
+						
 						oos.writeUnshared(spaceship.get(i));
 						oos.reset();
 						
-						if (inputLine.equals("exit"))
+						while(true)
 						{
-							nPlayers--;
-							stopAllThreads();
-							break;
-						}
-						if(Thread.currentThread().isInterrupted())
-						{
-							break;
+							inputLine = (String) ois.readUnshared();
+							ship = spaceship.get(i);
+							ship = arp.processCommands(inputLine,ship);
+							spaceship.set(i,ship);
+							oos.writeUnshared(spaceship.get(i));
+							oos.reset();
+							
+							if (inputLine.equals("exit"))
+							{
+								nPlayers--;
+								stopAllThreads();
+								break;
+							}
+							if(Thread.currentThread().isInterrupted())
+							{
+								break;
+							}
 						}
 					}
-				}
-				else if(inputLine.equalsIgnoreCase("First Officer"))
-				{
-					ship = spaceship.get(i);
-					
-					oos.writeUnshared(spaceship.get(i));
-					oos.reset();
-					
-					while(true)
+					else if(inputLine.equalsIgnoreCase("First Officer"))
 					{
-						inputLine = (String) ois.readUnshared();
 						ship = spaceship.get(i);
-						ship = arp.processCommands(inputLine,ship);
-						spaceship.set(i,ship);
+						
 						oos.writeUnshared(spaceship.get(i));
 						oos.reset();
 						
-						if (inputLine.equals("exit"))
+						while(true)
 						{
-							nPlayers--;
-							stopAllThreads();
-							break;
-						}
-						if(Thread.currentThread().isInterrupted())
-						{
-							break;
+							inputLine = (String) ois.readUnshared();
+							ship = spaceship.get(i);
+							ship = arp.processCommands(inputLine,ship);
+							spaceship.set(i,ship);
+							oos.writeUnshared(spaceship.get(i));
+							oos.reset();
+							
+							if (inputLine.equals("exit"))
+							{
+								nPlayers--;
+								stopAllThreads();
+								break;
+							}
+							if(Thread.currentThread().isInterrupted())
+							{
+								break;
+							}
 						}
 					}
 				}
@@ -466,7 +501,7 @@ public class AdmRadarServer
 	[# Wins] - Success
 	-1 - Invalid Username
 	*/
-	public static int wins(String user) {
+	public static int getWins(String user) {
 
 		dbQuery DBobj = query("SELECT USERNAME, WINS FROM USER");
 
@@ -490,7 +525,7 @@ public class AdmRadarServer
 	[# Losses] - Success
 	-1 - Invalid Username
 	*/
-	public static int losses(String user) {
+	public static int getLosses(String user) {
 
 		dbQuery DBobj = query("SELECT USERNAME, LOSSES FROM USER");
 
