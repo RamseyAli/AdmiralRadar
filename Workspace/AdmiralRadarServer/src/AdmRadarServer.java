@@ -363,7 +363,7 @@ public class AdmRadarServer
 	1 - Invalid Username
 	2 - Invalid PIN
 	*/
-	public static int reset(String user, String pw, int pin) {
+	public static int resetPW(String user, String pw, int pin) {
 
 		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");
 
@@ -408,6 +408,30 @@ public class AdmRadarServer
 		return 1;
 
 	}
+	
+	/*
+	0 - Success
+	1 - Misc. Failure
+	*/
+	public static int resetURL(String user, String url) {
+		
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "UPDATE USER SET AVATAR = ? WHERE USERNAME = ?";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.setString(1, url);
+			preparedStmt.setString(2, user);
+			preparedStmt.executeUpdate();
+			//System.out.println("Prepared Statement: " + preparedStmt);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 1;
+		}
+		
+		return 0;
+
+	}
 
 	/*
 		Credit for encrpytion method goes to Java2S.com
@@ -441,7 +465,7 @@ public class AdmRadarServer
 	[url returned] - Success
 	ERROR - Invalid username / Misc.
 	*/
-	public static String avatarURL(String user) {
+	public static String getAvatarURL(String user) {
 
 		dbQuery DBobj = query("SELECT USERNAME, AVATAR FROM USER");
 
@@ -466,7 +490,7 @@ public class AdmRadarServer
 	[# Wins] - Success
 	-1 - Invalid Username
 	*/
-	public static int wins(String user) {
+	public static int getWins(String user) {
 
 		dbQuery DBobj = query("SELECT USERNAME, WINS FROM USER");
 
@@ -490,7 +514,7 @@ public class AdmRadarServer
 	[# Losses] - Success
 	-1 - Invalid Username
 	*/
-	public static int losses(String user) {
+	public static int getLosses(String user) {
 
 		dbQuery DBobj = query("SELECT USERNAME, LOSSES FROM USER");
 
@@ -509,6 +533,268 @@ public class AdmRadarServer
 		return -1;
 
 	}
+	
+	/*
+	 * Returns a List of formatted messages
+	 */
+	public static List<String> getTeamMessages(int teamID) {
+		dbQuery DBobj = query("SELECT USERNAME, TIMESTAMP, MESSAGE, TEAM_ID FROM TEAM_CHAT");
+		
+		List<String> messages = new ArrayList<String>();
+		
+		try {
+			while (DBobj.rs.next()) {
+				
+				int userTeam = DBobj.rs.getInt("TEAM_ID");
+				String username = DBobj.rs.getString("USERNAME");
+				String time = DBobj.rs.getString("TIMESTAMP").substring(11, 18);
+				String message = DBobj.rs.getString("MESSAGE");
+				
+				if (teamID == userTeam) {
+					messages.add(username + " [" + time + "]: " + message);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("There's an issue retrieving info. from query results");
+		}
+		DBobj.close();
+		return messages;
+	}
+	
+	/*
+	 * Returns a List of formatted messages
+	 */
+	public static List<String> getGlobalMessages() {
+		dbQuery DBobj = query("SELECT USERNAME, TIMESTAMP, MESSAGE FROM GLOBAL_CHAT");
+		
+		List<String> messages = new ArrayList<String>();
+		
+		try {
+			while (DBobj.rs.next()) {
+				
+				String username = DBobj.rs.getString("USERNAME");
+				String time = DBobj.rs.getString("TIMESTAMP").substring(11, 18);
+				String message = DBobj.rs.getString("MESSAGE");
+				
+				messages.add(username + " [" + time + "]: " + message);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("There's an issue retrieving info. from query results");
+		}
+		DBobj.close();
+		return messages;
+		
+	}
+	
+	/*
+	 * Returns a true boolean on successful message entry
+	 */
+	public static boolean sendTeamMessage(String username, String message, int teamID) {	
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "INSERT INTO TEAM_CHAT (USERNAME, MESSAGE, TEAM_ID) VALUES (?,?,?)";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.setString(1, username);
+			preparedStmt.setString(2, message);
+			preparedStmt.setInt(3, teamID);
+			preparedStmt.executeUpdate();
+			//System.out.println("Prepared Statement: " + preparedStmt);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		DBobj.close();
+		return true;
+	}
+	
+	/*
+	 * Returns a true boolean on successful message entry
+	 */
+	public static boolean sendGlobalMessage(String username, String message) {
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "INSERT INTO GLOBAL_CHAT (USERNAME, MESSAGE) VALUES (?,?)";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.setString(1, username);
+			preparedStmt.setString(2, message);
+			preparedStmt.executeUpdate();
+			//System.out.println("Prepared Statement: " + preparedStmt);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		DBobj.close();
+		return true;
+	}
+	
+	/*
+	 * Returns a true boolean on successful chat wipe
+	 */
+	public static boolean clearTeamMessages() {
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "TRUNCATE TEAM_CHAT";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		DBobj.close();
+		return true;
+	}
+	
+	/*
+	 * Returns a true boolean on successful chat wipe
+	 */
+	public static boolean clearGlobalMessages() {
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "TRUNCATE GLOBAL_CHAT";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		DBobj.close();
+		return true;
+	}
+	
+	/*
+	 *  >0 - the user's team_id
+	 *  0 - this user is not assigned to a team
+	 *  -1 - this user could not be found
+	 */
+	public static int getTeamID(String username) {
+		dbQuery DBobj = query("SELECT TEAM_ID, USERNAME FROM USER");
+		
+		try {
+			while (DBobj.rs.next()) {
+				
+				String user = DBobj.rs.getString("USERNAME");
+				int team_id = DBobj.rs.getInt("TEAM_ID");
+				
+				if (user.equals(username)) {
+					if (team_id != 0) {
+						return team_id;
+					} else {
+						return 0;
+					}
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("There's an issue retrieving info. from query results");
+		}
+		
+		DBobj.close();
+		return -1;
+	}
+	
+	/*
+	 * Will return true boolean upon successful update - if false, check that username and teamID exist
+	 */
+	public static boolean setTeamID(String username, int teamID) {
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "UPDATE USER SET TEAM_ID = ? WHERE USERNAME = ?";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.setInt(1, teamID);
+			preparedStmt.setString(2, username);
+			preparedStmt.executeUpdate();
+			//System.out.println("Prepared Statement: " + preparedStmt);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		DBobj.close();
+		return true;
+	}
+	
+	/*
+	 * Will return true boolean upon success TeamID reset
+	 */
+	public static boolean resetTeamID(String username) {
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "UPDATE USER SET TEAM_ID = NULL WHERE USERNAME = ?";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.setString(1, username);
+			preparedStmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		DBobj.close();
+		return true;
+	}
+	
+	/*
+	 *  >=0 - Returns value of team's health
+	 *  -1 - Could not find team with this ID
+	 */
+	public static int getTeamHealth(int teamID) {
+		dbQuery DBobj = query("SELECT HEALTH FROM TEAM");
+		
+		try {
+			while (DBobj.rs.next()) {
+				
+				int ID = DBobj.rs.getInt("ID");
+				
+				if (ID == teamID) {
+					return ID;
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("There's an issue retrieving info. from query results");
+		}
+		
+		DBobj.close();
+		return -1;
+	}
+	
+	/*
+	 * Will return true boolean upon successful health update
+	 */
+	public static boolean setTeamHealth(int teamID, int health) {
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "UPDATE TEAM SET HEALTH = ? WHERE ID = ?";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.setInt(1, health);
+			preparedStmt.setInt(2, teamID);
+			preparedStmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		DBobj.close();
+		return true;
+	}
+	
+	
+	
+	
 
 
 }
