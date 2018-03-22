@@ -3,11 +3,11 @@ package game;
 import java.net.*;
 import java.io.*;
 
-public class Maps implements Serializable
+public class GameMap implements Serializable
 {
 	Position [] asteroids = new Position[5];
 	
-	public Maps()
+	public GameMap()
 	{
 		asteroids[0] = new Position();
 		asteroids[0].setPosition(1,2);

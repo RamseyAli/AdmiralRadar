@@ -24,6 +24,7 @@ public class ConnectionManager implements Runnable{
 	MyPacketInputStream ois;
 	
 	GUIController interrupt;
+	
 	User u;
 	
 	
@@ -79,8 +80,9 @@ public class ConnectionManager implements Runnable{
 			
 			switch(x.getObject().getResult()){
 			case -1: return 2;
-			case 0: return 4;
-			case 1: return 5;
+			case 0: return 5;
+			case 1: return 4;
+			case 2: return 4;
 			}
 			
 			
@@ -115,6 +117,16 @@ public class ConnectionManager implements Runnable{
 			oos.sendUser(u);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		
+	}
+
+	public int ready() {
+		try {
+			oos.sendString("READY");
+			return 6;
+		} catch (IOException e) {
+			return 5;
 		}
 		
 	}

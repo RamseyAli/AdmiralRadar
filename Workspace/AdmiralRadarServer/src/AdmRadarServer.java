@@ -1,9 +1,13 @@
 
 import javax.crypto.spec.*;
 
-import game.Maps;
+import game.GameMap;
 import game.Position;
 import game.Spaceship;
+import net.MyPacket;
+import net.MyPacketInputStream;
+import net.MyPacketOutputStream;
+import ops.User;
 
 import javax.crypto.*;
 import java.net.*;
@@ -24,8 +28,8 @@ public class AdmRadarServer
 		BufferedReader reader;
 		Socket sock;
 		PrintWriter writer;
-		ObjectOutputStream oos;
-		ObjectInputStream ois;
+		MyPacketOutputStream mpos;
+		MyPacketInputStream mpis;
 		Spaceship ship;
 		int i;
 		
@@ -35,8 +39,8 @@ public class AdmRadarServer
 			try
 			{
 				sock = clientSock;
-				oos = new ObjectOutputStream(sock.getOutputStream());
-				ois = new ObjectInputStream(sock.getInputStream());
+				mpos = new MyPacketOutputStream(sock.getOutputStream());
+				mpis = new MyPacketInputStream(sock.getInputStream());
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -45,77 +49,107 @@ public class AdmRadarServer
 		public void run()
 		{
 			try {
-				AdmRadarProtocol arp = new AdmRadarProtocol();
-				
-				Maps m = new Maps();
-				m = arp.updateMap();
-				oos.writeUnshared(m);
-				oos.reset();
-				
-				String inputLine;
-				
-				inputLine = (String) ois.readUnshared();
-				
-				if(inputLine.equalsIgnoreCase("Captain"))
+				while(true)
 				{
-					Position p = new Position();
-					p = (Position) ois.readUnshared();
-
-					ship = new Spaceship();
-					ship.setPos(p);
-					spaceship.set(i,ship);
 					
-					oos.writeUnshared(spaceship.get(i));
+					Object inputObject;
+					if((inputObject = mpis.getNextUser()) != null)
+					{
+						//@SuppressWarnings("unchecked")
+						
+						User u = (User)inputObject;
+						String username = u.getUsername();
+						String encPassword = u.getEncryptedPassword();
+							
+						int success = login(username,encPassword);
+						u.loginSuccessful(success);
+						
+						if(success == 0)
+						{
+							u.setWins(getWins(username));
+							u.setLoss(getLosses(username));
+							u.setAvatar(getAvatar(username));
+								
+							mpos.sendUser(u);
+						}
+						else
+						{
+							mpos.sendUser(u);
+						}
+					}
+					
+					/*AdmRadarProtocol arp = new AdmRadarProtocol();
+					
+					GameMap m = new GameMap();
+					m = arp.updateMap();
+					oos.writeUnshared(m);
 					oos.reset();
 					
-					while(true)
+					String inputLine;
+					
+					inputLine = (String) ois.readUnshared();
+					
+					if(inputLine.equalsIgnoreCase("Captain"))
 					{
-						inputLine = (String) ois.readUnshared();
-						ship = spaceship.get(i);
-						ship = arp.processCommands(inputLine,ship);
+						Position p = new Position();
+						p = (Position) ois.readUnshared();
+	
+						ship = new Spaceship();
+						ship.setPos(p);
 						spaceship.set(i,ship);
+						
 						oos.writeUnshared(spaceship.get(i));
 						oos.reset();
 						
-						if (inputLine.equals("exit"))
+						while(true)
 						{
-							nPlayers--;
-							stopAllThreads();
-							break;
-						}
-						if(Thread.currentThread().isInterrupted())
-						{
-							break;
+							inputLine = (String) ois.readUnshared();
+							ship = spaceship.get(i);
+							ship = arp.processCommands(inputLine,ship);
+							spaceship.set(i,ship);
+							oos.writeUnshared(spaceship.get(i));
+							oos.reset();
+							
+							if (inputLine.equals("exit"))
+							{
+								nPlayers--;
+								stopAllThreads();
+								break;
+							}
+							if(Thread.currentThread().isInterrupted())
+							{
+								break;
+							}
 						}
 					}
-				}
-				else if(inputLine.equalsIgnoreCase("First Officer"))
-				{
-					ship = spaceship.get(i);
-					
-					oos.writeUnshared(spaceship.get(i));
-					oos.reset();
-					
-					while(true)
+					else if(inputLine.equalsIgnoreCase("First Officer"))
 					{
-						inputLine = (String) ois.readUnshared();
 						ship = spaceship.get(i);
-						ship = arp.processCommands(inputLine,ship);
-						spaceship.set(i,ship);
+						
 						oos.writeUnshared(spaceship.get(i));
 						oos.reset();
 						
-						if (inputLine.equals("exit"))
+						while(true)
 						{
-							nPlayers--;
-							stopAllThreads();
-							break;
+							inputLine = (String) ois.readUnshared();
+							ship = spaceship.get(i);
+							ship = arp.processCommands(inputLine,ship);
+							spaceship.set(i,ship);
+							oos.writeUnshared(spaceship.get(i));
+							oos.reset();
+							
+							if (inputLine.equals("exit"))
+							{
+								nPlayers--;
+								stopAllThreads();
+								break;
+							}
+							if(Thread.currentThread().isInterrupted())
+							{
+								break;
+							}
 						}
-						if(Thread.currentThread().isInterrupted())
-						{
-							break;
-						}
-					}
+					}*/
 				}
 			} catch(Exception ex) {
 				ex.printStackTrace();
@@ -532,6 +566,7 @@ public class AdmRadarServer
 		DBobj.close();
 		return -1;
 
+<<<<<<< HEAD
 	}
 	
 	/*
@@ -796,5 +831,12 @@ public class AdmRadarServer
 	
 	
 
+=======
+	} 
+>>>>>>> 6e49640ae96e8dd64e789f9dafce3a40ee3bcb04
 
+	public static String getAvatar(String user) {
+		//TODO BY RAMSEY
+		return "HAHA";
+	}
 }

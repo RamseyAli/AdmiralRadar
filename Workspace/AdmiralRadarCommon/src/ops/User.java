@@ -32,9 +32,12 @@ public class User implements Serializable{
 		return password_enc;
 	}
 	
-	public void loginSuccessful(boolean b){
-		if (b) success = 1;
-		else success = 0;
+	public void loginSuccessful(int s){
+		/* success = 0 : Login successful
+		 * success = 1 : Login failed Invalid Username
+		 * success = 2 : Login failed Invalid Password
+		 */
+		success = s;
 	}
 	
 	public int getResult(){

@@ -53,7 +53,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	JButton avatarButton;
 	
 	//Game Info Panel Declarations
-	JCheckBox ready;
+	JButton ready;
 	JLabel gameStatus;
 
 
@@ -109,8 +109,8 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		con.add(cxnStatus);
 
 		//Game Tab
-		ready = new JCheckBox("Ready to Play");
-		gameStatus = new JLabel("STATUS");
+		ready = new JButton("Ready to Play");
+		gameStatus = new JLabel("Not Ready");
 		
 		gameTab.add(ready);
 		gameTab.add(gameStatus);
@@ -239,6 +239,12 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			updateUserInfoPanel();
 
 		}
+		
+		else if (e.getSource() == ready){
+			setState(control.ready());
+			updateUserInfoPanel();
+			
+		}
 
 		repaint();
 
@@ -251,6 +257,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	// 3 - Connected to Server
 	// 4 - Not Logged In To Server
 	// 5 - Logged In 
+	// 6 - Waiting
 	public void setState(int i){
 		switch(i){
 		case 1: {
@@ -260,6 +267,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			log.setEnabled(false);
 			cxt.setEnabled(true);
 			tab.setEnabled(true);
+			ready.setEnabled(false);
 
 		} break;
 
@@ -270,6 +278,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			log.setEnabled(false);
 			cxt.setEnabled(true);
 			tab.setEnabled(false);
+			ready.setEnabled(false);
 
 		} break;
 
@@ -280,6 +289,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			log.setEnabled(true);
 			cxt.setEnabled(false);
 			tab.setEnabled(false);
+			ready.setEnabled(false);
 
 		} break;
 
@@ -290,6 +300,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			log.setEnabled(true);
 			cxt.setEnabled(false);
 			tab.setEnabled(false);
+			ready.setEnabled(false);
 
 		} break;
 
@@ -300,6 +311,20 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			log.setEnabled(false);
 			cxt.setEnabled(false);
 			tab.setEnabled(true);
+			ready.setEnabled(true);
+			updateUserInfoPanel();
+
+		} break;
+		
+		case 6: {
+			state = 6;
+			cxnStatus.setForeground(Color.GREEN);
+			cxnStatus.setText("Logged In");
+			log.setEnabled(false);
+			cxt.setEnabled(false);
+			tab.setEnabled(false);
+			ready.setEnabled(false);
+			gameStatus.setText("Waiting");
 			updateUserInfoPanel();
 
 		} break;
