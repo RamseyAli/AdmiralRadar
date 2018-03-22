@@ -68,7 +68,7 @@ public class AdmRadarServer
 						{
 							u.setWins(getWins(username));
 							u.setLoss(getLosses(username));
-							u.setAvatar(getAvatar(username));
+							u.setAvatar(getURL(username));
 								
 							mpos.sendUser(u);
 						}
@@ -447,7 +447,7 @@ public class AdmRadarServer
 	0 - Success
 	1 - Misc. Failure
 	*/
-	public static int resetURL(String user, String url) {
+	public static int setURL(String user, String url) {
 		
 		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
 		String query = "UPDATE USER SET AVATAR = ? WHERE USERNAME = ?";
@@ -499,7 +499,7 @@ public class AdmRadarServer
 	[url returned] - Success
 	ERROR - Invalid username / Misc.
 	*/
-	public static String getAvatarURL(String user) {
+	public static String getURL(String user) {
 
 		dbQuery DBobj = query("SELECT USERNAME, AVATAR FROM USER");
 
@@ -566,7 +566,6 @@ public class AdmRadarServer
 		DBobj.close();
 		return -1;
 
-<<<<<<< HEAD
 	}
 	
 	/*
@@ -829,14 +828,4 @@ public class AdmRadarServer
 	
 	
 	
-	
-
-=======
-	} 
->>>>>>> 6e49640ae96e8dd64e789f9dafce3a40ee3bcb04
-
-	public static String getAvatar(String user) {
-		//TODO BY RAMSEY
-		return "HAHA";
-	}
 }
