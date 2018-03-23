@@ -8,7 +8,7 @@ import java.io.*;
 
 public class AdmRadarProtocol
 {
-	private static final int NUMCOMMANDS = 0;
+	private static int NUMCOMMANDS = 0;
 	
 	GameMap map1;
 	
@@ -19,6 +19,7 @@ public class AdmRadarProtocol
 	
 	public Spaceship processCommands(String command,Spaceship ship)
 	{
+		NUMCOMMANDS++;
 		if (command.equalsIgnoreCase("NORTH"))
 		{
 			ship.getNextDirection("N");
@@ -59,7 +60,6 @@ public class AdmRadarProtocol
 		{
 			ship = null;
 		}
-	
 		return ship;
 	}
 	

@@ -11,14 +11,11 @@ import ops.User;
 
 public class TestClient {
 	static final int PORT = 12019;
-	// Variables //
-	private Socket primeSocket;
-
-	private Spaceship teamShip; // team's own spaceship, not opponents'
+	static final String HOST = "localhost";
 	
 	// Member Functions //
-	private void connect_Server(String hostName, int portNumber, String username, String password) throws Exception {
-		primeSocket = new Socket(hostName, portNumber);
+	/*private void connect_Server(String hostName, int portNumber, String username, String password) throws Exception {
+		//primeSocket = new Socket(hostName, portNumber);
 	}
 	
 	public void login(String ipAddress, String username, String password) {
@@ -30,36 +27,8 @@ public class TestClient {
 		{
 			// Connection failed, do something
 		}
-	} // TODO: Database stuff
-
-	public void sendCommands(String commandText) {
-	}
+	} // TODO: Database stuff*/
 	
-	public void sendMessages(String msg) {
-	}
-	public void getMessages() throws IOException {
-	}
-	
-	public Spaceship getShipObject(){
-		return teamShip;
-	}
-	
-	static int callClientTypeGUI(){
-		return 0;
-	}
-
-	public static void new_main(String[] args) throws IOException {
-		if (args.length != 2) {
-			System.err.println(
-				"Usage: java AdmRadarClient <host name> <port number>");
-			System.exit(1);
-		}
-		
-		//String hostName = args[0];
-		//int portNumber = Integer.parseInt(args[1]);
-	}
-	
-	// Temporary Test Main //
 	public static void main(String[] args) throws IOException {
 
 		/*if (args.length != 2) {
@@ -68,24 +37,63 @@ public class TestClient {
 			System.exit(1);
 		}*/
 
-		String hostName = "localhost";
-		int portNumber = 12019;
-
 		try (
-				Socket arSocket = new Socket(hostName, portNumber);
+				Socket arSocket = new Socket(HOST,PORT);
 				MyPacketOutputStream mpo = new MyPacketOutputStream(arSocket.getOutputStream());
 				MyPacketInputStream mpi = new MyPacketInputStream(arSocket.getInputStream());
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		) {
 			while(true)
 			{
-				User u = new User("username","password");
+				String username = br.readLine();
+				String password = br.readLine();
+				User u = new User(username,password);
 				mpo.sendUser(u);
 	
 				u = mpi.getNextUser();
+				System.out.println("Details:");
+				System.out.println(u.getUsername());
+				System.out.println(u.getEncryptedPassword());
+				System.out.println(u.getWins());
+				System.out.println(u.getLosses());
+				System.out.println(u.getAvatar());
+
 				int success = u.getResult();
 				if(success == 0)
 				{
 					System.out.println("Logged in");
+					while(true)
+					{
+						System.out.println("What do you want to do?");
+						System.out.println("1: Set details");
+						System.out.println("2: Ready for game");
+						System.out.println("3: Exit");
+						int action = Integer.parseInt(br.readLine());
+						if(action == 1)
+						{
+							System.out.println("You selected to set details");
+							u.setNewPassword("PASSWORD");
+							u.setAvatar("Avatar Kora");
+							mpo.sendUser(u);
+							u = mpi.getNextUser();
+							System.out.println("Details:");
+							System.out.println(u.getUsername());
+							System.out.println(u.getEncryptedPassword());
+							System.out.println(u.getWins());
+							System.out.println(u.getLosses());
+							System.out.println(u.getAvatar());
+						}
+						else if(action == 2)
+						{
+							mpo.sendString("READY");
+							String stats = mpi.getNextString();
+							System.out.println(stats);
+						}
+						else
+						{
+							break;
+						}
+					}
 				}
 				else if(success == 1)
 				{
@@ -183,10 +191,10 @@ public class TestClient {
 				}
 			}*/
 		} catch (UnknownHostException e) {
-			System.err.println("Don't know about host " + hostName);
+			System.err.println("Don't know about host " + HOST);
 			System.exit(1);
 		} catch (Exception e) {
-			System.err.println("Couldn't get I/O for the connection to " + hostName);
+			System.err.println("Couldn't get I/O for the connection to " + HOST);
 			System.exit(1);
 		}
 	}

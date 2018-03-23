@@ -19,7 +19,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 	
 	public Class<?> getClassOfNext() throws ClassNotFoundException, IOException{
 			buffer = ((MyPacket<?>) readObject());
-			return buffer.getClass();
+			return buffer.getObject().getClass();
 			
 		
 	}
@@ -27,7 +27,14 @@ public class MyPacketInputStream extends ObjectInputStream {
 	@SuppressWarnings("unchecked")
 	public User getNextUser() throws IOException {
 		try {
-			return ((MyPacket<User>) readObject()).getObject();
+			if(buffer == null)
+				return ((MyPacket<User>) readObject()).getObject();
+			else
+			{
+				MyPacket<?> temp = buffer;
+				buffer = null;
+				return ((MyPacket<User>)temp).getObject();
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
@@ -60,7 +67,14 @@ public class MyPacketInputStream extends ObjectInputStream {
 	@SuppressWarnings("unchecked")
 	public String getNextString() throws IOException {
 		try {
-			return ((MyPacket<String>) readObject()).getObject();
+			if(buffer == null)
+				return ((MyPacket<String>) readObject()).getObject();
+			else
+			{
+				MyPacket<?> temp = buffer;
+				buffer = null;
+				return ((MyPacket<String>)temp).getObject();
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
