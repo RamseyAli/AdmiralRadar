@@ -161,16 +161,15 @@ public class AdmRadarServer
 	public static void main(String[] args) throws IOException
 	{
         
-		if (args.length != 1)
+		/*if (args.length != 1)
 		{
 			System.err.println("Usage: java AdmRadarServer <port number>");
 			System.exit(1);
 		}
 		
-		nPlayers = 0;
 		//Database test
 
-		/*	String username = "TEST_USER";
+			String username = "TEST_USER";
 			String password = "test";
 			System.out.println("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
 			int result = login(username, password);
@@ -207,8 +206,8 @@ public class AdmRadarServer
 					System.out.println("ERROR: Reset Failed - Invalid PIN");
 				}
 			}*/
-		
-		int portNumber = Integer.parseInt(args[0]);
+		nPlayers = 0;
+		int portNumber = 12019;
 		new AdmRadarServer().go(portNumber);
 	}
 	

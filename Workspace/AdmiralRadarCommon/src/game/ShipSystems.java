@@ -1,11 +1,12 @@
 package game;
 
-import java.net.*;
 import java.io.*;
 import java.util.*;
 
 public class ShipSystems implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	int[] sonar = new int[2];
 	int[] missile = new int[2];
 	int[] mine = new int[2];

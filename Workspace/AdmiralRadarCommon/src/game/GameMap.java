@@ -1,11 +1,12 @@
 package game;
 
-import java.net.*;
 import java.io.*;
 
 public class GameMap implements Serializable
 {
-	Position [] asteroids = new Position[5];
+	private static final long serialVersionUID = 1L;
+	
+	private Position [] asteroids = new Position[5];
 	
 	public GameMap()
 	{

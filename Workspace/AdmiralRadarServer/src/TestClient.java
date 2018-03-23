@@ -62,14 +62,14 @@ public class TestClient {
 	// Temporary Test Main //
 	public static void main(String[] args) throws IOException {
 
-		if (args.length != 2) {
+		/*if (args.length != 2) {
 			System.err.println(
 					"Usage: java AdmRadarClient <host name> <port number>");
 			System.exit(1);
-		}
+		}*/
 
-		String hostName = args[0];
-		int portNumber = Integer.parseInt(args[1]);
+		String hostName = "localhost";
+		int portNumber = 12019;
 
 		try (
 				Socket arSocket = new Socket(hostName, portNumber);

@@ -1,10 +1,11 @@
 package game;
 
-import java.net.*;
 import java.io.*;
 
 public class Position implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	public int x; // Something Pano needs to run, (maybe) remove 'public' if your're not Pano
 	public int y; // Something Pano needs to run, (maybe) remove 'public' if your're not Pano
 	

@@ -1,10 +1,11 @@
 package game;
 
-import java.net.*;
 import java.io.*;
 
 public class Spaceship implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	Position pos;
 	String path;
 	int health;
