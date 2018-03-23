@@ -5,6 +5,9 @@ import game.GameMap;
 import game.Position;
 import game.ShipSystems;
 import game.Spaceship;
+import net.MyPacketInputStream;
+import net.MyPacketOutputStream;
+import ops.User;
 
 public class TestClient {
 	static final int PORT = 12019;
@@ -70,10 +73,29 @@ public class TestClient {
 
 		try (
 				Socket arSocket = new Socket(hostName, portNumber);
-				ObjectOutputStream os = new ObjectOutputStream(arSocket.getOutputStream());
-				ObjectInputStream is = new ObjectInputStream(arSocket.getInputStream());
+				MyPacketOutputStream mpo = new MyPacketOutputStream(arSocket.getOutputStream());
+				MyPacketInputStream mpi = new MyPacketInputStream(arSocket.getInputStream());
 		) {
-			
+			while(true)
+			{
+				User u = new User("username","password");
+				mpo.sendUser(u);
+	
+				u = mpi.getNextUser();
+				int success = u.getResult();
+				if(success == 0)
+				{
+					System.out.println("Logged in");
+				}
+				else if(success == 1)
+				{
+					System.out.println("Invallid Username");
+				}
+				else
+				{
+					System.out.println("Invalid Passsword");
+				}
+			}
 			/*BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
 			String fromUser;
