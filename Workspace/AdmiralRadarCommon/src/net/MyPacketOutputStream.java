@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
+import game.Position;
 import game.GameMap;
 import game.Role;
 import game.Spaceship;
@@ -18,6 +19,11 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 
 	public void sendUser(User u) throws IOException {
 		writeObject(new MyPacket<User>(u));
+		flush();
+	}
+	
+	public void sendPosition(Position p) throws IOException {
+		writeObject(new MyPacket<Position>(p));
 		flush();
 	}
 	

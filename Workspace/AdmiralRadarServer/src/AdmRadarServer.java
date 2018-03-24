@@ -1,20 +1,28 @@
 
-import javax.crypto.spec.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Properties;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import game.GameMap;
 import game.Position;
 import game.Role;
 import game.Spaceship;
-import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
-
-import javax.crypto.*;
-import java.net.*;
-import java.io.*;
-import java.sql.*;
-import java.util.*;
 
 public class AdmRadarServer
 {
@@ -22,18 +30,21 @@ public class AdmRadarServer
 	ArrayList<MyPacketInputStream> clientInputStreams;
 	ArrayList<Spaceship> gameShip;
 	static int nPlayers;
-	boolean gameOngoing;
+	static boolean gameOngoing;
+	static boolean moveComplete;
 	ServerSocket serverSocket;
+	static int turn;
 	
 	public class ClientHandler implements Runnable 
 	{
 		Socket sock;
 		MyPacketOutputStream mpos;
 		MyPacketInputStream mpis;
-		Spaceship ship;
 		int teamNo;
 		int turnNo;
+		GameMap map;
 		Role role;
+		Spaceship ship;
 		
 		public ClientHandler(Socket clientSock)
 		{
@@ -105,26 +116,127 @@ public class AdmRadarServer
 									turnNo = nPlayers%8;
 									nPlayers++;
 									
-									while(nPlayers <8)
+									while(nPlayers < 4)
 									{
 										mpos.sendString("WAITING");
 									}
 									
+									AdmRadarProtocol arp = new AdmRadarProtocol();
+									
+									map = new GameMap();
+									map = arp.updateMap();				
+									mpos.sendMap(map);
+									
 									if(turnNo == 7)
 									{
 										System.out.println("GAME BEGINS");
-										Spaceship initial = new Spaceship();
-										gameShip.add(0,initial);
-										gameShip.add(1,initial);
+										gameOngoing = true;
 									}
-									else if(turnNo  == 0 || turnNo == 3)
+									
+									if(turnNo  == 0 || turnNo == 4)
 									{
+										role = Role.CAPTAIN;
+										mpos.sendRole(role);
 										mpos.sendString("Enter initial location");
+										Position pos = mpis.getNextPosition();
+										ship = gameShip.get(teamNo);
+										ship.setPos(pos);
+										gameShip.set(teamNo, ship);
 									}
+									else if(turnNo == 1 || turnNo == 5)
+									{
+										role = Role.FIRST;
+										mpos.sendRole(role);
+									}
+									else if(turnNo == 2 || turnNo == 6)
+									{
+										role = Role.ENGINE;
+										mpos.sendRole(role);
+									}
+									else if(turnNo == 3 || turnNo == 7)
+									{
+										role = Role.RADIO;
+										mpos.sendRole(role);
+									}
+									
+									ship = gameShip.get(teamNo);
+									mpos.sendSpaceShip(ship);
 									
 									while(gameOngoing)
 									{
+										if(role == Role.RADIO)
+										{
+											break;
+										}
+										else
+										{
+											String str = "Your turn";
 										
+											if(turn == turnNo)
+											{
+												turn++;
+												if(turn == 3)
+												{
+													turn++;
+												}
+												else if(turn == 6)
+												{
+													turn = 0;
+												}
+												
+												ship = gameShip.get(teamNo);
+												
+												if(ship != null && (turnNo == 1 || turnNo == 2 || turnNo == 5 || turnNo == 6))
+													str = ship.getDirection();
+												
+												mpos.sendString(str);
+												
+												String action = mpis.getNextString();
+												arp.processCommands(action, ship);
+												gameShip.set(teamNo, ship);
+												
+												int i;
+												if(turnNo == 2 || turnNo == 6)
+												{
+													/*if(turnNo == 2)
+													{
+														for(i=0; i<3; i++)
+														{
+															clientOutputStreams.get(i).sendSpaceShip(gameShip.get(teamNo));
+														}
+														if(gameShip.get(teamNo) == null)
+															gameOngoing = false;
+													}
+													else if(turnNo == 6)
+													{
+														for(i=4; i<7; i++)
+														{
+															clientOutputStreams.get(i).sendSpaceShip(gameShip.get(teamNo));
+														}
+														if(gameShip.get(teamNo) == null)
+															gameOngoing = false;
+													}*/
+													moveComplete = true;
+												}
+												
+												while(!moveComplete)
+												{
+													//Do nothing
+												}
+												mpos.sendSpaceShip(gameShip.get(teamNo));
+												if(turnNo == 2 || turnNo == 6)
+												{
+													moveComplete = false;
+												}
+											}
+											else
+											{
+												if(!gameOngoing)
+													mpos.sendString("Game Ended");
+												else
+													mpos.sendString("Waiting for turn");
+											}
+										}
 									}
 								}
 								else
@@ -267,6 +379,9 @@ public class AdmRadarServer
 					System.out.println("ERROR: Reset Failed - Invalid PIN");
 				}
 			}*/
+		moveComplete = false;
+		gameOngoing = false;
+		turn = 0;
 		nPlayers = 0;
 		int portNumber = 12019;
 		new AdmRadarServer().go(portNumber);
@@ -277,6 +392,9 @@ public class AdmRadarServer
 		clientOutputStreams = new ArrayList<MyPacketOutputStream>();
 		clientInputStreams = new ArrayList<MyPacketInputStream>();
 		gameShip = new ArrayList<Spaceship>();
+		Spaceship initial = new Spaceship();
+		gameShip.add(0,initial);
+		gameShip.add(1,initial);
 		
 		try {
 			serverSocket = new ServerSocket(port);
@@ -284,12 +402,10 @@ public class AdmRadarServer
 			while(true)
 			{
 				Socket clientSocket = serverSocket.accept();
-				
+				System.out.println("Got a client");
 				Thread t = new Thread(new ClientHandler(clientSocket));
 				t.start();
-			}
-			
-			
+			}	
 		} catch (Exception e) {
 			System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
 			System.out.println(e.getMessage());

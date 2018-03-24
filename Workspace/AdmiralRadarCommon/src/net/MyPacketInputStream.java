@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 
+import game.Position;
 import game.GameMap;
 import game.Role;
 import game.Spaceship;
@@ -45,7 +46,14 @@ public class MyPacketInputStream extends ObjectInputStream {
 	@SuppressWarnings("unchecked")
 	public Spaceship getNextSpaceship() throws IOException {
 		try {
-			return ((MyPacket<Spaceship>) readObject()).getObject();
+			if(buffer == null)
+				return ((MyPacket<Spaceship>) readObject()).getObject();
+			else
+			{
+				MyPacket<?> temp = buffer;
+				buffer = null;
+				return ((MyPacket<Spaceship>)temp).getObject();
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
@@ -56,7 +64,32 @@ public class MyPacketInputStream extends ObjectInputStream {
 	@SuppressWarnings("unchecked")
 	public GameMap getNextMap() throws IOException {
 		try {
-			return ((MyPacket<GameMap>) readObject()).getObject();
+			if(buffer == null)
+				return ((MyPacket<GameMap>) readObject()).getObject();
+			else
+			{
+				MyPacket<?> temp = buffer;
+				buffer = null;
+				return ((MyPacket<GameMap>)temp).getObject();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public Position getNextPosition() throws IOException {
+		try {
+			if(buffer == null)
+				return ((MyPacket<Position>) readObject()).getObject();
+			else
+			{
+				MyPacket<?> temp = buffer;
+				buffer = null;
+				return ((MyPacket<Position>)temp).getObject();
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;
@@ -85,7 +118,14 @@ public class MyPacketInputStream extends ObjectInputStream {
 	@SuppressWarnings("unchecked")
 	public Role getNextRole() throws IOException {
 		try {
-			return ((MyPacket<Role>) readObject()).getObject();
+			if(buffer == null)
+				return ((MyPacket<Role>) readObject()).getObject();
+			else
+			{
+				MyPacket<?> temp = buffer;
+				buffer = null;
+				return ((MyPacket<Role>)temp).getObject();
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return null;

@@ -1,15 +1,24 @@
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import game.GameMap;
 import game.Position;
-import game.ShipSystems;
+import game.Role;
 import game.Spaceship;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
 
 public class TestClient {
+	
+	static GameMap map;
+	static Spaceship ship;
+	static Role role;
 	static final int PORT = 12019;
 	static final String HOST = "localhost";
 	
@@ -86,8 +95,72 @@ public class TestClient {
 						else if(action == 2)
 						{
 							mpo.sendString("READY");
-							String stats = mpi.getNextString();
-							System.out.println(stats);
+														
+							String strInput,strOutput;
+							
+							while(mpi.getClassOfNext().equals(String.class))
+							{
+								System.out.println(mpi.getNextString());
+							}
+							
+							map = mpi.getNextMap();
+							map.printAsteroids();
+							
+							role = mpi.getNextRole();
+							
+							if(role == Role.CAPTAIN)
+							{
+								int x,y;
+								System.out.println(mpi.getNextString());
+								System.out.println("Enter x");
+								x = Integer.parseInt(br.readLine());
+								System.out.println("Enter y");
+								y = Integer.parseInt(br.readLine());
+								Position pos = new Position();
+								pos.setPosition(x, y);
+								mpo.sendPosition(pos);
+							}
+							
+							ship = mpi.getNextSpaceship();
+							
+							if(role == Role.RADIO)
+							{
+								while(true)
+								{
+									System.out.println("Not implemented yet");
+									break;
+								}
+							}
+							else
+							{
+								while(true)
+								{
+									strInput = mpi.getNextString();
+									if(strInput.equals("Waiting for turn"))
+									{
+										System.out.println(strInput);
+									}
+									else if(strInput.equals("Game Ended"))
+									{
+										System.out.println(strInput);
+										System.out.println("Your Team Won");
+										break;
+									}
+									else
+									{
+										System.out.println(strInput);
+										strOutput = br.readLine();
+										mpo.sendString(strOutput);
+										ship = mpi.getNextSpaceship();
+										if(ship == null)
+										{
+											System.out.println("Game Ended");
+											System.out.println("You Lost");
+											break;
+										}
+									}
+								}
+							}
 						}
 						else
 						{
@@ -192,9 +265,11 @@ public class TestClient {
 			}*/
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + HOST);
+			e.printStackTrace();
 			System.exit(1);
 		} catch (Exception e) {
 			System.err.println("Couldn't get I/O for the connection to " + HOST);
+			e.printStackTrace();
 			System.exit(1);
 		}
 	}

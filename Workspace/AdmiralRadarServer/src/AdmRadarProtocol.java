@@ -1,10 +1,6 @@
 
-import java.net.*;
-
 import game.GameMap;
 import game.Spaceship;
-
-import java.io.*;
 
 public class AdmRadarProtocol
 {
@@ -19,42 +15,61 @@ public class AdmRadarProtocol
 	
 	public Spaceship processCommands(String command,Spaceship ship)
 	{
+		if(ship == null)
+			return null;
+		
 		NUMCOMMANDS++;
 		if (command.equalsIgnoreCase("NORTH"))
 		{
-			ship.getNextDirection("N");
+			ship.setDirection("N");
 		}
 		else if (command.equalsIgnoreCase("SOUTH"))
 		{
-			ship.getNextDirection("S");
+			ship.setDirection("S");
 		}
 		else if (command.equalsIgnoreCase("EAST"))
 		{
-			ship.getNextDirection("E");
+			ship.setDirection("E");
 		}
 		else if (command.equalsIgnoreCase("WEST"))
 		{
-			ship.getNextDirection("W");
+			ship.setDirection("W");
 		}
-		else if (command.equalsIgnoreCase("Charge Sonar"))
+		else if (command.equalsIgnoreCase("Sonar"))
 		{
 			ship.chargeSystem("Sonar");
 		}
-		else if (command.equalsIgnoreCase("Charge Missile"))
+		else if (command.equalsIgnoreCase("Missile"))
 		{
 			ship.chargeSystem("Missile");
 		}
-		else if (command.equalsIgnoreCase("Charge Mine"))
+		else if (command.equalsIgnoreCase("Mine"))
 		{
 			ship.chargeSystem("Mine");
 		}
-		else if (command.equalsIgnoreCase("Charge Drone"))
+		else if (command.equalsIgnoreCase("Drone"))
 		{
 			ship.chargeSystem("Drone");
 		}
-		else if (command.equalsIgnoreCase("Charge Silent"))
+		else if (command.equalsIgnoreCase("Silent"))
 		{
 			ship.chargeSystem("Silent");
+		}
+		else if (command.equalsIgnoreCase("Weapons"))
+		{
+			
+		}
+		else if (command.equalsIgnoreCase("Surveillance"))
+		{
+			
+		}
+		else if (command.equalsIgnoreCase("Stealth"))
+		{
+			
+		}
+		else if (command.equalsIgnoreCase("Radiation"))
+		{
+			
 		}
 		else if (command.equalsIgnoreCase("exit"))
 		{

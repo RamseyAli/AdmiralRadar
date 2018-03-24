@@ -8,6 +8,7 @@ public class Spaceship implements Serializable
 	
 	Position pos;
 	String path;
+	String nextDir;
 	int health;
 	ShipSystems systems;
 
@@ -24,8 +25,9 @@ public class Spaceship implements Serializable
 		pos = p;
 	}
 	
-	public void getNextDirection(String dir)
+	public void setDirection(String dir)
 	{
+		nextDir = dir;
 		path = path+" "+dir;
 		if (dir.equalsIgnoreCase("N"))
 		{
@@ -75,17 +77,22 @@ public class Spaceship implements Serializable
 	{
 		return path;
 	}
-
+	
 	public Position getPosition()
 	{
 		return pos;
 	}
-
+	
 	public int getHealth()
 	{
 		return health;
 	}
-
+	
+	public String getDirection()
+	{
+		return nextDir;
+	}
+	
 	public ShipSystems getShipSystem()
 	{
 		return systems;
