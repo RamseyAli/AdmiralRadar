@@ -1,46 +1,62 @@
 
-import javax.crypto.spec.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Properties;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import game.GameMap;
 import game.Position;
+import game.Role;
 import game.Spaceship;
-import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
 
-import javax.crypto.*;
-import java.net.*;
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-
 public class AdmRadarServer
 {
-	ArrayList<PrintWriter> clientOutputStreams;
-	ArrayList<BufferedReader> clientInputStreams;
-	ArrayList<Thread> clientThreads;
-	ArrayList<Spaceship> spaceship;
+	ArrayList<MyPacketOutputStream> clientOutputStreams;
+	ArrayList<MyPacketInputStream> clientInputStreams;
+	ArrayList<Spaceship> gameShip;
 	static int nPlayers;
-
+	static boolean gameOngoing;
+	static boolean moveComplete;
+	ServerSocket serverSocket;
+	static int turn;
+	
 	public class ClientHandler implements Runnable 
 	{
-		BufferedReader reader;
 		Socket sock;
-		PrintWriter writer;
 		MyPacketOutputStream mpos;
 		MyPacketInputStream mpis;
+		int teamNo;
+		int turnNo;
+		GameMap map;
+		Role role;
 		Spaceship ship;
-		int i;
 		
-		public ClientHandler(Socket clientSock,int index)
+		public ClientHandler(Socket clientSock)
 		{
-			i = index;
 			try
 			{
+				teamNo = -1;
+				turnNo = -1;
 				sock = clientSock;
 				mpos = new MyPacketOutputStream(sock.getOutputStream());
+				clientOutputStreams.add(mpos);
 				mpis = new MyPacketInputStream(sock.getInputStream());
+				clientInputStreams.add(mpis);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -60,17 +76,174 @@ public class AdmRadarServer
 						User u = (User)inputObject;
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
-							
-						int success = login(username,encPassword);
+						
+						int success = -1; //= login(username,encPassword);
+						if(username.equals("username") && encPassword.equals("password"))
+							success = 0;
 						u.loginSuccessful(success);
 						
 						if(success == 0)
 						{
-							u.setWins(getWins(username));
-							u.setLoss(getLosses(username));
-							u.setAvatar(getURL(username));
-								
+							u.setWins(10);//getWins(username));
+							u.setLoss(10);//getLosses(username));
+							u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");//getURL(username));
+							
 							mpos.sendUser(u);
+							
+							while(true)
+							{
+								Class<?> temp = mpis.getClassOfNext();
+								if(temp.equals(User.class))
+								{
+									inputObject = mpis.getNextUser();
+									u = (User)inputObject;
+									//resetPW(username,u.getEncryptedPassword(),1);
+									//setURL(username,u.getAvatar());
+									mpos.sendUser(u);
+								}
+								else if(temp.equals(String.class))
+								{
+									inputObject = mpis.getNextString();
+									//String s = (String)inputObject;
+									if(nPlayers == 0)
+									{
+										System.out.println("GAME LOBBY");
+										System.out.println("Error: Not enough players");
+										System.out.println("Game Mode: Turn Based");
+									}
+									
+									teamNo = nPlayers/4;
+									turnNo = nPlayers%8;
+									nPlayers++;
+									
+									while(nPlayers < 4)
+									{
+										mpos.sendString("WAITING");
+									}
+									
+									AdmRadarProtocol arp = new AdmRadarProtocol();
+									
+									map = new GameMap();
+									map = arp.updateMap();				
+									mpos.sendMap(map);
+									
+									if(turnNo == 7)
+									{
+										System.out.println("GAME BEGINS");
+										gameOngoing = true;
+									}
+									
+									if(turnNo  == 0 || turnNo == 4)
+									{
+										role = Role.CAPTAIN;
+										mpos.sendRole(role);
+										mpos.sendString("Enter initial location");
+										Position pos = mpis.getNextPosition();
+										ship = gameShip.get(teamNo);
+										ship.setPos(pos);
+										gameShip.set(teamNo, ship);
+									}
+									else if(turnNo == 1 || turnNo == 5)
+									{
+										role = Role.FIRST;
+										mpos.sendRole(role);
+									}
+									else if(turnNo == 2 || turnNo == 6)
+									{
+										role = Role.ENGINE;
+										mpos.sendRole(role);
+									}
+									else if(turnNo == 3 || turnNo == 7)
+									{
+										role = Role.RADIO;
+										mpos.sendRole(role);
+									}
+									
+									ship = gameShip.get(teamNo);
+									mpos.sendSpaceShip(ship);
+									
+									while(gameOngoing)
+									{
+										if(role == Role.RADIO)
+										{
+											break;
+										}
+										else
+										{
+											String str = "Your turn";
+										
+											if(turn == turnNo)
+											{
+												turn++;
+												if(turn == 3)
+												{
+													turn++;
+												}
+												else if(turn == 6)
+												{
+													turn = 0;
+												}
+												
+												ship = gameShip.get(teamNo);
+												
+												if(ship != null && (turnNo == 1 || turnNo == 2 || turnNo == 5 || turnNo == 6))
+													str = ship.getDirection();
+												
+												mpos.sendString(str);
+												
+												String action = mpis.getNextString();
+												arp.processCommands(action, ship);
+												gameShip.set(teamNo, ship);
+												
+												int i;
+												if(turnNo == 2 || turnNo == 6)
+												{
+													/*if(turnNo == 2)
+													{
+														for(i=0; i<3; i++)
+														{
+															clientOutputStreams.get(i).sendSpaceShip(gameShip.get(teamNo));
+														}
+														if(gameShip.get(teamNo) == null)
+															gameOngoing = false;
+													}
+													else if(turnNo == 6)
+													{
+														for(i=4; i<7; i++)
+														{
+															clientOutputStreams.get(i).sendSpaceShip(gameShip.get(teamNo));
+														}
+														if(gameShip.get(teamNo) == null)
+															gameOngoing = false;
+													}*/
+													moveComplete = true;
+												}
+												
+												while(!moveComplete)
+												{
+													//Do nothing
+												}
+												mpos.sendSpaceShip(gameShip.get(teamNo));
+												if(turnNo == 2 || turnNo == 6)
+												{
+													moveComplete = false;
+												}
+											}
+											else
+											{
+												if(!gameOngoing)
+													mpos.sendString("Game Ended");
+												else
+													mpos.sendString("Waiting for turn");
+											}
+										}
+									}
+								}
+								else
+								{
+									mpos.sendString("Naughty");
+								}
+							}
 						}
 						else
 						{
@@ -161,16 +334,15 @@ public class AdmRadarServer
 	public static void main(String[] args) throws IOException
 	{
         
-		if (args.length != 1)
+		/*if (args.length != 1)
 		{
 			System.err.println("Usage: java AdmRadarServer <port number>");
 			System.exit(1);
 		}
 		
-		nPlayers = 0;
 		//Database test
 
-		/*	String username = "TEST_USER";
+			String username = "TEST_USER";
 			String password = "test";
 			System.out.println("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
 			int result = login(username, password);
@@ -207,60 +379,50 @@ public class AdmRadarServer
 					System.out.println("ERROR: Reset Failed - Invalid PIN");
 				}
 			}*/
-		
-		int portNumber = Integer.parseInt(args[0]);
+		moveComplete = false;
+		gameOngoing = false;
+		turn = 0;
+		nPlayers = 0;
+		int portNumber = 12019;
 		new AdmRadarServer().go(portNumber);
 	}
 	
 	public void go(int port)
 	{
-		clientOutputStreams = new ArrayList<PrintWriter>();
-		clientInputStreams = new ArrayList<BufferedReader>();
-		clientThreads = new ArrayList<Thread>();
-		spaceship = new ArrayList<Spaceship>();
+		clientOutputStreams = new ArrayList<MyPacketOutputStream>();
+		clientInputStreams = new ArrayList<MyPacketInputStream>();
+		gameShip = new ArrayList<Spaceship>();
+		Spaceship initial = new Spaceship();
+		gameShip.add(0,initial);
+		gameShip.add(1,initial);
 		
-		System.out.println("GAME LOBBY");
-		System.out.println("Error: Not enough players");
-		System.out.println("Game Mode: Turn Based");
 		try {
-			ServerSocket serverSocket = new ServerSocket(port);
+			serverSocket = new ServerSocket(port);
 			
 			while(true)
 			{
 				Socket clientSocket = serverSocket.accept();
-				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-				clientOutputStreams.add(out);
-				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-				clientInputStreams.add(in);
-				
-				Thread t = new Thread(new ClientHandler(clientSocket,nPlayers%2));
-				clientThreads.add(nPlayers,t);
-				nPlayers++;
-				
-				System.out.println("Got a player");
-				if(nPlayers < 4)
-				{
-					System.out.println("Waiting for other players...");
-				}
-				else if(nPlayers == 4)
-				{
-					System.out.println("GAME BEGINS");
-					Spaceship initial = new Spaceship();
-					spaceship.add(0,initial);
-					spaceship.add(1,initial);
-					for(Thread t1:clientThreads)
-					{
-						t1.start();
-					}
-				}
-			}
+				System.out.println("Got a client");
+				Thread t = new Thread(new ClientHandler(clientSocket));
+				t.start();
+			}	
 		} catch (Exception e) {
 			System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
 			System.out.println(e.getMessage());
+			if (serverSocket != null && !serverSocket.isClosed())
+			{
+		        try
+		        {
+		            serverSocket.close();
+		        } catch (IOException ex)
+		        {
+		            ex.printStackTrace(System.err);
+		        }
+		    }
 		}
 	}
 	
-	public void stopAllThreads()
+	/*public void stopAllThreads()
 	{
 		for (Thread t1 : clientThreads)
 		{
@@ -273,7 +435,7 @@ public class AdmRadarServer
 			}
 		}
 		System.out.println("GAME ENDED");
-        }
+        }*/
 	
 	public static class dbQuery {
 		Connection conn = null;
@@ -481,7 +643,7 @@ public class AdmRadarServer
 			ecipher.init(Cipher.ENCRYPT_MODE, key);
 		}
 
-		@SuppressWarnings("restriction")
+		//@SuppressWarnings("restriction")
 		public String encrypt(String str) throws Exception {
 			// Encode the string into bytes using utf-8
 			byte[] utf8 = str.getBytes("UTF8");
@@ -824,8 +986,6 @@ public class AdmRadarServer
 		
 		DBobj.close();
 		return true;
-	}
-	
-	
+	}	
 	
 }

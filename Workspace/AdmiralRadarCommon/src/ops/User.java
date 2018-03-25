@@ -70,4 +70,10 @@ public class User implements Serializable{
 		wins = i;
 		
 	}
+	
+	public void setNewPassword(String password)
+	{
+		password_enc = password;
+		
+	}
 }

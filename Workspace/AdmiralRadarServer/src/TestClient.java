@@ -1,21 +1,30 @@
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import game.GameMap;
 import game.Position;
-import game.ShipSystems;
+import game.Role;
 import game.Spaceship;
+import net.MyPacketInputStream;
+import net.MyPacketOutputStream;
+import ops.User;
 
 public class TestClient {
+	
+	static GameMap map;
+	static Spaceship ship;
+	static Role role;
 	static final int PORT = 12019;
-	// Variables //
-	private Socket primeSocket;
-
-	private Spaceship teamShip; // team's own spaceship, not opponents'
+	static final String HOST = "localhost";
 	
 	// Member Functions //
-	private void connect_Server(String hostName, int portNumber, String username, String password) throws Exception {
-		primeSocket = new Socket(hostName, portNumber);
+	/*private void connect_Server(String hostName, int portNumber, String username, String password) throws Exception {
+		//primeSocket = new Socket(hostName, portNumber);
 	}
 	
 	public void login(String ipAddress, String username, String password) {
@@ -27,53 +36,147 @@ public class TestClient {
 		{
 			// Connection failed, do something
 		}
-	} // TODO: Database stuff
-
-	public void sendCommands(String commandText) {
-	}
+	} // TODO: Database stuff*/
 	
-	public void sendMessages(String msg) {
-	}
-	public void getMessages() throws IOException {
-	}
-	
-	public Spaceship getShipObject(){
-		return teamShip;
-	}
-	
-	static int callClientTypeGUI(){
-		return 0;
-	}
-
-	public static void new_main(String[] args) throws IOException {
-		if (args.length != 2) {
-			System.err.println(
-				"Usage: java AdmRadarClient <host name> <port number>");
-			System.exit(1);
-		}
-		
-		//String hostName = args[0];
-		//int portNumber = Integer.parseInt(args[1]);
-	}
-	
-	// Temporary Test Main //
 	public static void main(String[] args) throws IOException {
 
-		if (args.length != 2) {
+		/*if (args.length != 2) {
 			System.err.println(
 					"Usage: java AdmRadarClient <host name> <port number>");
 			System.exit(1);
-		}
-
-		String hostName = args[0];
-		int portNumber = Integer.parseInt(args[1]);
+		}*/
 
 		try (
-				Socket arSocket = new Socket(hostName, portNumber);
-				ObjectOutputStream os = new ObjectOutputStream(arSocket.getOutputStream());
-				ObjectInputStream is = new ObjectInputStream(arSocket.getInputStream());
+				Socket arSocket = new Socket(HOST,PORT);
+				MyPacketOutputStream mpo = new MyPacketOutputStream(arSocket.getOutputStream());
+				MyPacketInputStream mpi = new MyPacketInputStream(arSocket.getInputStream());
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		) {
-			
+			while(true)
+			{
+				String username = br.readLine();
+				String password = br.readLine();
+				User u = new User(username,password);
+				mpo.sendUser(u);
+	
+				u = mpi.getNextUser();
+				System.out.println("Details:");
+				System.out.println(u.getUsername());
+				System.out.println(u.getEncryptedPassword());
+				System.out.println(u.getWins());
+				System.out.println(u.getLosses());
+				System.out.println(u.getAvatar());
+
+				int success = u.getResult();
+				if(success == 0)
+				{
+					System.out.println("Logged in");
+					while(true)
+					{
+						System.out.println("What do you want to do?");
+						System.out.println("1: Set details");
+						System.out.println("2: Ready for game");
+						System.out.println("3: Exit");
+						int action = Integer.parseInt(br.readLine());
+						if(action == 1)
+						{
+							System.out.println("You selected to set details");
+							u.setNewPassword("PASSWORD");
+							u.setAvatar("Avatar Kora");
+							mpo.sendUser(u);
+							u = mpi.getNextUser();
+							System.out.println("Details:");
+							System.out.println(u.getUsername());
+							System.out.println(u.getEncryptedPassword());
+							System.out.println(u.getWins());
+							System.out.println(u.getLosses());
+							System.out.println(u.getAvatar());
+						}
+						else if(action == 2)
+						{
+							mpo.sendString("READY");
+														
+							String strInput,strOutput;
+							
+							while(mpi.getClassOfNext().equals(String.class))
+							{
+								System.out.println(mpi.getNextString());
+							}
+							
+							map = mpi.getNextMap();
+							map.printAsteroids();
+							
+							role = mpi.getNextRole();
+							
+							if(role == Role.CAPTAIN)
+							{
+								int x,y;
+								System.out.println(mpi.getNextString());
+								System.out.println("Enter x");
+								x = Integer.parseInt(br.readLine());
+								System.out.println("Enter y");
+								y = Integer.parseInt(br.readLine());
+								Position pos = new Position();
+								pos.setPosition(x, y);
+								mpo.sendPosition(pos);
+							}
+							
+							ship = mpi.getNextSpaceship();
+							
+							if(role == Role.RADIO)
+							{
+								while(true)
+								{
+									System.out.println("Not implemented yet");
+									break;
+								}
+							}
+							else
+							{
+								while(true)
+								{
+									strInput = mpi.getNextString();
+									if(strInput.equals("Waiting for turn"))
+									{
+										System.out.println(strInput);
+									}
+									else if(strInput.equals("Game Ended"))
+									{
+										System.out.println(strInput);
+										System.out.println("Your Team Won");
+										break;
+									}
+									else
+									{
+										System.out.println(strInput);
+										strOutput = br.readLine();
+										mpo.sendString(strOutput);
+										ship = mpi.getNextSpaceship();
+										if(ship == null)
+										{
+											System.out.println("Game Ended");
+											System.out.println("You Lost");
+											break;
+										}
+									}
+								}
+							}
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+				else if(success == 1)
+				{
+					System.out.println("Invallid Username");
+				}
+				else
+				{
+					System.out.println("Invalid Passsword");
+				}
+			}
 			/*BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
 			String fromUser;
@@ -161,10 +264,12 @@ public class TestClient {
 				}
 			}*/
 		} catch (UnknownHostException e) {
-			System.err.println("Don't know about host " + hostName);
+			System.err.println("Don't know about host " + HOST);
+			e.printStackTrace();
 			System.exit(1);
 		} catch (Exception e) {
-			System.err.println("Couldn't get I/O for the connection to " + hostName);
+			System.err.println("Couldn't get I/O for the connection to " + HOST);
+			e.printStackTrace();
 			System.exit(1);
 		}
 	}

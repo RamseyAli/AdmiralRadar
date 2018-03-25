@@ -1,10 +1,10 @@
 package game;
 
-import java.net.*;
 import java.io.*;
 
 public class Spaceship implements Serializable
 {
+
 	private Position pos;
 	private String path;
 	
@@ -12,6 +12,11 @@ public class Spaceship implements Serializable
 	public static final int MAX_HEALTH 	= 4;
 	
 	private ShipSystems systems;
+
+	private static final long serialVersionUID = 1L;
+	
+	String nextDir;
+
 
 	public Spaceship()
 	{
@@ -26,8 +31,9 @@ public class Spaceship implements Serializable
 		pos = p;
 	}
 	
-	public void getNextDirection(String dir)
+	public void setDirection(String dir)
 	{
+		nextDir = dir;
 		path = path+" "+dir;
 		if (dir.equalsIgnoreCase("N"))
 		{
@@ -53,17 +59,18 @@ public class Spaceship implements Serializable
 	{
 		return path;
 	}
-
+	
 	public Position getPosition()
 	{
 		return pos;
 	}
-
+	
 	public int getHealth()
 	{
 		return health;
 	}
 	
+
 	public void removeHealth(int valueToRemove) {
 		health = (health - valueToRemove < 0 ? 0 
 				: health - valueToRemove);
@@ -74,6 +81,12 @@ public class Spaceship implements Serializable
 				: health + valueToAdd);
 	}
 
+
+	public String getDirection()
+	{
+		return nextDir;
+	}
+	
 	public ShipSystems getShipSystem()
 	{
 		return systems;
