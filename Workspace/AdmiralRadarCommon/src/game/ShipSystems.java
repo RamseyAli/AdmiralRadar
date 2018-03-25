@@ -252,7 +252,7 @@ public class ShipSystems implements Serializable {
 	}
 	
 	public boolean isCompEnabled(int comp) {
-		return sysComponents[comp] = ENABLED;
+		return sysComponents[comp] == ENABLED;
 	}
 	
 	public void printSystems() {
