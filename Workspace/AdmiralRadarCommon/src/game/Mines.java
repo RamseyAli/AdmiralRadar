@@ -18,18 +18,18 @@ public class Mines {
             if (currentMine.equals(mine)) {
                 for (Spaceship ship : ships) {
                     // SAME POSITION
-                    if (ship.pos.x == currentMine.x && ship.pos.y == currentMine.y)
-                        ship.health -= 2;
+                    if (ship.getPosition().x == currentMine.x && ship.getPosition().y == currentMine.y)
+                        ship.removeHealth(2);
                     // CORNERS
-                    else if ((ship.pos.x + 1 == currentMine.x + 1 && ship.pos.y == currentMine.y)         ||
-                             (ship.pos.x + 1 == currentMine.x + 1 && ship.pos.y + 1 == currentMine.y + 1) ||
-                             (ship.pos.x == currentMine.x && ship.pos.y + 1 == currentMine.y + 1)         ||
-                             (ship.pos.x - 1 == currentMine.x - 1 && ship.pos.y + 1 == currentMine.y + 1) ||
-                             (ship.pos.x - 1 == currentMine.x - 1 && ship.pos.y == currentMine.y)         ||
-                             (ship.pos.x - 1 == currentMine.x - 1 && ship.pos.y - 1 == currentMine.y - 1) ||
-                             (ship.pos.x == currentMine.x && ship.pos.y - 1 == currentMine.y - 1)         ||
-                             (ship.pos.x + 1 == currentMine.x + 1 && ship.pos.y - 1 == currentMine.y - 1)) {
-                        ship.health -= 1;
+                    else if ((ship.getPosition().x + 1 == currentMine.x + 1 && ship.getPosition().y == currentMine.y)         ||
+                             (ship.getPosition().x + 1 == currentMine.x + 1 && ship.getPosition().y + 1 == currentMine.y + 1) ||
+                             (ship.getPosition().x == currentMine.x && ship.getPosition().y + 1 == currentMine.y + 1)         ||
+                             (ship.getPosition().x - 1 == currentMine.x - 1 && ship.getPosition().y + 1 == currentMine.y + 1) ||
+                             (ship.getPosition().x - 1 == currentMine.x - 1 && ship.getPosition().y == currentMine.y)         ||
+                             (ship.getPosition().x - 1 == currentMine.x - 1 && ship.getPosition().y - 1 == currentMine.y - 1) ||
+                             (ship.getPosition().x == currentMine.x && ship.getPosition().y - 1 == currentMine.y - 1)         ||
+                             (ship.getPosition().x + 1 == currentMine.x + 1 && ship.getPosition().y - 1 == currentMine.y - 1)) {
+                        ship.removeHealth(1);
                     }
                 }
                 mines.remove(currentMine);

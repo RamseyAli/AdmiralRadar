@@ -23,7 +23,7 @@ public class GameMap implements Serializable
 	
 	public int calculateCrash(Spaceship s)
 	{
-		Position p = s.pos;
+		Position p = s.getPosition();
 		int i=0;
 		while(asteroids[i] != null)
 		{

@@ -5,16 +5,19 @@ import java.io.*;
 
 public class Spaceship implements Serializable
 {
-	Position pos;
-	String path;
-	int health;
-	ShipSystems systems;
+	private Position pos;
+	private String path;
+	
+	private int health;
+	public static final int MAX_HEALTH 	= 4;
+	
+	private ShipSystems systems;
 
 	public Spaceship()
 	{
 		pos = new Position();
 		path = "";
-		health = 4;
+		health = MAX_HEALTH;
 		systems = new ShipSystems();
 	}
 
@@ -44,31 +47,7 @@ public class Spaceship implements Serializable
 		}
 	}
 
-	public void chargeSystem(String sys)
-	{
-		if (sys.equalsIgnoreCase("Sonar"))
-		{
-			systems.sonar[0] += 1;
-		}
-		else if(sys.equalsIgnoreCase("Missile"))
-		{
-			systems.missile[0] += 1;
-		}
-		else if(sys.equalsIgnoreCase("Mine"))
-		{
-			systems.mine[0] +=1;
-		}
-		else if(sys.equalsIgnoreCase("Drone"))
-		{
-			systems.drone[0] += 1;
-		}
-		else if(sys.equalsIgnoreCase("Silent"))
-		{
-			systems.silent[0] += 1;
-		}
-		
-		systems.checkActive();
-	}
+	
 		
 	public String getPath()
 	{
@@ -83,6 +62,16 @@ public class Spaceship implements Serializable
 	public int getHealth()
 	{
 		return health;
+	}
+	
+	public void removeHealth(int valueToRemove) {
+		health = (health - valueToRemove < 0 ? 0 
+				: health - valueToRemove);
+	}
+	
+	public void restoreHealth(int valueToAdd) {
+		health = (health + valueToAdd > MAX_HEALTH ? MAX_HEALTH 
+				: health + valueToAdd);
 	}
 
 	public ShipSystems getShipSystem()

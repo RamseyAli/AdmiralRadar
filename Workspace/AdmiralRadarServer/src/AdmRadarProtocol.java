@@ -37,23 +37,23 @@ public class AdmRadarProtocol
 		}
 		else if (command.equalsIgnoreCase("Charge Sonar"))
 		{
-			ship.chargeSystem("Sonar");
+			ship.getShipSystem().chargeSystem("Sonar");
 		}
 		else if (command.equalsIgnoreCase("Charge Missile"))
 		{
-			ship.chargeSystem("Missile");
+			ship.getShipSystem().chargeSystem("Missile");
 		}
 		else if (command.equalsIgnoreCase("Charge Mine"))
 		{
-			ship.chargeSystem("Mine");
+			ship.getShipSystem().chargeSystem("Mine");
 		}
 		else if (command.equalsIgnoreCase("Charge Drone"))
 		{
-			ship.chargeSystem("Drone");
+			ship.getShipSystem().chargeSystem("Drone");
 		}
 		else if (command.equalsIgnoreCase("Charge Silent"))
 		{
-			ship.chargeSystem("Silent");
+			ship.getShipSystem().chargeSystem("Silent");
 		}
 		else if (command.equalsIgnoreCase("exit"))
 		{
