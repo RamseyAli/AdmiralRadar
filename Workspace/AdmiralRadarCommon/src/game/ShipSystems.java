@@ -38,7 +38,7 @@ public class ShipSystems implements Serializable {
 	// Refer to Engineer Pane image
 	// true: component is enabled
 	// false: component is disabled
-	boolean[] sysComponents = new boolean[24];
+	private boolean[] sysComponents = new boolean[24];
 
 	
 	public ShipSystems() {
@@ -221,7 +221,7 @@ public class ShipSystems implements Serializable {
 		}
 	}
 	
-	public boolean isCharged(String sys) {
+	public boolean isSystemCharged(String sys) {
 		switch (sys) {
 			case "Sonar": 	return sonar[CHARGED_STATUS] 	== CHARGED;
 			case "Missile": return missile[CHARGED_STATUS] 	== CHARGED;
@@ -236,7 +236,7 @@ public class ShipSystems implements Serializable {
 		}
 	}
 	
-	public boolean isDestroyed(String sys) {
+	public boolean isSystemDestroyed(String sys) {
 		switch (sys) {
 			case "Sonar": 	return sonar[SYSTEM_STATUS] 	== DESTROYED;
 			case "Missile": return missile[SYSTEM_STATUS] 	== DESTROYED;
@@ -249,6 +249,10 @@ public class ShipSystems implements Serializable {
 				(sys + " is an invalid Ship System type:"
 						+ "(Sonar, Missile, Mine, Drone, Silent)...");
 		}
+	}
+	
+	public boolean isCompEnabled(int comp) {
+		return sysComponents[comp] = ENABLED;
 	}
 	
 	public void printSystems() {
