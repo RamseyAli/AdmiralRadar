@@ -18,22 +18,22 @@ public class ShipSystems implements Serializable {
 	public static final int NOT_CHARGED = 3;
 	public static final int CHARGED 	= 4;
 	
-	// "Boolean" value for system Status
+	// "Boolean" values for system Status
 	public static final int NOT_DESTROYED = 5;
 	public static final int DESTROYED 	  = 6;
 	
-	// Boolean value for system components
+	// Boolean values for system components
 	public static final boolean DISABLED = false;
 	public static final boolean ENABLED	 = true;
 	
 	// Index @ 0: Power level 
 	// Index @ 1: (Boolean) Filled or not
 	// Index @ 2: (Boolean) Destroyed or not
-	int[] sonar 	= 	new int[3];
-	int[] missile 	= 	new int[3];
-	int[] mine 		= 	new int[3];
-	int[] drone 	= 	new int[3];
-	int[] silent 	= 	new int[3];
+	private int[] sonar 	= 	new int[3];
+	private int[] missile 	= 	new int[3];
+	private int[] mine 		= 	new int[3];
+	private int[] drone 	= 	new int[3];
+	private int[] silent 	= 	new int[3];
 	
 	// Refer to Engineer Pane image
 	// true: component is enabled
@@ -95,20 +95,19 @@ public class ShipSystems implements Serializable {
 		if (sysComponents[0] == DISABLED || sysComponents[7] == DISABLED ||
 				sysComponents[10] == DISABLED || sysComponents[14] == DISABLED ||
 				sysComponents[15] == DISABLED || sysComponents[20] == DISABLED) {
-			mine[SYSTEM_STATUS] = DESTROYED;
-			missile[SYSTEM_STATUS] = DESTROYED;
+			mine[SYSTEM_STATUS] 	= DESTROYED;
+			missile[SYSTEM_STATUS] 	= DESTROYED;
 		}
 		if (sysComponents[2] == DISABLED || sysComponents[3] == DISABLED ||
 				sysComponents[9] == DISABLED || sysComponents[12] == DISABLED ||
 				sysComponents[18] == DISABLED || sysComponents[22] == DISABLED) {
-			drone[SYSTEM_STATUS] = DESTROYED;
-			sonar[SYSTEM_STATUS] = DESTROYED;
+			drone[SYSTEM_STATUS] 	= DESTROYED;
+			sonar[SYSTEM_STATUS] 	= DESTROYED;
 		}
-		
 		if (sysComponents[1] == DISABLED || sysComponents[6] == DISABLED ||
 				sysComponents[8] == DISABLED || sysComponents[13] == DISABLED ||
 				sysComponents[17] == DISABLED || sysComponents[19] == DISABLED) {
-			silent[SYSTEM_STATUS] = DESTROYED;
+			silent[SYSTEM_STATUS] 	= DESTROYED;
 			// scenario may not be implemented yet
 		}
 	}
@@ -205,6 +204,51 @@ public class ShipSystems implements Serializable {
 		}
 		
 		updateStatuses();
+	}
+	
+	public int getPowerLevel(String sys) {
+		switch (sys) {
+			case "Sonar": 	return sonar[POWER_LEVEL];
+			case "Missile": return missile[POWER_LEVEL];
+			case "Mine": 	return mine[POWER_LEVEL];
+			case "Drone": 	return drone[POWER_LEVEL];
+			case "Silent": 	return silent[POWER_LEVEL];
+		
+			default:
+				throw new IllegalArgumentException
+				(sys + " is an invalid Ship System type:"
+						+ "(Sonar, Missile, Mine, Drone, Silent)...");
+		}
+	}
+	
+	public boolean isCharged(String sys) {
+		switch (sys) {
+			case "Sonar": 	return sonar[CHARGED_STATUS] 	== CHARGED;
+			case "Missile": return missile[CHARGED_STATUS] 	== CHARGED;
+			case "Mine": 	return mine[CHARGED_STATUS] 	== CHARGED;
+			case "Drone": 	return drone[CHARGED_STATUS] 	== CHARGED;
+			case "Silent": 	return silent[CHARGED_STATUS] 	== CHARGED;
+	
+			default:
+				throw new IllegalArgumentException
+				(sys + " is an invalid Ship System type:"
+						+ "(Sonar, Missile, Mine, Drone, Silent)...");
+		}
+	}
+	
+	public boolean isDestroyed(String sys) {
+		switch (sys) {
+			case "Sonar": 	return sonar[SYSTEM_STATUS] 	== DESTROYED;
+			case "Missile": return missile[SYSTEM_STATUS] 	== DESTROYED;
+			case "Mine": 	return mine[SYSTEM_STATUS] 		== DESTROYED;
+			case "Drone": 	return drone[SYSTEM_STATUS] 	== DESTROYED;
+			case "Silent": 	return silent[SYSTEM_STATUS] 	== DESTROYED;
+	
+			default:
+				throw new IllegalArgumentException
+				(sys + " is an invalid Ship System type:"
+						+ "(Sonar, Missile, Mine, Drone, Silent)...");
+		}
 	}
 	
 	public void printSystems() {
