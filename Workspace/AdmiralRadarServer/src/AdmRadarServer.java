@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.util.Scanner;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
@@ -71,7 +72,6 @@ public class AdmRadarServer
 					Object inputObject;
 					if((inputObject = mpis.getNextUser()) != null)
 					{
-						//@SuppressWarnings("unchecked")
 						
 						User u = (User)inputObject;
 						String username = u.getUsername();
@@ -141,7 +141,7 @@ public class AdmRadarServer
 										ship = gameShip.get(teamNo);
 										ship.setPos(pos);
 										gameShip.set(teamNo, ship);
-										gameShip.get(teamNo).printShip();
+										//gameShip.get(teamNo).printShip();
 									}
 									else if(turnNo == 1 || turnNo == 5)
 									{
@@ -188,6 +188,7 @@ public class AdmRadarServer
 												}
 												
 												ship = gameShip.get(teamNo);
+												//ship.printShip();
 												
 												if(ship != null && (turnNo == 1 || turnNo == 2 || turnNo == 5 || turnNo == 6))
 													str = ship.getDirection();
@@ -225,7 +226,7 @@ public class AdmRadarServer
 												}
 												
 												ship = gameShip.get(teamNo);
-												ship.printShip();
+												//ship.printShip();
 												
 												mpos.sendSpaceShip(ship);
 												mpos.reset();
@@ -255,7 +256,17 @@ public class AdmRadarServer
 					
 				}
 			} catch(Exception ex) {
-				ex.printStackTrace();
+				ex.printStackTrace(System.err);
+				if (sock != null && !sock.isClosed())
+				{
+			        try
+			        {
+			            sock.close();
+			        } catch (IOException e)
+			        {
+			            e.printStackTrace(System.err);
+			        }
+			    }
 			}
 		}
 	}
@@ -263,52 +274,12 @@ public class AdmRadarServer
 	
 	public static void main(String[] args) throws IOException
 	{
-        
 		/*if (args.length != 1)
 		{
 			System.err.println("Usage: java AdmRadarServer <port number>");
 			System.exit(1);
-		}
+		}*/
 		
-		//Database test
-
-			String username = "TEST_USER";
-			String password = "test";
-			System.out.println("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
-			int result = login(username, password);
-			if(result == 0) {
-				System.out.println("Welcome " + username + "!");
-				int wins = wins(username);
-				int losses = losses(username);
-
-				if (wins != -1 && losses != -1) {
-					System.out.println("Your stats are " + wins + " Win(s) and " + losses + " Loss(es).");
-				} else {
-					System.out.println("ERROR: Stats not loaded properly");
-				}
-
-			} else {
-				if (result == 1) {
-					System.out.println("ERROR: Login Failed - Invalid username");
-				} else {
-					System.out.println("ERROR: Login Failed - Invalid password");
-				}
-			}
-			System.out.println("What would you like the new password to be?");
-			Scanner reader = new Scanner(System.in);
-			String new_pw = reader.nextLine();
-			System.out.println("What is your PIN?");
-			int pin = reader.nextInt();
-			result = reset(username, new_pw, pin);
-			if (result == 0) {
-				System.out.println("Password changed successfully!");
-			} else {
-				if (result == 1) {
-					System.out.println("ERROR: Reset Failed - Invalid Username");
-				} else {
-					System.out.println("ERROR: Reset Failed - Invalid PIN");
-				}
-			}*/
 		moveComplete[0] = false;
 		moveComplete[1] = false;
 		gameOngoing = false;
@@ -323,9 +294,10 @@ public class AdmRadarServer
 		clientOutputStreams = new ArrayList<MyPacketOutputStream>();
 		clientInputStreams = new ArrayList<MyPacketInputStream>();
 		gameShip = new ArrayList<Spaceship>();
-		Spaceship initial = new Spaceship();
-		gameShip.add(0,initial);
-		gameShip.add(1,initial);
+		Spaceship initial1 = new Spaceship();
+		gameShip.add(0,initial1);
+		Spaceship initial2 = new Spaceship();
+		gameShip.add(1,initial2);
 		
 		try {
 			serverSocket = new ServerSocket(port);
@@ -353,20 +325,55 @@ public class AdmRadarServer
 		}
 	}
 	
-	/*public void stopAllThreads()
+	public boolean testLogin()
 	{
-		for (Thread t1 : clientThreads)
-		{
-			if (t1.isAlive())
-			{
-				try
-				{
-					t1.interrupt();
-				} catch (Exception e) {}
+		//Database test
+
+		String username = "TEST_USER";
+		String password = "password";
+		System.out.println("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
+		int result = login(username, password);
+		if(result == 0) {
+			System.out.println("Welcome " + username + "!");
+			int wins = getWins(username);
+			int losses = getLosses(username);
+
+			if (wins != -1 && losses != -1) {
+				System.out.println("Your stats are " + wins + " Win(s) and " + losses + " Loss(es).");
+			} else {
+				System.out.println("ERROR: Stats not loaded properly");
+			}
+
+		} else {
+			if (result == 1) {
+				System.out.println("ERROR: Login Failed - Invalid username");
+			} else {
+				System.out.println("ERROR: Login Failed - Invalid password");
 			}
 		}
-		System.out.println("GAME ENDED");
-        }*/
+		System.out.println("What would you like the new password to be?");
+		Scanner reader = new Scanner(System.in);
+		String new_pw = reader.nextLine();
+		System.out.println("What is your PIN?");
+		int pin = reader.nextInt();
+		result = resetPW(username, new_pw, pin);
+		reader.close();
+		if (result == 0)
+		{
+			System.out.println("Password changed successfully!");
+			return true;
+		}
+		else if (result == 1)
+		{
+				System.out.println("ERROR: Reset Failed - Invalid Username");
+				return false;
+		}
+		else
+		{
+				System.out.println("ERROR: Reset Failed - Invalid PIN");
+				return false;
+		}
+	}
 	
 	public static class dbQuery {
 		Connection conn = null;
