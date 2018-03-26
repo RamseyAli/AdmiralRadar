@@ -19,7 +19,7 @@ public class TestClient {
 	static GameMap map;
 	static Spaceship ship;
 	static Role role;
-	static final int PORT = 12019;
+	static final int PORT = 2069;
 	static final String HOST = "localhost";
 	
 	// Member Functions //
