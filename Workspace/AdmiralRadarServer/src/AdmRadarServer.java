@@ -112,6 +112,7 @@ public class AdmRadarServer
 									
 									teamNo = nPlayers/4;
 									turnNo = nPlayers;
+									System.out.println("team no: "+teamNo+" turn no: "+turnNo);
 									nPlayers++;
 									
 									while(nPlayers < 8)
@@ -140,6 +141,7 @@ public class AdmRadarServer
 										ship = gameShip.get(teamNo);
 										ship.setPos(pos);
 										gameShip.set(teamNo, ship);
+										gameShip.get(teamNo).printShip();
 									}
 									else if(turnNo == 1 || turnNo == 5)
 									{
@@ -211,7 +213,7 @@ public class AdmRadarServer
 												{
 													turn++;
 												}
-												else if(turn == 6)
+												else if(turn == 7)
 												{
 													turn = 0;
 												}
@@ -219,7 +221,7 @@ public class AdmRadarServer
 												while(!moveComplete[teamNo])
 												{
 													//Do nothing
-													//System.out.println("Doing nothing");
+													System.out.print("");
 												}
 												
 												ship = gameShip.get(teamNo);
