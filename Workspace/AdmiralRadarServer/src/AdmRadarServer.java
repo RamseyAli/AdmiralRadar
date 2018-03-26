@@ -312,7 +312,7 @@ public class AdmRadarServer
 		gameOngoing = false;
 		turn = 0;
 		nPlayers = 0;
-		int portNumber = 12019;
+		int portNumber = 2069;
 		new AdmRadarServer().go(portNumber);
 	}
 	
@@ -327,7 +327,7 @@ public class AdmRadarServer
 		
 		try {
 			serverSocket = new ServerSocket(port);
-			
+			System.out.println("AdmiralRaderServer running on port: " + port);
 			while(true)
 			{
 				Socket clientSocket = serverSocket.accept();
