@@ -7,6 +7,9 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
+import game.Role;
 import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
@@ -14,7 +17,7 @@ import ops.User;
 import visual.util.Preferences;
 import visual.util.operations.GUIController;
 
-public class ConnectionManager implements Runnable{
+public class ConnectionManager {
 
 	
 	Socket s;
@@ -31,19 +34,6 @@ public class ConnectionManager implements Runnable{
 	public ConnectionManager(GUIController nexus){
 		interrupt = nexus;
 		
-	}
-	
-	private void main(){
-		while(true){
-			
-			
-			
-			
-			
-			
-			
-			
-		}
 	}
 	
 	public int connectToServer(InetAddress svr){
@@ -93,8 +83,6 @@ public class ConnectionManager implements Runnable{
 			return 2;
 		}
 		
-		//Enable Socket Listening Loop
-		new Thread(this).start();
 		
 		return 2;
 	
@@ -102,13 +90,13 @@ public class ConnectionManager implements Runnable{
 	}
 	
 	public void disconnect(){
-		//	interrupt.disconnected();
-	}
-
-
-	@Override
-	public void run() {
-		main();	
+		JOptionPane.showMessageDialog(interrupt.getGUIFrame(), "Connection Lost. You Loose. Bye!");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.exit(0);
 	}
 
 	public void newAvatar(String s) {
@@ -124,10 +112,58 @@ public class ConnectionManager implements Runnable{
 	public int ready() {
 		try {
 			oos.sendString("READY");
+			new Thread(() ->  waitForStart()).start();
 			return 6;
 		} catch (IOException e) {
 			return 5;
 		}
+		
+	}
+
+	private void waitForStart() {
+		
+		try {
+			Role r = null;
+			if ((r = ois.getNextRole()) != null){
+				interrupt.getFactory().setGameRole(r);
+				switch(r){
+				case CAPTAIN: captainNetworkLoop();
+					break;
+				case ENGINE: engineerNetworkLoop();
+					break;
+				case FIRST: firstOfficerNetworkLoop();
+					break;
+				case NETWORK:
+					break;
+				case RADIO: radioOfficerNetworkLoop();
+					break;
+				default:
+					break;
+				
+				}
+			}
+			
+		} catch (IOException e) {
+		}
+	}
+
+	private void radioOfficerNetworkLoop() {
+		// Listens for RO commands
+		
+	}
+
+	private void firstOfficerNetworkLoop() {
+		// Listen for FO Info
+		
+	}
+
+	private void engineerNetworkLoop() {
+		// Listen for ENGR info
+		
+	}
+
+	private void captainNetworkLoop() {
+		// Listen for CPT info
 		
 	}
 	

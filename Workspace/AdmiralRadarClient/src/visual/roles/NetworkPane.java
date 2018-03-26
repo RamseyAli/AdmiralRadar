@@ -116,6 +116,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		gameTab.add(gameStatus);
 		
 		ready.setAlignmentX(Component.CENTER_ALIGNMENT);
+		ready.addActionListener(this);
 		gameStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		//User Tab

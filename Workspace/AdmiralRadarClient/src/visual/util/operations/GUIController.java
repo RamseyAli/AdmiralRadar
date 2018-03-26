@@ -1,5 +1,6 @@
 package visual.util.operations;
 
+import java.awt.Component;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -15,7 +16,13 @@ public class GUIController {
 	
 	ArrayList<ShipPanel> toUpdate = new ArrayList<ShipPanel>();
 	ConnectionManager cm;
+	GUIFactory fac;
 	User u;
+	
+	public GUIController(GUIFactory guiFactory) {
+		fac = guiFactory;
+	}
+
 	// 2 - Connection Failure
 	// 3 - Connected to Server
 	// 4 - Logged In To Server
@@ -72,6 +79,14 @@ public class GUIController {
 
 	public int ready() {
 		return cm.ready();
+	}
+	
+	public GUIFactory getFactory(){
+		return fac;
+	}
+
+	public Component getGUIFrame() {
+		return fac.getFrame();
 	}
 
 }
