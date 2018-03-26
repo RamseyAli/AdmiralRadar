@@ -352,29 +352,118 @@ public class ShipSystems implements Serializable {
 	}
 	
 	public static void main(String[] args) {
-		Spaceship ship1 = new Spaceship();
-		Spaceship ship2 = new Spaceship();
+		boolean test16 = true;
+
+		if (test16) {
+			/*
+			 * User Story #16
+			 */
+			Spaceship ship1 = new Spaceship();
+			// Tactical system repair test
+			System.out.println("*********************************************** "
+					+ "\nUSER STORY 16 TEST #1 (TACTICAL SYSTEM DISABLEMENT)\n"
+					+ "***********************************************\n");
+			System.out.printf(">>>>>>>>>>	Ship1 ShipSystems upon creation:\n\n");
+			ship1.getShipSystem().printSystems();
+			System.out.printf("\n>>>>>>>>>> Disabling Tactical Component #0... \n\n");
+			ship1.getShipSystem().disableSystemComponent(0);
 		
-		/*
-		 * User Story #16
-		 */
+			System.out.printf(">>>>>>>>>> Ship1 ShipSystems after disabling 1 Tactical component:\n\n");
+			ship1.getShipSystem().printSystems();
 		
-		// Tactical system repair test
-		System.out.printf(">>>>>>>>>>	Ship1 ShipSystems upon creation:\n\n");
-		ship1.getShipSystem().printSystems();
-		System.out.printf("\n>>>>>>>>>> Disabling Tactical Component #0... \n\n");
-		ship1.getShipSystem().disableSystemComponent(0);
+			System.out.printf(">>>>>>>>>> Disabling components in circuit containing Tactical Component #0: \n\n");
+			ship1.getShipSystem().disableSystemComponent(2);
+			ship1.getShipSystem().disableSystemComponent(1);
+			ship1.getShipSystem().disableSystemComponent(20);
 		
-		System.out.printf(">>>>>>>>>> Ship1 ShipSystems after disabling 1 Tactical component:\n\n");
-		ship1.getShipSystem().printSystems();
+			System.out.printf(">>>>>>>>>> Ship1 ShipSystems after re-enabling Comp #0:\n\n");
+			ship1.getShipSystem().printSystems();
 		
-		System.out.printf(">>>>>>>>>> Disabling components in circuit containing Tactical Component #0: \n\n");
-		ship1.getShipSystem().disableSystemComponent(2);
-		ship1.getShipSystem().disableSystemComponent(1);
-		ship1.getShipSystem().disableSystemComponent(20);
+			Spaceship ship2 = new Spaceship();
+			// Sensory system repair test
+			System.out.println("*********************************************** "
+					+ "\nUSER STORY 16 TEST #2 (SENSORY SYSTEM DISABLEMENT)\n"
+					+ "***********************************************\n");
+			System.out.printf(">>>>>>>>>>	Ship2 ShipSystems upon creation:\n\n");
+			ship2.getShipSystem().printSystems();
+			System.out.printf("\n>>>>>>>>>> Disabling Sensory Component #12... \n\n");
+			ship2.getShipSystem().disableSystemComponent(12);
 		
-		System.out.printf(">>>>>>>>>> Ship1 ShipSystems after re-enabling Comp #0:\n\n");
-		ship1.getShipSystem().printSystems();
+			System.out.printf(">>>>>>>>>> Ship2 ShipSystems after disabling 1 Sensory component:\n\n");
+			ship2.getShipSystem().printSystems();
+		
+			System.out.printf(">>>>>>>>>> Disabling components in circuit containing Sensory Component #12: \n\n");
+			ship2.getShipSystem().disableSystemComponent(13);
+			ship2.getShipSystem().disableSystemComponent(14);
+			ship2.getShipSystem().disableSystemComponent(19);
+		
+			System.out.printf(">>>>>>>>>> Ship2 ShipSystems after re-enabling Comp #12:\n\n");
+			ship2.getShipSystem().printSystems();
+		
+			Spaceship ship3 = new Spaceship();
+			// Auxilary system repair test
+			System.out.println("*********************************************** "
+					+ "\nUSER STORY 16 TEST #3 (SENSORY SYSTEM DISABLEMENT)\n"
+					+ "***********************************************\n");
+			System.out.printf(">>>>>>>>>>	Ship3 ShipSystems upon creation:\n\n");
+			ship3.getShipSystem().printSystems();
+			System.out.printf("\n>>>>>>>>>> Disabling Auxilary Component #6... \n\n");
+			ship3.getShipSystem().disableSystemComponent(6);
+		
+			System.out.printf(">>>>>>>>>> Ship3 ShipSystems after disabling 1 Auxilary component:\n\n");
+			ship3.getShipSystem().printSystems();
+		
+			System.out.printf(">>>>>>>>>> Disabling components in circuit containing Auxilary Component #6: \n\n");
+			ship3.getShipSystem().disableSystemComponent(7);
+			ship3.getShipSystem().disableSystemComponent(8);
+			ship3.getShipSystem().disableSystemComponent(18);
+		
+			System.out.printf(">>>>>>>>>> Ship3 ShipSystems after re-enabling Comp #6:\n\n");
+			ship3.getShipSystem().printSystems();
+			
+			Spaceship ship4 = new Spaceship();
+			// Random system repair test
+			System.out.println("*********************************************** "
+					+ "\nUSER STORY 16 TEST #4 (RANDOM DISABLEMENT)\n"
+					+ "***********************************************\n");
+			System.out.printf(">>>>>>>>>>	Ship4 ShipSystems upon creation:\n\n");
+			ship4.getShipSystem().printSystems();
+			System.out.printf("\n>>>>>>>>>> Disabling Auxilary Component #19... \n\n");
+			ship4.getShipSystem().disableSystemComponent(19);
+			System.out.printf("\n>>>>>>>>>> Disabling Tactical Component #20... \n\n");
+			ship4.getShipSystem().disableSystemComponent(20);
+			System.out.printf("\n>>>>>>>>>> Disabling Sensory Component #18... \n\n");
+			ship4.getShipSystem().disableSystemComponent(18);
+		
+			System.out.printf(">>>>>>>>>> Ship4 ShipSystems after disabling components:\n\n");
+			ship4.getShipSystem().printSystems();
+			
+			Spaceship ship5 = new Spaceship();
+			// Random system repair test
+			System.out.println("*********************************************** "
+					+ "\nUSER STORY 16 TEST #5 (NON-CIRCUIT DISABLEMENT)\n"
+					+ "***********************************************\n");
+			System.out.printf(">>>>>>>>>>	Ship5 ShipSystems upon creation:\n\n");
+			ship5.getShipSystem().printSystems();
+			System.out.printf("\n>>>>>>>>>> Disabling Auxilary Component #2... \n\n");
+			ship5.getShipSystem().disableSystemComponent(2);
+			System.out.printf("\n>>>>>>>>>> Disabling Tactical Component #1... \n\n");
+			ship5.getShipSystem().disableSystemComponent(1);
+			System.out.printf("\n>>>>>>>>>> Disabling Auxilary (NON-CIRCUIT) Component #17... \n\n");
+			ship5.getShipSystem().disableSystemComponent(17);
+		
+			System.out.printf(">>>>>>>>>> Ship5 ShipSystems after disabling components:\n\n");
+			ship5.getShipSystem().printSystems();
+		
+			System.out.printf(">>>>>>>>>> Disabling components in circuit containing components #1, #2: \n\n");
+			ship5.getShipSystem().disableSystemComponent(0);
+			ship5.getShipSystem().disableSystemComponent(20);
+		
+			System.out.printf(">>>>>>>>>> Ship5 ShipSystems after repairing curcuit:\n\n");
+			ship5.getShipSystem().printSystems();
+			
+			return;
+		}
 		
 			
 
