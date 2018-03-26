@@ -19,7 +19,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 	
 	
 	public Class<?> getClassOfNext() throws ClassNotFoundException, IOException{
-			buffer = ((MyPacket<?>) readObject());
+			buffer = ((MyPacket<?>) readUnshared());
 			return buffer.getObject().getClass();
 			
 		
@@ -29,7 +29,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 	public User getNextUser() throws IOException {
 		try {
 			if(buffer == null)
-				return ((MyPacket<User>) readObject()).getObject();
+				return ((MyPacket<User>) readUnshared()).getObject();
 			else
 			{
 				MyPacket<?> temp = buffer;
@@ -47,7 +47,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 	public Spaceship getNextSpaceship() throws IOException {
 		try {
 			if(buffer == null)
-				return ((MyPacket<Spaceship>) readObject()).getObject();
+				return ((MyPacket<Spaceship>) readUnshared()).getObject();
 			else
 			{
 				MyPacket<?> temp = buffer;
@@ -65,7 +65,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 	public GameMap getNextMap() throws IOException {
 		try {
 			if(buffer == null)
-				return ((MyPacket<GameMap>) readObject()).getObject();
+				return ((MyPacket<GameMap>) readUnshared()).getObject();
 			else
 			{
 				MyPacket<?> temp = buffer;
@@ -83,7 +83,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 	public Position getNextPosition() throws IOException {
 		try {
 			if(buffer == null)
-				return ((MyPacket<Position>) readObject()).getObject();
+				return ((MyPacket<Position>) readUnshared()).getObject();
 			else
 			{
 				MyPacket<?> temp = buffer;
@@ -101,7 +101,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 	public String getNextString() throws IOException {
 		try {
 			if(buffer == null)
-				return ((MyPacket<String>) readObject()).getObject();
+				return ((MyPacket<String>) readUnshared()).getObject();
 			else
 			{
 				MyPacket<?> temp = buffer;

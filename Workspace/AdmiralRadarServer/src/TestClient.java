@@ -110,6 +110,7 @@ public class TestClient {
 							
 							if(role == Role.CAPTAIN)
 							{
+								System.out.println("You are Captain");
 								int x,y;
 								System.out.println(mpi.getNextString());
 								System.out.println("Enter x");
@@ -119,6 +120,18 @@ public class TestClient {
 								Position pos = new Position();
 								pos.setPosition(x, y);
 								mpo.sendPosition(pos);
+							}
+							else if(role == Role.FIRST)
+							{
+								System.out.println("You are First Officer");
+							}
+							else if(role == Role.ENGINE)
+							{
+								System.out.println("You are Engineer");
+							}
+							else
+							{
+								System.out.println("You are Radio Officer");
 							}
 							
 							ship = mpi.getNextSpaceship();
@@ -138,7 +151,7 @@ public class TestClient {
 									strInput = mpi.getNextString();
 									if(strInput.equals("Waiting for turn"))
 									{
-										System.out.println(strInput);
+										//System.out.println(strInput);
 									}
 									else if(strInput.equals("Game Ended"))
 									{
@@ -157,6 +170,10 @@ public class TestClient {
 											System.out.println("Game Ended");
 											System.out.println("You Lost");
 											break;
+										}
+										else
+										{
+											ship.printShip();
 										}
 									}
 								}

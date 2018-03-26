@@ -18,32 +18,32 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 	}
 
 	public void sendUser(User u) throws IOException {
-		writeObject(new MyPacket<User>(u));
+		writeUnshared(new MyPacket<User>(u));
 		flush();
 	}
 	
 	public void sendPosition(Position p) throws IOException {
-		writeObject(new MyPacket<Position>(p));
+		writeUnshared(new MyPacket<Position>(p));
 		flush();
 	}
 	
 	public void sendSpaceShip(Spaceship s) throws IOException {
-		writeObject(new MyPacket<Spaceship>(s));
+		writeUnshared(new MyPacket<Spaceship>(s));
 		flush();
 	}
 	
 	public void sendMap(GameMap m) throws IOException {
-		writeObject(new MyPacket<GameMap>(m));
+		writeUnshared(new MyPacket<GameMap>(m));
 		flush();
 	}
 	
 	public void sendString(String s) throws IOException {
-		writeObject(new MyPacket<String>(s));
+		writeUnshared(new MyPacket<String>(s));
 		flush();
 	}
 	
 	public void sendRole(Role r) throws IOException {
-		writeObject(new MyPacket<Role>(r));
+		writeUnshared(new MyPacket<Role>(r));
 		flush();
 	}
 

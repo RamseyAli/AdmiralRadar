@@ -52,8 +52,6 @@ public class Spaceship implements Serializable
 			pos.x -= 1;
 		}
 	}
-
-	
 		
 	public String getPath()
 	{
@@ -70,7 +68,6 @@ public class Spaceship implements Serializable
 		return health;
 	}
 	
-
 	public void removeHealth(int valueToRemove) {
 		health = (health - valueToRemove < 0 ? 0 
 				: health - valueToRemove);
@@ -80,8 +77,7 @@ public class Spaceship implements Serializable
 		health = (health + valueToAdd > MAX_HEALTH ? MAX_HEALTH 
 				: health + valueToAdd);
 	}
-
-
+	
 	public String getDirection()
 	{
 		return nextDir;
@@ -90,5 +86,13 @@ public class Spaceship implements Serializable
 	public ShipSystems getShipSystem()
 	{
 		return systems;
+	}
+	
+	public void printShip() //For testing purposes
+	{
+		System.out.println("x = "+pos.x+", y = "+pos.y);
+		System.out.println(path);
+		System.out.println(health);
+		systems.printSystems();
 	}
 }

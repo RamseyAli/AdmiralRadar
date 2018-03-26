@@ -108,7 +108,8 @@ public class ShipSystems implements Serializable {
 		updateStatuses();
 	}
 	
-	public void printSystems() {
+	public void printSystems() // For Testing purposes
+	{
 		System.out.println("Sonar at "+		sonar[POWER_LEVEL]);
 		System.out.println("Missile at "+	missile[POWER_LEVEL]);
 		System.out.println("Mine at "+		mine[POWER_LEVEL]);

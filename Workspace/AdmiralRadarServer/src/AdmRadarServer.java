@@ -113,7 +113,7 @@ public class AdmRadarServer
 									}
 									
 									teamNo = nPlayers/4;
-									turnNo = nPlayers%8;
+									turnNo = nPlayers;
 									nPlayers++;
 									
 									while(nPlayers < 4)
@@ -127,7 +127,7 @@ public class AdmRadarServer
 									map = arp.updateMap();				
 									mpos.sendMap(map);
 									
-									if(turnNo == 7)
+									if(turnNo == 3)
 									{
 										System.out.println("GAME BEGINS");
 										gameOngoing = true;
@@ -161,6 +161,7 @@ public class AdmRadarServer
 									
 									ship = gameShip.get(teamNo);
 									mpos.sendSpaceShip(ship);
+									mpos.reset();
 									
 									while(gameOngoing)
 									{
@@ -174,16 +175,8 @@ public class AdmRadarServer
 										
 											if(turn == turnNo)
 											{
-												turn++;
-												if(turn == 3)
-												{
-													turn++;
-												}
-												else if(turn == 6)
-												{
-													turn = 0;
-												}
-												
+												System.out.println(turn);
+																								
 												ship = gameShip.get(teamNo);
 												
 												if(ship != null && (turnNo == 1 || turnNo == 2 || turnNo == 5 || turnNo == 6))
@@ -195,35 +188,33 @@ public class AdmRadarServer
 												arp.processCommands(action, ship);
 												gameShip.set(teamNo, ship);
 												
-												int i;
 												if(turnNo == 2 || turnNo == 6)
 												{
-													/*if(turnNo == 2)
-													{
-														for(i=0; i<3; i++)
-														{
-															clientOutputStreams.get(i).sendSpaceShip(gameShip.get(teamNo));
-														}
-														if(gameShip.get(teamNo) == null)
-															gameOngoing = false;
-													}
-													else if(turnNo == 6)
-													{
-														for(i=4; i<7; i++)
-														{
-															clientOutputStreams.get(i).sendSpaceShip(gameShip.get(teamNo));
-														}
-														if(gameShip.get(teamNo) == null)
-															gameOngoing = false;
-													}*/
+													if(gameShip.get(teamNo) == null)
+														gameOngoing = false;
 													moveComplete = true;
+												}
+												
+												turn++;
+												if(turn == 3)
+												{
+												//	turn++;
+												//}
+												//else if(turn == 6)
+												//{
+													turn = 0;
 												}
 												
 												while(!moveComplete)
 												{
 													//Do nothing
+													//System.out.println("Doing nothing");
 												}
-												mpos.sendSpaceShip(gameShip.get(teamNo));
+												
+												ship = gameShip.get(teamNo);
+												mpos.sendSpaceShip(ship);
+												mpos.reset();
+												
 												if(turnNo == 2 || turnNo == 6)
 												{
 													moveComplete = false;
