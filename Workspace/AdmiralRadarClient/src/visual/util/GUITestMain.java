@@ -18,10 +18,7 @@ public class GUITestMain {
 		Thread t = new Thread(ts);
 		//t.run();
 		
-		
-		
-		
-		Thread.sleep(40000);
+		Thread.sleep(1000000);
 		System.exit(1);
 		
 		

@@ -8,12 +8,11 @@ import java.net.Socket;
 import java.util.Random;
 
 import net.MyPacket;
+import net.MyPacketInputStream;
+import net.MyPacketOutputStream;
 import ops.User;
 
 public class TestServer implements Runnable{
-
-
-
 
 	@Override
 	public void run() {
@@ -28,36 +27,22 @@ public class TestServer implements Runnable{
 				System.out.println("New Connection");
 
 				try (
-						ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-						ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+						MyPacketOutputStream out = new MyPacketOutputStream(s.getOutputStream());
+						MyPacketInputStream in = new MyPacketInputStream(s.getInputStream());
 						) {
 					Object inputLine;
 					
 					while (true){
-						if((inputLine = in.readObject()) != null) {
+						if((inputLine = in.getNextUser()) != null) {
 							@SuppressWarnings("unchecked")
-							MyPacket<User> mp = ((MyPacket<User>) inputLine);
 							
-								User u = mp.getObject();
-								if(mp.getObject().getUsername().equals("Username"))
-								{
-									if(mp.getObject().getEncryptedPassword().equals("Password"))
-										u.loginSuccessful(0);
-									else
-										u.loginSuccessful(2);
-								}
-								else
-								{
-									u.loginSuccessful(1);
-								}
-								
-
+								User u = (User)inputLine;
+														
 								u.setWins(new Random().nextInt() % 20);
 								u.setLoss(new Random().nextInt() % 20);
 								u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");
 								
-							out.writeObject(inputLine);
-							out.flush();
+							out.sendUser(u);
 						}
 					}
 					
