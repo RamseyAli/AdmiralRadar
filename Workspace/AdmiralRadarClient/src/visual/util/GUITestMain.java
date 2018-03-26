@@ -14,7 +14,7 @@ public class GUITestMain {
 		
 		
 		//Start local test server
-		TestServer ts = new TestServer();
+		TestServerSam ts = new TestServerSam();
 		Thread t = new Thread(ts);
 		//t.run();
 		

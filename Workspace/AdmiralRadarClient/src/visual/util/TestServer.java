@@ -51,9 +51,6 @@ public class TestServer implements Runnable{
 				} catch (IOException e) {
 					s.close();
 					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					s.close();
-					e.printStackTrace();
 				}
 			}
 

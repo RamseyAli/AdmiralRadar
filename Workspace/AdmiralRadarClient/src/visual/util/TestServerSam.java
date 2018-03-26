@@ -13,7 +13,7 @@ import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
 
-public class TestServer implements Runnable{
+public class TestServerSam implements Runnable{
 
 	@Override
 	public void run() {
@@ -34,7 +34,7 @@ public class TestServer implements Runnable{
 					User u;
 
 					while (true){
-<<<<<<< HEAD
+
 						if((u = in.getNextUser()) != null) {
 
 							if(u.getUsername().equals("Username"))
@@ -56,40 +56,37 @@ public class TestServer implements Runnable{
 
 							out.sendUser(u);
 							out.flush();
-=======
-						if((inputLine = in.getNextUser()) != null) {
-							@SuppressWarnings("unchecked")
-							
-								User u = (User)inputLine;
-							
+
+							if((u = in.getNextUser()) != null) {
+
 								if(u.getResult() == 0)
 								{
 									u.setWins(new Random().nextInt() % 20);
 									u.setLoss(new Random().nextInt() % 20);
 									u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");
 								}
-							out.sendUser(u);
->>>>>>> 86f5c91b3c9ef4361deb5e1a6463c2dee100315c
-						}
-						
-						String st;
-						if((st = in.getNextString()) != null) {
-							if (st.equals("READY")){
-								out.sendRole(Role.ENGINE);
-							}
-						}
-						
-					}
+								out.sendUser(u);
 
-				} catch (IOException e) {
-					try {
-						s.close();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+							}
+
+							String st;
+							if((st = in.getNextString()) != null) {
+								if (st.equals("READY")){
+									out.sendRole(Role.ENGINE);
+								}
+							}
+
+						}
+
+					} } catch (IOException e) {
+						try {
+							s.close();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						e.printStackTrace();
 					}
-					e.printStackTrace();
-				}
 			}
 
 		} catch (IOException e2) {
@@ -98,4 +95,5 @@ public class TestServer implements Runnable{
 		}
 
 	}
+
 }
