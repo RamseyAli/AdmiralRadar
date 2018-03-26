@@ -18,39 +18,51 @@ public class ShipSystems implements Serializable {
 	public static final int NOT_CHARGED = 3;
 	public static final int CHARGED 	= 4;
 	
-	// "Boolean" value for system Status
+	// "Boolean" values for system Status
 	public static final int NOT_DESTROYED = 5;
 	public static final int DESTROYED 	  = 6;
 	
-	// Boolean value for system components
+	// Boolean values for system components
 	public static final boolean DISABLED = false;
 	public static final boolean ENABLED	 = true;
 	
 	// Index @ 0: Power level 
 	// Index @ 1: (Boolean) Filled or not
 	// Index @ 2: (Boolean) Destroyed or not
-	int[] sonar 	= 	new int[3];
-	int[] missile 	= 	new int[3];
-	int[] mine 		= 	new int[3];
-	int[] drone 	= 	new int[3];
-	int[] silent 	= 	new int[3];
+	private int[] sonar 	= 	new int[3];
+	private int[] missile 	= 	new int[3];
+	private int[] mine 		= 	new int[3];
+	private int[] drone 	= 	new int[3];
+	private int[] silent 	= 	new int[3];
 	
 	// Refer to Engineer Pane image
 	// true: component is enabled
 	// false: component is disabled
-	boolean[] systemComponents = new boolean[24];
+	private boolean[] sysComponents = new boolean[24];
 
 	
-	public ShipSystems()
-	{
+	public ShipSystems() {
+		sonar[POWER_LEVEL] 		= 0;
+		sonar[CHARGED_STATUS] 	= NOT_CHARGED;
+		sonar[SYSTEM_STATUS] 	= NOT_DESTROYED;
 		
-		Arrays.fill(sonar, 0);
-		Arrays.fill(missile, 0);
-		Arrays.fill(mine, 0);
-		Arrays.fill(drone, 0);
-		Arrays.fill(silent, 0);
+		missile[POWER_LEVEL] 	= 0;
+		missile[CHARGED_STATUS] = NOT_CHARGED;
+		missile[SYSTEM_STATUS] 	= NOT_DESTROYED;
 		
-		Arrays.fill(systemComponents, ENABLED);
+		mine[POWER_LEVEL] 		= 0;
+		mine[CHARGED_STATUS] 	= NOT_CHARGED;
+		mine[SYSTEM_STATUS] 	= NOT_DESTROYED;
+		
+		drone[POWER_LEVEL] 		= 0;
+		drone[CHARGED_STATUS] 	= NOT_CHARGED;
+		drone[SYSTEM_STATUS] 	= NOT_DESTROYED;
+		
+		silent[POWER_LEVEL] 	= 0;
+		silent[CHARGED_STATUS] 	= NOT_CHARGED;
+		silent[SYSTEM_STATUS] 	= NOT_DESTROYED;
+		
+		Arrays.fill(sysComponents, ENABLED);
 	}
 	
 	private void updateStatuses() {
@@ -80,7 +92,61 @@ public class ShipSystems implements Serializable {
 		/* 
 		 * Update SYSTEM Status
 		 */
-		//TODO: using boolean array
+		if (sysComponents[0] == DISABLED || sysComponents[7] == DISABLED ||
+				sysComponents[10] == DISABLED || sysComponents[14] == DISABLED ||
+				sysComponents[15] == DISABLED || sysComponents[20] == DISABLED) {
+			mine[SYSTEM_STATUS] 	= DESTROYED;
+			missile[SYSTEM_STATUS] 	= DESTROYED;
+		}
+		if (sysComponents[2] == DISABLED || sysComponents[3] == DISABLED ||
+				sysComponents[9] == DISABLED || sysComponents[12] == DISABLED ||
+				sysComponents[18] == DISABLED || sysComponents[22] == DISABLED) {
+			drone[SYSTEM_STATUS] 	= DESTROYED;
+			sonar[SYSTEM_STATUS] 	= DESTROYED;
+		}
+		if (sysComponents[1] == DISABLED || sysComponents[6] == DISABLED ||
+				sysComponents[8] == DISABLED || sysComponents[13] == DISABLED ||
+				sysComponents[17] == DISABLED || sysComponents[19] == DISABLED) {
+			silent[SYSTEM_STATUS] 	= DESTROYED;
+			// scenario may not be implemented yet
+		}
+	}
+	
+	// power-level and charged to 0
+	public void useSystem(String sys) {
+		if (sys.equals("Sonar") && sonar[CHARGED_STATUS] == CHARGED &&
+				sonar[SYSTEM_STATUS] == NOT_DESTROYED) {
+			sonar[POWER_LEVEL] = 0;
+			sonar[CHARGED_STATUS] = NOT_CHARGED;
+			return;
+		}
+		if (sys.equals("Missile") && missile[CHARGED_STATUS] == CHARGED &&
+				missile[SYSTEM_STATUS] == NOT_DESTROYED) {
+			missile[POWER_LEVEL] = 0;
+			missile[CHARGED_STATUS] = NOT_CHARGED;
+			return;
+		}
+		if (sys.equals("Mine") && mine[CHARGED_STATUS] == CHARGED &&
+				mine[SYSTEM_STATUS] == NOT_DESTROYED) {
+			mine[POWER_LEVEL] = 0;
+			mine[CHARGED_STATUS] = NOT_CHARGED;
+			return;
+		}
+		if (sys.equals("Drone") && drone[CHARGED_STATUS] == CHARGED &&
+				drone[SYSTEM_STATUS] == NOT_DESTROYED) {
+			drone[POWER_LEVEL] = 0;
+			drone[CHARGED_STATUS] = NOT_CHARGED;
+			return;
+		}
+		if (sys.equals("Silent") && silent[CHARGED_STATUS] == CHARGED &&
+				silent[SYSTEM_STATUS] == NOT_DESTROYED) {
+			silent[POWER_LEVEL] = 0;
+			silent[CHARGED_STATUS] = NOT_CHARGED;
+			return;
+		}
+		
+		throw new IllegalArgumentException(sys + " is an invalid Ship System type:"
+         		+ "(Sonar, Missile, Mine, Drone, Silent)...");
 	}
 	
 	// Used by the First Officer to charge up a ship system for later use
@@ -94,22 +160,107 @@ public class ShipSystems implements Serializable {
 			
 			default:
 	             throw new IllegalArgumentException
-	             (sys + " is an invalid Ship System type...");
+	             (sys + " is an invalid Ship System type:"
+	             		+ "(Sonar, Missile, Mine, Drone, Silent)...");
 		}
 		
 		updateStatuses();
 	}
 	
 	// Used by the Engineer to disable system temporarily for maintenance
-	// Also handle circuits???
-	public void disableSystemComponent(String sys) {
-		// TODO: Disable system component and check for
-		// 		circuit completion
+	// HANDLE REACTOR COMPONENTS LATER
+	public void disableSystemComponent(int comp) {
+		if (sysComponents[comp] == ENABLED)
+			sysComponents[comp] = DISABLED;
+		else {
+			throw new IllegalArgumentException
+            	(comp + " is an invalid Ship System component:"
+            			+ "(0-23)...");
+		}
+		// check circuit completion
+		if (sysComponents[2] == DISABLED && sysComponents[1] == DISABLED &&
+				sysComponents[0] == DISABLED && sysComponents[20] == DISABLED) {
+			sysComponents[2] 	= ENABLED;
+			sysComponents[1] 	= ENABLED;
+			sysComponents[0] 	= ENABLED;
+			sysComponents[20] 	= ENABLED;
+		
+		}
+		if (sysComponents[8] == DISABLED && sysComponents[7] == DISABLED &&
+				sysComponents[6] == DISABLED && sysComponents[18] == DISABLED) {
+			sysComponents[8] 	= ENABLED;
+			sysComponents[7] 	= ENABLED;
+			sysComponents[6] 	= ENABLED;
+			sysComponents[18] 	= ENABLED;
+		
+		}
+		if (sysComponents[12] == DISABLED && sysComponents[13] == DISABLED &&
+				sysComponents[14] == DISABLED && sysComponents[19] == DISABLED) {
+			sysComponents[12] 	= ENABLED;
+			sysComponents[13] 	= ENABLED;
+			sysComponents[14] 	= ENABLED;
+			sysComponents[19] 	= ENABLED;
+		
+		}
+		
 		updateStatuses();
 	}
 	
+<<<<<<< HEAD
 	public void printSystems() // For Testing purposes
 	{
+=======
+	public int getPowerLevel(String sys) {
+		switch (sys) {
+			case "Sonar": 	return sonar[POWER_LEVEL];
+			case "Missile": return missile[POWER_LEVEL];
+			case "Mine": 	return mine[POWER_LEVEL];
+			case "Drone": 	return drone[POWER_LEVEL];
+			case "Silent": 	return silent[POWER_LEVEL];
+		
+			default:
+				throw new IllegalArgumentException
+				(sys + " is an invalid Ship System type:"
+						+ "(Sonar, Missile, Mine, Drone, Silent)...");
+		}
+	}
+	
+	public boolean isSystemCharged(String sys) {
+		switch (sys) {
+			case "Sonar": 	return sonar[CHARGED_STATUS] 	== CHARGED;
+			case "Missile": return missile[CHARGED_STATUS] 	== CHARGED;
+			case "Mine": 	return mine[CHARGED_STATUS] 	== CHARGED;
+			case "Drone": 	return drone[CHARGED_STATUS] 	== CHARGED;
+			case "Silent": 	return silent[CHARGED_STATUS] 	== CHARGED;
+	
+			default:
+				throw new IllegalArgumentException
+				(sys + " is an invalid Ship System type:"
+						+ "(Sonar, Missile, Mine, Drone, Silent)...");
+		}
+	}
+	
+	public boolean isSystemDestroyed(String sys) {
+		switch (sys) {
+			case "Sonar": 	return sonar[SYSTEM_STATUS] 	== DESTROYED;
+			case "Missile": return missile[SYSTEM_STATUS] 	== DESTROYED;
+			case "Mine": 	return mine[SYSTEM_STATUS] 		== DESTROYED;
+			case "Drone": 	return drone[SYSTEM_STATUS] 	== DESTROYED;
+			case "Silent": 	return silent[SYSTEM_STATUS] 	== DESTROYED;
+	
+			default:
+				throw new IllegalArgumentException
+				(sys + " is an invalid Ship System type:"
+						+ "(Sonar, Missile, Mine, Drone, Silent)...");
+		}
+	}
+	
+	public boolean isCompEnabled(int comp) {
+		return sysComponents[comp] == ENABLED;
+	}
+	
+	public void printSystems() {
+>>>>>>> 2e004a443953bec57da80c95de031db09ffb6419
 		System.out.println("Sonar at "+		sonar[POWER_LEVEL]);
 		System.out.println("Missile at "+	missile[POWER_LEVEL]);
 		System.out.println("Mine at "+		mine[POWER_LEVEL]);
