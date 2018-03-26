@@ -37,11 +37,13 @@ public class TestServer implements Runnable{
 							@SuppressWarnings("unchecked")
 							
 								User u = (User)inputLine;
-														
-								u.setWins(new Random().nextInt() % 20);
-								u.setLoss(new Random().nextInt() % 20);
-								u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");
-								
+							
+								if(u.getResult() == 0)
+								{
+									u.setWins(new Random().nextInt() % 20);
+									u.setLoss(new Random().nextInt() % 20);
+									u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");
+								}
 							out.sendUser(u);
 						}
 					}
