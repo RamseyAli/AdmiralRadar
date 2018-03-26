@@ -31,7 +31,7 @@ public class AdmRadarServer
 	ArrayList<Spaceship> gameShip;
 	static int nPlayers;
 	static boolean gameOngoing;
-	static boolean moveComplete;
+	static boolean []moveComplete = new boolean[2];
 	ServerSocket serverSocket;
 	static int turn;
 	
@@ -77,16 +77,14 @@ public class AdmRadarServer
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
 						
-						int success = -1; //= login(username,encPassword);
-						if(username.equals("username") && encPassword.equals("password"))
-							success = 0;
+						int success = login(username,encPassword);
 						u.loginSuccessful(success);
 						
 						if(success == 0)
 						{
-							u.setWins(10);//getWins(username));
-							u.setLoss(10);//getLosses(username));
-							u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");//getURL(username));
+							u.setWins(getWins(username));
+							u.setLoss(getLosses(username));
+							u.setAvatar(getURL(username));
 							
 							mpos.sendUser(u);
 							
@@ -97,8 +95,8 @@ public class AdmRadarServer
 								{
 									inputObject = mpis.getNextUser();
 									u = (User)inputObject;
-									//resetPW(username,u.getEncryptedPassword(),1);
-									//setURL(username,u.getAvatar());
+									resetPW(username,u.getEncryptedPassword(),8242);
+									setURL(username,u.getAvatar());
 									mpos.sendUser(u);
 								}
 								else if(temp.equals(String.class))
@@ -116,7 +114,7 @@ public class AdmRadarServer
 									turnNo = nPlayers;
 									nPlayers++;
 									
-									while(nPlayers < 4)
+									while(nPlayers < 8)
 									{
 										mpos.sendString("WAITING");
 									}
@@ -127,7 +125,7 @@ public class AdmRadarServer
 									map = arp.updateMap();				
 									mpos.sendMap(map);
 									
-									if(turnNo == 3)
+									if(turnNo == 7)
 									{
 										System.out.println("GAME BEGINS");
 										gameOngoing = true;
@@ -176,7 +174,17 @@ public class AdmRadarServer
 											if(turn == turnNo)
 											{
 												System.out.println(turn);
-																								
+												
+												if(turnNo == 0)
+												{
+													moveComplete[teamNo] = false;
+												}
+												
+												if(turnNo == 4)
+												{
+													moveComplete[teamNo] = false;
+												}
+												
 												ship = gameShip.get(teamNo);
 												
 												if(ship != null && (turnNo == 1 || turnNo == 2 || turnNo == 5 || turnNo == 6))
@@ -191,34 +199,35 @@ public class AdmRadarServer
 												if(turnNo == 2 || turnNo == 6)
 												{
 													if(gameShip.get(teamNo) == null)
+													{
 														gameOngoing = false;
-													moveComplete = true;
+														System.out.println("GAME ENDED");
+													}
+													moveComplete[teamNo] = true;
 												}
 												
 												turn++;
 												if(turn == 3)
 												{
-												//	turn++;
-												//}
-												//else if(turn == 6)
-												//{
+													turn++;
+												}
+												else if(turn == 6)
+												{
 													turn = 0;
 												}
 												
-												while(!moveComplete)
+												while(!moveComplete[teamNo])
 												{
 													//Do nothing
 													//System.out.println("Doing nothing");
 												}
 												
 												ship = gameShip.get(teamNo);
+												ship.printShip();
+												
 												mpos.sendSpaceShip(ship);
 												mpos.reset();
 												
-												if(turnNo == 2 || turnNo == 6)
-												{
-													moveComplete = false;
-												}
 											}
 											else
 											{
@@ -242,78 +251,6 @@ public class AdmRadarServer
 						}
 					}
 					
-					/*AdmRadarProtocol arp = new AdmRadarProtocol();
-					
-					GameMap m = new GameMap();
-					m = arp.updateMap();
-					oos.writeUnshared(m);
-					oos.reset();
-					
-					String inputLine;
-					
-					inputLine = (String) ois.readUnshared();
-					
-					if(inputLine.equalsIgnoreCase("Captain"))
-					{
-						Position p = new Position();
-						p = (Position) ois.readUnshared();
-	
-						ship = new Spaceship();
-						ship.setPos(p);
-						spaceship.set(i,ship);
-						
-						oos.writeUnshared(spaceship.get(i));
-						oos.reset();
-						
-						while(true)
-						{
-							inputLine = (String) ois.readUnshared();
-							ship = spaceship.get(i);
-							ship = arp.processCommands(inputLine,ship);
-							spaceship.set(i,ship);
-							oos.writeUnshared(spaceship.get(i));
-							oos.reset();
-							
-							if (inputLine.equals("exit"))
-							{
-								nPlayers--;
-								stopAllThreads();
-								break;
-							}
-							if(Thread.currentThread().isInterrupted())
-							{
-								break;
-							}
-						}
-					}
-					else if(inputLine.equalsIgnoreCase("First Officer"))
-					{
-						ship = spaceship.get(i);
-						
-						oos.writeUnshared(spaceship.get(i));
-						oos.reset();
-						
-						while(true)
-						{
-							inputLine = (String) ois.readUnshared();
-							ship = spaceship.get(i);
-							ship = arp.processCommands(inputLine,ship);
-							spaceship.set(i,ship);
-							oos.writeUnshared(spaceship.get(i));
-							oos.reset();
-							
-							if (inputLine.equals("exit"))
-							{
-								nPlayers--;
-								stopAllThreads();
-								break;
-							}
-							if(Thread.currentThread().isInterrupted())
-							{
-								break;
-							}
-						}
-					}*/
 				}
 			} catch(Exception ex) {
 				ex.printStackTrace();
@@ -370,7 +307,8 @@ public class AdmRadarServer
 					System.out.println("ERROR: Reset Failed - Invalid PIN");
 				}
 			}*/
-		moveComplete = false;
+		moveComplete[0] = false;
+		moveComplete[1] = false;
 		gameOngoing = false;
 		turn = 0;
 		nPlayers = 0;

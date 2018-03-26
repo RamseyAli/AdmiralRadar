@@ -4,12 +4,13 @@ import game.Spaceship;
 
 public class AdmRadarProtocol
 {
-	private static int NUMCOMMANDS = 0;
+	private static int NUMCOMMANDS;
 	
 	GameMap map1;
 	
 	public AdmRadarProtocol()
 	{
+		NUMCOMMANDS = 0;
 		map1 = new GameMap();
 	}
 	
@@ -19,6 +20,7 @@ public class AdmRadarProtocol
 			return null;
 		
 		NUMCOMMANDS++;
+		
 		if (command.equalsIgnoreCase("NORTH"))
 		{
 			ship.setDirection("N");
@@ -45,7 +47,7 @@ public class AdmRadarProtocol
 		}
 		else if (command.equalsIgnoreCase("Mine"))
 		{
-			ship.getShipSystem().chargeSystem("Mine");
+			ship.getShipSystem().chargeSystem("Mine");;
 		}
 		else if (command.equalsIgnoreCase("Drone"))
 		{
@@ -75,6 +77,11 @@ public class AdmRadarProtocol
 		{
 			ship = null;
 		}
+		else
+		{
+			
+		}
+		
 		return ship;
 	}
 	

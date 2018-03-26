@@ -204,12 +204,8 @@ public class ShipSystems implements Serializable {
 		}
 		
 		updateStatuses();
-	}
-	
-<<<<<<< HEAD
-	public void printSystems() // For Testing purposes
-	{
-=======
+	}	
+
 	public int getPowerLevel(String sys) {
 		switch (sys) {
 			case "Sonar": 	return sonar[POWER_LEVEL];
@@ -259,8 +255,8 @@ public class ShipSystems implements Serializable {
 		return sysComponents[comp] == ENABLED;
 	}
 	
-	public void printSystems() {
->>>>>>> 2e004a443953bec57da80c95de031db09ffb6419
+	public void printSystems() // For Testing purposes
+	{
 		System.out.println("Sonar at "+		sonar[POWER_LEVEL]);
 		System.out.println("Missile at "+	missile[POWER_LEVEL]);
 		System.out.println("Mine at "+		mine[POWER_LEVEL]);

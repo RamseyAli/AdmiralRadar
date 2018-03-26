@@ -39,13 +39,7 @@ public class TestClient {
 	} // TODO: Database stuff*/
 	
 	public static void main(String[] args) throws IOException {
-
-		/*if (args.length != 2) {
-			System.err.println(
-					"Usage: java AdmRadarClient <host name> <port number>");
-			System.exit(1);
-		}*/
-
+		
 		try (
 				Socket arSocket = new Socket(HOST,PORT);
 				MyPacketOutputStream mpo = new MyPacketOutputStream(arSocket.getOutputStream());
@@ -81,8 +75,13 @@ public class TestClient {
 						if(action == 1)
 						{
 							System.out.println("You selected to set details");
-							u.setNewPassword("PASSWORD");
-							u.setAvatar("Avatar Kora");
+							System.out.println("Enter new password(or same old password)");
+							String temp = br.readLine();
+							u.setNewPassword(temp);
+							System.out.println("Enter new avatar url(or same old url)");
+							temp = br.readLine();
+							temp = "http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg";
+							u.setAvatar(temp);
 							mpo.sendUser(u);
 							u = mpi.getNextUser();
 							System.out.println("Details:");
@@ -100,7 +99,8 @@ public class TestClient {
 							
 							while(mpi.getClassOfNext().equals(String.class))
 							{
-								System.out.println(mpi.getNextString());
+								mpi.getNextString();
+								//System.out.println(mpi.getNextString());
 							}
 							
 							map = mpi.getNextMap();
@@ -187,99 +187,14 @@ public class TestClient {
 				}
 				else if(success == 1)
 				{
-					System.out.println("Invallid Username");
+					System.out.println("Invalid Username");
 				}
 				else
 				{
 					System.out.println("Invalid Passsword");
 				}
 			}
-			/*BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-
-			String fromUser;
-			System.out.println("Enter role :");
-			fromUser = stdIn.readLine();
-			if (fromUser != null)
-			{
-				System.out.println("Player is a " + fromUser);
-			}
 			
-			String fromServer;
-			
-			if(fromUser.equals("Captain"))
-			{
-				GameMap map1 = new GameMap();
-				map1 = (GameMap) is.readUnshared();
-
-				map1.printAsteroids();
-				
-				os.writeUnshared(fromUser);
-				os.reset();
-				
-				System.out.println("Enter your location x,y :");
-				fromUser = stdIn.readLine();
-
-				String[] coordinates = fromUser.split(",");
-				int a = Integer.parseInt(coordinates[0]);
-				int b = Integer.parseInt(coordinates[1]);
-
-				Position p = new Position();
-				p.setPosition(a,b);
-
-				os.writeUnshared(p);
-				os.reset();
-
-				Spaceship teamShip = (Spaceship) is.readUnshared();
-
-				while (teamShip != null)
-				{
-					fromUser = stdIn.readLine();
-					if (fromUser != null)
-					{
-						System.out.println("Player: " + fromUser);
-						os.writeUnshared(fromUser);
-						os.reset();
-					}
-					teamShip = (Spaceship) is.readUnshared();
-					if(teamShip != null)
-					{
-						Position temp = teamShip.getPosition();
-						System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
-						System.out.println("Ship path :"+teamShip.getPath());
-					}
-				}
-			}
-			else if(fromUser.equals("First Officer"))
-			{
-				GameMap map1 = new GameMap();
-				map1 = (GameMap) is.readUnshared();
-
-				map1.printAsteroids();
-
-				System.out.println("Waiting for Captain");
-
-				Spaceship teamShip = (Spaceship) is.readUnshared();
-
-				while (teamShip != null)
-				{
-					fromUser = stdIn.readLine();
-					if (fromUser != null)
-					{
-						System.out.println("Player: " + fromUser);
-						os.writeUnshared(fromUser);
-						os.reset();
-					}
-					teamShip = (Spaceship) is.readUnshared();
-					if(teamShip != null)
-					{
-						Position tempP = teamShip.getPosition();
-						System.out.println("Ship at x = "+tempP.x+" y = "+tempP.y);
-						ShipSystems tempS = teamShip.getShipSystem();
-						tempS.printSystems();
-					}
-					System.out.println("Waiting for Captain");
-				}
-			}*/
 		} catch (UnknownHostException e) {
 			System.err.println("Don't know about host " + HOST);
 			e.printStackTrace();
