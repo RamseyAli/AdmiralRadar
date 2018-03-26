@@ -103,6 +103,9 @@ public class ShipSystems implements Serializable {
 			// Disable Tactical Systems
 			mine[SYSTEM_STATUS] 	= DESTROYED;
 			missile[SYSTEM_STATUS] 	= DESTROYED;
+		} else {
+			mine[SYSTEM_STATUS] 	= NOT_DESTROYED;
+			missile[SYSTEM_STATUS] 	= NOT_DESTROYED;
 		}
 
 		if (sysComponents[2] == DISABLED || sysComponents[3] == DISABLED ||
@@ -112,6 +115,9 @@ public class ShipSystems implements Serializable {
 			// Disable Sensory Systems
 			drone[SYSTEM_STATUS] 	= DESTROYED;
 			sonar[SYSTEM_STATUS] 	= DESTROYED;
+		} else {
+			drone[SYSTEM_STATUS] 	= NOT_DESTROYED;
+			sonar[SYSTEM_STATUS] 	= NOT_DESTROYED;
 		}
 
 		if (sysComponents[1] == DISABLED || sysComponents[6] == DISABLED ||
@@ -120,7 +126,10 @@ public class ShipSystems implements Serializable {
 		{
 			// Disable Auxilary System(s)
 			silent[SYSTEM_STATUS] 	= DESTROYED;
+		} else {
+			silent[SYSTEM_STATUS] 	= NOT_DESTROYED;
 		}
+		
 	}
 
 	// power-level and charged to 0
@@ -318,10 +327,57 @@ public class ShipSystems implements Serializable {
 
 	public void printSystems() // For Testing purposes
 	{
-		System.out.println("Sonar at "+sonar[POWER_LEVEL]+" disable = "+sonar[SYSTEM_STATUS]);
-		System.out.println("Missile at "+missile[POWER_LEVEL]+" disable = "+missile[SYSTEM_STATUS]);
-		System.out.println("Mine at "+mine[POWER_LEVEL]+" disable = "+mine[SYSTEM_STATUS]);
-		System.out.println("Drone at "+drone[POWER_LEVEL]+" disable = "+drone[SYSTEM_STATUS]);
-		System.out.println("Silent at "+silent[POWER_LEVEL]+" disable = "+silent[SYSTEM_STATUS]);
+		System.out.println("------------------ TACTICAL SHIP SYSTEMS -------------------");
+		System.out.print("Current Missile power level: 	"+missile[POWER_LEVEL]+", System Status: ");
+		if (isSystemDestroyed("Missile")) System.out.printf("DISABLED\n");
+		else 							  System.out.printf("ENABLED\n");
+		
+		System.out.print("Current Mine power level: 	"+mine[POWER_LEVEL]+", System Status: ");
+		if (isSystemDestroyed("Mine")) 	  System.out.printf("DISABLED\n\n");
+		else 							  System.out.printf("ENABLED\n\n");
+		
+		System.out.println("------------------ SENSORY SHIP SYSTEMS -------------------");
+		System.out.print("Current Sonar power level: 	"+sonar[POWER_LEVEL]+", System Status: ");
+		if (isSystemDestroyed("Sonar"))   System.out.printf("DISABLED\n");
+		else 							  System.out.printf("ENABLED\n");
+		
+		System.out.print("Current Drone power level: 	"+drone[POWER_LEVEL]+", System Status: ");
+		if (isSystemDestroyed("Drone"))   System.out.printf("DISABLED\n\n");
+		else 							  System.out.printf("ENABLED\n\n");
+		
+		System.out.println("------------------ AUXILARY SHIP SYSTEMS -------------------");
+		System.out.print("Current Silent power level: 	"+silent[POWER_LEVEL]+", System Status: ");
+		if (isSystemDestroyed("Silent"))  System.out.printf("DISABLED\n\n");
+		else 							  System.out.printf("ENABLED\n\n");
+	}
+	
+	public static void main(String[] args) {
+		Spaceship ship1 = new Spaceship();
+		Spaceship ship2 = new Spaceship();
+		
+		/*
+		 * User Story #16
+		 */
+		
+		// Tactical system repair test
+		System.out.printf(">>>>>>>>>>	Ship1 ShipSystems upon creation:\n\n");
+		ship1.getShipSystem().printSystems();
+		System.out.printf("\n>>>>>>>>>> Disabling Tactical Component #0... \n\n");
+		ship1.getShipSystem().disableSystemComponent(0);
+		
+		System.out.printf(">>>>>>>>>> Ship1 ShipSystems after disabling 1 Tactical component:\n\n");
+		ship1.getShipSystem().printSystems();
+		
+		System.out.printf(">>>>>>>>>> Disabling components in circuit containing Tactical Component #0: \n\n");
+		ship1.getShipSystem().disableSystemComponent(2);
+		ship1.getShipSystem().disableSystemComponent(1);
+		ship1.getShipSystem().disableSystemComponent(20);
+		
+		System.out.printf(">>>>>>>>>> Ship1 ShipSystems after re-enabling Comp #0:\n\n");
+		ship1.getShipSystem().printSystems();
+		
+			
+
+	
 	}
 }
