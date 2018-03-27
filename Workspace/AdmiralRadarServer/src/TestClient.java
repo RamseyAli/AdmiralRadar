@@ -22,21 +22,6 @@ public class TestClient {
 	static final int PORT = 2069;
 	static final String HOST = "localhost";
 	
-	// Member Functions //
-	/*private void connect_Server(String hostName, int portNumber, String username, String password) throws Exception {
-		//primeSocket = new Socket(hostName, portNumber);
-	}
-	
-	public void login(String ipAddress, String username, String password) {
-		int portNum = PORT;
-		try {
-			connect_Server(ipAddress, portNum, username, password);
-		}
-		catch (Exception ex)
-		{
-			// Connection failed, do something
-		}
-	} // TODO: Database stuff*/
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -138,10 +123,23 @@ public class TestClient {
 							
 							if(role == Role.RADIO)
 							{
+								int n = 0;
 								while(true)
 								{
-									System.out.println("Not implemented yet");
-									break;
+									String str = mpi.getNextString();
+									if(!str.equals("Game ended"))
+									{
+										//if(n == 4)
+											//System.out.println(str);
+										n++;
+										if(n == 5)
+											n = 0;
+									}
+									else									
+									{
+										System.out.println(str);
+										break;
+									}
 								}
 							}
 							else
@@ -162,10 +160,24 @@ public class TestClient {
 									else
 									{
 										System.out.println(strInput);
+										/*if(role == Role.CAPTAIN)
+										{
+											strInput = mpi.getNextString();
+											System.out.println(strInput);
+											strOutput = br.readLine();
+											mpo.sendString(strOutput);
+											if(!strOutput.equalsIgnoreCase("No"))
+											{
+												strInput = mpi.getNextString();
+												System.out.println(strInput);
+											}
+											
+											System.out.println("Enter next direction");
+										}*/
 										strOutput = br.readLine();
 										mpo.sendString(strOutput);
 										ship = mpi.getNextSpaceship();
-										if(ship == null)
+										if(ship.getPosition().x == -1 && ship.getPosition().y == -1)
 										{
 											System.out.println("Game Ended");
 											System.out.println("You Lost");
@@ -201,7 +213,7 @@ public class TestClient {
 			System.exit(1);
 		} catch (Exception e) {
 			System.err.println("Couldn't get I/O for the connection to " + HOST);
-			e.printStackTrace();
+			e.printStackTrace(System.err);
 			System.exit(1);
 		}
 	}

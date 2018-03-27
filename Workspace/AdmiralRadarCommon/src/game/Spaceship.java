@@ -15,12 +15,12 @@ public class Spaceship implements Serializable
 
 	private static final long serialVersionUID = 1L;
 	
-	String nextDir;
-
-
+	private static String nextDir;
+	
 	public Spaceship()
 	{
 		pos = new Position();
+		pos.setPosition(-1, -1);
 		path = "";
 		health = MAX_HEALTH;
 		systems = new ShipSystems();
@@ -68,16 +68,6 @@ public class Spaceship implements Serializable
 		return health;
 	}
 	
-	public void removeHealth(int valueToRemove) {
-		health = (health - valueToRemove < 0 ? 0 
-				: health - valueToRemove);
-	}
-	
-	public void restoreHealth(int valueToAdd) {
-		health = (health + valueToAdd > MAX_HEALTH ? MAX_HEALTH 
-				: health + valueToAdd);
-	}
-	
 	public String getDirection()
 	{
 		return nextDir;
@@ -88,11 +78,28 @@ public class Spaceship implements Serializable
 		return systems;
 	}
 	
+	public void removeHealth(int valueToRemove) {
+		health = (health - valueToRemove < 0 ? 0 
+				: health - valueToRemove);
+	}
+	
+	public void restoreHealth() {
+		health = MAX_HEALTH;
+	}
+	
+	public void destroyShip()
+	{
+		pos.setPosition(-1, -1);
+		path = "";
+		health = 0;
+		nextDir = "";
+	}
+	
 	public void printShip() //For testing purposes
 	{
-		System.out.println("x = "+pos.x+", y = "+pos.y);
-		System.out.println(path);
-		System.out.println(health);
+		System.out.println("Position: x = "+pos.x+", y = "+pos.y);
+		System.out.println("Path: "+path);
+		System.out.println("Health: "+health);
 		systems.printSystems();
 	}
 }

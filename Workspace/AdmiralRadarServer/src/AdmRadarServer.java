@@ -63,12 +63,22 @@ public class AdmRadarServer
 			}
 		}
 		
+		public boolean processSpecialAction(String action)
+		{
+			if(action.equalsIgnoreCase("Spacewalk"))
+			{
+				gameShip.get(teamNo).restoreHealth();
+				return true;
+			}
+			else
+				return false;
+		}
+		
 		public void run()
 		{
 			try {
 				while(true)
 				{
-					
 					Object inputObject;
 					if((inputObject = mpis.getNextUser()) != null)
 					{
@@ -77,6 +87,7 @@ public class AdmRadarServer
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
 						
+						//resetPW(username,encPassword,8242);
 						int success = login(username,encPassword);
 						u.loginSuccessful(success);
 						
@@ -123,7 +134,7 @@ public class AdmRadarServer
 									AdmRadarProtocol arp = new AdmRadarProtocol();
 									
 									map = new GameMap();
-									map = arp.updateMap();				
+									map = arp.updateMap();
 									mpos.sendMap(map);
 									
 									if(turnNo == 7)
@@ -163,11 +174,50 @@ public class AdmRadarServer
 									mpos.sendSpaceShip(ship);
 									mpos.reset();
 									
-									while(gameOngoing)
+									while(true)//gameOngoing)
 									{
 										if(role == Role.RADIO)
 										{
-											break;
+											String str;
+											if(teamNo == 0)
+											{
+												if(gameShip.get(1) != null)
+												{
+													str = gameShip.get(1).getPath();
+													mpos.sendString(str);
+												}
+												else
+												{
+													str = "Game ended";
+													mpos.sendString(str);
+													break;
+												}
+												
+												/*while(!moveComplete[1])
+												{
+													// Do nothing
+													System.out.print("");
+												}*/
+											}
+											else
+											{
+												if(gameShip.get(0) != null)
+												{
+													str = gameShip.get(0).getPath();
+													mpos.sendString(str);
+												}
+												else
+												{
+													str = "Game ended";
+													mpos.sendString(str);
+													break;
+												}
+												/*while(!moveComplete[0])
+												{
+													// Do nothing
+													System.out.print("");
+												}*/
+											}
 										}
 										else
 										{
@@ -177,13 +227,8 @@ public class AdmRadarServer
 											{
 												System.out.println(turn);
 												
-												if(turnNo == 0)
-												{
-													moveComplete[teamNo] = false;
-												}
-												
-												if(turnNo == 4)
-												{
+												if(turnNo == 0 || turnNo == 4)
+												{								
 													moveComplete[teamNo] = false;
 												}
 												
@@ -194,9 +239,28 @@ public class AdmRadarServer
 													str = ship.getDirection();
 												
 												mpos.sendString(str);
+												/*if(role == Role.CAPTAIN)
+												{
+													String temp1 = "Do you want to do any special action?"; 
+													mpos.sendString(temp1);
+													temp1 = mpis.getNextString();
+													if(!temp1.equalsIgnoreCase("No"));
+													{
+														if(processSpecialAction(temp1))
+														{
+															temp1 += " successful";
+															mpos.sendString(temp1);
+														}
+														else
+														{
+															temp1 += " unsuccessful";
+															mpos.sendString(temp1);
+														}
+													}
+												}*/
 												
 												String action = mpis.getNextString();
-												arp.processCommands(action, ship);
+												ship = arp.processCommands(action, ship);
 												gameShip.set(teamNo, ship);
 												
 												if(turnNo == 2 || turnNo == 6)
@@ -204,6 +268,7 @@ public class AdmRadarServer
 													if(gameShip.get(teamNo) == null)
 													{
 														gameOngoing = false;
+														
 														System.out.println("GAME ENDED");
 													}
 													moveComplete[teamNo] = true;
@@ -228,14 +293,27 @@ public class AdmRadarServer
 												ship = gameShip.get(teamNo);
 												//ship.printShip();
 												
-												mpos.sendSpaceShip(ship);
-												mpos.reset();
-												
+												if(ship == null)
+												{
+													Spaceship emptyShip = new Spaceship();
+													mpos.sendSpaceShip(emptyShip);
+													mpos.reset();
+													break;
+												}
+												else
+												{
+													mpos.sendSpaceShip(ship);
+													mpos.reset();
+												}
 											}
 											else
 											{
 												if(!gameOngoing)
+												{
+													gameShip.set(teamNo, null);
 													mpos.sendString("Game Ended");
+													break;
+												}
 												else
 													mpos.sendString("Waiting for turn");
 											}
@@ -521,7 +599,7 @@ public class AdmRadarServer
 						preparedStmt.setString   (1, pw);
 						preparedStmt.setString(2, user);
 
-						System.out.println("Prepared Statement: " + preparedStmt);
+						//System.out.println("Prepared Statement: " + preparedStmt);
 
 						// execute the java preparedstatement
 						preparedStmt.executeUpdate();
