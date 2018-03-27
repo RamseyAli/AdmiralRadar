@@ -354,11 +354,17 @@ public class ShipSystems implements Serializable {
 	public static void main(String[] args) {
 		boolean test16 = true;
 
+		Spaceship ship1 = new Spaceship();
+		Spaceship ship2 = new Spaceship();
+		Spaceship ship3 = new Spaceship();
+		Spaceship ship4 = new Spaceship();
+		Spaceship ship5 = new Spaceship();
+		
 		if (test16) {
 			/*
 			 * User Story #16
 			 */
-			Spaceship ship1 = new Spaceship();
+
 			// Tactical system repair test
 			System.out.println("*********************************************** "
 					+ "\nUSER STORY 16 TEST #1 (TACTICAL SYSTEM DISABLEMENT)\n"
@@ -379,7 +385,7 @@ public class ShipSystems implements Serializable {
 			System.out.printf(">>>>>>>>>> Ship1 ShipSystems after re-enabling Comp #0:\n\n");
 			ship1.getShipSystem().printSystems();
 		
-			Spaceship ship2 = new Spaceship();
+
 			// Sensory system repair test
 			System.out.println("*********************************************** "
 					+ "\nUSER STORY 16 TEST #2 (SENSORY SYSTEM DISABLEMENT)\n"
@@ -400,7 +406,7 @@ public class ShipSystems implements Serializable {
 			System.out.printf(">>>>>>>>>> Ship2 ShipSystems after re-enabling Comp #12:\n\n");
 			ship2.getShipSystem().printSystems();
 		
-			Spaceship ship3 = new Spaceship();
+
 			// Auxilary system repair test
 			System.out.println("*********************************************** "
 					+ "\nUSER STORY 16 TEST #3 (SENSORY SYSTEM DISABLEMENT)\n"
@@ -421,7 +427,7 @@ public class ShipSystems implements Serializable {
 			System.out.printf(">>>>>>>>>> Ship3 ShipSystems after re-enabling Comp #6:\n\n");
 			ship3.getShipSystem().printSystems();
 			
-			Spaceship ship4 = new Spaceship();
+
 			// Random system repair test
 			System.out.println("*********************************************** "
 					+ "\nUSER STORY 16 TEST #4 (RANDOM DISABLEMENT)\n"
@@ -438,16 +444,16 @@ public class ShipSystems implements Serializable {
 			System.out.printf(">>>>>>>>>> Ship4 ShipSystems after disabling components:\n\n");
 			ship4.getShipSystem().printSystems();
 			
-			Spaceship ship5 = new Spaceship();
+			
 			// Random system repair test
 			System.out.println("*********************************************** "
 					+ "\nUSER STORY 16 TEST #5 (NON-CIRCUIT DISABLEMENT)\n"
 					+ "***********************************************\n");
 			System.out.printf(">>>>>>>>>>	Ship5 ShipSystems upon creation:\n\n");
 			ship5.getShipSystem().printSystems();
-			System.out.printf("\n>>>>>>>>>> Disabling Auxilary Component #2... \n\n");
+			System.out.printf("\n>>>>>>>>>> Disabling Sensory Component #2... \n\n");
 			ship5.getShipSystem().disableSystemComponent(2);
-			System.out.printf("\n>>>>>>>>>> Disabling Tactical Component #1... \n\n");
+			System.out.printf("\n>>>>>>>>>> Disabling Auxilary Component #1... \n\n");
 			ship5.getShipSystem().disableSystemComponent(1);
 			System.out.printf("\n>>>>>>>>>> Disabling Auxilary (NON-CIRCUIT) Component #17... \n\n");
 			ship5.getShipSystem().disableSystemComponent(17);
