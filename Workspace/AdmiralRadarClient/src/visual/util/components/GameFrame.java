@@ -3,6 +3,7 @@ package visual.util.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,8 +15,7 @@ public class GameFrame extends JFrame {
 	
 	private JPanel mainPane;
 	
-	
-	public GameFrame(){
+	public GameFrame(Point p){
 		super("Admiral Radar");
 		mainPane = new JPanel();
 		mainPane.setLayout(new BorderLayout());
@@ -23,7 +23,11 @@ public class GameFrame extends JFrame {
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		transparent(false);
-		setLocation(100 , 100);
+		setLocation(p.x , p.y);
+	}
+	
+	public GameFrame(){
+		this(new Point(100 , 100));
 		
 	}
 	
@@ -36,7 +40,6 @@ public class GameFrame extends JFrame {
 	}
 	
 	public void setPanel(JPanel p){
-		System.out.println(mainPane.getSize());
 		mainPane.removeAll();
 		mainPane.add(p, BorderLayout.CENTER);
 		

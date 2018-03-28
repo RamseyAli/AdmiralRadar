@@ -1,4 +1,4 @@
-package visual.util;
+package util;
 
 import java.util.ArrayList;
 

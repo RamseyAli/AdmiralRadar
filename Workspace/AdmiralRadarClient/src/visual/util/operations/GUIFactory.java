@@ -1,6 +1,6 @@
 package visual.util.operations;
 
-import java.awt.Component;
+import java.awt.Rectangle;
 
 import game.Role;
 import network.ConnectionManager;
@@ -34,13 +34,19 @@ public class GUIFactory {
 		nexus.setConnector(n);
 		
 	}
-
-	public void beginGUI() {
-		f.setSize(1000,600);
+	
+	public void beginGUI(Rectangle r) {
+		f.setSize(r.getSize());
+		f.setLocation(r.getLocation());
 		f.setPanel(h);
 		f.repaint();
 		h.repaint();
 		f.setVisible(true);
+		
+	}
+
+	public void beginGUI() {
+		beginGUI(new Rectangle(100,100,1000,600));
 		
 	}
 

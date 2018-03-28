@@ -25,7 +25,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
-import visual.util.Preferences;
+import util.Preferences;
 import visual.util.operations.GUIController;
 
 public class NetworkPane extends ShipPanel implements ActionListener{

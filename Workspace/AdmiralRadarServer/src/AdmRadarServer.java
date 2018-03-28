@@ -24,6 +24,7 @@ import game.Spaceship;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
+import util.Preferences;
 
 public class AdmRadarServer
 {
@@ -363,8 +364,18 @@ public class AdmRadarServer
 		gameOngoing = false;
 		turn = 0;
 		nPlayers = 0;
-		int portNumber = 2069;
-		new AdmRadarServer().go(portNumber);
+		new AdmRadarServer().go(Preferences.getPort());
+	}
+	
+	public AdmRadarServer(){
+		
+		moveComplete[0] = false;
+		moveComplete[1] = false;
+		gameOngoing = false;
+		turn = 0;
+		nPlayers = 0;
+		go(Preferences.getPort());
+		
 	}
 	
 	public void go(int port)

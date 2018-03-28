@@ -14,7 +14,7 @@ import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
-import visual.util.Preferences;
+import util.Preferences;
 import visual.util.operations.GUIController;
 
 public class ConnectionManager {
