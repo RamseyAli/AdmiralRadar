@@ -22,10 +22,10 @@ import game.GameMap;
 import game.Position;
 import game.Role;
 import game.Spaceship;
+import helpers.AdmRadarProtocol;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
-import util.AdmRadarProtocol;
 import util.Preferences;
 
 public class AdmRadarServer
