@@ -43,7 +43,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	//Connection Interactor Declarations
 	JTextField usr;
 	JPasswordField pwd;
-	JButton cxt , clr , log;
+	public JButton cxt , clr , log;
 
 	//Tabbed Pane
 	JTabbedPane tab;

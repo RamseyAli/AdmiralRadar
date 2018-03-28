@@ -81,6 +81,9 @@ public class GUIFactory {
 		return f;
 	}
 
+	public ShipPanel getShipPanel(){
+		return h;
+	}
 
 	
 	
