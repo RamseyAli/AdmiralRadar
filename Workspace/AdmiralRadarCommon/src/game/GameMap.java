@@ -2,7 +2,9 @@ package game;
 
 import java.io.*;
 
-public class GameMap implements Serializable
+import net.MyPacketable;
+
+public class GameMap implements Serializable, MyPacketable
 {
 	private static final long serialVersionUID = 1L;
 	

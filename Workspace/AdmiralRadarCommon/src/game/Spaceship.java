@@ -2,7 +2,9 @@ package game;
 
 import java.io.*;
 
-public class Spaceship implements Serializable
+import net.MyPacketable;
+
+public class Spaceship implements Serializable, MyPacketable
 {
 
 	private Position pos;

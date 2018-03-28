@@ -25,6 +25,7 @@ import game.Spaceship;
 import helpers.AdmRadarProtocol;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
+import net.ObjEnum;
 import ops.User;
 import util.Preferences;
 
@@ -104,8 +105,8 @@ public class AdmRadarServer
 							
 							while(true)
 							{
-								Class<?> temp = mpis.getClassOfNext();
-								if(temp.equals(User.class))
+								ObjEnum temp = mpis.getClassOfNext();
+								if(temp == ObjEnum.USER)
 								{
 									inputObject = mpis.getNextUser();
 									u = (User)inputObject;
@@ -113,7 +114,7 @@ public class AdmRadarServer
 									setURL(username,u.getAvatar());
 									mpos.sendUser(u);
 								}
-								else if(temp.equals(String.class))
+								else if(temp == ObjEnum.STRING)
 								{
 									inputObject = mpis.getNextString();
 									//String s = (String)inputObject;
@@ -231,7 +232,7 @@ public class AdmRadarServer
 												myPrint("" + turn);
 												
 												if(turnNo == 0 || turnNo == 4)
-												{								
+										{								
 													moveComplete[teamNo] = false;
 												}
 												

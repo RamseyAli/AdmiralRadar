@@ -2,7 +2,9 @@ package game;
 
 import java.io.*;
 
-public class Position implements Serializable
+import net.MyPacketable;
+
+public class Position implements Serializable , MyPacketable
 {
 
 	public int x;

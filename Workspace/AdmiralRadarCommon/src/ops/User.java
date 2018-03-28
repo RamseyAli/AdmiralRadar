@@ -2,7 +2,9 @@ package ops;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+import net.MyPacketable;
+
+public class User implements Serializable , MyPacketable{
 
 	
 	/**

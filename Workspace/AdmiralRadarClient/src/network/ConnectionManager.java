@@ -61,14 +61,11 @@ public class ConnectionManager {
 		
 		try {
 			oos.sendUser(new User(user, hash));
+			User u = ois.getNextUser();
 			
+			interrupt.setUser(u);
 			
-			@SuppressWarnings("unchecked")
-			MyPacket<User> x = (MyPacket<User>) ois.readObject();
-			
-			interrupt.setUser(x.getObject());
-			
-			switch(x.getObject().getResult()){
+			switch(u.getResult()){
 			case -1: return 2;
 			case 0: return 5;
 			case 1: return 4;
@@ -79,10 +76,7 @@ public class ConnectionManager {
 			
 		} catch (IOException e) {
 			return 2;
-		} catch (ClassNotFoundException e) {
-			return 2;
 		}
-		
 		
 		return 2;
 	
@@ -100,7 +94,9 @@ public class ConnectionManager {
 	}
 
 	public void newAvatar(String s) {
+		
 		u.setAvatar(s);
+		
 		try {
 			oos.sendUser(u);
 		} catch (IOException e) {

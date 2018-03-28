@@ -48,8 +48,21 @@ public class AdmiralRadarMasterTest {
 
 		System.out.println("Server Running");
 
+		//Connect to Server
 		for (int i = 0; i < 8; i++) 
 			((NetworkPane) clients[i].factory.getShipPanel()).cxt.doClick();
+		
+		Thread.sleep(100);
+		
+		//Log In
+		for (int i = 0; i < 8; i++) 
+			((NetworkPane) clients[i].factory.getShipPanel()).log.doClick();
+		
+		Thread.sleep(100);
+		
+		//Set Ready
+		for (int i = 0; i < 8; i++) 
+			((NetworkPane) clients[i].factory.getShipPanel()).ready.doClick();
 		
 
 		//Report Success

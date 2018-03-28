@@ -1,6 +1,8 @@
 package game;
 
-public enum Role {
+import net.MyPacketable;
+
+public enum Role implements MyPacketable{
 	
 	CAPTAIN,
 	RADIO,

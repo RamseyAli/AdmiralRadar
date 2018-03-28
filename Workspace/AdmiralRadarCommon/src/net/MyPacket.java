@@ -1,8 +1,10 @@
 package net;
 
 import java.io.Serializable;
+import java.util.UnknownFormatConversionException;
 
-public class MyPacket<T> implements Serializable{
+
+public class MyPacket implements Serializable{
 
 	/**
 	 * 
@@ -10,25 +12,34 @@ public class MyPacket<T> implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	
-	private T payload;
-	private String objectClass;
+	private MyPacketable payload;
+	private ObjEnum objectClass;
 	
-	private MyPacket(T p, String n){
+	private MyPacket(MyPacketable p, String n){
 		payload = p;
-		objectClass = n;
+		
+		switch(n){
+		case "GameMap": objectClass = ObjEnum.MAP; break;
+		case "Position": objectClass = ObjEnum.POSITION; break;
+		case "Role": objectClass = ObjEnum.ROLE; break;
+		case "Spaceship": objectClass = ObjEnum.SPACESHIP; break;
+		case "SendableString": objectClass = ObjEnum.STRING; break;
+		case "User": objectClass = ObjEnum.USER; break;
+		default: throw new UnknownFormatConversionException("X");
+		}
 	}
 	
-	MyPacket(T p) {
+	MyPacket(MyPacketable p) {
 		this(p, p.getClass().getSimpleName());
 	}
 
-	public T getObject(){
+	public MyPacketable getObject(){
 		
 		return payload;
 		
 	}
 	
-	public String getObjectClass(){
+	public ObjEnum getObjectClass(){
 		
 		return objectClass;
 	}

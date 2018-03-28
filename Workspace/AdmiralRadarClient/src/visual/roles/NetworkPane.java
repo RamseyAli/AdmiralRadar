@@ -16,7 +16,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,7 +42,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	//Connection Interactor Declarations
 	JTextField usr;
 	JPasswordField pwd;
-	public JButton cxt , clr , log;
+	public JButton cxt , clr , log, ready;
 
 	//Tabbed Pane
 	JTabbedPane tab;
@@ -53,7 +52,6 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	JButton avatarButton;
 	
 	//Game Info Panel Declarations
-	JButton ready;
 	JLabel gameStatus;
 
 
@@ -83,6 +81,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 
 		//Connection Label
 		cxnStatus = new JLabel("Default");
+		cxnStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
 		cxnStatus.setForeground(Color.RED);
 
 		//Combo Box
@@ -91,12 +90,15 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		model = (DefaultComboBoxModel<String>) svr.getModel();
 
 		//Login / Connection Components
-		usr = new JTextField("Username" , 20);
-		pwd = new JPasswordField("Password", 20);
+		usr = new JTextField("TEST_USER" , 20);
+		pwd = new JPasswordField("newpassword1234", 20);
+		
 		cxt = new JButton("Connect");
 		cxt.addActionListener(this);
+		
 		clr = new JButton("Clear");
 		clr.addActionListener(this);
+		
 		log = new JButton("Login");
 		log.setAlignmentX(Component.CENTER_ALIGNMENT);
 		log.addActionListener(this);
@@ -106,7 +108,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		con.add(svr);
 		con.add(clr);
 		con.add(cxt);
-		con.add(cxnStatus);
+		//con.add(cxnStatus);
 
 		//Game Tab
 		ready = new JButton("Ready to Play");
@@ -149,6 +151,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		x.add(usr);
 		x.add(pwd);
 		x.add(log);
+		x.add(cxnStatus);
 		x.add(tab);
 		add(x);
 		setState(1);
