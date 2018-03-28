@@ -1,3 +1,4 @@
+package util;
 
 import game.GameMap;
 import game.Spaceship;

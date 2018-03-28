@@ -1,3 +1,4 @@
+package logic;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -24,6 +25,7 @@ import game.Spaceship;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
+import util.AdmRadarProtocol;
 import util.Preferences;
 
 public class AdmRadarServer
@@ -117,14 +119,14 @@ public class AdmRadarServer
 									//String s = (String)inputObject;
 									if(nPlayers == 0)
 									{
-										System.out.println("GAME LOBBY");
-										System.out.println("Error: Not enough players");
-										System.out.println("Game Mode: Turn Based");
+										myPrint("GAME LOBBY");
+										myPrint("Error: Not enough players");
+										myPrint("Game Mode: Turn Based");
 									}
 									
 									teamNo = nPlayers/4;
 									turnNo = nPlayers;
-									System.out.println("team no: "+teamNo+" turn no: "+turnNo);
+									myPrint("team no: "+teamNo+" turn no: "+turnNo);
 									nPlayers++;
 									
 									while(nPlayers < 8)
@@ -140,7 +142,7 @@ public class AdmRadarServer
 									
 									if(turnNo == 7)
 									{
-										System.out.println("GAME BEGINS");
+										myPrint("GAME BEGINS");
 										gameOngoing = true;
 									}
 									
@@ -226,7 +228,7 @@ public class AdmRadarServer
 										
 											if(turn == turnNo)
 											{
-												System.out.println(turn);
+												myPrint("" + turn);
 												
 												if(turnNo == 0 || turnNo == 4)
 												{								
@@ -270,7 +272,7 @@ public class AdmRadarServer
 													{
 														gameOngoing = false;
 														
-														System.out.println("GAME ENDED");
+														myPrint("GAME ENDED");
 													}
 													moveComplete[teamNo] = true;
 												}
@@ -390,17 +392,17 @@ public class AdmRadarServer
 		
 		try {
 			serverSocket = new ServerSocket(port);
-			System.out.println("AdmiralRaderServer running on port: " + port);
+			myPrint("AdmiralRaderServer running on port: " + port);
 			while(true)
 			{
 				Socket clientSocket = serverSocket.accept();
-				System.out.println("Got a client");
+				myPrint("Got a client");
 				Thread t = new Thread(new ClientHandler(clientSocket));
 				t.start();
 			}	
 		} catch (Exception e) {
-			System.out.println("Exception caught when trying to listen on port " + port + " or listening for a connection");
-			System.out.println(e.getMessage());
+			myPrint("Exception caught when trying to listen on port " + port + " or listening for a connection");
+			myPrint(e.getMessage());
 			if (serverSocket != null && !serverSocket.isClosed())
 			{
 		        try
@@ -420,46 +422,46 @@ public class AdmRadarServer
 
 		String username = "TEST_USER";
 		String password = "password";
-		System.out.println("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
+		myPrint("Logging in with... Username: TEST_USER | Password: TEST_PASSWORD");
 		int result = login(username, password);
 		if(result == 0) {
-			System.out.println("Welcome " + username + "!");
+			myPrint("Welcome " + username + "!");
 			int wins = getWins(username);
 			int losses = getLosses(username);
 
 			if (wins != -1 && losses != -1) {
-				System.out.println("Your stats are " + wins + " Win(s) and " + losses + " Loss(es).");
+				myPrint("Your stats are " + wins + " Win(s) and " + losses + " Loss(es).");
 			} else {
-				System.out.println("ERROR: Stats not loaded properly");
+				myPrint("ERROR: Stats not loaded properly");
 			}
 
 		} else {
 			if (result == 1) {
-				System.out.println("ERROR: Login Failed - Invalid username");
+				myPrint("ERROR: Login Failed - Invalid username");
 			} else {
-				System.out.println("ERROR: Login Failed - Invalid password");
+				myPrint("ERROR: Login Failed - Invalid password");
 			}
 		}
-		System.out.println("What would you like the new password to be?");
+		myPrint("What would you like the new password to be?");
 		Scanner reader = new Scanner(System.in);
 		String new_pw = reader.nextLine();
-		System.out.println("What is your PIN?");
+		myPrint("What is your PIN?");
 		int pin = reader.nextInt();
 		result = resetPW(username, new_pw, pin);
 		reader.close();
 		if (result == 0)
 		{
-			System.out.println("Password changed successfully!");
+			myPrint("Password changed successfully!");
 			return true;
 		}
 		else if (result == 1)
 		{
-				System.out.println("ERROR: Reset Failed - Invalid Username");
+				myPrint("ERROR: Reset Failed - Invalid Username");
 				return false;
 		}
 		else
 		{
-				System.out.println("ERROR: Reset Failed - Invalid PIN");
+				myPrint("ERROR: Reset Failed - Invalid PIN");
 				return false;
 		}
 	}
@@ -513,15 +515,15 @@ public class AdmRadarServer
 			conn = DriverManager.getConnection(url, info);
 
 		} catch (Exception ex) {
-			System.out.println("An error occurred while connecting MySQL databse");
+			myPrint("An error occurred while connecting MySQL databse");
 			ex.printStackTrace();
 			return null;
 		}
 
 		if (conn != null) {
-			//System.out.println("Successfully connected to MySQL database");
+			//myPrint("Successfully connected to MySQL database");
 		} else {
-			System.out.println("Could not connect to MySQL database");
+			myPrint("Could not connect to MySQL database");
 			return null;
 		}
 
@@ -536,7 +538,7 @@ public class AdmRadarServer
 			return obj;
 
 		} catch (Exception e) {
-			System.out.println("Could not execute query on MySQL database");
+			myPrint("Could not execute query on MySQL database");
 			e.printStackTrace();
 			return null;
 		}
@@ -567,7 +569,7 @@ public class AdmRadarServer
 						DBobj.close();
 						return 0;
 					} else {
-						//System.out.println("PW: " + pw + " | " + DBobj.rs.getString("PASSWORD"));
+						//myPrint("PW: " + pw + " | " + DBobj.rs.getString("PASSWORD"));
 						DBobj.close();
 						return 2;
 					}
@@ -575,7 +577,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		DBobj.close();
 		return 1;
@@ -610,7 +612,7 @@ public class AdmRadarServer
 						preparedStmt.setString   (1, pw);
 						preparedStmt.setString(2, user);
 
-						//System.out.println("Prepared Statement: " + preparedStmt);
+						//myPrint("Prepared Statement: " + preparedStmt);
 
 						// execute the java preparedstatement
 						preparedStmt.executeUpdate();
@@ -625,7 +627,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		DBobj.close();
 		return 1;
@@ -646,7 +648,7 @@ public class AdmRadarServer
 			preparedStmt.setString(1, url);
 			preparedStmt.setString(2, user);
 			preparedStmt.executeUpdate();
-			//System.out.println("Prepared Statement: " + preparedStmt);
+			//myPrint("Prepared Statement: " + preparedStmt);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 1;
@@ -702,7 +704,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		DBobj.close();
 		return "ERROR";
@@ -726,7 +728,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		DBobj.close();
 		return -1;
@@ -750,7 +752,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		DBobj.close();
 		return -1;
@@ -779,7 +781,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		DBobj.close();
 		return messages;
@@ -804,7 +806,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		DBobj.close();
 		return messages;
@@ -824,7 +826,7 @@ public class AdmRadarServer
 			preparedStmt.setString(2, message);
 			preparedStmt.setInt(3, teamID);
 			preparedStmt.executeUpdate();
-			//System.out.println("Prepared Statement: " + preparedStmt);
+			//myPrint("Prepared Statement: " + preparedStmt);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -846,7 +848,7 @@ public class AdmRadarServer
 			preparedStmt.setString(1, username);
 			preparedStmt.setString(2, message);
 			preparedStmt.executeUpdate();
-			//System.out.println("Prepared Statement: " + preparedStmt);
+			//myPrint("Prepared Statement: " + preparedStmt);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -919,7 +921,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		
 		DBobj.close();
@@ -938,7 +940,7 @@ public class AdmRadarServer
 			preparedStmt.setInt(1, teamID);
 			preparedStmt.setString(2, username);
 			preparedStmt.executeUpdate();
-			//System.out.println("Prepared Statement: " + preparedStmt);
+			//myPrint("Prepared Statement: " + preparedStmt);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -987,7 +989,7 @@ public class AdmRadarServer
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("There's an issue retrieving info. from query results");
+			myPrint("There's an issue retrieving info. from query results");
 		}
 		
 		DBobj.close();
@@ -1014,5 +1016,9 @@ public class AdmRadarServer
 		DBobj.close();
 		return true;
 	}	
+	
+	public static void myPrint(String s){
+		System.out.println("SERVER: " + s);
+	}
 	
 }
