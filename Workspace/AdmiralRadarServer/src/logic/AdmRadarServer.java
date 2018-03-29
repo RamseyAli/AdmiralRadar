@@ -135,10 +135,13 @@ public class AdmRadarServer
 									
 									while(nPlayers < 8)
 									{
+										Thread.sleep(300);
 										mpos.sendString("WAITING");
 									}
 									
 									AdmRadarProtocol arp = new AdmRadarProtocol();
+									
+									
 									
 									map = new GameMap();
 									map = arp.updateMap();
@@ -148,6 +151,7 @@ public class AdmRadarServer
 									{
 										myPrint("GAME BEGINS");
 										gameOngoing = true;
+										
 									}
 									
 									if(turnNo  == 0 || turnNo == 4)

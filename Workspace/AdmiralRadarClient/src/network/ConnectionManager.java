@@ -125,6 +125,7 @@ public class ConnectionManager {
 
 		boolean stop = false;
 		while(!stop){
+			System.out.println(ois.getClassOfNext().toString());
 			if (ois.getClassOfNext() == ObjEnum.ROLE){
 			//	System.out.println("ROLE RECEIVED!");
 				stop = true;
@@ -154,7 +155,12 @@ public class ConnectionManager {
 				}
 			}
 			else if (ois.getClassOfNext() == ObjEnum.STRING){
-			//	System.out.println("STRING RECEIVED!");
+				try {
+					System.out.println("STRING RECEIVED! " + ois.getNextString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		//		try {
 		//			interrupt.setStatusMessage(ois.getNextString());
 		//		} catch (IOException e) {
