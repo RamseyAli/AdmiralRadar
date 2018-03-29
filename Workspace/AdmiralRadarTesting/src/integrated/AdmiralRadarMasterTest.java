@@ -41,7 +41,7 @@ public class AdmiralRadarMasterTest {
 		ARClient[] clients = new ARClient[8];
 		final int S = 400;
 		final int S2 = (int) (S * 0.6);
-		for (int i = 0; i < 8; i++) clients[i] = new ARClient(new Rectangle(S * (i % 4), S2 * (i / 4), S , S2));
+		for (int i = 0; i < 8; i++) clients[i] = new ARClient(new Rectangle(S * (i % 4), (int) (S2 * 1.2) * (i / 4), S , S2));
 
 		//Make a Server
 		ARServer serve = new ARServer();
@@ -52,11 +52,15 @@ public class AdmiralRadarMasterTest {
 		for (int i = 0; i < 8; i++) 
 			((NetworkPane) clients[i].factory.getShipPanel()).cxt.doClick();
 		
+		
+		System.out.println("Connected!");
+		
 		Thread.sleep(100);
 		
 		//Log In
-		for (int i = 0; i < 8; i++) 
+		for (int i = 0; i < 8; i++) {
 			((NetworkPane) clients[i].factory.getShipPanel()).log.doClick();
+		}
 		
 		Thread.sleep(100);
 		
@@ -67,6 +71,10 @@ public class AdmiralRadarMasterTest {
 
 		//Report Success
 		System.out.println("We Are Moving!");
+		
+		Thread.sleep(20000);
+		
+		System.exit(0);
 
 	}
 

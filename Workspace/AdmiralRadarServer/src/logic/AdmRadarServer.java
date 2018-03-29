@@ -83,10 +83,11 @@ public class AdmRadarServer
 			try {
 				while(true)
 				{
+					System.out.println("Step");
 					Object inputObject;
 					if((inputObject = mpis.getNextUser()) != null)
 					{
-						
+						myPrint("I Have A User");
 						User u = (User)inputObject;
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
@@ -97,11 +98,13 @@ public class AdmRadarServer
 						
 						if(success == 0)
 						{
+							//These are slow enough to cause a delay during login
 							u.setWins(getWins(username));
 							u.setLoss(getLosses(username));
 							u.setAvatar(getURL(username));
 							
 							mpos.sendUser(u);
+							myPrint("Sending User Back!");
 							
 							while(true)
 							{

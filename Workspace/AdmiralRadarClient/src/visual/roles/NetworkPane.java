@@ -343,5 +343,13 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		control.threadSafeRepaint(this);
 
 	}
+	
+	public void setServerMessageText(String s){
+		gameStatus.setText(s);
+		
+		updateUserInfoPanel();
+		repaint();
+		control.threadSafeRepaint(this);
+	}
 
 }

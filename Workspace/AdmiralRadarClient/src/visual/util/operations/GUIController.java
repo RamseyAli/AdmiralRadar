@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 import network.ConnectionManager;
 import ops.User;
+import visual.roles.NetworkPane;
 import visual.roles.ShipPanel;
 
 public class GUIController {
@@ -87,6 +88,19 @@ public class GUIController {
 
 	public Component getGUIFrame() {
 		return fac.getFrame();
+	}
+
+	public void setStatusMessage(String s) {
+		System.out.println("SetMessage: " + s);
+		try {
+			if (fac.getShipPanel().getClass() == Class.forName("visual.roles.NetworkPane"))
+			((NetworkPane) fac.getShipPanel()).setServerMessageText(s);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }
