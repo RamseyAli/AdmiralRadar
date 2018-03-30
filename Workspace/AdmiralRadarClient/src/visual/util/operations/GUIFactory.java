@@ -1,6 +1,9 @@
 package visual.util.operations;
 
+import java.awt.BorderLayout;
 import java.awt.Rectangle;
+
+import javax.swing.JPanel;
 
 import game.Role;
 import network.ConnectionManager;
@@ -15,6 +18,7 @@ public class GUIFactory {
 	private GUIController nexus;
 	
 	private GameFrame f;
+	private JPanel m;
 	private ShipPanel h;
 	private ConnectionManager n;
 	
@@ -24,6 +28,8 @@ public class GUIFactory {
 		
 		
 		f = new GameFrame();
+		m = new JPanel();
+		m.setLayout(new BorderLayout());
 		h = new NetworkPane(nexus);
 		n = new ConnectionManager(nexus);
 		nexus.setConnector(n);
@@ -33,7 +39,8 @@ public class GUIFactory {
 	public void beginGUI(Rectangle r) {
 		f.setSize(r.getSize());
 		f.setLocation(r.getLocation());
-		f.setPanel(h);
+		f.setPanel(m);
+		m.add(h, BorderLayout.CENTER);
 		f.repaint();
 		h.repaint();
 		f.setVisible(true);
