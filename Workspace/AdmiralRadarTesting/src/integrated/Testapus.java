@@ -6,7 +6,7 @@ import logic.AdmRadarServer;
 import visual.roles.NetworkPane;
 import visual.util.operations.GUIFactory;
 
-public class AdmiralRadarMasterTest {
+public class Testapus {
 
 	public static class ARClient{
 
@@ -40,7 +40,7 @@ public class AdmiralRadarMasterTest {
 		//Make a shitton of Clients
 		ARClient[] clients = new ARClient[8];
 		final int S = 400;
-		final int S2 = (int) (S * 0.6);
+		final int S2 = (int) (S * 0.9);
 		for (int i = 0; i < 8; i++) clients[i] = new ARClient(new Rectangle(S * (i % 4), (int) (S2 * 1.2) * (i / 4), S , S2));
 
 		//Make a Server

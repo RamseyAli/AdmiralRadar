@@ -4,12 +4,7 @@ import java.awt.Rectangle;
 
 import game.Role;
 import network.ConnectionManager;
-import visual.roles.CaptainPane;
-import visual.roles.EngineerPane;
-import visual.roles.ExecutivePane;
-import visual.roles.NetworkPane;
-import visual.roles.RadioPane;
-import visual.roles.ShipPanel;
+import visual.roles.*;
 import visual.util.components.GameFrame;
 
 public class GUIFactory {

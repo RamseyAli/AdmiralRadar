@@ -9,6 +9,7 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import game.GameMap;
 import game.Role;
 import net.MyPacket;
 import net.MyPacketInputStream;
@@ -28,8 +29,6 @@ public class ConnectionManager {
 	MyPacketInputStream ois;
 
 	GUIController interrupt;
-
-	User u;
 
 
 	public ConnectionManager(GUIController nexus){
@@ -100,10 +99,10 @@ public class ConnectionManager {
 
 	public void newAvatar(String s) {
 
-		u.setAvatar(s);
+		interrupt.getUser().setAvatar(s);
 
 		try {
-			oos.sendUser(u);
+			oos.sendUser(interrupt.getUser());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -125,8 +124,18 @@ public class ConnectionManager {
 
 		boolean stop = false;
 		while(!stop){
-			System.out.println(ois.getClassOfNext().toString());
-			if (ois.getClassOfNext() == ObjEnum.ROLE){
+			//System.out.println(ois.getClassOfNext().toString());
+			if (ois.getClassOfNext() == ObjEnum.MAP){
+				
+				try {
+					interrupt.setMap(ois.getNextMap());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			else if (ois.getClassOfNext() == ObjEnum.ROLE){
 			//	System.out.println("ROLE RECEIVED!");
 				stop = true;
 				try {

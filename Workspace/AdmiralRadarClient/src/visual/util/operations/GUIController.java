@@ -8,18 +8,21 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import game.GameMap;
 import network.ConnectionManager;
 import ops.User;
 import visual.roles.NetworkPane;
 import visual.roles.ShipPanel;
 
 public class GUIController {
-	
+
 	ArrayList<ShipPanel> toUpdate = new ArrayList<ShipPanel>();
 	ConnectionManager cm;
 	GUIFactory fac;
-	User u;
-	
+
+	private User u;
+	private GameMap m;
+
 	public GUIController(GUIFactory guiFactory) {
 		fac = guiFactory;
 	}
@@ -37,19 +40,19 @@ public class GUIController {
 	public int connect(InetAddress url) throws IOException{
 		return cm.connectToServer(url);	
 	}
-	
-	
+
+
 	public void threadSafeRepaint(JComponent jc){
 		SwingUtilities.invokeLater(new Runnable() {
-		    public void run() {
-		        jc.repaint();
-		    }
+			public void run() {
+				jc.repaint();
+			}
 		});
 	}
 
 	//[username, win, loss, avatar]
 	public String[] getUserInfo() {
-		
+
 		return new String[] {u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar() };
 	}
 
@@ -60,13 +63,13 @@ public class GUIController {
 	public void addToUpdatePuddle(ShipPanel sp) {
 		toUpdate.add(sp);		
 	}
-	
+
 	public void removeFromUpdatePuddle(ShipPanel sp) {
 		toUpdate.remove(sp);
 	}
-	
+
 	public void updatePuddle(){
-	
+
 	}
 
 	public void setConnector(ConnectionManager n) {
@@ -74,14 +77,13 @@ public class GUIController {
 	}
 
 	public void setUser(User usr) {
-		u = usr;
-		
+		u = usr;		
 	}
 
 	public int ready() {
 		return cm.ready();
 	}
-	
+
 	public GUIFactory getFactory(){
 		return fac;
 	}
@@ -94,13 +96,20 @@ public class GUIController {
 		System.out.println("SetMessage: " + s);
 		try {
 			if (fac.getShipPanel().getClass() == Class.forName("visual.roles.NetworkPane"))
-			((NetworkPane) fac.getShipPanel()).setServerMessageText(s);
+				((NetworkPane) fac.getShipPanel()).setServerMessageText(s);
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+	}
+
+	public User getUser() {
+		return u;
+	}
+
+	public void setMap(GameMap nextMap) {
+		m = nextMap;
+
 	}
 
 }

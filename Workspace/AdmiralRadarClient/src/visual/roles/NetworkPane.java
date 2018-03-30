@@ -30,7 +30,6 @@ import visual.util.operations.GUIController;
 public class NetworkPane extends ShipPanel implements ActionListener{
 
 
-
 	//Panel Declarations
 	JPanel x,con , userTab , gameTab; 
 
@@ -187,17 +186,6 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
 
-	@Override
-	public void draw() {
-
-		switch(state){
-		case 0: drawLogin(); break;
-		case 1: drawSelection(); break;
-		case 2: drawInGame(); break;
-		}
-
-	}
-
 	public void drawLogin(){
 
 
@@ -350,6 +338,12 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		updateUserInfoPanel();
 		repaint();
 		control.threadSafeRepaint(this);
+	}
+
+	@Override
+	public void draw() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

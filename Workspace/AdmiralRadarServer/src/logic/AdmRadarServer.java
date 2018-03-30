@@ -136,7 +136,7 @@ public class AdmRadarServer
 									while(nPlayers < 8)
 									{
 										Thread.sleep(300);
-										mpos.sendString("WAITING");
+									//	mpos.sendString("WAITING");
 									}
 									
 									AdmRadarProtocol arp = new AdmRadarProtocol();
