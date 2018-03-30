@@ -85,7 +85,7 @@ public class TestClient {
 							
 							while(mpi.getClassOfNext().equals(String.class))
 							{
-								mpi.getNextString();
+								//mpi.getNextString();
 								//System.out.println(mpi.getNextString());
 							}
 							
@@ -148,11 +148,11 @@ public class TestClient {
 								while(true)
 								{
 									strInput = mpi.getNextString();
-									if(strInput.equals("Waiting for turn"))
-									{
+									//if(strInput.equals("Waiting for turn"))
+									//{
 										//System.out.println(strInput);
-									}
-									else if(strInput.equals("Game Ended"))
+									//}
+									if(strInput.equals("Game Ended"))
 									{
 										System.out.println(strInput);
 										System.out.println("Your Team Won");
