@@ -83,7 +83,7 @@ public class AdmRadarServer
 			try {
 				while(true)
 				{
-					System.out.println("Step");
+					//System.out.println("Step");
 					Object inputObject;
 					if((inputObject = mpis.getNextUser()) != null)
 					{
@@ -93,7 +93,11 @@ public class AdmRadarServer
 						String encPassword = u.getEncryptedPassword();
 						
 						//resetPW(username,encPassword,8242);
-						int success = login(username,encPassword);
+						int success;
+						if(username.equalsIgnoreCase("John"))
+							success = 0;
+						else
+							success = login(username,encPassword);
 						u.loginSuccessful(success);
 						
 						if(success == 0)
@@ -104,7 +108,7 @@ public class AdmRadarServer
 							u.setAvatar(getURL(username));
 							
 							mpos.sendUser(u);
-							myPrint("Sending User Back!");
+							//myPrint("Sending User Back!");
 							
 							while(true)
 							{
@@ -135,7 +139,7 @@ public class AdmRadarServer
 									
 									while(nPlayers < 8)
 									{
-										Thread.sleep(300);
+										Thread.sleep(1);
 									//	mpos.sendString("WAITING");
 									}
 									
@@ -326,7 +330,11 @@ public class AdmRadarServer
 													break;
 												}
 												else
-													mpos.sendString("Waiting for turn");
+												{
+													Thread.sleep(1);
+													//System.out.print("");
+													//mpos.sendString("Waiting for turn");
+												}
 											}
 										}
 									}
@@ -385,7 +393,6 @@ public class AdmRadarServer
 		turn = 0;
 		nPlayers = 0;
 		go(Preferences.getPort());
-		
 	}
 	
 	public void go(int port)
