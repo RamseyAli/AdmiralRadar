@@ -35,7 +35,7 @@ public class ShipSystems implements Serializable {
 	private int[] sonar 	= 	new int[3];		// Sensory Systems
 	private int[] drone 	= 	new int[3];
 
-	private int[] silent 	= 	new int[3];		// Auxilary System(s)
+	private int[] silent 	= 	new int[3];		// Auxilary System
 
 	// Refer to Engineer Pane image
 	// true: component is enabled
@@ -287,11 +287,11 @@ public class ShipSystems implements Serializable {
 
 	public boolean isSystemDestroyed(String sys) {
 		switch (sys) {
-		case "Sonar": 	return sonar[SYSTEM_STATUS] 	== DESTROYED;
-		case "Missile": return missile[SYSTEM_STATUS] 	== DESTROYED;
-		case "Mine": 	return mine[SYSTEM_STATUS] 		== DESTROYED;
-		case "Drone": 	return drone[SYSTEM_STATUS] 	== DESTROYED;
-		case "Silent": 	return silent[SYSTEM_STATUS] 	== DESTROYED;
+			case "Sonar": 	return sonar[SYSTEM_STATUS] 	== DESTROYED;
+			case "Missile": return missile[SYSTEM_STATUS] 	== DESTROYED;
+			case "Mine": 	return mine[SYSTEM_STATUS] 		== DESTROYED;
+			case "Drone": 	return drone[SYSTEM_STATUS] 	== DESTROYED;
+			case "Silent": 	return silent[SYSTEM_STATUS] 	== DESTROYED;
 
 		default:
 			/*throw new IllegalArgumentException
@@ -306,21 +306,27 @@ public class ShipSystems implements Serializable {
 		return sysComponents[comp] == ENABLED;
 	}
 
-	public void launchMissile(Position miss, Spaceship[] ships) {
+	public static void launchMissile(Position miss, Spaceship[] ships) {
+		// If a mine exists in the same position as the launched missile,
+		// then detonate the mine but don't damage overlapping and/or adjacent ships
+		MineController.detonateMine(miss, ships, false);
+		
 		for (Spaceship ship : ships) {
-			// SAME POSITION
-			if (ship.getPosition().x == miss.x && ship.getPosition().y == miss.y)
-				ship.removeHealth(2);
-			// CORNERS
-			else if ((ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y == miss.y)         ||
-					 (ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y + 1 == miss.y + 1) ||
-					 (ship.getPosition().x == miss.x && ship.getPosition().y + 1 == miss.y + 1)         ||
-					 (ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y + 1 == miss.y + 1) ||
-					 (ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y == miss.y)         ||
-					 (ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y - 1 == miss.y - 1) ||
-					 (ship.getPosition().x == miss.x && ship.getPosition().y - 1 == miss.y - 1)         ||
-					 (ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y - 1 == miss.y - 1)) {
-				ship.removeHealth(1);
+			if (miss.equals(ship)) {
+				// SAME POSITION
+				if (ship.getPosition().x == miss.x && ship.getPosition().y == miss.y)
+					ship.removeHealth(2);
+				// CORNERS
+				else if ((ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y == miss.y)        ||
+					 	(ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y + 1 == miss.y + 1) ||
+					 	(ship.getPosition().x == miss.x && ship.getPosition().y + 1 == miss.y + 1)         ||
+					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y + 1 == miss.y + 1) ||
+					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y == miss.y)         ||
+					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y - 1 == miss.y - 1) ||
+					 	(ship.getPosition().x == miss.x && ship.getPosition().y - 1 == miss.y - 1)         ||
+					 	(ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y - 1 == miss.y - 1)) {
+					ship.removeHealth(1);
+				}
 			}
 		}
 	}

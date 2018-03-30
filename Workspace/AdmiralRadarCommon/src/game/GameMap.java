@@ -9,6 +9,7 @@ public class GameMap implements Serializable, MyPacketable
 	private static final long serialVersionUID = 1L;
 	
 	private Position [] asteroids = new Position[5];
+	private MineController mineController;
 	
 	public GameMap()
 	{
@@ -22,6 +23,8 @@ public class GameMap implements Serializable, MyPacketable
 		asteroids[3].setPosition(5,5);
 		asteroids[4] = new Position();
 		asteroids[4].setPosition(6,5);
+		
+		mineController = new MineController();
 	}
 	
 	public int calculateCrash(Spaceship s)
@@ -37,6 +40,10 @@ public class GameMap implements Serializable, MyPacketable
 			i++;
 		}
 		return 0;
+	}
+	
+	public MineController getMineController() {
+		return mineController;
 	}
 	
 	public void printAsteroids()
