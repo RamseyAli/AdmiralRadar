@@ -103,9 +103,18 @@ public class AdmRadarServer
 						if(success == 0)
 						{
 							//These are slow enough to cause a delay during login
-							u.setWins(getWins(username));
-							u.setLoss(getLosses(username));
-							u.setAvatar(getURL(username));
+							if(username.equalsIgnoreCase("John"))
+							{
+								u.setWins(1);
+								u.setLoss(0);
+								u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");
+							}
+							else
+							{
+								u.setWins(getWins(username));
+								u.setLoss(getLosses(username));
+								u.setAvatar(getURL(username));
+							}
 							
 							mpos.sendUser(u);
 							//myPrint("Sending User Back!");
