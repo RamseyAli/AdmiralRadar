@@ -1,13 +1,13 @@
-package visual.roles;
+package visual.util.components;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import visual.util.components.PanelPosition;
 import visual.util.operations.GUIController;
 
 public abstract class ShipPanel extends JPanel{
@@ -16,12 +16,13 @@ public abstract class ShipPanel extends JPanel{
 	protected GUIController control;
 	protected Color background;
 	private Dimension panelSize;
-	Graphics2D g;
+	protected Graphics2D g;
 	
 	public ShipPanel(GUIController ctr){
 		
 		control = ctr;
 		ctr.addToUpdatePuddle(this);
+		setBorder(BorderFactory.createEmptyBorder(10,10,10,10)); 
 		
 	}
 	

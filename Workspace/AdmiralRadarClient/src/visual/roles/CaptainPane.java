@@ -3,6 +3,7 @@ package visual.roles;
 import java.awt.Color;
 import java.awt.Point;
 
+import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
 public class CaptainPane extends ShipPanel {

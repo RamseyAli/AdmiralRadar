@@ -7,8 +7,10 @@ import javax.swing.JPanel;
 
 import game.Role;
 import network.ConnectionManager;
+import visual.common.NetworkPane;
 import visual.roles.*;
 import visual.util.components.GameFrame;
+import visual.util.components.ShipPanel;
 
 public class GUIFactory {
 
@@ -27,9 +29,7 @@ public class GUIFactory {
 		nexus = new GUIController(this);
 		
 		
-		f = new GameFrame();
-		m = new JPanel();
-		m.setLayout(new BorderLayout());
+		f = new GameFrame(nexus);
 		h = new NetworkPane(nexus);
 		n = new ConnectionManager(nexus);
 		nexus.setConnector(n);
@@ -39,8 +39,10 @@ public class GUIFactory {
 	public void beginGUI(Rectangle r) {
 		f.setSize(r.getSize());
 		f.setLocation(r.getLocation());
-		f.setPanel(m);
-		m.add(h, BorderLayout.CENTER);
+		f.setPanel(h);
+
+		
+		
 		f.repaint();
 		h.repaint();
 		f.setVisible(true);

@@ -1,8 +1,9 @@
-package visual.roles;
+package visual.common;
 
+import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
-public class AlertsPane extends ShipPanel{
+public class OrdersPane extends ShipPanel{
 
 	/**
 	 * 
@@ -14,7 +15,7 @@ public class AlertsPane extends ShipPanel{
 	 */
 	
 
-	public AlertsPane(GUIController cx) {
+	public OrdersPane(GUIController cx) {
 		super(cx);
 	}
 

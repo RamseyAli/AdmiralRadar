@@ -1,4 +1,4 @@
-package visual.roles;
+package visual.common;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -25,6 +25,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import util.Preferences;
+import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
 public class NetworkPane extends ShipPanel implements ActionListener{

@@ -11,14 +11,17 @@ import javax.swing.SwingUtilities;
 import game.GameMap;
 import network.ConnectionManager;
 import ops.User;
-import visual.roles.NetworkPane;
-import visual.roles.ShipPanel;
+import visual.common.HealthPane;
+import visual.common.NetworkPane;
+import visual.util.components.ShipPanel;
 
 public class GUIController {
 
 	ArrayList<ShipPanel> toUpdate = new ArrayList<ShipPanel>();
 	ConnectionManager cm;
 	GUIFactory fac;
+	
+	HealthPane hlth;
 
 	private User u;
 	private GameMap m;
@@ -110,6 +113,10 @@ public class GUIController {
 	public void setMap(GameMap nextMap) {
 		m = nextMap;
 
+	}
+
+	public void setHealthBar(HealthPane healthPane) {
+		hlth = healthPane;
 	}
 
 }

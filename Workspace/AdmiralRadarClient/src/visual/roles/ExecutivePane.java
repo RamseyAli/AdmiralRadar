@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 
 import visual.roles.elements.SystemStatusGauge;
+import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
 public class ExecutivePane extends ShipPanel {
