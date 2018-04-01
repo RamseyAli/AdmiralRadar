@@ -1057,6 +1057,15 @@ public class AdmRadarServer
 		String query = "INSERT INTO USER (USERNAME, PASSWORD, AVATAR, PIN) VALUES (?,?,?, ?)";
 	
 		try {
+			byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
+			SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
+			DesEncrypter encrypter = new DesEncrypter(key);
+			password = encrypter.encrypt(password);
+		} catch (Exception ex) {
+			password = password; //do nothing (pw not encrypted)
+		}
+		
+		try {
 			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
 			preparedStmt.setString(1, username);
 			preparedStmt.setString(2, password);

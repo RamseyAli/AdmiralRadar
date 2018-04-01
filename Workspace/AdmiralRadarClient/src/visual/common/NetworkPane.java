@@ -42,7 +42,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	//Connection Interactor Declarations
 	JTextField usr;
 	JPasswordField pwd;
-	public JButton cxt , clr , log, ready;
+	public JButton cxt , clr , log, ready, reg;
 
 	//Tabbed Pane
 	JTabbedPane tab;
@@ -103,6 +103,11 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		log.setAlignmentX(Component.CENTER_ALIGNMENT);
 		log.addActionListener(this);
 		log.setEnabled(false);
+		
+		reg = new JButton("Register");
+		reg.setAlignmentX(Component.CENTER_ALIGNMENT);
+		reg.addActionListener(this);
+		reg.setEnabled(true);
 
 		//Server Connection Line
 		con.add(svr);
@@ -151,6 +156,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		x.add(usr);
 		x.add(pwd);
 		x.add(log);
+		x.add(reg);
 		x.add(cxnStatus);
 		x.add(tab);
 		add(x);
@@ -232,7 +238,12 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			updateUserInfoPanel();
 
 		}
-		
+		else if (e.getSource() == reg){
+
+			control.setAvatar(JOptionPane.showInputDialog("Enter URL for new Avatar"));
+			updateUserInfoPanel();
+
+		}
 		else if (e.getSource() == ready){
 			setState(control.ready());
 			updateUserInfoPanel();
