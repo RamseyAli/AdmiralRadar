@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.SwingUtilities;
 
+import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 public class EngineerPane extends ShipPanel implements MouseListener{
 	

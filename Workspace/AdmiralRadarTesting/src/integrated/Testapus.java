@@ -3,7 +3,7 @@ package integrated;
 import java.awt.Rectangle;
 
 import logic.AdmRadarServer;
-import visual.roles.NetworkPane;
+import visual.common.NetworkPane;
 import visual.util.operations.GUIFactory;
 
 public class Testapus {

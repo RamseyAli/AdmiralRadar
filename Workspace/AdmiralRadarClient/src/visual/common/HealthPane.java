@@ -1,7 +1,8 @@
-package visual.roles;
+package visual.common;
 
 import java.awt.Color;
 
+import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
 public class HealthPane extends ShipPanel {
@@ -13,6 +14,7 @@ public class HealthPane extends ShipPanel {
 
 	public HealthPane(GUIController cx) {
 		super(cx);
+		cx.setHealthBar(this);
 	}
 
 	@Override
