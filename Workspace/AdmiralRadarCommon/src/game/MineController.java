@@ -10,12 +10,13 @@ public class MineController {
     }
     
     // Add a mine to the board
-    public void addMine(Position p) {
+    public boolean placeMine(Position p) {
     	if (hasMine(p)) {
     		// Maybe send an error message later??
-    		return;
+    		return false;
     	}
         mines.add(p);
+        return true;
     }
     
     public boolean hasMine(Position p) {
@@ -23,8 +24,8 @@ public class MineController {
     		if (currentMine.equals(p)) return true; 
     	}
     	return false;
-    	
     }
+    
     // Check the current and adjacent locations and remove necessary amounts of health to the Ships
     // if damageShips flag is set to TRUE, else remove the mine from the array
     public static void detonateMine(Position mine, Spaceship[] ships, boolean damageShips) {
