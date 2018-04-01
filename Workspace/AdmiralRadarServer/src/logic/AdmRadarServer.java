@@ -386,12 +386,14 @@ public class AdmRadarServer
 			System.exit(1);
 		}*/
 		
+		
 		moveComplete[0] = false;
 		moveComplete[1] = false;
 		gameOngoing = false;
 		turn = 0;
 		nPlayers = 0;
 		new AdmRadarServer().go(Preferences.getPort());
+		
 	}
 	
 	public AdmRadarServer(){
@@ -1043,6 +1045,36 @@ public class AdmRadarServer
 	
 	public static void myPrint(String s){
 		System.out.println("SERVER: " + s);
+	}
+	
+	/*
+	 * 0 - Success
+	 * 1 - ERROR: Username already in-use
+	 * 2 - ERROR: Misc.
+	 */
+	public static int createUser(String username, String password, String avatar, int pin) {	
+		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		String query = "INSERT INTO USER (USERNAME, PASSWORD, AVATAR, PIN) VALUES (?,?,?, ?)";
+	
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement(query);
+			preparedStmt.setString(1, username);
+			preparedStmt.setString(2, password);
+			preparedStmt.setString(3, avatar);
+			preparedStmt.setInt(4, pin);
+			preparedStmt.executeUpdate();
+			//myPrint("Prepared Statement: " + preparedStmt);
+		} catch (Exception e) {
+			if (e.getMessage().contains("Duplicate")) {
+				return 1;
+			} else {
+				e.printStackTrace();
+				return 2;
+			}
+		}
+		
+		DBobj.close();
+		return 0;
 	}
 	
 }
