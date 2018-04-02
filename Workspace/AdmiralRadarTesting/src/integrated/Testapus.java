@@ -3,6 +3,7 @@ package integrated;
 import java.awt.Rectangle;
 
 import logic.AdmRadarServer;
+import util.Preferences;
 import visual.roles.NetworkPane;
 import visual.util.operations.GUIFactory;
 
@@ -37,6 +38,9 @@ public class Testapus {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		//Make sure the Graphics Fullscreen doesnt crash
+		Preferences.setFullscreen(false);
+		
 		//Make a shitton of Clients
 		ARClient[] clients = new ARClient[8];
 		final int S = 400;

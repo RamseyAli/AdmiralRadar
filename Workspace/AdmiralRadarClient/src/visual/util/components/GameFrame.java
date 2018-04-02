@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -15,11 +15,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import util.Preferences;
 import visual.common.ChatPane;
 import visual.common.HealthPane;
 import visual.common.InfoPane;
 import visual.common.OrdersPane;
-import visual.roles.CaptainPane;
 import visual.roles.NetworkPane;
 import visual.util.operations.GUIController;
 
@@ -71,21 +71,27 @@ public class GameFrame extends JFrame implements ComponentListener{
 		setComponentSizes();
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//	transparent(false);
+		if (Preferences.isFullscreen()) fullscreen();
 		setLocation(p.x , p.y);
+	}
+
+	private void fullscreen() {
+		GraphicsDevice device = getGraphicsConfiguration().getDevice();
+		if (device.isFullScreenSupported()){
+			setUndecorated(true);
+			setResizable(true);
+			setAlwaysOnTop(true);
+			
+			pack();
+			device.setFullScreenWindow(this);
+			pack();
+			repaint();
+		}
+		
 	}
 
 	public GameFrame(GUIController gc){
 		this(new Point(100 , 100) , gc);
-
-	}
-
-
-	private void transparent(boolean b) {
-		setUndecorated(b);
-		setSize(new Dimension(640,	400 + (b ? 0 : 22)	));
-		if (b) setBackground(new Color(0, 0, 0, 0));
-		mainPane.setOpaque(b);
 
 	}
 

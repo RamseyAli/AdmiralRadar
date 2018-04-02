@@ -6,7 +6,7 @@ public class Preferences {
 
 	public static int SEG = 15;
 	
-	public final static boolean FULLSCREEN = false;
+	public static boolean FULLSCREEN = true;
 	//public final static String PREF_FILE = "prefs.rdr";
 	private final static int PORT = 2069;
 	private static ArrayList<String> servers;
@@ -43,6 +43,14 @@ public class Preferences {
 	public static int getPort(){
 		
 		return PORT;
+	}
+
+	public static void setFullscreen(boolean b) {
+		FULLSCREEN = b;
+	}
+
+	public static boolean isFullscreen() {
+		return FULLSCREEN;
 	}
 	
 }

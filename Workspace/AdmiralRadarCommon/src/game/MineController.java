@@ -39,25 +39,25 @@ public class MineController implements Serializable{
             	if (damageShips) { 	// exists so that double damage won't be inflicted to ships when launching a missile 
             		for (Spaceship ship : ships) {
                     	// SAME POSITION
-                    	if (ship.getPosition().x == currentMine.x && ship.getPosition().y == currentMine.y)
+                    	if (ship.getPosition().getX() == currentMine.getX() && ship.getPosition().getY() == currentMine.getY())
                         	ship.removeHealth(2);
                     	// CORNERS
-                    	else if ((ship.getPosition().x + 1 == currentMine.x + 1 && 
-                    			ship.getPosition().y == currentMine.y)         		||
-                             	(ship.getPosition().x + 1 == currentMine.x + 1 	&& 
-                             	ship.getPosition().y + 1 == currentMine.y + 1) 		||
-                             	(ship.getPosition().x == currentMine.x 			&& 
-                             	ship.getPosition().y + 1 == currentMine.y + 1)  	||
-                             	(ship.getPosition().x - 1 == currentMine.x - 1 	&& 
-                             	ship.getPosition().y + 1 == currentMine.y + 1) 		||
-                             	(ship.getPosition().x - 1 == currentMine.x - 1 	&& 
-                             	ship.getPosition().y == currentMine.y)         		||
-                             	(ship.getPosition().x - 1 == currentMine.x - 1 	&& 
-                             	ship.getPosition().y - 1 == currentMine.y - 1) 		||
-                             	(ship.getPosition().x == currentMine.x 			&& 
-                             	ship.getPosition().y - 1 == currentMine.y - 1)  	||
-                             	(ship.getPosition().x + 1 == currentMine.x + 1 	&& 
-                             	ship.getPosition().y - 1 == currentMine.y - 1)) {
+                    	else if ((ship.getPosition().getX() + 1 == currentMine.getX() + 1 && 
+                    			ship.getPosition().getY() == currentMine.getY())         		||
+                             	(ship.getPosition().getX() + 1 == currentMine.getX() + 1 	&& 
+                             	ship.getPosition().getY() + 1 == currentMine.getY() + 1) 		||
+                             	(ship.getPosition().getX() == currentMine.getX() 			&& 
+                             	ship.getPosition().getY() + 1 == currentMine.getY() + 1)  	||
+                             	(ship.getPosition().getX() - 1 == currentMine.getX() - 1 	&& 
+                             	ship.getPosition().getY() + 1 == currentMine.getY() + 1) 		||
+                             	(ship.getPosition().getX() - 1 == currentMine.getX() - 1 	&& 
+                             	ship.getPosition().getY() == currentMine.getY())         		||
+                             	(ship.getPosition().getX() - 1 == currentMine.getX() - 1 	&& 
+                             	ship.getPosition().getY() - 1 == currentMine.getY() - 1) 		||
+                             	(ship.getPosition().getX() == currentMine.getX() 			&& 
+                             	ship.getPosition().getY() - 1 == currentMine.getY() - 1)  	||
+                             	(ship.getPosition().getX() + 1 == currentMine.getX() + 1 	&& 
+                             	ship.getPosition().getY() - 1 == currentMine.getY() - 1)) {
                         	ship.removeHealth(1);
                     	}
                 	} 

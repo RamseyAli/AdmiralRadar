@@ -314,17 +314,17 @@ public class ShipSystems implements Serializable {
 		for (Spaceship ship : ships) {
 			if (miss.equals(ship)) {
 				// SAME POSITION
-				if (ship.getPosition().x == miss.x && ship.getPosition().y == miss.y)
+				if (ship.getPosition().getX() == miss.getX() && ship.getPosition().getY() == miss.getY())
 					ship.removeHealth(2);
 				// CORNERS
-				else if ((ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y == miss.y)        ||
-					 	(ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y + 1 == miss.y + 1) ||
-					 	(ship.getPosition().x == miss.x && ship.getPosition().y + 1 == miss.y + 1)         ||
-					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y + 1 == miss.y + 1) ||
-					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y == miss.y)         ||
-					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y - 1 == miss.y - 1) ||
-					 	(ship.getPosition().x == miss.x && ship.getPosition().y - 1 == miss.y - 1)         ||
-					 	(ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y - 1 == miss.y - 1)) {
+				else if ((ship.getPosition().getX() + 1 == miss.getX() + 1 && ship.getPosition().getY() == miss.getY())        ||
+					 	(ship.getPosition().getX() + 1 == miss.getX() + 1 && ship.getPosition().getY() + 1 == miss.getY() + 1) ||
+					 	(ship.getPosition().getX() == miss.getX() && ship.getPosition().getY() + 1 == miss.getY() + 1)         ||
+					 	(ship.getPosition().getX() - 1 == miss.getX() - 1 && ship.getPosition().getY() + 1 == miss.getY() + 1) ||
+					 	(ship.getPosition().getX() - 1 == miss.getX() - 1 && ship.getPosition().getY() == miss.getY())         ||
+					 	(ship.getPosition().getX() - 1 == miss.getX() - 1 && ship.getPosition().getY() - 1 == miss.getY() - 1) ||
+					 	(ship.getPosition().getX() == miss.getX() && ship.getPosition().getY() - 1 == miss.getY() - 1)         ||
+					 	(ship.getPosition().getX() + 1 == miss.getX() + 1 && ship.getPosition().getY() - 1 == miss.getY() - 1)) {
 					ship.removeHealth(1);
 				}
 			}

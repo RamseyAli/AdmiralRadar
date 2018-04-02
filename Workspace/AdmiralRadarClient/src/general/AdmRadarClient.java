@@ -132,7 +132,7 @@ public class AdmRadarClient {
 				if(teamShip != null)
 				{
 					Position temp = teamShip.getPosition();
-					System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+					System.out.println("Ship at x = "+temp.getX()+" y = "+temp.getY());
 					System.out.println("Ship path :"+teamShip.getPath());
 				}
 			}
@@ -221,7 +221,7 @@ public class AdmRadarClient {
 					if(teamShip != null)
 					{
 						Position temp = teamShip.getPosition();
-						System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+						System.out.println("Ship at x = "+temp.getX()+" y = "+temp.getY());
 						System.out.println("Ship path :"+teamShip.getPath());
 					}
 				}
@@ -249,7 +249,7 @@ public class AdmRadarClient {
 					if(teamShip != null)
 					{
 						Position tempP = teamShip.getPosition();
-						System.out.println("Ship at x = "+tempP.x+" y = "+tempP.y);
+						System.out.println("Ship at x = "+tempP.getX()+" y = "+tempP.getY());
 						ShipSystems tempS = teamShip.getShipSystem();
 						tempS.printSystems();
 					}
