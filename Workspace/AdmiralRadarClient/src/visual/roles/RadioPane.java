@@ -1,14 +1,13 @@
 package visual.roles;
 
-import java.awt.Color;
-
-import visual.util.components.ShipPanel;
+import visual.common.MapBasedElement;
 import visual.util.operations.GUIController;
 
-public class RadioPane extends ShipPanel {
+public class RadioPane extends MapBasedElement {
 
 	public RadioPane(GUIController cx) {
 		super(cx);
+		ear.enabled(false);
 	}
 
 
@@ -19,9 +18,10 @@ public class RadioPane extends ShipPanel {
 
 
 	@Override
-	public void draw() {
-		defaultDraw(Color.PINK, Color.BLUE);
+	public void clickGridDot(int x, int y) {
+		// TODO Auto-generated method stub
 		
 	}
+
 	
 }

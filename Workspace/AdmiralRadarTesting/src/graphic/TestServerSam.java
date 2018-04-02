@@ -1,19 +1,22 @@
 package graphic;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 
+import game.GameMap;
 import game.Role;
-import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
 
 public class TestServerSam implements Runnable{
+
+	Role ro;
+	public TestServerSam(Role r) {
+		ro = r;
+	}
 
 	@Override
 	public void run() {
@@ -35,19 +38,29 @@ public class TestServerSam implements Runnable{
 
 					while (true){
 
-						if((u = in.getNextUser()) != null) {
+						switch(in.getClassOfNext()){
+						case MAP:
+							break;
+						case POSITION:
+							break;
+						case ROLE:
+							break;
+						case SPACESHIP:
+							break;
+						case STRING: {
+							String str = in.getNextString();
+							System.out.println("SERVER READS:" + str);
 
-							if(u.getUsername().equals("Username"))
-							{
-								if(u.getEncryptedPassword().equals("Password"))
-									u.loginSuccessful(0);
-								else
-									u.loginSuccessful(2);
+							if (str.equals("READY")){
+								out.sendMap(new GameMap());
+								out.sendRole(ro);
 							}
-							else
-							{
-								u.loginSuccessful(1);
-							}
+							break;
+						}
+						case USER: 	{
+							u = in.getNextUser();
+
+							u.loginSuccessful(0);
 
 
 							u.setWins(new Random().nextInt() % 20);
@@ -57,43 +70,31 @@ public class TestServerSam implements Runnable{
 							out.sendUser(u);
 							out.flush();
 
-							if((u = in.getNextUser()) != null) {
-
-								if(u.getResult() == 0)
-								{
-									u.setWins(new Random().nextInt() % 20);
-									u.setLoss(new Random().nextInt() % 20);
-									u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");
-								}
-								out.sendUser(u);
-
-							}
-
-							String st;
-							if((st = in.getNextString()) != null) {
-								if (st.equals("READY")){
-									out.sendRole(Role.ENGINE);
-								}
-							}
+							break;
+						}
+						default:
+							break;
 
 						}
 
-					} } catch (IOException e) {
-						try {
-							s.close();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						e.printStackTrace();
+
+
+
+
+
+
+
+
 					}
+
+
+
+				}
+
 			}
-
-		} catch (IOException e2) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			e.printStackTrace();
 		}
-
 	}
-
 }

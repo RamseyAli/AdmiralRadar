@@ -1,12 +1,10 @@
 package visual.util.operations;
 
-import java.awt.BorderLayout;
 import java.awt.Rectangle;
-
-import javax.swing.JPanel;
 
 import game.Role;
 import network.ConnectionManager;
+import game.Position;
 import visual.common.NetworkPane;
 import visual.roles.*;
 import visual.util.components.GameFrame;
@@ -20,7 +18,6 @@ public class GUIFactory {
 	private GUIController nexus;
 	
 	private GameFrame f;
-	private JPanel m;
 	private ShipPanel h;
 	private ConnectionManager n;
 	
@@ -87,6 +84,12 @@ public class GUIFactory {
 
 	public ShipPanel getShipPanel(){
 		return h;
+	}
+
+	public Position getInitialPositionFromCaptain() {
+		if (!(h instanceof CaptainPane)) throw new IllegalArgumentException();
+		else return ((CaptainPane) h).getStartLocation();
+		
 	}
 
 	

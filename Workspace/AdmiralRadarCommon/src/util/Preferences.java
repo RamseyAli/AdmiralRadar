@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Preferences {
 
+	public static int SEG = 15;
+	
 	public final static boolean FULLSCREEN = false;
 	//public final static String PREF_FILE = "prefs.rdr";
 	private final static int PORT = 2069;

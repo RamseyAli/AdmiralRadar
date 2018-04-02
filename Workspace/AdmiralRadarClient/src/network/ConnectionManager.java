@@ -10,6 +10,7 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import game.GameMap;
+import game.Position;
 import game.Role;
 import net.MyPacket;
 import net.MyPacketInputStream;
@@ -129,13 +130,11 @@ public class ConnectionManager {
 
 		boolean stop = false;
 		while(!stop){
-			//System.out.println(ois.getClassOfNext().toString());
 			if (ois.getClassOfNext() == ObjEnum.MAP){
 				
 				try {
 					interrupt.setMap(ois.getNextMap());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -201,7 +200,9 @@ public class ConnectionManager {
 	}
 
 	private void captainNetworkLoop() {
-		// Listen for CPT info
+		
+		//Get starting posit
+		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
 
 	}
 

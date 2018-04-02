@@ -60,7 +60,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	//3 - Connected
 	//4 - Login Fail
 	//5 - Logged in
-	private int state = 0;
+	int state = 0;
 
 
 	public NetworkPane(GUIController cx) {

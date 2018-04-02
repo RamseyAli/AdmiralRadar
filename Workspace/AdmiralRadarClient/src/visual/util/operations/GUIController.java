@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 import game.GameMap;
+import game.Position;
 import network.ConnectionManager;
 import ops.User;
 import visual.common.HealthPane;
@@ -116,11 +117,19 @@ public class GUIController {
 
 	public void setMap(GameMap nextMap) {
 		m = nextMap;
-
 	}
 
 	public void setHealthBar(HealthPane healthPane) {
 		hlth = healthPane;
+	}
+
+	public GameMap getMap() {
+		return m;
+	}
+
+	public void setStartLocation(Position start) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

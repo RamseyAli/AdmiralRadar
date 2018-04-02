@@ -1,8 +1,10 @@
 package graphic;
 
+import game.Role;
+import visual.common.NetworkPane;
 import visual.util.operations.GUIFactory;
 
-public class GUITestMain {
+public class GUITestClass {
 
 	public static void main(String[] args) throws InterruptedException {
 		
@@ -14,11 +16,15 @@ public class GUITestMain {
 		
 		
 		//Start local test server
-		TestServerSam ts = new TestServerSam();
+		TestServerSam ts = new TestServerSam(Role.CAPTAIN);
 		Thread t = new Thread(ts);
-		//t.run();
+		t.start();
 		
-		Thread.sleep(1000000);
+		((NetworkPane) factory.getShipPanel()).cxt.doClick();
+		((NetworkPane) factory.getShipPanel()).log.doClick();
+		((NetworkPane) factory.getShipPanel()).ready.doClick();
+		
+		Thread.sleep(30000);
 		System.exit(1);
 		
 		

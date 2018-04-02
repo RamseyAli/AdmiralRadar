@@ -46,6 +46,13 @@ public class GameMap implements Serializable, MyPacketable
 		return mineController;
 	}
 	
+	public boolean isAsteroid(int x, int y){
+		for (int i = 0; i < asteroids.length; i++){
+			if ((asteroids[i].x == x) && (asteroids[i].y == y)) return true;
+		}
+		return false;
+	}
+	
 	public void printAsteroids()
 	{
 		for(int i=0;i<5;i++)

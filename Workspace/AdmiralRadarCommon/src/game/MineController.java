@@ -1,9 +1,14 @@
 package game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MineController {
-    private static ArrayList<Position> mines;
+public class MineController implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static ArrayList<Position> mines;
 
     public MineController() {
         mines = new ArrayList<>();
