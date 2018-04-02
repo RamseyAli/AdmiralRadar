@@ -1,7 +1,7 @@
 package visual.roles;
 
 import game.Position;
-import visual.common.MapBasedElement;
+import visual.common.general.MapBasedElement;
 import visual.util.operations.GUIController;
 
 public class CaptainPane extends MapBasedElement{
@@ -20,7 +20,7 @@ public class CaptainPane extends MapBasedElement{
 
 	public Position getStartLocation() {
 		
-		return null;
+		return start;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package graphic;
 
 import game.Role;
-import visual.common.NetworkPane;
+import visual.roles.NetworkPane;
 import visual.util.operations.GUIFactory;
 
 public class GUITestClass {

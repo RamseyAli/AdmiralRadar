@@ -1,4 +1,4 @@
-package visual.common;
+package visual.roles;
 
 import java.awt.Color;
 import java.awt.Component;

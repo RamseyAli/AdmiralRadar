@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import game.Role;
 import network.ConnectionManager;
 import game.Position;
-import visual.common.NetworkPane;
 import visual.roles.*;
 import visual.util.components.GameFrame;
 import visual.util.components.ShipPanel;
@@ -37,6 +36,7 @@ public class GUIFactory {
 		f.setSize(r.getSize());
 		f.setLocation(r.getLocation());
 		f.setPanel(h);
+		
 
 		
 		

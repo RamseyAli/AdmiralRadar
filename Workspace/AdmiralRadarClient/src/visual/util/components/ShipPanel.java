@@ -23,6 +23,7 @@ public abstract class ShipPanel extends JPanel{
 		control = ctr;
 		ctr.addToUpdatePuddle(this);
 		setBorder(BorderFactory.createEmptyBorder(10,10,10,10)); 
+		setOpaque(false);
 		
 	}
 	
@@ -45,8 +46,6 @@ public abstract class ShipPanel extends JPanel{
 		int side = (int) (x*15.0f/64.0f);
 		int mainW = (int) (x*49.0f/64.0f);
 		int bannerHeight = (int) (y/8.0f);
-		
-	//	System.out.println("Inits: " + x + "," + y);
 		
 		switch(p){
 		case BANNER:

@@ -1,6 +1,6 @@
 package visual.roles;
 
-import visual.common.MapBasedElement;
+import visual.common.general.MapBasedElement;
 import visual.util.operations.GUIController;
 
 public class RadioPane extends MapBasedElement {

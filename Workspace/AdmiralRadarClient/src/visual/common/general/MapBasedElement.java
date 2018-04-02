@@ -1,4 +1,4 @@
-package visual.common;
+package visual.common.general;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -43,6 +43,9 @@ public abstract class MapBasedElement extends ShipPanel {
 		addMouseListener(ear);
 		addMouseMotionListener(ear);
 		
+		this.setOpaque(false);
+		this.setBackground(new Color(0,0,0,0));
+		
 		
 		
 	}
@@ -72,7 +75,6 @@ public abstract class MapBasedElement extends ShipPanel {
 		
 		g.setColor(Color.GREEN);
 		
-		System.out.println(currentMouse);
 		if (currentMouse.isValid())
 			g.fillOval(x0 - Y*r + (int) (currentMouse.getX()*sp), y0 - Y*r + (int) (currentMouse.getY()*sp), 2*Y*r, 2*Y*r);
 		

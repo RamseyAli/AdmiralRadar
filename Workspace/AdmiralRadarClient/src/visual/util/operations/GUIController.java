@@ -13,7 +13,7 @@ import game.Position;
 import network.ConnectionManager;
 import ops.User;
 import visual.common.HealthPane;
-import visual.common.NetworkPane;
+import visual.roles.NetworkPane;
 import visual.util.components.ShipPanel;
 
 public class GUIController {

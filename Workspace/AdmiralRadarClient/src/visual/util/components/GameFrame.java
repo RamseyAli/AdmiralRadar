@@ -3,8 +3,14 @@ package visual.util.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -12,73 +18,132 @@ import javax.swing.SwingUtilities;
 import visual.common.ChatPane;
 import visual.common.HealthPane;
 import visual.common.InfoPane;
-import visual.common.NetworkPane;
 import visual.common.OrdersPane;
+import visual.roles.CaptainPane;
+import visual.roles.NetworkPane;
 import visual.util.operations.GUIController;
 
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame implements ComponentListener{
 
 	private static final long serialVersionUID = 1L;
-	
-	private JPanel mainPane;
+
+	private static final String IMAGE = "space.png";
+	private Image img;
+
+	private class MainPane extends JPanel{
+
+		private static final long serialVersionUID = 1L;
+
+		public MainPane(){
+			img = new ImageIcon(IMAGE).getImage();
+		}
+
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+			g.setColor(new Color(10,10,10,70));
+			g.fillRect(0, 0, getWidth(), getHeight());
+		}
+	}
+
+	private MainPane mainPane;
 
 	private GUIController control;
-	
+
 	private HealthPane h;
 	private ChatPane c;
 	private OrdersPane o;
 	private InfoPane i;
-	
+
 	public GameFrame(Point p , GUIController gc){
 		super("Admiral Radar");
 		control = gc;
-		mainPane = new JPanel();
+		mainPane = new MainPane();
 		mainPane.setLayout(new BorderLayout());
 		setContentPane(mainPane);
-		
+
 		h = new HealthPane(control);
 		c = new ChatPane(control);
 		o = new OrdersPane(control);
 		i = new InfoPane(control);
-		
+
+		addComponentListener(this);
+		setComponentSizes();
+
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		transparent(false);
+		//	transparent(false);
 		setLocation(p.x , p.y);
 	}
-	
+
 	public GameFrame(GUIController gc){
 		this(new Point(100 , 100) , gc);
-		
+
 	}
-	
+
 
 	private void transparent(boolean b) {
 		setUndecorated(b);
 		setSize(new Dimension(640,	400 + (b ? 0 : 22)	));
 		if (b) setBackground(new Color(0, 0, 0, 0));
 		mainPane.setOpaque(b);
-		
+
 	}
-	
+
 	public void setPanel(ShipPanel p){
 		mainPane.removeAll();
 		mainPane.add(p, BorderLayout.CENTER);
 		if (!(p instanceof NetworkPane)){
 			mainPane.add(h, BorderLayout.NORTH);
-			mainPane.add(c, BorderLayout.EAST);
-			mainPane.add(o, BorderLayout.SOUTH);
+			mainPane.add(o, BorderLayout.EAST);
+			mainPane.add(c, BorderLayout.SOUTH);
 			mainPane.add(i, BorderLayout.WEST);
-			
+
 		}
 
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
-		    public void run() {
-		    	p.repaint();
-		    }
+			public void run() {
+				p.repaint();
+			}
 		});
-		
-		
+
+
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		setComponentSizes();
+	}
+
+	private void setComponentSizes() {
+		int fw = this.getWidth();
+		int fh = this.getHeight();
+
+		h.setPreferredSize(new Dimension(2 * fw / 3, fh / 10));
+		c.setPreferredSize(new Dimension(2 * fw / 3, fh / 10));
+		o.setPreferredSize(new Dimension(fw / 6, 8 * (fh / 10)));
+		i.setPreferredSize(new Dimension(fw / 6, 8 * (fh / 10)));
+
+
+
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// Unused
+
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+		// Unsued
+
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		// Unused
+
 	}
 
 }

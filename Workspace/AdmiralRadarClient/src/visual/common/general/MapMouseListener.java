@@ -1,4 +1,4 @@
-package visual.common;
+package visual.common.general;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
