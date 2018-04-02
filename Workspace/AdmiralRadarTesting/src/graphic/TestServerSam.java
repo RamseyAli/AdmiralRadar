@@ -1,4 +1,4 @@
-package visual.util;
+package graphic;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

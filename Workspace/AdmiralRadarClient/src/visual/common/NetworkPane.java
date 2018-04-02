@@ -32,7 +32,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 
 
 	//Panel Declarations
-	JPanel x,con , userTab , gameTab; 
+	JPanel x, con , usrBtnPnl , userTab , gameTab; 
 
 	//Connector Declarations
 	JComboBox<String> svr;
@@ -71,17 +71,21 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		con = new JPanel();
 		userTab = new JPanel();
 		gameTab = new JPanel();
+		usrBtnPnl = new JPanel();
 		tab = new JTabbedPane();
 
 		//Layout Management
 		con.setLayout(new BoxLayout(con , BoxLayout.X_AXIS));
+		usrBtnPnl.setLayout(new BoxLayout(usrBtnPnl , BoxLayout.X_AXIS));
 		userTab.setLayout(new BoxLayout(userTab , BoxLayout.Y_AXIS));
 		gameTab.setLayout(new BoxLayout(gameTab , BoxLayout.Y_AXIS));
 		x.setLayout(new BoxLayout(x , BoxLayout.Y_AXIS));
+		usrBtnPnl.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		//Connection Label
 		cxnStatus = new JLabel("Default");
 		cxnStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		cxnStatus.setForeground(Color.RED);
 
 		//Combo Box
@@ -100,20 +104,21 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		clr.addActionListener(this);
 		
 		log = new JButton("Login");
-		log.setAlignmentX(Component.CENTER_ALIGNMENT);
 		log.addActionListener(this);
 		log.setEnabled(false);
 		
 		reg = new JButton("Register");
-		reg.setAlignmentX(Component.CENTER_ALIGNMENT);
 		reg.addActionListener(this);
-		reg.setEnabled(true);
+		reg.setEnabled(false);
 
 		//Server Connection Line
 		con.add(svr);
 		con.add(clr);
 		con.add(cxt);
-		//con.add(cxnStatus);
+		
+		//User Buttons Line
+		usrBtnPnl.add(log);
+		usrBtnPnl.add(reg);
 
 		//Game Tab
 		ready = new JButton("Ready to Play");
@@ -155,8 +160,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		x.add(con);
 		x.add(usr);
 		x.add(pwd);
-		x.add(log);
-		x.add(reg);
+		x.add(usrBtnPnl);
 		x.add(cxnStatus);
 		x.add(tab);
 		add(x);
@@ -227,21 +231,16 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			model.removeAllElements();
 		}
 		else if (e.getSource() == log){
-			String user = usr.getText();
-			String pswd = new String(pwd.getPassword());
-
-			setState(control.login(user, pswd));
+			setState(control.login(usr.getText(), new String(pwd.getPassword())));
+			
 		}
 		else if (e.getSource() == avatarButton){
-
 			control.setAvatar(JOptionPane.showInputDialog("Enter URL for new Avatar"));
 			updateUserInfoPanel();
 
 		}
 		else if (e.getSource() == reg){
-
-			control.setAvatar(JOptionPane.showInputDialog("Enter URL for new Avatar"));
-			updateUserInfoPanel();
+			setState(control.newUser(JOptionPane.showInputDialog("Enter URL for new Avatar") , usr.getText(), new String(pwd.getPassword())));
 
 		}
 		else if (e.getSource() == ready){
@@ -269,6 +268,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			cxnStatus.setForeground(Color.RED);
 			cxnStatus.setText("Not Connected");
 			log.setEnabled(false);
+			reg.setEnabled(false);
 			cxt.setEnabled(true);
 			tab.setEnabled(true);
 			ready.setEnabled(false);
@@ -280,6 +280,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			cxnStatus.setForeground(Color.RED);
 			cxnStatus.setText("Connection Failure");
 			log.setEnabled(false);
+			reg.setEnabled(false);
 			cxt.setEnabled(true);
 			tab.setEnabled(false);
 			ready.setEnabled(false);
@@ -290,6 +291,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			state = 3;
 			cxnStatus.setForeground(Color.BLUE);
 			cxnStatus.setText("Connected. Please Log In.");
+			reg.setEnabled(true);
 			log.setEnabled(true);
 			cxt.setEnabled(false);
 			tab.setEnabled(false);
@@ -301,6 +303,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			state = 4;
 			cxnStatus.setForeground(Color.RED);
 			cxnStatus.setText("Username / Password Do Not Match");
+			reg.setEnabled(true);
 			log.setEnabled(true);
 			cxt.setEnabled(false);
 			tab.setEnabled(false);
@@ -312,6 +315,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			state = 5;
 			cxnStatus.setForeground(Color.GREEN);
 			cxnStatus.setText("Logged In");
+			reg.setEnabled(false);
 			log.setEnabled(false);
 			cxt.setEnabled(false);
 			tab.setEnabled(true);
@@ -324,6 +328,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			state = 6;
 			cxnStatus.setForeground(Color.GREEN);
 			cxnStatus.setText("Logged In");
+			reg.setEnabled(false);
 			log.setEnabled(false);
 			cxt.setEnabled(false);
 			tab.setEnabled(false);

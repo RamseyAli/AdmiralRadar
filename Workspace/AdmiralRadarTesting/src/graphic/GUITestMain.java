@@ -1,4 +1,4 @@
-package visual.util;
+package graphic;
 
 import visual.util.operations.GUIFactory;
 

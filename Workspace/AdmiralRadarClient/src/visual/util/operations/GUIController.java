@@ -36,6 +36,10 @@ public class GUIController {
 	public int login(String user, String pswd) {
 		return cm.loginToServer(user, pswd);
 	}
+	
+	public int newUser(String URL, String user, String password) {
+		return cm.registerUserWithServer(URL , user, password);
+	}
 
 	// 2 - Connection Failure
 	// 3 - Connected to Server

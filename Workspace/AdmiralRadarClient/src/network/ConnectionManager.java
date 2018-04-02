@@ -86,6 +86,11 @@ public class ConnectionManager {
 
 
 	}
+	
+	public int registerUserWithServer(String uRL, String user, String password) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	public void disconnect(){
 		JOptionPane.showMessageDialog(interrupt.getGUIFrame(), "Connection Lost. You Loose. Bye!");
