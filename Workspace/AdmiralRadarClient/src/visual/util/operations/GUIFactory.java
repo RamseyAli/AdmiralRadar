@@ -42,9 +42,6 @@ public class GUIFactory {
 
 		f.setPanel(h);
 
-
-
-
 		f.repaint();
 		h.repaint();
 		f.setVisible(true);
@@ -60,6 +57,7 @@ public class GUIFactory {
 	}
 
 	public void setGameRole(Role r) {
+		nexus.setRole(r);
 		switch(r){
 		case CAPTAIN:
 			h = new CaptainPane(nexus);

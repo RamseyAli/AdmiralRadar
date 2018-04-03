@@ -99,6 +99,7 @@ public class GameFrame extends JFrame implements ComponentListener{
 		mainPane.removeAll();
 		mainPane.add(p, BorderLayout.CENTER);
 		if (!(p instanceof NetworkPane)){
+			o.setup();
 			mainPane.add(h, BorderLayout.NORTH);
 			mainPane.add(o, BorderLayout.EAST);
 			mainPane.add(c, BorderLayout.SOUTH);
@@ -127,8 +128,8 @@ public class GameFrame extends JFrame implements ComponentListener{
 
 		h.setPreferredSize(new Dimension(2 * fw / 3, fh / 10));
 		c.setPreferredSize(new Dimension(2 * fw / 3, fh / 10));
-		o.setPreferredSize(new Dimension(fw / 6, 8 * (fh / 10)));
-		i.setPreferredSize(new Dimension(fw / 6, 8 * (fh / 10)));
+		o.setPreferredSize(new Dimension(2 * fw / 9, 8 * (fh / 10)));
+		i.setPreferredSize(new Dimension(2* fw / 9, 8 * (fh / 10)));
 
 
 

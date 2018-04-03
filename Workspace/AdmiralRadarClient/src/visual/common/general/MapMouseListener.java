@@ -66,20 +66,29 @@ public class MapMouseListener implements MouseListener, MouseMotionListener {
 
 	private Point getMousePositionInGame(MouseEvent e){
 
+		int x_w, y_w, sMax, s, x0, y0, sp, x, y, i, j;
 
-		int x_w = root.getSize().width;
-		int y_w = root.getSize().height;
-		int sMax = (int) (0.9 * Math.min( x_w , y_w )) - 2*MapBasedElement.MARGIN;
-		int s = sMax - ( sMax % (Preferences.SEG - 1) );
-		int x0 = (x_w-s) / 2;
-		int y0 = (y_w-s) / 2;
-		int sp = root.sp;
+		x_w = root.getSize().width;
+		y_w = root.getSize().height;
+		sMax = (int) (0.9 * Math.min( x_w , y_w )) - 2*MapBasedElement.MARGIN;
+		s = sMax - ( sMax % (Preferences.SEG - 1) );
+		x0 = (x_w-s) / 2;
+		y0 = (y_w-s) / 2;
+		sp = root.sp;
 
-		int x = e.getX() + sp / 2;
-		int y = e.getY() + sp / 2;
+		x = e.getX() + sp / 2;
+		y = e.getY() + sp / 2;
 
-		int i = ((x - x0) - ((x - x0) % sp)) / sp;
-		int j = ((y - y0) - ((y - y0) % sp)) / sp;
+
+		if (sp > 0){
+			i = ((x - x0) - ((x - x0) % sp)) / sp;
+			j = ((y - y0) - ((y - y0) % sp)) / sp;
+		}
+		else {
+			i = -1;
+			j = -1;
+		}
+
 
 		return new Point(i, j);
 
