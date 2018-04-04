@@ -178,7 +178,7 @@ public class TestClient {
 										strOutput = br.readLine();
 										mpo.sendString(strOutput);
 										ship = mpi.getNextSpaceship();
-										if(ship.getPosition().x == -1 && ship.getPosition().y == -1)
+										if(ship.getPosition().getX() == -1 && ship.getPosition().getY() == -1)
 										{
 											System.out.println("Game Ended");
 											System.out.println("You Lost");

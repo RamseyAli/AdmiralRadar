@@ -9,15 +9,15 @@ import util.Preferences;
 public class Position implements Serializable , MyPacketable
 {
 
-	public int x;
-	public int y;
+	private int x;
+	private int y; 
 
 	private static final long serialVersionUID = 1L;
 	
 	public Position(int x, int y)
 	{
-		this.x = x;
-		this.y = y;
+		this.setX(x);
+		this.setY(y);
 	}
 	
 	public Position()
@@ -33,7 +33,7 @@ public class Position implements Serializable , MyPacketable
 	}
 	
 	public Point getPoint(){
-		return new Point(x, y);
+		return new Point(getX(), getY());
 	}
 	
 	public void setPosition(int a,int b)
@@ -48,8 +48,8 @@ public class Position implements Serializable , MyPacketable
 	}
 	
 	public boolean isValid(){
-		if ( (x >= 0) && (x < Preferences.SEG) ){
-			if ( (y >= 0) && (y < Preferences.SEG) ){
+		if ( (getX() >= 0) && (getX() < Preferences.SEG) ){
+			if ( (getY() >= 0) && (getY() < Preferences.SEG) ){
 				return true;
 			}
 		}
@@ -79,6 +79,14 @@ public class Position implements Serializable , MyPacketable
 	}
 	
 	public String toString(){
-		return "(" + x + ":" + y + ")";
+		return "(" + getX() + ":" + getY() + ")";
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 }

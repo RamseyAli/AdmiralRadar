@@ -42,7 +42,6 @@ public class GameMap implements Serializable, MyPacketable
 	
 	public boolean isAsteroid(int x, int y){
 		for (int i = 0; i < asteroids.length; i++){
-			if ((asteroids[i].x == x) && (asteroids[i].y == y)) return true;
 		}
 		return false;
 	}
@@ -51,7 +50,6 @@ public class GameMap implements Serializable, MyPacketable
 	{
 		for(int i=0;i<5;i++)
 		{
-			System.out.println("x="+asteroids[i].x+"\ty="+asteroids[i].y);
 		}
 	}
 }

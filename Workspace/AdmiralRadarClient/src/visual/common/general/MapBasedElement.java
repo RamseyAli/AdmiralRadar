@@ -59,7 +59,7 @@ public abstract class MapBasedElement extends ShipPanel {
 		
 		int sBig = (int) (0.9*Math.min(x,y));
 		
-		g.setColor(Color.DARK_GRAY);
+		g.setColor(new Color(20, 20, 20, 50));
 		g.fillRect((x-sBig) / 2, (y-sBig) / 2, sBig, sBig);
 		
 		int sMax = sBig - 2*MARGIN;

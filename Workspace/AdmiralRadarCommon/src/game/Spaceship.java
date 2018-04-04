@@ -40,19 +40,19 @@ public class Spaceship implements Serializable, MyPacketable
 		path = path+" "+dir;
 		if (dir.equalsIgnoreCase("N"))
 		{
-			pos.y -= 1;
+			pos.setY(pos.getY() - 1);
 		}
 		else if(dir.equalsIgnoreCase("S"))
 		{
-			pos.y += 1;
+			pos.setY(pos.getY() + 1);
 		}
 		else if(dir.equalsIgnoreCase("E"))
 		{
-			pos.x +=1;
+			pos.setX(pos.getX() + 1);
 		}
 		else if(dir.equalsIgnoreCase("W"))
 		{
-			pos.x -= 1;
+			pos.setX(pos.getX() - 1);
 		}
 	}
 		
@@ -104,7 +104,7 @@ public class Spaceship implements Serializable, MyPacketable
 	
 	public void printShip() //For testing purposes
 	{
-		System.out.println("Position: x = "+pos.x+", y = "+pos.y);
+		System.out.println("Position: x = "+pos.getX()+", y = "+pos.getY());
 		System.out.println("Path: "+path);
 		System.out.println("Health: "+health);
 		systems.printSystems();

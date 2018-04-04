@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -1048,12 +1049,28 @@ public class AdmRadarServer
 	}
 	
 	/*
-	 * 0 - Success
-	 * 1 - ERROR: Username already in-use
-	 * 2 - ERROR: Misc.
+	 * "0000-9999" - Success
+	 * "-1" - ERROR: Username already in-use
+	 * "-2" - ERROR: Misc.
 	 */
-	public static int createUser(String username, String password, String avatar, int pin) {	
+	public static String createUser(String username, String password, String avatar) {	
+		
+		Random rand = new Random();
+		int pinInt = rand.nextInt(10000);
+		String pinString = String.format("%04d", pinInt);
+		
+		// 0000, 1111, ...., 9999.
+		for (int i = 0; i < 10; i++) {
+			String pinCheck = i + "" + i + "" + i + "" + i;
+			//check if PIN is one of these values
+			if (pinCheck.equals(pinString)) {
+				//re-gen. PIN if it is
+				return createUser(username, password, avatar);
+			}
+		}
+		
 		dbQuery DBobj = query("SELECT USERNAME, PIN FROM USER");	//just to init obj.
+		
 		String query = "INSERT INTO USER (USERNAME, PASSWORD, AVATAR, PIN) VALUES (?,?,?, ?)";
 	
 		try {
@@ -1070,20 +1087,20 @@ public class AdmRadarServer
 			preparedStmt.setString(1, username);
 			preparedStmt.setString(2, password);
 			preparedStmt.setString(3, avatar);
-			preparedStmt.setInt(4, pin);
+			preparedStmt.setInt(4, pinInt);
 			preparedStmt.executeUpdate();
 			//myPrint("Prepared Statement: " + preparedStmt);
 		} catch (Exception e) {
 			if (e.getMessage().contains("Duplicate")) {
-				return 1;
+				return "-1";
 			} else {
 				e.printStackTrace();
-				return 2;
+				return "-2";
 			}
 		}
 		
 		DBobj.close();
-		return 0;
+		return pinString;
 	}
 	
 }

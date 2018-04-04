@@ -10,6 +10,8 @@ import javax.swing.SwingUtilities;
 
 import game.GameMap;
 import game.Position;
+import game.Role;
+import game.Spaceship;
 import network.ConnectionManager;
 import ops.User;
 import visual.common.HealthPane;
@@ -26,6 +28,8 @@ public class GUIController {
 
 	private User u;
 	private GameMap m;
+	private Role r = Role.NETWORK;
+	private Spaceship s;
 
 	public GUIController(GUIFactory guiFactory) {
 		fac = guiFactory;
@@ -130,6 +134,18 @@ public class GUIController {
 	public void setStartLocation(Position start) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Role getRole() {
+		return r;
+	}
+
+	public void setRole(Role r) {
+		this.r = r;
+	}
+
+	public Spaceship getSpaceship() {
+		return s;
 	}
 
 }
