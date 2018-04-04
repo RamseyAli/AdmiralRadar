@@ -10,7 +10,7 @@ public class Position implements Serializable , MyPacketable
 {
 
 	public int x;
-	public int y; 
+	public int y;
 
 	private static final long serialVersionUID = 1L;
 	
@@ -52,6 +52,20 @@ public class Position implements Serializable , MyPacketable
 			if ( (y >= 0) && (y < Preferences.SEG) ){
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	public boolean isAdjacent(Position p) {
+		if ((x + 1 	== p.getX() + 1 && y 	 == p.getY())     ||
+			(x + 1 	== p.getX() + 1 && y + 1 == p.getY() + 1) ||
+			(x 		== p.getX() 	&& y + 1 == p.getY() + 1) ||
+			(x - 1 	== p.getX() - 1 && y + 1 == p.getY() + 1) ||
+			(x - 1 	== p.getX() - 1 && y 	 == p.getY())     ||
+			(x - 1 	== p.getX() - 1 && y - 1 == p.getY() - 1) ||
+			(x 		== p.getX() 	&& y - 1 == p.getY() - 1) ||
+			(x + 1 	== p.getX() + 1 && y - 1 == p.getY() - 1)) {
+			return true;
 		}
 		return false;
 	}

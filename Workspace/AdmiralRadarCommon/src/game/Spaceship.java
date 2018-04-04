@@ -13,6 +13,7 @@ public class Spaceship implements Serializable, MyPacketable
 	private int health;
 	public static final int MAX_HEALTH 	= 4;
 	
+	private MineController shipMines;
 	private ShipSystems systems;
 
 	private static final long serialVersionUID = 1L;
@@ -73,6 +74,10 @@ public class Spaceship implements Serializable, MyPacketable
 	public String getDirection()
 	{
 		return nextDir;
+	}
+	
+	public MineController getShipMines() {
+		return shipMines;
 	}
 	
 	public ShipSystems getShipSystem()

@@ -305,30 +305,62 @@ public class ShipSystems implements Serializable {
 	public boolean isCompEnabled(int comp) {
 		return sysComponents[comp] == ENABLED;
 	}
+	
+	public void setChargedStatus(String sys, int status) {
+		switch (sys) {
+			case "Sonar": 	sonar[CHARGED_STATUS] 	= status;
+			case "Missile": missile[CHARGED_STATUS] = status;
+			case "Mine": 	mine[CHARGED_STATUS] 	= status;
+			case "Drone": 	drone[CHARGED_STATUS] 	= status;
+			case "Silent": 	silent[CHARGED_STATUS] 	= status;
 
-	public static void launchMissile(Position miss, Spaceship[] ships) {
-		// If a mine exists in the same position as the launched missile,
-		// then detonate the mine but don't damage overlapping and/or adjacent ships
-		MineController.detonateMine(miss, ships, false);
+			default:
+				/*throw new IllegalArgumentException
+				 *(sys + " is an invalid Ship System type:"
+				 *		+ "(Sonar, Missile, Mine, Drone, Silent)...");
+				 */
+				return;
+		}
+	}
+	
+	public void setSystemStatus(String sys, int status) {
+		switch (sys) {
+			case "Sonar": 	sonar[SYSTEM_STATUS] 	= status;
+			case "Missile": missile[SYSTEM_STATUS] 	= status;
+			case "Mine": 	mine[SYSTEM_STATUS] 	= status;
+			case "Drone": 	drone[SYSTEM_STATUS] 	= status;
+			case "Silent": 	silent[SYSTEM_STATUS] 	= status;
+
+			default:
+				/*throw new IllegalArgumentException
+				 *(sys + " is an invalid Ship System type:"
+				 *		+ "(Sonar, Missile, Mine, Drone, Silent)...");
+				 */
+				return;
+		}
+	}
+
+	public void placeMine(Position min) {
+		
+		
+	}
+	
+	public void launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
+		if (!isSystemCharged("Missile")) return;
 		
 		for (Spaceship ship : ships) {
-			if (miss.equals(ship)) {
-				// SAME POSITION
-				if (ship.getPosition().x == miss.x && ship.getPosition().y == miss.y)
-					ship.removeHealth(2);
-				// CORNERS
-				else if ((ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y == miss.y)        ||
-					 	(ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y + 1 == miss.y + 1) ||
-					 	(ship.getPosition().x == miss.x && ship.getPosition().y + 1 == miss.y + 1)         ||
-					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y + 1 == miss.y + 1) ||
-					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y == miss.y)         ||
-					 	(ship.getPosition().x - 1 == miss.x - 1 && ship.getPosition().y - 1 == miss.y - 1) ||
-					 	(ship.getPosition().x == miss.x && ship.getPosition().y - 1 == miss.y - 1)         ||
-					 	(ship.getPosition().x + 1 == miss.x + 1 && ship.getPosition().y - 1 == miss.y - 1)) {
-					ship.removeHealth(1);
-				}
-			}
+			// If a mine exists in the same position as the launched missile,
+			// then detonate the mine but don't damage overlapping and/or adjacent ships
+			ship.getShipMines().detonateMine(miss, ships, false);
+			
+			if (miss.equals(ship))
+				ship.removeHealth(2);
+			if (miss.isAdjacent(ship.getPosition()))
+				ship.removeHealth(1);
 		}
+		
+		//missile[CHARGED_STATUS] = NOT_CHARGED;
+		//missile[POWER_LEVEL] 	= 0;
 	}
 
 	public void printSystems() // For Testing purposes
