@@ -9,10 +9,8 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
-import game.GameMap;
 import game.Position;
 import game.Role;
-import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import net.ObjEnum;
@@ -184,26 +182,25 @@ public class ConnectionManager {
 		}
 	}
 
-	private void radioOfficerNetworkLoop() {
+	private void radioOfficerNetworkLoop() throws IOException  {
 		// Listens for RO commands
 
 	}
 
-	private void firstOfficerNetworkLoop() {
+	private void firstOfficerNetworkLoop() throws IOException  {
 		// Listen for FO Info
 
 	}
 
-	private void engineerNetworkLoop() {
+	private void engineerNetworkLoop() throws IOException  {
 		// Listen for ENGR info
 
 	}
 
-	private void captainNetworkLoop() {
+	private void captainNetworkLoop() throws IOException {
 		
-		//Get starting posit
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
-		System.out.println(start);
+		oos.sendPosition(start);
 
 	}
 

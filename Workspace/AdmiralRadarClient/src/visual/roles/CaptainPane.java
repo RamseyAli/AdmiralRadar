@@ -20,13 +20,11 @@ public class CaptainPane extends MapBasedElement{
 	private static final long serialVersionUID = 1L;
 
 	public Position getStartLocation() {
-		System.out.println("WAITING");
 		try {
 			synchronized(signal){ signal.wait(); }
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("RETURNING");
 		return start;
 	}
 
@@ -34,8 +32,11 @@ public class CaptainPane extends MapBasedElement{
 	public void clickGridDot(int x, int y) {
 		start = new Position(x, y);
 		synchronized(signal){ signal.notify(); }
-		System.out.println("CLICKY");
+		
 		control.setStartLocation(start);
+		removeMouseListener(ear);
+	//	removeMouseMotionListener(ear);
+		control.threadSafeRepaint(this);
 		
 	}
 

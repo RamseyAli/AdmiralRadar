@@ -1,13 +1,10 @@
 package visual.util;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 
-import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
@@ -34,7 +31,6 @@ public class TestServer implements Runnable{
 					
 					while (true){
 						if((inputLine = in.getNextUser()) != null) {
-							@SuppressWarnings("unchecked")
 							
 								User u = (User)inputLine;
 							

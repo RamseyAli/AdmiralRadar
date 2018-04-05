@@ -586,7 +586,7 @@ public class AdmRadarServer
 			DesEncrypter encrypter = new DesEncrypter(key);
 			pw = encrypter.encrypt(pw);
 		} catch (Exception ex) {
-			pw = pw; //do nothing (pw not encrypted)
+		//	pw = pw; //do nothing (pw not encrypted)
 		}
 
 		try {
@@ -631,7 +631,7 @@ public class AdmRadarServer
 							DesEncrypter encrypter = new DesEncrypter(key);
 							pw = encrypter.encrypt(pw);
 						} catch (Exception ex) {
-							pw = pw; //do nothing (pw not encrypted)
+						//	pw = pw; //do nothing (pw not encrypted)
 						}
 
 						String query = "UPDATE USER SET PASSWORD = ? WHERE USERNAME = ?";
@@ -700,6 +700,7 @@ public class AdmRadarServer
 		}
 
 		//@SuppressWarnings("restriction")
+		@SuppressWarnings("restriction")
 		public String encrypt(String str) throws Exception {
 			// Encode the string into bytes using utf-8
 			byte[] utf8 = str.getBytes("UTF8");
@@ -1079,7 +1080,7 @@ public class AdmRadarServer
 			DesEncrypter encrypter = new DesEncrypter(key);
 			password = encrypter.encrypt(password);
 		} catch (Exception ex) {
-			password = password; //do nothing (pw not encrypted)
+		//	password = password; //do nothing (pw not encrypted)
 		}
 		
 		try {

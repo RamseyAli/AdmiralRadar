@@ -2,34 +2,13 @@ package visual.roles.elements;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 
 public class EngineerButton extends Ellipse2D.Double {
 
-	/**
-	 * 
-	 */
-	
-	private float A = 0.5f;
-	private float B = 0.5f;
 
-	private int margin = 10;
-	
-	private Color ACTIVE_WEAPON = Color.RED;
-	private Color BROKEN_WEAPON = Color.DARK_GRAY;
-	private Color ACTIVE_SENSOR = Color.GREEN;
-	private Color BROKEN_SENSOR = Color.DARK_GRAY;
-	private Color ACTIVE_EXTRAS = Color.YELLOW;
-	private Color BROKEN_EXTRAS = Color.DARK_GRAY;
-	private Color ACTIVE_REACTR = Color.GRAY;
-	private Color BROKEN_REACTR = Color.DARK_GRAY;
-	
-	private int BORDER = 5;
 	private Color col;
 	private Color sys;
-	private double rad;
 	private boolean selected;
 	private static final long serialVersionUID = 1L;
 	
@@ -38,9 +17,6 @@ public class EngineerButton extends Ellipse2D.Double {
 		col = c;
 		sys = s;
 		selected = b;
-		rad = r;
-		
-		System.out.println("create");
 	}
 
 	public void draw(Graphics2D g) {

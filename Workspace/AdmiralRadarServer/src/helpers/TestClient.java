@@ -255,6 +255,7 @@ public class TestClient {
 			}
 			else if (line.indexOf("433") >= 0) {
 				System.out.println("Nickname is already in use.");
+				socket.close(); //Fixes Leak
 				return;
 			}
 		}
@@ -276,5 +277,7 @@ public class TestClient {
 				System.out.println(line);
 			}
 		}
+		
+		socket.close();
 	}
 }

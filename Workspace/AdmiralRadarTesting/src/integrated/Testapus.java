@@ -48,6 +48,7 @@ public class Testapus {
 		for (int i = 0; i < 8; i++) clients[i] = new ARClient(new Rectangle(S * (i % 4), (int) (S2 * 1.2) * (i / 4), S , S2));
 
 		//Make a Server
+		@SuppressWarnings("unused")
 		ARServer serve = new ARServer();
 
 		System.out.println("Server Running");

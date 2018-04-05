@@ -3,53 +3,49 @@ package game;
 import java.io.*;
 
 import net.MyPacketable;
+import util.Preferences;
 
 public class GameMap implements Serializable, MyPacketable
 {
 	private static final long serialVersionUID = 1L;
 	
-	private Position [] asteroids = new Position[5];
+	private boolean[][] asteroid =  new boolean[Preferences.SEG][Preferences.SEG];
 	
 	public GameMap()
 	{
-		asteroids[0] = new Position();
-		asteroids[0].setPosition(1,2);
-		asteroids[1] = new Position();
-		asteroids[1].setPosition(1,3);
-		asteroids[2] = new Position();
-		asteroids[2].setPosition(5,4);
-		asteroids[3] = new Position();
-		asteroids[3].setPosition(5,5);
-		asteroids[4] = new Position();
-		asteroids[4].setPosition(6,5);
+		for (int i = 0; i < Preferences.SEG; i++)
+			for (int j = 0; j < Preferences.SEG; j++)
+				asteroid[i][j] = false;
+	
+		asteroid[1][2] = true;
+		asteroid[1][3] = true;
+		asteroid[5][4] = true;
+		asteroid[5][5] = true;
+		asteroid[6][5] = true;
 		
 	}
 	
 	public int calculateCrash(Spaceship s)
 	{
 		Position p = s.getPosition();
-		int i=0;
-		while(asteroids[i] != null)
-		{
-			if(p == asteroids[i])
-			{
-				return 1;
-			}
-			i++;
-		}
-		return 0;
+		
+		return (asteroid[p.getX()][p.getY()]) ? 1 : 0;
+		
 	}
 	
 	public boolean isAsteroid(int x, int y){
-		for (int i = 0; i < asteroids.length; i++){
-		}
-		return false;
+		
+		return asteroid[x][y];
+	}
+	
+	public void setIsAsteroid(int x, int y, boolean b){
+		asteroid[x][y] = b;
 	}
 	
 	public void printAsteroids()
 	{
-		for(int i=0;i<5;i++)
-		{
-		}
+		for (int i = 0; i < Preferences.SEG; i++)
+			for (int j = 0; j < Preferences.SEG; j++)
+				if (isAsteroid(i,j)) System.out.println("Asteroid at (" + i + "," + j + ")");
 	}
 }

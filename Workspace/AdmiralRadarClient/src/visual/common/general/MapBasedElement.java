@@ -7,17 +7,14 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import game.GameMap;
 import game.Position;
 import util.Preferences;
+import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
@@ -29,6 +26,7 @@ public abstract class MapBasedElement extends ShipPanel {
 	static int MARGIN = 30;
 	private static int Y = 5;
 	private static int Z = 8;
+	private static int R = 2;
 
 	private GameMap map;
 	protected MapMouseListener ear;
@@ -58,9 +56,9 @@ public abstract class MapBasedElement extends ShipPanel {
 		this.setBackground(new Color(0,0,0,0));
 
 		try {
-			int x = 40;
+			int x = 30;
 
-			BufferedImage bi = ImageIO.read(new File("ship.svg"));
+			BufferedImage bi = ImageIO.read(new File("ship.png"));
 			shipIcon = bi.getScaledInstance(x, (int) ((bi.getHeight()*x) / ((float) bi.getWidth())), Image.SCALE_DEFAULT);
 
 		} catch (IOException e) {
@@ -85,7 +83,6 @@ public abstract class MapBasedElement extends ShipPanel {
 
 		int sMax = sBig - 2*MARGIN;
 		int s = sMax - ( sMax % (Preferences.SEG - 1) );
-		int r = 2;
 
 		int x0 = (x-s) / 2;
 		int y0 = (y-s) / 2;
@@ -94,10 +91,10 @@ public abstract class MapBasedElement extends ShipPanel {
 
 		char c = 'A';
 
-		g.setColor(Color.GREEN);
+		g.setColor(ColorPallate.MAP_MOUSEOVER);
 
 		if (currentMouse.isValid())
-			g.fillOval(x0 - Y*r + (int) (currentMouse.getX()*sp), y0 - Y*r + (int) (currentMouse.getY()*sp), 2*Y*r, 2*Y*r);
+			g.fillOval(x0 - Y*R + (int) (currentMouse.getX()*sp), y0 - Y*R + (int) (currentMouse.getY()*sp), 2*Y*R, 2*Y*R);
 
 		g.setColor(Color.YELLOW);
 		for (int i = 0; i < Preferences.SEG; i++){
@@ -110,20 +107,23 @@ public abstract class MapBasedElement extends ShipPanel {
 				if (map.isAsteroid(i, j)) {
 					g.setColor(AST_1);
 
-					g.fill(new RoundRectangle2D.Double(x0 - Z*r + (i*sp), y0 - Z*r + (j*sp), 2*Z*r, 2*Z*r , 10*r, 10*r));
+					g.fill(new RoundRectangle2D.Double(x0 - Z*R + (i*sp), y0 - Z*R + (j*sp), 2*Z*R, 2*Z*R , 10*R, 10*R));
 
 					g.setColor(AST_2);
 
-					g.fillOval(x0 - Y*r + (i*sp), y0 - Y*r + (j*sp), 2*Y*r, 2*Y*r);
+					g.fillOval(x0 - Y*R + (i*sp), y0 - Y*R + (j*sp), 2*Y*R, 2*Y*R);
 
 					g.setColor(Color.YELLOW);
 				}
-				else g.fillOval(x0 - r + (i*sp), y0 - r + (j*sp), 2*r, 2*r);
+				else g.fillOval(x0 - R + (i*sp), y0 - R + (j*sp), 2*R, 2*R);
 
 		}
 
-		
-	//	g.drawImage(shipIcon, x0, y0, null);
+		if (control.getStartLocation() != null){
+			Position pos = (control.getSpaceship() == null) ? (control.getStartLocation()) : (control.getSpaceship().getPosition());
+
+			g.drawImage(shipIcon,x0 + pos.getX()*sp - shipIcon.getWidth(null)/2, y0 + pos.getY()*sp - shipIcon.getHeight(null)/2, null);
+		}
 	}
 
 	//X = 0

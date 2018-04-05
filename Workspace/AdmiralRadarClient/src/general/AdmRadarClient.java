@@ -3,7 +3,6 @@ package general;  // Something Pano needs to run, (maybe) comment out if your're
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
 
 import game.*;
 
@@ -18,7 +17,6 @@ public class AdmRadarClient {
 	private ObjectOutputStream objOutput;
 	private ObjectInputStream objInput;
 
-	private String playerRole;
 	private Spaceship teamShip; // team's own spaceship, not opponents'
 	
 	// Member Functions //
@@ -86,11 +84,7 @@ public class AdmRadarClient {
 
 		AdmRadarClient mainClient = new AdmRadarClient();
 
-		if (mainClient == null)
-			System.exit(1);
-
 		String hostName = args[0];
-		int portNumber = Integer.parseInt(args[1]);
 		String username = args[2];
 		String password = args[3];
 
@@ -132,7 +126,7 @@ public class AdmRadarClient {
 				if(teamShip != null)
 				{
 					Position temp = teamShip.getPosition();
-					System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+					System.out.println("Ship at x = "+temp.getX()+" y = "+temp.getY());
 					System.out.println("Ship path :"+teamShip.getPath());
 				}
 			}
@@ -183,8 +177,6 @@ public class AdmRadarClient {
 				out.println(fromUser);
 			}
 
-			String fromServer;
-
 			if(fromUser.equals("Captain"))
 			{
 				//fromServer = in.readLine();
@@ -221,7 +213,7 @@ public class AdmRadarClient {
 					if(teamShip != null)
 					{
 						Position temp = teamShip.getPosition();
-						System.out.println("Ship at x = "+temp.x+" y = "+temp.y);
+						System.out.println("Ship at x = "+temp.getX()+" y = "+temp.getY());
 						System.out.println("Ship path :"+teamShip.getPath());
 					}
 				}
@@ -249,7 +241,7 @@ public class AdmRadarClient {
 					if(teamShip != null)
 					{
 						Position tempP = teamShip.getPosition();
-						System.out.println("Ship at x = "+tempP.x+" y = "+tempP.y);
+						System.out.println("Ship at x = "+tempP.getX()+" y = "+tempP.getY());
 						ShipSystems tempS = teamShip.getShipSystem();
 						tempS.printSystems();
 					}
