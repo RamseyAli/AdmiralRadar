@@ -3,18 +3,18 @@ package game;
 import java.io.*;
 
 import net.MyPacketable;
-import util.Preferences;
+import pref.GamePreferences;
 
 public class GameMap implements Serializable, MyPacketable
 {
 	private static final long serialVersionUID = 1L;
 	
-	private boolean[][] asteroid =  new boolean[Preferences.SEG][Preferences.SEG];
+	private boolean[][] asteroid =  new boolean[GamePreferences.SEG][GamePreferences.SEG];
 	
 	public GameMap()
 	{
-		for (int i = 0; i < Preferences.SEG; i++)
-			for (int j = 0; j < Preferences.SEG; j++)
+		for (int i = 0; i < GamePreferences.SEG; i++)
+			for (int j = 0; j < GamePreferences.SEG; j++)
 				asteroid[i][j] = false;
 	
 		asteroid[1][2] = true;
@@ -44,8 +44,8 @@ public class GameMap implements Serializable, MyPacketable
 	
 	public void printAsteroids()
 	{
-		for (int i = 0; i < Preferences.SEG; i++)
-			for (int j = 0; j < Preferences.SEG; j++)
+		for (int i = 0; i < GamePreferences.SEG; i++)
+			for (int j = 0; j < GamePreferences.SEG; j++)
 				if (isAsteroid(i,j)) System.out.println("Asteroid at (" + i + "," + j + ")");
 	}
 }

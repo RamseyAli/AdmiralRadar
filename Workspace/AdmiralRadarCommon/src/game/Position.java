@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.io.*;
 
 import net.MyPacketable;
-import util.Preferences;
+import pref.GamePreferences;
 
 public class Position implements Serializable , MyPacketable
 {
@@ -48,8 +48,8 @@ public class Position implements Serializable , MyPacketable
 	}
 	
 	public boolean isValid(){
-		if ( (getX() >= 0) && (getX() < Preferences.SEG) ){
-			if ( (getY() >= 0) && (getY() < Preferences.SEG) ){
+		if ( (getX() >= 0) && (getX() < GamePreferences.SEG) ){
+			if ( (getY() >= 0) && (getY() < GamePreferences.SEG) ){
 				return true;
 			}
 		}

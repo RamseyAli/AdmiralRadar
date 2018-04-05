@@ -28,7 +28,7 @@ import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import net.ObjEnum;
 import ops.User;
-import util.Preferences;
+import pref.GamePreferences;
 
 public class AdmRadarServer
 {
@@ -393,7 +393,7 @@ public class AdmRadarServer
 		gameOngoing = false;
 		turn = 0;
 		nPlayers = 0;
-		new AdmRadarServer().go(Preferences.getPort());
+		new AdmRadarServer().go(GamePreferences.getPort());
 		
 	}
 	
@@ -404,7 +404,7 @@ public class AdmRadarServer
 		gameOngoing = false;
 		turn = 0;
 		nPlayers = 0;
-		go(Preferences.getPort());
+		go(GamePreferences.getPort());
 	}
 	
 	public void go(int port)

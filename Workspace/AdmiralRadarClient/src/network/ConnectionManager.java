@@ -15,7 +15,7 @@ import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import net.ObjEnum;
 import ops.User;
-import util.Preferences;
+import pref.GamePreferences;
 import visual.util.operations.GUIController;
 
 public class ConnectionManager {
@@ -38,7 +38,7 @@ public class ConnectionManager {
 	public int connectToServer(InetAddress svr){
 
 		try {
-			s = new Socket(svr, Preferences.getPort());
+			s = new Socket(svr, GamePreferences.getPort());
 
 			out 	= 	new PrintWriter(s.getOutputStream(), true);
 			oos 	= 	new MyPacketOutputStream(s.getOutputStream());

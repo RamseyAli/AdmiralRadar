@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 
 import game.GameMap;
 import game.Position;
-import util.Preferences;
+import pref.GamePreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
@@ -82,12 +82,12 @@ public abstract class MapBasedElement extends ShipPanel {
 		g.fillRect((x-sBig) / 2, (y-sBig) / 2, sBig, sBig);
 
 		int sMax = sBig - 2*MARGIN;
-		int s = sMax - ( sMax % (Preferences.SEG - 1) );
+		int s = sMax - ( sMax % (GamePreferences.SEG - 1) );
 
 		int x0 = (x-s) / 2;
 		int y0 = (y-s) / 2;
 
-		sp = (int) (s / (Preferences.SEG - 1));
+		sp = (int) (s / (GamePreferences.SEG - 1));
 
 		char c = 'A';
 
@@ -97,13 +97,13 @@ public abstract class MapBasedElement extends ShipPanel {
 			g.fillOval(x0 - Y*R + (int) (currentMouse.getX()*sp), y0 - Y*R + (int) (currentMouse.getY()*sp), 2*Y*R, 2*Y*R);
 
 		g.setColor(Color.YELLOW);
-		for (int i = 0; i < Preferences.SEG; i++){
+		for (int i = 0; i < GamePreferences.SEG; i++){
 
 			drawChar(c , x0 + (i*sp), y0 - MARGIN/2);
 			drawInt((int) (c - 'A') , x0  - MARGIN/2, y0  + (i*sp) + 5, 2);
 			c++;
 
-			for (int j = 0; j < Preferences.SEG; j++)
+			for (int j = 0; j < GamePreferences.SEG; j++)
 				if (map.isAsteroid(i, j)) {
 					g.setColor(AST_1);
 

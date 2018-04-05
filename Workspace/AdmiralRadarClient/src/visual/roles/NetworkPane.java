@@ -25,7 +25,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import util.Preferences;
+import pref.GamePreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
@@ -104,7 +104,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		cxnStatus.setForeground(Color.RED);
 
 		//Combo Box
-		svr = new JComboBox<>(Preferences.getIPs());
+		svr = new JComboBox<>(GamePreferences.getIPs());
 		svr.setEditable(true);
 		model = (DefaultComboBoxModel<String>) svr.getModel();
 
@@ -232,9 +232,9 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cxt){
 			String s = (String) svr.getSelectedItem();
-			if (!Preferences.getIPArrayList().contains(s)) {
+			if (!GamePreferences.getIPArrayList().contains(s)) {
 				model.addElement(s);
-				Preferences.addIP(s);
+				GamePreferences.addIP(s);
 			}
 
 			try {
@@ -244,7 +244,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			}
 		}
 		else if (e.getSource() == clr){
-			Preferences.clearIPs();
+			GamePreferences.clearIPs();
 			model.removeAllElements();
 		}
 		else if (e.getSource() == log){
