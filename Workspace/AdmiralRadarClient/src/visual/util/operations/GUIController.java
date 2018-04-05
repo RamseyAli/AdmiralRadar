@@ -147,5 +147,9 @@ public class GUIController {
 	public Spaceship getSpaceship() {
 		return s;
 	}
+	
+	public Position getShipPosition(){
+		return s.getPosition();
+	}
 
 }

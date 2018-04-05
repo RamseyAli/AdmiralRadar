@@ -26,7 +26,7 @@ public class GUITestClass {
 		((NetworkPane) factory.getShipPanel()).log.doClick();
 		((NetworkPane) factory.getShipPanel()).ready.doClick();
 		
-		Thread.sleep(30000);
+		Thread.sleep(100000);
 		System.exit(1);
 		
 		

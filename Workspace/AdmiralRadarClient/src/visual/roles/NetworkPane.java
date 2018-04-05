@@ -2,6 +2,7 @@ package visual.roles;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,8 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import util.Preferences;
+import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
@@ -66,6 +69,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	public NetworkPane(GUIController cx) {
 		super(cx);
 
+		
 		//Panel Instantiations
 		x = new JPanel();
 		con = new JPanel();
@@ -73,6 +77,18 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		gameTab = new JPanel();
 		usrBtnPnl = new JPanel();
 		tab = new JTabbedPane();
+		
+		setOpaque(false);
+		x.setBackground(ColorPallate.PRIMARY_TRANSPARENT_GRAY);
+		x.setBorder(new EmptyBorder(10, 10, 10, 10));
+		
+		con.setOpaque(false);
+		usrBtnPnl.setOpaque(false);
+		userTab.setOpaque(false);
+		gameTab.setOpaque(false);
+		tab.setOpaque(false);
+		
+		
 
 		//Layout Management
 		con.setLayout(new BoxLayout(con , BoxLayout.X_AXIS));
@@ -136,6 +152,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		wins = new JLabel();
 		losses = new JLabel();
 		avatar = new JLabel();
+		avatar.setOpaque(false);
 		avatarButton = new JButton("Change Avatar");
 		avatarButton.addActionListener(this);
 
@@ -165,6 +182,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		x.add(tab);
 		add(x);
 		setState(1);
+	
 	}
 
 	private void updateUserInfoPanel(){
@@ -231,7 +249,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			model.removeAllElements();
 		}
 		else if (e.getSource() == log){
-			setState(control.login(usr.getText(), new String(pwd.getPassword())));
+			setState(control.login(usr.getText(), new String(encrypt(pwd.getPassword()))));
 			
 		}
 		else if (e.getSource() == avatarButton){
@@ -253,6 +271,12 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 
 		control.threadSafeRepaint(this);
 
+	}
+
+	private String encrypt(char[] password) {
+		// TODO @Ramsey
+		// WRITE THIS SHIT
+		return new String(password);
 	}
 
 	// 1 - No Connection

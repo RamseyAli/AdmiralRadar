@@ -203,6 +203,7 @@ public class ConnectionManager {
 		
 		//Get starting posit
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
+		System.out.println(start);
 
 	}
 
