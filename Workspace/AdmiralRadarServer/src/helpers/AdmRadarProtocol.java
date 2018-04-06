@@ -5,6 +5,7 @@ import game.Spaceship;
 
 public class AdmRadarProtocol
 {
+	@SuppressWarnings("unused")
 	private static int NUMCOMMANDS;
 	
 	GameMap map1;

@@ -23,8 +23,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-import util.Preferences;
+import pref.GamePreferences;
+import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
@@ -66,6 +68,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	public NetworkPane(GUIController cx) {
 		super(cx);
 
+		
 		//Panel Instantiations
 		x = new JPanel();
 		con = new JPanel();
@@ -73,6 +76,18 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		gameTab = new JPanel();
 		usrBtnPnl = new JPanel();
 		tab = new JTabbedPane();
+		
+		setOpaque(false);
+		x.setBackground(ColorPallate.PRIMARY_TRANSPARENT_GRAY);
+		x.setBorder(new EmptyBorder(10, 10, 10, 10));
+		
+		con.setOpaque(false);
+		usrBtnPnl.setOpaque(false);
+		userTab.setOpaque(false);
+		gameTab.setOpaque(false);
+		tab.setOpaque(false);
+		
+		
 
 		//Layout Management
 		con.setLayout(new BoxLayout(con , BoxLayout.X_AXIS));
@@ -89,7 +104,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		cxnStatus.setForeground(Color.RED);
 
 		//Combo Box
-		svr = new JComboBox<>(Preferences.getIPs());
+		svr = new JComboBox<>(GamePreferences.getIPs());
 		svr.setEditable(true);
 		model = (DefaultComboBoxModel<String>) svr.getModel();
 
@@ -136,6 +151,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		wins = new JLabel();
 		losses = new JLabel();
 		avatar = new JLabel();
+		avatar.setOpaque(false);
 		avatarButton = new JButton("Change Avatar");
 		avatarButton.addActionListener(this);
 
@@ -165,6 +181,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		x.add(tab);
 		add(x);
 		setState(1);
+	
 	}
 
 	private void updateUserInfoPanel(){
@@ -215,9 +232,9 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cxt){
 			String s = (String) svr.getSelectedItem();
-			if (!Preferences.getIPArrayList().contains(s)) {
+			if (!GamePreferences.getIPArrayList().contains(s)) {
 				model.addElement(s);
-				Preferences.addIP(s);
+				GamePreferences.addIP(s);
 			}
 
 			try {
@@ -227,11 +244,11 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			}
 		}
 		else if (e.getSource() == clr){
-			Preferences.clearIPs();
+			GamePreferences.clearIPs();
 			model.removeAllElements();
 		}
 		else if (e.getSource() == log){
-			setState(control.login(usr.getText(), new String(pwd.getPassword())));
+			setState(control.login(usr.getText(), new String(encrypt(pwd.getPassword()))));
 			
 		}
 		else if (e.getSource() == avatarButton){
@@ -253,6 +270,12 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 
 		control.threadSafeRepaint(this);
 
+	}
+
+	private String encrypt(char[] password) {
+		// TODO @Ramsey
+		// WRITE THIS SHIT
+		return new String(password);
 	}
 
 	// 1 - No Connection

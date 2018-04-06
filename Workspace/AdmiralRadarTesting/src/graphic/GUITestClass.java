@@ -1,7 +1,7 @@
 package graphic;
 
 import game.Role;
-import util.Preferences;
+import pref.GamePreferences;
 import visual.roles.NetworkPane;
 import visual.util.operations.GUIFactory;
 
@@ -9,7 +9,7 @@ public class GUITestClass {
 
 	public static void main(String[] args) throws InterruptedException {
 		
-		Preferences.setFullscreen(false);
+		GamePreferences.setFullscreen(false);
 		//Create GUI Factory
 		GUIFactory factory = new GUIFactory();
 		
@@ -26,7 +26,7 @@ public class GUITestClass {
 		((NetworkPane) factory.getShipPanel()).log.doClick();
 		((NetworkPane) factory.getShipPanel()).ready.doClick();
 		
-		Thread.sleep(30000);
+		Thread.sleep(100000);
 		System.exit(1);
 		
 		

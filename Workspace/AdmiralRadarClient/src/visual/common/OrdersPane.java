@@ -3,16 +3,14 @@ package visual.common;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
 import game.Role;
+import pref.VisualPreferences;
+import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
@@ -49,100 +47,128 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 	@Override
 	public void draw() {
 
-		int b1 = 20;
-		int b2 = b1 + 1;
-		g.setColor(Color.CYAN);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		//Display Math
 
-		g.setColor(Color.BLACK);
-		g.fillRect(2, 2, getWidth() - 4, getHeight() - 4);
+		int w_o = getWidth();
+		int w_m = (int) (w_o * (5.0/6));
+		int w = w_m - 2*VisualPreferences.GENERAL_BORDER;
+		int h = getHeight();
 
-		int r_t = (getWidth() - b1*2) / 2;
-		int r_t2 = (getWidth() - b2*2) / 2;
+		int sysWidth = w / 2; //.5
+		int sysHeight = (int) (h /14);
+		int sysYGap = sysHeight / 2; 
 
-		g.setColor(Color.BLUE);
-		g.fillOval(b1, getHeight() - 2*r_t - b1, 2*r_t, 2*r_t);
+		int sysX = (int) ((w * 0.125) / 2.0);
 
-		g.setColor(Color.BLACK);
-		g.fillOval(b2, getHeight() - 2*r_t2 - b2, 2*r_t2, 2*r_t2);
-
-		int x0 = b1 + r_t;
-		int y0 = getHeight() - r_t - b1;
+		int sysCautR =sysHeight / 2;
+		int sysCautL = sysCautR - VisualPreferences.SYS_CAUTION_B;
+		int sysCautX = w - sysCautR;
 
 
-		int ls = (int) (r_t / 1.5);
-		int ss = (int) (r_t / 4);
+		int compSquare = (int) Math.min(w*0.8 , h * (12.0/28.0) );
+		int compRo = compSquare / 2 ;
+
+		int compX0 = VisualPreferences.GENERAL_BORDER +  (w / 2);
+		int compY0 = (int) (h - 1.1*compRo);
+
+		int ls = (int) (compRo / 1.5);
+		int ss = (int) (compRo / 4);
 		int tg = (int) (ss* 0.9);
 		int c = ss / 2;
 
-		north = new RoundRectangle2D.Double(x0 - ss/2, y0 - tg - ls, ss , ls , c, c);
-		east = new RoundRectangle2D.Double(x0 + tg, y0 - ss / 2, ls , ss , c, c);
-		south = new RoundRectangle2D.Double(x0 - ss/2, y0 + tg, ss , ls , c, c);
-		west = new RoundRectangle2D.Double(x0 - tg - ls, y0 - ss / 2, ls , ss , c, c);
+		//Display Art
 
-		g.setColor(overlay[0] ? Color.WHITE : Color.CYAN);
+		g.setColor(ColorPallate.ORDER_PANEL_BORDER);
+		g.fillRect(0, 0, w_m, h);
+
+		g.setColor(ColorPallate.ORDER_PANEL);
+		g.fillRect(VisualPreferences.GENERAL_BORDER, VisualPreferences.GENERAL_BORDER, w, h - 2*VisualPreferences.GENERAL_BORDER);
+
+		g.setColor(ColorPallate.ORDER_COMPASS);
+		g.fillOval(compX0 - compRo, compY0 - compRo, 2*compRo, 2*compRo);
+
+		//	g.setColor(ColorPallate.ORDER_PANEL);
+		//	g.fillOval(compX0 - compRi, compY0 - compRi, 2*compRi, 2*compRi);
+
+		north = new RoundRectangle2D.Double(compX0 - ss/2, compY0 - tg - ls, ss , ls , c, c);
+		east = new RoundRectangle2D.Double(compX0 + tg, compY0 - ss / 2, ls , ss , c, c);
+		south = new RoundRectangle2D.Double(compX0 - ss/2, compY0 + tg, ss , ls , c, c);
+		west = new RoundRectangle2D.Double(compX0 - tg - ls, compY0 - ss / 2, ls , ss , c, c);
+
+		g.setColor(overlay[0] ? Color.WHITE : ColorPallate.ORDER_COMPASS_BUTTON);
 		g.fill(north);
 
-		g.setColor(overlay[1] ? Color.WHITE : Color.CYAN);
+		g.setColor(overlay[1] ? Color.WHITE : ColorPallate.ORDER_COMPASS_BUTTON);
 		g.fill(south);
 
-		g.setColor(overlay[2] ? Color.WHITE : Color.CYAN);
+		g.setColor(overlay[2] ? Color.WHITE : ColorPallate.ORDER_COMPASS_BUTTON);
 		g.fill(east);
 
-		g.setColor(overlay[3] ? Color.WHITE : Color.CYAN);
+		g.setColor(overlay[3] ? Color.WHITE : ColorPallate.ORDER_COMPASS_BUTTON);
 		g.fill(west);
 
-		int sysWidth = getWidth() / 2;
-		int sysHeight = (int) (ls /1.4);
-		int sysCautR = sysHeight / 2;
-		int sysCautB = 2;
-		int sysCautL = sysCautR - sysCautB;
 
-		int b3 = b1 - 1;
-		g.setColor(Color.DARK_GRAY);
-		g.fillRect(b3, b3			   , sysWidth + 2, sysHeight + 2);
-		g.fillRect(b3, b3 + 2*sysHeight, sysWidth + 2, sysHeight + 2);
-		g.fillRect(b3, b3 + 4*sysHeight, sysWidth + 2, sysHeight + 2);
-		g.fillRect(b3, b3 + 6*sysHeight, sysWidth + 2, sysHeight + 2);
-		g.fillRect(b3, b3 + 8*sysHeight, sysWidth + 2, sysHeight + 2);
-		
-		g.setColor(Color.GREEN);
-		g.fillRect(b1, b1, sysWidth, sysHeight);
-		g.fillRect(b1, b1 + 2*sysHeight, sysWidth, sysHeight);
+		g.setColor(ColorPallate.ORDER_SYSTEM_BOX);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap							, sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap + 1*(sysYGap + sysHeight), sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap + 2*(sysYGap + sysHeight), sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap + 3*(sysYGap + sysHeight), sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap + 4*(sysYGap + sysHeight), sysWidth, sysHeight);
 
-		g.setColor(Color.RED);
-		g.fillRect(b1, b1 + 4*sysHeight, sysWidth, sysHeight);
-		g.fillRect(b1, b1 + 6*sysHeight, sysWidth, sysHeight);
-
-		g.setColor(Color.YELLOW);
-		g.fillRect(b1, b1 + 8*sysHeight, sysWidth, sysHeight);
-
-		
 		g.setColor(Color.BLACK);
 		int sh = g.getFontMetrics().getHeight();
 		g.setFont(g.getFont().deriveFont(Font.BOLD));
-		
-		g.drawString("Drone", b1 + 10, 		(int)(b1 + 0.5*sysHeight + (sh/3)));
-		g.drawString("Radar", b1 + 10, 		(int)(b1 + 2.5*sysHeight + (sh/3)));
-		g.drawString("Missile", b1 + 10, 	(int)(b1 + 4.5*sysHeight + (sh/3)));
-		g.drawString("Mines", b1 + 10, 		(int)(b1 + 6.5*sysHeight + (sh/3)));
-		g.drawString("Boosters", b1 + 10, 	(int)(b1 + 8.5*sysHeight + (sh/3)));
-		
-		
-		g.setColor(Color.DARK_GRAY);
-		g.fillOval(2*b1 + sysWidth, b1 + 0*sysHeight, 2*sysCautR, 2*sysCautR);
-		g.fillOval(2*b1 + sysWidth, b1 + 2*sysHeight, 2*sysCautR, 2*sysCautR);
-		g.fillOval(2*b1 + sysWidth, b1 + 4*sysHeight, 2*sysCautR, 2*sysCautR);
-		g.fillOval(2*b1 + sysWidth, b1 + 6*sysHeight, 2*sysCautR, 2*sysCautR);
-		g.fillOval(2*b1 + sysWidth, b1 + 8*sysHeight, 2*sysCautR, 2*sysCautR);
+
+		g.drawString("Drone"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 0.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Radar"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 1.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Missile"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 2.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Mines"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 3.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Boosters"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 4.5*(sysYGap + sysHeight) + (sh/3))		);
+
+
+		g.setColor(ColorPallate.ORDER_SYSTEM_BOX);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 0*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 1*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 2*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 3*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 4*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
 
 		if (control.getSpaceship() != null){
-			g.setColor(Color.RED);
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Drone"))   g.fillOval(2*b1 + sysWidth + sysCautB, b1  				+ sysCautB, 2*sysCautL, 2*sysCautL);
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Radar"))   g.fillOval(2*b1 + sysWidth + sysCautB, b1 + 2*sysHeight + sysCautB, 2*sysCautL, 2*sysCautL);
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Missile")) g.fillOval(2*b1 + sysWidth + sysCautB, b1 + 4*sysHeight + sysCautB, 2*sysCautL, 2*sysCautL);
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Mine"))    g.fillOval(2*b1 + sysWidth + sysCautB, b1 + 6*sysHeight + sysCautB, 2*sysCautL, 2*sysCautL);
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Silent"))  g.fillOval(2*b1 + sysWidth + sysCautB, b1 + 8*sysHeight + sysCautB, 2*sysCautL, 2*sysCautL);
+			g.setColor(ColorPallate.SENSORY);
+			if (control.getSpaceship().getShipSystem().isSystemCharged("Drone"))
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER							, sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
+
+			if (control.getSpaceship().getShipSystem().isSystemCharged("Radar"))
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 1*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
+
+			g.setColor(ColorPallate.TACTICAL);
+			if (control.getSpaceship().getShipSystem().isSystemCharged("Missile"))
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 2*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
+
+			if (control.getSpaceship().getShipSystem().isSystemCharged("Mine"))
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 3*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
+
+			g.setColor(ColorPallate.UTILITY);
+			if (control.getSpaceship().getShipSystem().isSystemCharged("Silent"))
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 4*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
+
+
+			g.setColor(ColorPallate.ORDER_SYSTEM_CAUTION);
+			
+			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Drone")) 
+				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 0*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+
+			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Radar")) 
+				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 1*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+
+			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Missile"))
+				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 2*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+
+			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Mine"));  
+			g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 3*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+
+			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Silent")) 
+				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 4*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 		}
 
 	}

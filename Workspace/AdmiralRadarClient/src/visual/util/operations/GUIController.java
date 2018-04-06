@@ -30,6 +30,8 @@ public class GUIController {
 	private GameMap m;
 	private Role r = Role.NETWORK;
 	private Spaceship s;
+	private Position sp;
+	
 
 	public GUIController(GUIFactory guiFactory) {
 		fac = guiFactory;
@@ -132,7 +134,12 @@ public class GUIController {
 	}
 
 	public void setStartLocation(Position start) {
-		// TODO Auto-generated method stub
+		sp = start;
+		
+	}
+	
+	public Position getStartLocation() {
+		return sp;
 		
 	}
 

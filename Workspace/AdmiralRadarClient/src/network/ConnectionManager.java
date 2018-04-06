@@ -9,15 +9,13 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
-import game.GameMap;
 import game.Position;
 import game.Role;
-import net.MyPacket;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import net.ObjEnum;
 import ops.User;
-import util.Preferences;
+import pref.GamePreferences;
 import visual.util.operations.GUIController;
 
 public class ConnectionManager {
@@ -40,7 +38,7 @@ public class ConnectionManager {
 	public int connectToServer(InetAddress svr){
 
 		try {
-			s = new Socket(svr, Preferences.getPort());
+			s = new Socket(svr, GamePreferences.getPort());
 
 			out 	= 	new PrintWriter(s.getOutputStream(), true);
 			oos 	= 	new MyPacketOutputStream(s.getOutputStream());
@@ -184,25 +182,25 @@ public class ConnectionManager {
 		}
 	}
 
-	private void radioOfficerNetworkLoop() {
+	private void radioOfficerNetworkLoop() throws IOException  {
 		// Listens for RO commands
 
 	}
 
-	private void firstOfficerNetworkLoop() {
+	private void firstOfficerNetworkLoop() throws IOException  {
 		// Listen for FO Info
 
 	}
 
-	private void engineerNetworkLoop() {
+	private void engineerNetworkLoop() throws IOException  {
 		// Listen for ENGR info
 
 	}
 
-	private void captainNetworkLoop() {
+	private void captainNetworkLoop() throws IOException {
 		
-		//Get starting posit
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
+		oos.sendPosition(start);
 
 	}
 

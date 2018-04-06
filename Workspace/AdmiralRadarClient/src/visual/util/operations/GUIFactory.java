@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 
 import game.Role;
 import network.ConnectionManager;
-import util.Preferences;
+import pref.GamePreferences;
 import game.Position;
 import visual.roles.*;
 import visual.util.components.GameFrame;
@@ -49,9 +49,9 @@ public class GUIFactory {
 	}
 
 	public void beginGUI() {
-		if (Preferences.isFullscreen())
+		if (GamePreferences.isFullscreen())
 			beginGUI(new Rectangle(0,0, (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() , (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
-		
+
 		else beginGUI(new Rectangle(100,100,1000,600));
 
 	}
@@ -95,6 +95,7 @@ public class GUIFactory {
 	public Position getInitialPositionFromCaptain() {
 		if (!(h instanceof CaptainPane)) throw new IllegalArgumentException();
 		else return ((CaptainPane) h).getStartLocation();
+
 
 	}
 

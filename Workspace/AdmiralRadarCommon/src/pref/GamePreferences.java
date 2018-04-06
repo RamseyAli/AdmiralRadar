@@ -1,8 +1,8 @@
-package util;
+package pref;
 
 import java.util.ArrayList;
 
-public class Preferences {
+public class GamePreferences {
 
 	public static int SEG = 15;
 	
