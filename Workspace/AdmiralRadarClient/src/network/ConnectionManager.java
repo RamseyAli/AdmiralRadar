@@ -6,11 +6,15 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Base64;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
 
 import game.Position;
 import game.Role;
+import security.DesEncrypter;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import net.ObjEnum;
@@ -57,6 +61,15 @@ public class ConnectionManager {
 
 
 	public int loginToServer(String user, String hash){
+		
+		try {
+			byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
+			SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
+			DesEncrypter encrypter = new DesEncrypter(key);
+			hash = encrypter.encrypt(hash);
+		} catch (Exception ex) {
+			//do nothing (pw not encrypted)
+		}
 
 		User u = null;
 		try {

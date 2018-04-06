@@ -19,6 +19,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import security.DesEncrypter;
 import game.GameMap;
 import game.Position;
 import game.Role;
@@ -75,6 +76,40 @@ public class AdmRadarServer
 				gameShip.get(teamNo).restoreHealth();
 				return true;
 			}
+			else if (action.equalsIgnoreCase("Drone"))
+			{
+				// TODO: Required input - Sector Guess (of activating team) //
+				
+				int targetTeam, sector;
+				Spaceship targetShip;
+				
+				// Insert Drone action //
+				if (teamNo == 1) // Ideally targets team other than user of Drone
+					targetTeam = 0;
+				else
+					targetTeam = 1;
+				
+				targetShip = gameShip.get(targetTeam);
+				
+				Position pos = targetShip.getPosition();
+				
+				// TODO: Calculate sector based on coordinates //
+				// Note: "GamePreferences.SEG" is the size of the Map //
+				sector = 3 * (pos.getY() / 5) + (pos.getX() / 5);
+				
+				// TODO: Check user's guess and respond
+				// TODO: Communicate info to client //		
+				
+				return true; //placeholder return
+			}
+			else if (action.equalsIgnoreCase("Sonar"))
+			{
+				int targetTeam;
+				Spaceship targetShip;
+				
+				return true; //placeholder return
+				
+			}
 			else
 				return false;
 		}
@@ -93,7 +128,6 @@ public class AdmRadarServer
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
 						
-						//resetPW(username,encPassword,8242);
 						int success;
 						if(username.equalsIgnoreCase("John"))
 							success = 0;
@@ -199,7 +233,7 @@ public class AdmRadarServer
 									mpos.sendSpaceShip(ship);
 									mpos.reset();
 									
-									while(true)//gameOngoing)
+									while(true)
 									{
 										if(role == Role.RADIO)
 										{
@@ -581,15 +615,6 @@ public class AdmRadarServer
 		dbQuery DBobj = query("SELECT USERNAME, PASSWORD FROM USER");
 
 		try {
-			byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
-			SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
-			DesEncrypter encrypter = new DesEncrypter(key);
-			pw = encrypter.encrypt(pw);
-		} catch (Exception ex) {
-		//	pw = pw; //do nothing (pw not encrypted)
-		}
-
-		try {
 			while (DBobj.rs.next()) {
 				if (user.equals(DBobj.rs.getString("USERNAME"))) {
 					if (pw.equals(DBobj.rs.getString("PASSWORD"))) {
@@ -684,34 +709,6 @@ public class AdmRadarServer
 		return 0;
 
 	}
-
-	/*
-		Credit for encrpytion method goes to Java2S.com
-	 */
-
-///
-
-	static class DesEncrypter {
-		Cipher ecipher;
-
-		DesEncrypter(SecretKey key) throws Exception {
-			ecipher = Cipher.getInstance("DES");
-			ecipher.init(Cipher.ENCRYPT_MODE, key);
-		}
-
-		//@SuppressWarnings("restriction")
-		@SuppressWarnings("restriction")
-		public String encrypt(String str) throws Exception {
-			// Encode the string into bytes using utf-8
-			byte[] utf8 = str.getBytes("UTF8");
-			// Encrypt
-			byte[] enc = ecipher.doFinal(utf8);
-			// Encode bytes to base64 to get a string
-			return new sun.misc.BASE64Encoder().encode(enc);
-		}
-
-	}
-
 
 	///
 	/*
