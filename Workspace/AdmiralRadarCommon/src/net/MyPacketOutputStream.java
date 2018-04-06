@@ -12,7 +12,7 @@ import ops.User;
 
 public class MyPacketOutputStream extends ObjectOutputStream {
 
-	private static final boolean NET_DEBUG = true;
+	private static final boolean NET_DEBUG = false;
 	
 	public MyPacketOutputStream(OutputStream out) throws IOException {
 		super(out);

@@ -93,7 +93,6 @@ public class AdmRadarServer
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
 						
-						//resetPW(username,encPassword,8242);
 						int success;
 						if(username.equalsIgnoreCase("John"))
 							success = 0;
@@ -199,7 +198,7 @@ public class AdmRadarServer
 									mpos.sendSpaceShip(ship);
 									mpos.reset();
 									
-									while(true)//gameOngoing)
+									while(true)
 									{
 										if(role == Role.RADIO)
 										{
