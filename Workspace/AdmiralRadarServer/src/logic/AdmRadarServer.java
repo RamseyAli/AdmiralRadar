@@ -75,6 +75,36 @@ public class AdmRadarServer
 				gameShip.get(teamNo).restoreHealth();
 				return true;
 			}
+			else if (action.equalsIgnoreCase("Drone"))
+			{
+				// TODO: Required input - Sector Guess (of activating team) //
+				
+				int targetTeam, sector;
+				Spaceship targetShip;
+				
+				// Insert Drone action //
+				if (teamNo) // Ideally targets team other than user of Drone
+					targetTeam = 0;
+				else
+					targetTeam = 1;
+				
+				targetShip = gameShip.get(targetTeam);
+				
+				Position pos = targetShip.getPosition();
+				
+				// TODO: Calculate sector based on coordinates //
+				// Note: "GamePreferences.SEG" is the size of the Map //
+				sector = 3 * (pos.getY() / 5) + (pos.getX() / 5);
+				
+				// TODO: Check user's guess and respond
+				// TODO: Communicate info to client //				
+			}
+			else if (action.equalsIgnoreCase("Sonar"))
+			{
+				int targetTeam;
+				Spaceship targetShip;
+				
+			}
 			else
 				return false;
 		}
