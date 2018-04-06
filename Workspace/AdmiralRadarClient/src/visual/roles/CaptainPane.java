@@ -31,6 +31,8 @@ public class CaptainPane extends MapBasedElement{
 	@Override
 	public void clickGridDot(int x, int y) {
 		start = new Position(x, y);
+		if (!start.isValid()) return;
+		
 		synchronized(signal){ signal.notify(); }
 		
 		control.setStartLocation(start);

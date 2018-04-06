@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import util.Preferences;
+import pref.GamePreferences;
 import visual.common.ChatPane;
 import visual.common.HealthPane;
 import visual.common.InfoPane;
@@ -71,7 +71,7 @@ public class GameFrame extends JFrame implements ComponentListener{
 		setComponentSizes();
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		if (Preferences.isFullscreen()) fullscreen();
+		if (GamePreferences.isFullscreen()) fullscreen();
 		setLocation(p.x , p.y);
 	}
 
@@ -102,8 +102,8 @@ public class GameFrame extends JFrame implements ComponentListener{
 			o.setup();
 			mainPane.add(h, BorderLayout.NORTH);
 			mainPane.add(o, BorderLayout.EAST);
-			mainPane.add(c, BorderLayout.SOUTH);
-			mainPane.add(i, BorderLayout.WEST);
+			mainPane.add(i, BorderLayout.SOUTH);
+			mainPane.add(c, BorderLayout.WEST);
 
 		}
 
@@ -127,9 +127,9 @@ public class GameFrame extends JFrame implements ComponentListener{
 		int fh = this.getHeight();
 
 		h.setPreferredSize(new Dimension(2 * fw / 3, fh / 10));
-		c.setPreferredSize(new Dimension(2 * fw / 3, fh / 10));
+		i.setPreferredSize(new Dimension(2 * fw / 3, fh / 10));
 		o.setPreferredSize(new Dimension(2 * fw / 9, 8 * (fh / 10)));
-		i.setPreferredSize(new Dimension(2* fw / 9, 8 * (fh / 10)));
+		c.setPreferredSize(new Dimension(2* fw / 9, 8 * (fh / 10)));
 
 
 

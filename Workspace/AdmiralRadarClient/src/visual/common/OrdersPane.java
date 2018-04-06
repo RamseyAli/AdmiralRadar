@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
 import game.Role;
+import pref.VisualPreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
@@ -47,13 +48,10 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 	public void draw() {
 
 		//Display Math
-		int border = 2;
-		int sysCautB = 2;
-		int sysBorder = 2;
 
 		int w_o = getWidth();
 		int w_m = (int) (w_o * (5.0/6));
-		int w = w_m - 2*border;
+		int w = w_m - 2*VisualPreferences.GENERAL_BORDER;
 		int h = getHeight();
 
 		int sysWidth = w / 2; //.5
@@ -63,15 +61,14 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 		int sysX = (int) ((w * 0.125) / 2.0);
 
 		int sysCautR =sysHeight / 2;
-		int sysCautL = sysCautR - sysCautB;
+		int sysCautL = sysCautR - VisualPreferences.SYS_CAUTION_B;
 		int sysCautX = w - sysCautR;
 
 
 		int compSquare = (int) Math.min(w*0.8 , h * (12.0/28.0) );
 		int compRo = compSquare / 2 ;
-		//	int compRi = (compSquare - border )/2 ;
 
-		int compX0 = border +  (w / 2);
+		int compX0 = VisualPreferences.GENERAL_BORDER +  (w / 2);
 		int compY0 = (int) (h - 1.1*compRo);
 
 		int ls = (int) (compRo / 1.5);
@@ -85,7 +82,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 		g.fillRect(0, 0, w_m, h);
 
 		g.setColor(ColorPallate.ORDER_PANEL);
-		g.fillRect(border, border, w, h - 2*border);
+		g.fillRect(VisualPreferences.GENERAL_BORDER, VisualPreferences.GENERAL_BORDER, w, h - 2*VisualPreferences.GENERAL_BORDER);
 
 		g.setColor(ColorPallate.ORDER_COMPASS);
 		g.fillOval(compX0 - compRo, compY0 - compRo, 2*compRo, 2*compRo);
@@ -112,66 +109,66 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 
 
 		g.setColor(ColorPallate.ORDER_SYSTEM_BOX);
-		g.fillRect(border + sysX, border + sysYGap							, sysWidth, sysHeight);
-		g.fillRect(border + sysX, border + sysYGap + 1*(sysYGap + sysHeight), sysWidth, sysHeight);
-		g.fillRect(border + sysX, border + sysYGap + 2*(sysYGap + sysHeight), sysWidth, sysHeight);
-		g.fillRect(border + sysX, border + sysYGap + 3*(sysYGap + sysHeight), sysWidth, sysHeight);
-		g.fillRect(border + sysX, border + sysYGap + 4*(sysYGap + sysHeight), sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap							, sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap + 1*(sysYGap + sysHeight), sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap + 2*(sysYGap + sysHeight), sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap + 3*(sysYGap + sysHeight), sysWidth, sysHeight);
+		g.fillRect(VisualPreferences.GENERAL_BORDER + sysX, VisualPreferences.GENERAL_BORDER + sysYGap + 4*(sysYGap + sysHeight), sysWidth, sysHeight);
 
 		g.setColor(Color.BLACK);
 		int sh = g.getFontMetrics().getHeight();
 		g.setFont(g.getFont().deriveFont(Font.BOLD));
 
-		g.drawString("Drone"	, border + sysX + 10, 		(int)(border + 0.5*(sysYGap + sysHeight) + (sh/3))		);
-		g.drawString("Radar"	, border + sysX + 10, 		(int)(border + 1.5*(sysYGap + sysHeight) + (sh/3))		);
-		g.drawString("Missile"	, border + sysX + 10, 		(int)(border + 2.5*(sysYGap + sysHeight) + (sh/3))		);
-		g.drawString("Mines"	, border + sysX + 10, 		(int)(border + 3.5*(sysYGap + sysHeight) + (sh/3))		);
-		g.drawString("Boosters"	, border + sysX + 10, 		(int)(border + 4.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Drone"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 0.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Radar"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 1.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Missile"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 2.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Mines"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 3.5*(sysYGap + sysHeight) + (sh/3))		);
+		g.drawString("Boosters"	, VisualPreferences.GENERAL_BORDER + sysX + 10, 		(int)(VisualPreferences.GENERAL_BORDER + 4.5*(sysYGap + sysHeight) + (sh/3))		);
 
 
 		g.setColor(ColorPallate.ORDER_SYSTEM_BOX);
-		g.fillOval(border + sysCautX - sysCautR - sysX, border + sysYGap + sysHeight/2 - sysCautR + 0*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
-		g.fillOval(border + sysCautX - sysCautR - sysX, border + sysYGap + sysHeight/2 - sysCautR + 1*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
-		g.fillOval(border + sysCautX - sysCautR - sysX, border + sysYGap + sysHeight/2 - sysCautR + 2*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
-		g.fillOval(border + sysCautX - sysCautR - sysX, border + sysYGap + sysHeight/2 - sysCautR + 3*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
-		g.fillOval(border + sysCautX - sysCautR - sysX, border + sysYGap + sysHeight/2 - sysCautR + 4*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 0*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 1*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 2*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 3*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
+		g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautR + 4*(sysYGap + sysHeight), 2*sysCautR, 2*sysCautR);
 
 		if (control.getSpaceship() != null){
 			g.setColor(ColorPallate.SENSORY);
 			if (control.getSpaceship().getShipSystem().isSystemCharged("Drone"))
-				g.fillRect(border + sysX + sysBorder, border + sysYGap + sysBorder							, sysWidth - 2*sysBorder, sysHeight - 2*sysBorder);
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER							, sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 			if (control.getSpaceship().getShipSystem().isSystemCharged("Radar"))
-				g.fillRect(border + sysX + sysBorder, border + sysYGap + sysBorder + 1*(sysYGap + sysHeight), sysWidth - 2*sysBorder, sysHeight - 2*sysBorder);
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 1*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 			g.setColor(ColorPallate.TACTICAL);
 			if (control.getSpaceship().getShipSystem().isSystemCharged("Missile"))
-				g.fillRect(border + sysX + sysBorder, border + sysYGap + sysBorder + 2*(sysYGap + sysHeight), sysWidth - 2*sysBorder, sysHeight - 2*sysBorder);
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 2*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 			if (control.getSpaceship().getShipSystem().isSystemCharged("Mine"))
-				g.fillRect(border + sysX + sysBorder, border + sysYGap + sysBorder + 3*(sysYGap + sysHeight), sysWidth - 2*sysBorder, sysHeight - 2*sysBorder);
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 3*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 			g.setColor(ColorPallate.UTILITY);
 			if (control.getSpaceship().getShipSystem().isSystemCharged("Silent"))
-				g.fillRect(border + sysX + sysBorder, border + sysYGap + sysBorder + 4*(sysYGap + sysHeight), sysWidth - 2*sysBorder, sysHeight - 2*sysBorder);
+				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 4*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 
 			g.setColor(ColorPallate.ORDER_SYSTEM_CAUTION);
 			
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Drone")) 
-				g.fillOval(border + sysCautX - sysCautL - sysX, border + sysYGap + sysHeight/2 - sysCautL + 0*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 0*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Radar")) 
-				g.fillOval(border + sysCautX - sysCautL - sysX, border + sysYGap + sysHeight/2 - sysCautL + 1*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 1*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Missile"))
-				g.fillOval(border + sysCautX - sysCautL - sysX, border + sysYGap + sysHeight/2 - sysCautL + 2*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 2*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Mine"));  
-			g.fillOval(border + sysCautX - sysCautL - sysX, border + sysYGap + sysHeight/2 - sysCautL + 3*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+			g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 3*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Silent")) 
-				g.fillOval(border + sysCautX - sysCautL - sysX, border + sysYGap + sysHeight/2 - sysCautL + 4*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 4*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 		}
 
 	}

@@ -1,9 +1,9 @@
 package visual.util.components;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -39,5 +39,9 @@ public abstract class ShipPanel extends JPanel{
 	
 	public abstract void draw();
 	
+	protected void swell(Rectangle2D r_outer, double dx, double dy) {
+		r_outer.setRect(r_outer.getX() - dx/2, r_outer.getY() - dy/2, r_outer.getWidth() + dx, r_outer.getHeight() + dy);;
+		
+	}
 	
 }

@@ -10,8 +10,9 @@ public class ColorPallate {
 	public static final Color HEALTH_BACKG = new Color (60,60,60,120);
 	public static final Color HEALTH_LIGHT = new Color (200,60,60,220);
 	
-	public static final Color ORDER_PANEL = new Color (60,60,60,150);
+
 	public static final Color ORDER_PANEL_BORDER = new Color(0, 0 , 100, 180);
+	public static final Color ORDER_PANEL = new Color (60,60,60,150);
 	
 	public static final Color ORDER_COMPASS = new Color(0, 100 , 100, 100);
 	public static final Color ORDER_COMPASS_BUTTON  = new Color(0, 100 , 100, 200);
@@ -24,8 +25,12 @@ public class ColorPallate {
 
 	public static final Color MAP_MOUSEOVER = new Color(90, 150 , 0, 100);
 
-	public static final Color CHAT_PANEL_BORDER = new Color(0, 0 , 100, 100);
-	public static final Color CHAT_PANEL = new Color (60,60,60,100);
+	public static final Color CHAT_PANEL_BORDER = new Color(0, 0 , 100, 180);
+	public static final Color CHAT_PANEL = new Color (60,60,60,150);
+
+	public static final Color CHAT_BOX_COLOR = new Color (230,230,230,150);
+
+	public static final Color INVISIBLE = new Color (0,0,0,0);
 	
 	
 	
