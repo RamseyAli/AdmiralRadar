@@ -138,12 +138,12 @@ public class ConnectionManager {
 				
 			}
 			else if (ois.getClassOfNext() == ObjEnum.ROLE){
-			//	System.out.println("ROLE RECEIVED!");
 				stop = true;
 				try {
 					Role r = null;
 					if ((r = ois.getNextRole()) != null){
-						interrupt.getFactory().setGameRole(r);
+						interrupt.setRole(r);
+						System.out.println( r+ " Window is NOW:"  + interrupt.getFactory().getShipPanel().getClass().getName());
 						switch(r){
 						case CAPTAIN: captainNetworkLoop();
 						break;
@@ -169,15 +169,18 @@ public class ConnectionManager {
 				try {
 					System.out.println("STRING RECEIVED! " + ois.getNextString());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-		//		try {
-		//			interrupt.setStatusMessage(ois.getNextString());
-		//		} catch (IOException e) {
-					// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
+			}
+			else if (ois.getClassOfNext() == ObjEnum.SPACESHIP){
+				try {
+					
+					interrupt.setSpaceship(ois.getNextSpaceship());
+					interrupt.globalRepaint();
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

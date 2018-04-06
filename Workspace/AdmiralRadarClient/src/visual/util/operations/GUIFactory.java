@@ -57,7 +57,8 @@ public class GUIFactory {
 	}
 
 	public void setGameRole(Role r) {
-		nexus.setRole(r);
+		if (nexus.getRole() != r) nexus.setRole(r);
+		
 		switch(r){
 		case CAPTAIN:
 			h = new CaptainPane(nexus);
@@ -93,7 +94,9 @@ public class GUIFactory {
 	}
 
 	public Position getInitialPositionFromCaptain() {
-		if (!(h instanceof CaptainPane)) throw new IllegalArgumentException();
+		if (!(h instanceof CaptainPane)) {
+			throw new IllegalArgumentException();
+		}
 		else return ((CaptainPane) h).getStartLocation();
 
 

@@ -3,17 +3,17 @@ package visual.roles.elements;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.ScrollPane;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+
+import visual.util.ColorPallate;
 
 public class ChatTextPane extends JPanel implements MouseWheelListener , ComponentListener{
 
@@ -38,33 +38,34 @@ public class ChatTextPane extends JPanel implements MouseWheelListener , Compone
 			+ " suits as they played in the shade and ate Truffula fruits. From the rippulous pond came the comfortable sound of the Humming-Fish humming while splashing around.";
 
 	
-	private JScrollPane wrapper;
+	private JScrollPane squirrel;
 	private JTextArea text;
 	
 	public ChatTextPane(){
 		
 		setLayout(new BorderLayout());
 		text = new JTextArea();
-		wrapper = new JScrollPane(text);
-		wrapper.addComponentListener( this );
+		squirrel = new JScrollPane(text);
+		squirrel.addComponentListener( this );
 		
 		text.setText( lorax );		
 		text.setWrapStyleWord( true );
 		text.setLineWrap( true );
 		text.setFont( new Font( Font.SANS_SERIF , Font.PLAIN , 9 ) );
-		text.setOpaque( true );
+		text.setOpaque( false );
 		text.setFocusable( true );
 		text.setLayout( null );
+		text.setForeground( Color.WHITE );
 //		text.setBackground(ColorPallate.INVISIBLE);
 		
-		wrapper.setOpaque( false );
-//		text.setHorizontalScrollBarPolicy( ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
-//		text.setVerticalScrollBarPolicy( ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
-//		text.getVerticalScrollBar().setVisible( false );
+		squirrel.setOpaque( false );
+		squirrel.setHorizontalScrollBarPolicy( ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+		squirrel.setVerticalScrollBarPolicy( ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
 //		text.setBackground(ColorPallate.INVISIBLE);
 	
-		setOpaque( false );	
-		add( wrapper , BorderLayout.CENTER );
+		setOpaque( true );	
+		this.add( text , BorderLayout.CENTER );
+		this.setBackground(ColorPallate.INVISIBLE);
 	}
 
 	@Override
@@ -75,8 +76,8 @@ public class ChatTextPane extends JPanel implements MouseWheelListener , Compone
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		System.out.println( text.getBounds() );
-		System.out.println( wrapper.getBounds() );
+		text.setSize( this.getWidth() , this.getHeight() );
+		squirrel.setSize( this.getWidth() , this.getHeight() );
 		
 	}
 

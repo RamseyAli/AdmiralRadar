@@ -44,7 +44,7 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 	}
 	
 	public void sendString(String s) throws IOException {
-		if (NET_DEBUG) System.out.println("Sending String");
+		//if (NET_DEBUG) System.out.println("Sending String");
 		writeUnshared(new MyPacket(new SendableString(s)));
 		flush();
 	}

@@ -149,10 +149,22 @@ public class GUIController {
 
 	public void setRole(Role r) {
 		this.r = r;
+		fac.setGameRole( r );
 	}
 
 	public Spaceship getSpaceship() {
+		if (s == null) return new Spaceship.getStartingTempSpaceship();
 		return s;
+	}
+
+	public void setSpaceship(Spaceship s) {
+		this.s = s;
+		
+	}
+
+	public void globalRepaint() {
+		threadSafeRepaint(fac.getShipPanel());
+		
 	}
 
 }

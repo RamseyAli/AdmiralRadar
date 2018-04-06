@@ -8,7 +8,6 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
-import game.Role;
 import pref.VisualPreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
@@ -23,7 +22,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 
 
 	private RoundRectangle2D north , south, east, west;
-	private boolean[] overlay = new boolean[4]; 
+	private boolean[] overlay;
 	/**
 	 * 
 	 */
@@ -36,11 +35,11 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 
 	private static boolean[] directionToBooleans(String direction) {
 		switch(direction){
-		case "N": return new boolean[] {true , false , false, false};
-		case "S": return new boolean[] {false , true , false, false};
-		case "E": return new boolean[] {false , false , true, false};
-		case "W": return new boolean[] {false , false , false, true};
-		default: return new boolean[] {false , false , false, false};
+			case "N": return new boolean[] {true , false , false, false};
+			case "S": return new boolean[] {false , true , false, false};
+			case "E": return new boolean[] {false , false , true, false};
+			case "W": return new boolean[] {false , false , false, true};
+			default: return new boolean[] {false , false , false, false};
 		}
 	}
 
@@ -95,6 +94,8 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 		south = new RoundRectangle2D.Double(compX0 - ss/2, compY0 + tg, ss , ls , c, c);
 		west = new RoundRectangle2D.Double(compX0 - tg - ls, compY0 - ss / 2, ls , ss , c, c);
 
+		overlay = directionToBooleans(control.getSpaceship().getDirection());
+		
 		g.setColor(overlay[0] ? Color.WHITE : ColorPallate.ORDER_COMPASS_BUTTON);
 		g.fill(north);
 
@@ -142,29 +143,29 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 1*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 			g.setColor(ColorPallate.TACTICAL);
-			if (control.getSpaceship().getShipSystem().isSystemCharged("Missile"))
-				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 2*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
+			//		if (control.getSpaceship().getShipSystem().isSystemCharged("Missile"))
+			g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 2*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 			if (control.getSpaceship().getShipSystem().isSystemCharged("Mine"))
 				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 3*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 			g.setColor(ColorPallate.UTILITY);
-			if (control.getSpaceship().getShipSystem().isSystemCharged("Silent"))
-				g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 4*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
+			//		if (control.getSpaceship().getShipSystem().isSystemCharged("Silent"))
+			g.fillRect(VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER, VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER + 4*(sysYGap + sysHeight), sysWidth - 2*VisualPreferences.SYS_BORDER, sysHeight - 2*VisualPreferences.SYS_BORDER);
 
 
 			g.setColor(ColorPallate.ORDER_SYSTEM_CAUTION);
-			
+
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Drone")) 
 				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 0*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Radar")) 
-				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 1*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
+			//		if (control.getSpaceship().getShipSystem().isSystemDestroyed("Radar")) 
+			g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 1*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Missile"))
 				g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 2*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Mine"));  
+			//		if (control.getSpaceship().getShipSystem().isSystemDestroyed("Mine"))
 			g.fillOval(VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX, VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight/2 - sysCautL + 3*(sysYGap + sysHeight), 2*sysCautL, 2*sysCautL);
 
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed("Silent")) 
@@ -257,12 +258,18 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 	}
 
 	public void setup() {
-		if (control.getRole() == Role.CAPTAIN){
-			addMouseListener(this);
-			addMouseMotionListener(this);
-		} else if (control.getRole() != Role.NETWORK){
-			System.out.println(control.getRole());
-			overlay = directionToBooleans(control.getSpaceship().getDirection());
+		switch(control.getRole()){
+			case CAPTAIN:
+				addMouseListener(this);
+				addMouseMotionListener(this);
+				break;
+			case ENGINE:
+			case FIRST:
+			case RADIO:
+				
+				break;
+			default:
+				break;
 		}
 
 	}
