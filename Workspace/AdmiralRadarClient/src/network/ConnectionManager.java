@@ -62,7 +62,7 @@ public class ConnectionManager {
 
 		try {
 			byte[] decodedKey = Base64.getDecoder().decode( "p5vVBP2rSX8=" );
-			// using  a pre-set key, so we're not generating new keys  with every server run.
+			// using a pre-set key, so we're not generating new keys with every server run.
 			SecretKey key = new SecretKeySpec( decodedKey , 0 , decodedKey.length , "DES" );
 			DesEncrypter encrypter = new DesEncrypter( key );
 			hash = encrypter.encrypt( hash );
