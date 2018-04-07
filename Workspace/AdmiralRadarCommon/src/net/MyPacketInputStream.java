@@ -3,10 +3,12 @@ package net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 import exceptions.BufferEmptyException;
 import exceptions.PacketPayloadIncompatable;
 import game.Position;
+import game.Direction;
 import game.GameMap;
 import game.Role;
 import game.Spaceship;
@@ -83,18 +85,19 @@ public class MyPacketInputStream extends ObjectInputStream {
 		if (getClassOfNext() == ObjEnum.ROLE) return (Role) getBuffer();
 		else throw new PacketPayloadIncompatable();
 	}
+	
+	public Direction getNextDirection() throws IOException {
+		if (getClassOfNext() == ObjEnum.DIRECTION) return (Direction) getBuffer();
+		else throw new PacketPayloadIncompatable();
+	}
+	
+	public ArrayList<Direction> getNextPath() throws IOException {
+		if (getClassOfNext() == ObjEnum.PATH) return ((SendablePath) getBuffer()).getContent();
+		else throw new PacketPayloadIncompatable();
+	}
 
 
 
-	//	public boolean hasNext(){
-	//		
-	//		try{
-	//				getClassOfNext();
-	//		} catch(BufferEmptyException e){
-	//			return false;
-	//		}
-	//		return (buffer != null);
-	//	}
 
 
 }

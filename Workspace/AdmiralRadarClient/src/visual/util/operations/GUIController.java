@@ -153,7 +153,7 @@ public class GUIController {
 	}
 
 	public Spaceship getSpaceship() {
-		if (s == null) return new Spaceship.getStartingTempSpaceship();
+		if (s == null) return new Spaceship();
 		return s;
 	}
 

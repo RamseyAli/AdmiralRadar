@@ -6,5 +6,7 @@ public enum ObjEnum{
 	MAP,
 	POSITION,
 	STRING,
-	ROLE
+	ROLE,
+	PATH,
+	DIRECTION
 }

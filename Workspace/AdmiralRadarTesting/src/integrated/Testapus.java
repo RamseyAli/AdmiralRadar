@@ -64,7 +64,9 @@ public class Testapus {
 		
 		//Log In
 		for (int i = 0; i < 8; i++) {
+			((NetworkPane) clients[i].factory.getShipPanel()).setUsername("alohomora");
 			((NetworkPane) clients[i].factory.getShipPanel()).log.doClick();
+			
 		}
 		
 		Thread.sleep(100);

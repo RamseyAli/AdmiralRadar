@@ -8,6 +8,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
+import game.Direction;
 import pref.VisualPreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
@@ -33,12 +34,13 @@ public class OrdersPane extends ShipPanel implements MouseInputListener{
 
 	}
 
-	private static boolean[] directionToBooleans(String direction) {
-		switch(direction){
-			case "N": return new boolean[] {true , false , false, false};
-			case "S": return new boolean[] {false , true , false, false};
-			case "E": return new boolean[] {false , false , true, false};
-			case "W": return new boolean[] {false , false , false, true};
+	private static boolean[] directionToBooleans(Direction d) {
+		switch(d){
+			case NORTH: return new boolean[] {true , false , false, false};
+			case SOUTH: return new boolean[] {false , true , false, false};
+			case EAST: return new boolean[] {false , false , true, false};
+			case WEST: return new boolean[] {false , false , false, true};
+			case STOP: return new boolean[] {false , false , false, false};
 			default: return new boolean[] {false , false , false, false};
 		}
 	}

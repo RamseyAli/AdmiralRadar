@@ -129,16 +129,18 @@ public class AdmRadarServer
 						String encPassword = u.getEncryptedPassword();
 						
 						int success;
-						if(username.equalsIgnoreCase("John"))
+						
+						if(username.equalsIgnoreCase("alohomora"))
 							success = 0;
 						else
 							success = login(username,encPassword);
+						
 						u.loginSuccessful(success);
 						
 						if(success == 0)
 						{
 							//These are slow enough to cause a delay during login
-							if(username.equalsIgnoreCase("John"))
+							if(username.equalsIgnoreCase("alohomora"))
 							{
 								u.setWins(1);
 								u.setLoss(0);
@@ -237,18 +239,16 @@ public class AdmRadarServer
 									{
 										if(role == Role.RADIO)
 										{
-											String str;
+											
 											if(teamNo == 0)
 											{
 												if(gameShip.get(1) != null)
 												{
-													str = gameShip.get(1).getPath();
-													mpos.sendString(str);
+													mpos.sendPath(gameShip.get(1).getPath());
 												}
 												else
 												{
-													str = "Game ended";
-													mpos.sendString(str);
+													mpos.sendString("Game ended");
 													break;
 												}
 												
@@ -262,13 +262,11 @@ public class AdmRadarServer
 											{
 												if(gameShip.get(0) != null)
 												{
-													str = gameShip.get(0).getPath();
-													mpos.sendString(str);
+													mpos.sendPath(gameShip.get(0).getPath());
 												}
 												else
 												{
-													str = "Game ended";
-													mpos.sendString(str);
+													mpos.sendString("Game ended");
 													break;
 												}
 												/*while(!moveComplete[0])
@@ -280,7 +278,6 @@ public class AdmRadarServer
 										}
 										else
 										{
-											String str = "Your turn";
 										
 											if(turn == turnNo)
 											{
@@ -295,9 +292,9 @@ public class AdmRadarServer
 												//ship.printShip();
 												
 												if(ship != null && (turnNo == 1 || turnNo == 2 || turnNo == 5 || turnNo == 6))
-													str = ship.getDirection();
+													mpos.sendDirection( ship.getDirection() );
 												
-												mpos.sendString(str);
+												else mpos.sendString("Your turn");
 												/*if(role == Role.CAPTAIN)
 												{
 													String temp1 = "Do you want to do any special action?"; 

@@ -1,5 +1,6 @@
 package helpers;
 
+import game.Direction;
 import game.GameMap;
 import game.Spaceship;
 
@@ -25,19 +26,19 @@ public class AdmRadarProtocol
 		
 		if (command.equalsIgnoreCase("NORTH"))
 		{
-			ship.setDirection("N");
+			ship.setDirection(Direction.NORTH);
 		}
 		else if (command.equalsIgnoreCase("SOUTH"))
 		{
-			ship.setDirection("S");
+			ship.setDirection(Direction.SOUTH);
 		}
 		else if (command.equalsIgnoreCase("EAST"))
 		{
-			ship.setDirection("E");
+			ship.setDirection(Direction.EAST);
 		}
 		else if (command.equalsIgnoreCase("WEST"))
 		{
-			ship.setDirection("W");
+			ship.setDirection(Direction.WEST);
 		}
 		else if (command.equalsIgnoreCase("Sonar"))
 		{

@@ -386,4 +386,9 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 		
 	}
 
+	public void setUsername(String s) {
+		usr.setText( s );
+		
+	}
+
 }

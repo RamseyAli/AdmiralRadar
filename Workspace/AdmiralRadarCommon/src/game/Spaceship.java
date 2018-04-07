@@ -1,6 +1,7 @@
 package game;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import net.MyPacketable;
 
@@ -8,7 +9,7 @@ public class Spaceship implements Serializable, MyPacketable
 {
 
 	private Position pos;
-	private String path;
+	private ArrayList<Direction> path;
 	
 	private int health;
 	public static final int MAX_HEALTH 	= 4;
@@ -18,15 +19,16 @@ public class Spaceship implements Serializable, MyPacketable
 
 	private static final long serialVersionUID = 1L;
 	
-	private static String nextDir;
+	private Direction nextDir;
 	
 	public Spaceship()
 	{
 		pos = new Position();
 		pos.setPosition(-1, -1);
-		path = "";
+		path = new ArrayList<Direction>();
 		health = MAX_HEALTH;
 		systems = new ShipSystems();
+		nextDir = Direction.STOP;
 	}
 
 	public void setPos(Position p)
@@ -34,29 +36,29 @@ public class Spaceship implements Serializable, MyPacketable
 		pos = p;
 	}
 	
-	public void setDirection(String dir)
+	public void setDirection(Direction dir)
 	{
 		nextDir = dir;
-		path = path+" "+dir;
-		if (dir.equalsIgnoreCase("N"))
+		path.add( dir );
+		if (dir == Direction.NORTH)
 		{
 			pos.setY(pos.getY() - 1);
 		}
-		else if(dir.equalsIgnoreCase("S"))
+		else if(dir == Direction.SOUTH)
 		{
 			pos.setY(pos.getY() + 1);
 		}
-		else if(dir.equalsIgnoreCase("E"))
+		else if(dir == Direction.EAST)
 		{
 			pos.setX(pos.getX() + 1);
 		}
-		else if(dir.equalsIgnoreCase("W"))
+		else if(dir == Direction.WEST)
 		{
 			pos.setX(pos.getX() - 1);
 		}
 	}
 		
-	public String getPath()
+	public ArrayList<Direction> getPath()
 	{
 		return path;
 	}
@@ -71,7 +73,7 @@ public class Spaceship implements Serializable, MyPacketable
 		return health;
 	}
 	
-	public String getDirection()
+	public Direction getDirection()
 	{
 		return nextDir;
 	}
@@ -97,9 +99,9 @@ public class Spaceship implements Serializable, MyPacketable
 	public void destroyShip()
 	{
 		pos.setPosition(-1, -1);
-		path = "";
+		path.clear();
 		health = 0;
-		nextDir = "";
+		nextDir = Direction.STOP;
 	}
 	
 	public void printShip() //For testing purposes

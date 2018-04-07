@@ -25,6 +25,8 @@ public class MyPacket implements Serializable{
 		case "Spaceship": objectClass = ObjEnum.SPACESHIP; break;
 		case "SendableString": objectClass = ObjEnum.STRING; break;
 		case "User": objectClass = ObjEnum.USER; break;
+		case "Direction": objectClass = ObjEnum.DIRECTION; break;
+		case "SendablePath": objectClass = ObjEnum.PATH; break;
 		default: throw new UnknownFormatConversionException("X");
 		}
 	}
