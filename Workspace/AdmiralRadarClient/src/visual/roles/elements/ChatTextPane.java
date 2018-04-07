@@ -15,11 +15,10 @@ import javax.swing.ScrollPaneConstants;
 
 import visual.util.ColorPallate;
 
-public class ChatTextPane extends JPanel implements MouseWheelListener , ComponentListener{
+public class ChatTextPane extends JPanel implements MouseWheelListener, ComponentListener {
 
-	
 	private static final long serialVersionUID = 1L;
-	
+
 	String lorax = "At the far end of town where the Grickle-grass grows and the wind smells slow-and-sour when it blows and no birds ever sing "
 			+ "excepting old crows... is the Street of the Lifted Lorax. And deep in the Grickle-grass, some people say, if you look deep enough "
 			+ "you can still see, today, where the Lorax once stood just as long as it could before somebody lifted the Lorax away. What was the Lorax? "
@@ -37,18 +36,17 @@ public class ChatTextPane extends JPanel implements MouseWheelListener , Compone
 			+ " of the Truffula Trees! Mile after mile in the fresh morning breeze. And, under the trees, I saw Brown Bar-ba-loots frisking about in their Bar-ba-loot"
 			+ " suits as they played in the shade and ate Truffula fruits. From the rippulous pond came the comfortable sound of the Humming-Fish humming while splashing around.";
 
-	
 	private JScrollPane squirrel;
 	private JTextArea text;
-	
-	public ChatTextPane(){
-		
-		setLayout(new BorderLayout());
+
+	public ChatTextPane() {
+
+		setLayout( new BorderLayout() );
 		text = new JTextArea();
-		squirrel = new JScrollPane(text);
+		squirrel = new JScrollPane( text );
 		squirrel.addComponentListener( this );
-		
-		text.setText( lorax );		
+
+		text.setText( lorax );
 		text.setWrapStyleWord( true );
 		text.setLineWrap( true );
 		text.setFont( new Font( Font.SANS_SERIF , Font.PLAIN , 9 ) );
@@ -56,49 +54,47 @@ public class ChatTextPane extends JPanel implements MouseWheelListener , Compone
 		text.setFocusable( true );
 		text.setLayout( null );
 		text.setForeground( Color.WHITE );
-//		text.setBackground(ColorPallate.INVISIBLE);
-		
+		// text.setBackground(ColorPallate.INVISIBLE);
+
 		squirrel.setOpaque( false );
 		squirrel.setHorizontalScrollBarPolicy( ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 		squirrel.setVerticalScrollBarPolicy( ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
-//		text.setBackground(ColorPallate.INVISIBLE);
-	
-		setOpaque( true );	
+		// text.setBackground(ColorPallate.INVISIBLE);
+
+		setOpaque( true );
 		this.add( text , BorderLayout.CENTER );
-		this.setBackground(ColorPallate.INVISIBLE);
+		this.setBackground( ColorPallate.INVISIBLE );
 	}
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentResized(ComponentEvent e) {
 		text.setSize( this.getWidth() , this.getHeight() );
 		squirrel.setSize( this.getWidth() , this.getHeight() );
-		
+
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentShown(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentHidden(ComponentEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
 
 }

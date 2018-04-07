@@ -13,9 +13,6 @@ import visual.util.components.ShipPanel;
 
 public class GUIFactory {
 
-
-
-
 	private GUIController nexus;
 
 	private GameFrame f;
@@ -24,64 +21,63 @@ public class GUIFactory {
 
 	public GUIFactory() {
 
-		nexus = new GUIController(this);
+		nexus = new GUIController( this );
 
-
-		f = new GameFrame(nexus);
-		h = new NetworkPane(nexus);
-		n = new ConnectionManager(nexus);
-		nexus.setConnector(n);
+		f = new GameFrame( nexus );
+		h = new NetworkPane( nexus );
+		n = new ConnectionManager( nexus );
+		nexus.setConnector( n );
 
 	}
 
 	public void beginGUI(Rectangle r) {
 
-		f.setSize(r.getSize());
-		f.setLocation(r.getLocation());
+		f.setSize( r.getSize() );
+		f.setLocation( r.getLocation() );
 
-
-		f.setPanel(h);
+		f.setPanel( h );
 
 		f.repaint();
 		h.repaint();
-		f.setVisible(true);
+		f.setVisible( true );
 
 	}
 
 	public void beginGUI() {
 		if (GamePreferences.isFullscreen())
-			beginGUI(new Rectangle(0,0, (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() , (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
+			beginGUI( new Rectangle( 0 , 0 , (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() ,
+					(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() ) );
 
-		else beginGUI(new Rectangle(100,100,1000,600));
+		else beginGUI( new Rectangle( 100 , 100 , 1000 , 600 ) );
 
 	}
 
 	public void setGameRole(Role r) {
-		if (nexus.getRole() != r) nexus.setRole(r);
-		
-		switch(r){
-		case CAPTAIN:
-			h = new CaptainPane(nexus);
-			break;
-		case ENGINE:
-			h = new EngineerPane(nexus);
-			break;
-		case FIRST:
-			h = new ExecutivePane(nexus);
-			break;
-		case NETWORK:
-			break;
-		case RADIO:
-			h = new RadioPane(nexus);
-			break;
-		default:
-			break; 
+		if (nexus.getRole() != r) nexus.setRole( r );
+
+		switch (r) {
+			case CAPTAIN:
+				h = new CaptainPane( nexus );
+				break;
+			case ENGINE:
+				h = new EngineerPane( nexus );
+				break;
+			case FIRST:
+				h = new ExecutivePane( nexus );
+				break;
+			case NETWORK:
+				break;
+			case RADIO:
+				h = new RadioPane( nexus );
+				break;
+			default:
+				break;
 		}
 
-		f.setPanel(h);
+		f.setPanel( h );
 		f.repaint();
 		h.repaint();
-		f.setVisible(true);
+		f.setVisible( true );
 
 	}
 
@@ -89,20 +85,15 @@ public class GUIFactory {
 		return f;
 	}
 
-	public ShipPanel getShipPanel(){
+	public ShipPanel getShipPanel() {
 		return h;
 	}
 
 	public Position getInitialPositionFromCaptain() {
-		if (!(h instanceof CaptainPane)) {
+		if (!( h instanceof CaptainPane )) {
 			throw new IllegalArgumentException();
-		}
-		else return ((CaptainPane) h).getStartLocation();
-
+		} else return ( (CaptainPane) h ).getStartLocation();
 
 	}
-
-
-
 
 }

@@ -23,7 +23,7 @@ public class GUIController {
 	ArrayList<ShipPanel> toUpdate = new ArrayList<ShipPanel>();
 	ConnectionManager cm;
 	GUIFactory fac;
-	
+
 	HealthPane hlth;
 
 	private User u;
@@ -31,7 +31,6 @@ public class GUIController {
 	private Role r = Role.NETWORK;
 	private Spaceship s;
 	private Position sp;
-	
 
 	public GUIController(GUIFactory guiFactory) {
 		fac = guiFactory;
@@ -41,64 +40,63 @@ public class GUIController {
 	// 3 - Connected to Server
 	// 4 - Logged In To Server
 	public int login(String user, String pswd) {
-		return cm.loginToServer(user, pswd);
+		return cm.loginToServer( user , pswd );
 	}
-	
+
 	public int newUser(String URL, String user, String password) {
-		return cm.registerUserWithServer(URL , user, password);
+		return cm.registerUserWithServer( URL , user , password );
 	}
 
 	// 2 - Connection Failure
 	// 3 - Connected to Server
 	// 4 - Logged In To Server
-	public int connect(InetAddress url) throws IOException{
-		return cm.connectToServer(url);	
+	public int connect(InetAddress url) throws IOException {
+		return cm.connectToServer( url );
 	}
 
-
-	public void threadSafeRepaint(JComponent jc){
-		SwingUtilities.invokeLater(new Runnable() {
+	public void threadSafeRepaint(JComponent jc) {
+		SwingUtilities.invokeLater( new Runnable() {
 			public void run() {
 				jc.repaint();
 			}
-		});
+		} );
 	}
 
-	//[username, win, loss, avatar]
+	// [username, win, loss, avatar]
 	public String[] getUserInfo() {
 
-		return new String[] {u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar() };
+		return new String[] { u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar() };
 	}
 
-	public void setAvatar(String s) {		
-		cm.newAvatar(s);
+	public void setAvatar(String s) {
+		cm.newAvatar( s );
 	}
 
 	public void addToUpdatePuddle(ShipPanel sp) {
-		toUpdate.add(sp);		
+		toUpdate.add( sp );
 	}
 
 	public void removeFromUpdatePuddle(ShipPanel sp) {
-		toUpdate.remove(sp);
+		toUpdate.remove( sp );
 	}
 
-	public void updatePuddle(){
+	public void updatePuddle() {
 
 	}
 
 	public void setConnector(ConnectionManager n) {
-		cm = n;	
+		cm = n;
 	}
 
 	public void setUser(User usr) {
-		u = usr;		
+		u = usr;
 	}
 
 	public int ready() {
 		return cm.ready();
 	}
 
-	public GUIFactory getFactory(){
+	public GUIFactory getFactory() {
 		return fac;
 	}
 
@@ -107,11 +105,12 @@ public class GUIController {
 	}
 
 	public void setStatusMessage(String s) {
-		System.out.println("SetMessage: " + s);
+		System.out.println( "SetMessage: " + s );
 		try {
-			if (fac.getShipPanel().getClass() == Class.forName("visual.roles.NetworkPane"))
-				((NetworkPane) fac.getShipPanel()).setServerMessageText(s);
-		} catch (ClassNotFoundException e) {
+			if (fac.getShipPanel().getClass() == Class.forName( "visual.roles.NetworkPane" ))
+				( (NetworkPane) fac.getShipPanel() ).setServerMessageText( s );
+		}
+		catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
@@ -135,12 +134,12 @@ public class GUIController {
 
 	public void setStartLocation(Position start) {
 		sp = start;
-		
+
 	}
-	
+
 	public Position getStartLocation() {
 		return sp;
-		
+
 	}
 
 	public Role getRole() {
@@ -159,12 +158,12 @@ public class GUIController {
 
 	public void setSpaceship(Spaceship s) {
 		this.s = s;
-		
+
 	}
 
 	public void globalRepaint() {
-		threadSafeRepaint(fac.getShipPanel());
-		
+		threadSafeRepaint( fac.getShipPanel() );
+
 	}
 
 }

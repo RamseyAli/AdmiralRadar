@@ -12,6 +12,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
 
+import audio.SoundManager;
 import game.Position;
 import game.Role;
 import security.DesEncrypter;
@@ -24,7 +25,6 @@ import visual.util.operations.GUIController;
 
 public class ConnectionManager {
 
-
 	Socket s;
 	PrintWriter out;
 	BufferedReader in;
@@ -33,25 +33,24 @@ public class ConnectionManager {
 
 	GUIController interrupt;
 
-
-	public ConnectionManager(GUIController nexus){
+	public ConnectionManager(GUIController nexus) {
 		interrupt = nexus;
 
 	}
 
-	public int connectToServer(InetAddress svr){
+	public int connectToServer(InetAddress svr) {
 
 		try {
-			s = new Socket(svr, GamePreferences.getPort());
+			s = new Socket( svr , GamePreferences.getPort() );
 
-			out 	= 	new PrintWriter(s.getOutputStream(), true);
-			oos 	= 	new MyPacketOutputStream(s.getOutputStream());
-			in 		= 	new BufferedReader(new InputStreamReader(s.getInputStream()));
-			ois 	= 	new MyPacketInputStream(s.getInputStream());
+			out = new PrintWriter( s.getOutputStream() , true );
+			oos = new MyPacketOutputStream( s.getOutputStream() , true );
+			in = new BufferedReader( new InputStreamReader( s.getInputStream() ) );
+			ois = new MyPacketInputStream( s.getInputStream() );
 
-
-		} catch (IOException e) {
-			System.out.println(e);
+		}
+		catch (IOException e) {
+			System.out.println( e );
 			return 2;
 		}
 
@@ -59,68 +58,86 @@ public class ConnectionManager {
 
 	}
 
+	public int loginToServer(String user, String hash) {
 
-	public int loginToServer(String user, String hash){
-		
 		try {
-			byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
-			SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
-			DesEncrypter encrypter = new DesEncrypter(key);
-			hash = encrypter.encrypt(hash);
-		} catch (Exception ex) {
-			//do nothing (pw not encrypted)
+			byte[] decodedKey = Base64.getDecoder().decode( "p5vVBP2rSX8=" ); // using
+																				// a
+																				// pre-set
+																				// hardcoded
+																				// key,
+																				// so
+																				// we're
+																				// not
+																				// generating
+																				// new
+																				// keys
+																				// with
+																				// every
+																				// server
+																				// run.
+			SecretKey key = new SecretKeySpec( decodedKey , 0 , decodedKey.length , "DES" );
+			DesEncrypter encrypter = new DesEncrypter( key );
+			hash = encrypter.encrypt( hash );
+		}
+		catch (Exception ex) {
+			// do nothing (pw not encrypted)
 		}
 
 		User u = null;
 		try {
-			u = new User(user, hash);
-			oos.sendUser(u);
-			System.out.println("Client has sent u");
+			u = new User( user , hash );
+			oos.sendUser( u );
+			System.out.println( "Client has sent u" );
 			u = ois.getNextUser();
-			System.out.println("Client has received a U");
+			System.out.println( "Client has received a U" );
 
-			interrupt.setUser(u);
+			interrupt.setUser( u );
 
-			switch(u.getResult()){
-			case -1: return 2;
-			case 0: return 5;
-			case 1: return 4;
-			case 2: return 4;
+			switch (u.getResult()) {
+				case -1:
+					return 2;
+				case 0:
+					return 5;
+				case 1:
+					return 4;
+				case 2:
+					return 4;
 			}
 
-
-
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			return 2;
 		}
 
 		return 2;
 
-
 	}
-	
+
 	public int registerUserWithServer(String uRL, String user, String password) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	public void disconnect(){
-		JOptionPane.showMessageDialog(interrupt.getGUIFrame(), "Connection Lost. You Loose. Bye!");
+	public void disconnect() {
+		JOptionPane.showMessageDialog( interrupt.getGUIFrame() , "Connection Lost. You Loose. Bye!" );
 		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
+			Thread.sleep( 5000 );
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.exit(0);
+		System.exit( 0 );
 	}
 
 	public void newAvatar(String s) {
 
-		interrupt.getUser().setAvatar(s);
+		interrupt.getUser().setAvatar( s );
 
 		try {
-			oos.sendUser(interrupt.getUser());
-		} catch (IOException e) {
+			oos.sendUser( interrupt.getUser() );
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -128,10 +145,11 @@ public class ConnectionManager {
 
 	public int ready() {
 		try {
-			oos.sendString("READY");
-			new Thread(() ->  waitForStart()).start();
+			oos.sendString( "READY" );
+			new Thread( () -> waitForStart() ).start();
 			return 6;
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			return 5;
 		}
 
@@ -140,55 +158,61 @@ public class ConnectionManager {
 	private void waitForStart() {
 
 		boolean stop = false;
-		while(!stop){
-			if (ois.getClassOfNext() == ObjEnum.MAP){
-				
+		while (!stop) {
+			if (ois.getClassOfNext() == ObjEnum.MAP) {
+
 				try {
-					interrupt.setMap(ois.getNextMap());
-				} catch (IOException e) {
+					interrupt.setMap( ois.getNextMap() );
+				}
+				catch (IOException e) {
 					e.printStackTrace();
 				}
-				
-			}
-			else if (ois.getClassOfNext() == ObjEnum.ROLE){
+
+			} else if (ois.getClassOfNext() == ObjEnum.ROLE) {
 				stop = true;
 				try {
 					Role r = null;
-					if ((r = ois.getNextRole()) != null){
-						interrupt.setRole(r);
-						System.out.println( r+ " Window is NOW:"  + interrupt.getFactory().getShipPanel().getClass().getName());
-						switch(r){
-						case CAPTAIN: captainNetworkLoop();
-						break;
-						case ENGINE: engineerNetworkLoop();
-						break;
-						case FIRST: firstOfficerNetworkLoop();
-						break;
-						case NETWORK:
-							break;
-						case RADIO: radioOfficerNetworkLoop();
-						break;
-						default:
-							break;
+					if (( r = ois.getNextRole() ) != null) {
+						interrupt.setRole( r );
+						SoundManager.startRoleTrack( r );
+						System.out.println(
+								r + " Window is NOW:" + interrupt.getFactory().getShipPanel().getClass().getName() );
+						switch (r) {
+							case CAPTAIN:
+								captainNetworkLoop();
+								break;
+							case ENGINE:
+								engineerNetworkLoop();
+								break;
+							case FIRST:
+								firstOfficerNetworkLoop();
+								break;
+							case NETWORK:
+								break;
+							case RADIO:
+								radioOfficerNetworkLoop();
+								break;
+							default:
+								break;
 
 						}
 					}
 
-				} catch (IOException e) {
+				}
+				catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else if (ois.getClassOfNext() == ObjEnum.STRING){
+			} else if (ois.getClassOfNext() == ObjEnum.STRING) {
 				try {
-					System.out.println("STRING RECEIVED! " + ois.getNextString());
-				} catch (IOException e) {
+					System.out.println( "STRING RECEIVED! " + ois.getNextString() );
+				}
+				catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else if (ois.getClassOfNext() == ObjEnum.SPACESHIP){
+			} else if (ois.getClassOfNext() == ObjEnum.SPACESHIP) {
 				try {
-					
-					interrupt.setSpaceship(ois.getNextSpaceship());
+
+					interrupt.setSpaceship( ois.getNextSpaceship() );
 					interrupt.globalRepaint();
 				}
 				catch (IOException e) {
@@ -198,28 +222,26 @@ public class ConnectionManager {
 		}
 	}
 
-	private void radioOfficerNetworkLoop() throws IOException  {
+	private void radioOfficerNetworkLoop() throws IOException {
 		// Listens for RO commands
 
 	}
 
-	private void firstOfficerNetworkLoop() throws IOException  {
+	private void firstOfficerNetworkLoop() throws IOException {
 		// Listen for FO Info
 
 	}
 
-	private void engineerNetworkLoop() throws IOException  {
+	private void engineerNetworkLoop() throws IOException {
 		// Listen for ENGR info
 
 	}
 
 	private void captainNetworkLoop() throws IOException {
-		
+
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
-		oos.sendPosition(start);
+		oos.sendPosition( start );
 
 	}
-
-
 
 }
