@@ -15,16 +15,16 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private static final double SCALE = 1.5;
+	private static final long	serialVersionUID	= 1L;
+	private static final double	SCALE				= 1.5;
 
-	char name;
-	Color col;
-	int spaces;
-	int charge;
+	char	name;
+	Color	col;
+	int		spaces;
+	int		charge;
 
-	double rad1 = .7;
-	int rad2;
+	double	rad1	= .7;
+	int		rad2;
 
 	public SystemStatusGauge(char n, Color c, int s) {
 		name = n;

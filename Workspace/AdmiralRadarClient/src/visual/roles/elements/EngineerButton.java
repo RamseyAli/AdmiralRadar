@@ -6,10 +6,10 @@ import java.awt.geom.Ellipse2D;
 
 public class EngineerButton extends Ellipse2D.Double {
 
-	private Color col;
-	private Color sys;
-	private boolean selected;
-	private static final long serialVersionUID = 1L;
+	private Color				col;
+	private Color				sys;
+	private boolean				selected;
+	private static final long	serialVersionUID	= 1L;
 
 	public EngineerButton(double x, double y, double r, Color c, Color s, boolean b) {
 		super( x , y , 2 * r , 2 * r );

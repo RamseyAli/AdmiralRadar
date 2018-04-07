@@ -36,8 +36,8 @@ public class ChatTextPane extends JPanel implements MouseWheelListener, Componen
 			+ " of the Truffula Trees! Mile after mile in the fresh morning breeze. And, under the trees, I saw Brown Bar-ba-loots frisking about in their Bar-ba-loot"
 			+ " suits as they played in the shade and ate Truffula fruits. From the rippulous pond came the comfortable sound of the Humming-Fish humming while splashing around.";
 
-	private JScrollPane squirrel;
-	private JTextArea text;
+	private JScrollPane	squirrel;
+	private JTextArea	text;
 
 	public ChatTextPane() {
 

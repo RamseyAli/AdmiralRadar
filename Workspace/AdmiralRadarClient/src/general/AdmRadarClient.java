@@ -7,13 +7,13 @@ import game.*;
 
 public class AdmRadarClient {
 	// Variables //
-	int portNum = 12019;
-	private Socket primeSocket;
+	int				portNum	= 12019;
+	private Socket	primeSocket;
 
-	private PrintWriter outStream;
-	private BufferedReader inStream;
-	private ObjectOutputStream objOutput;
-	private ObjectInputStream objInput;
+	private PrintWriter			outStream;
+	private BufferedReader		inStream;
+	private ObjectOutputStream	objOutput;
+	private ObjectInputStream	objInput;
 
 	private Spaceship teamShip; // team's own spaceship, not opponents'
 

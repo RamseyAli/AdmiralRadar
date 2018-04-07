@@ -21,8 +21,8 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private RoundRectangle2D north, south, east, west;
-	private boolean[] overlay;
+	private RoundRectangle2D	north, south, east, west;
+	private boolean[]			overlay;
 
 	/**
 	 * 

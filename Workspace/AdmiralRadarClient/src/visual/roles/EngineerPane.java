@@ -15,28 +15,28 @@ import visual.util.operations.GUIController;
 
 public class EngineerPane extends ShipPanel implements MouseListener {
 
-	private float A = 0.5f;
-	private float B = 0.5f;
+	private float	A	= 0.5f;
+	private float	B	= 0.5f;
 
 	private int margin = 10;
 
-	private Color ACTIVE_WEAPON = Color.RED;
-	private Color BROKEN_WEAPON = Color.DARK_GRAY;
-	private Color ACTIVE_SENSOR = Color.GREEN;
-	private Color BROKEN_SENSOR = Color.DARK_GRAY;
-	private Color ACTIVE_EXTRAS = Color.YELLOW;
-	private Color BROKEN_EXTRAS = Color.DARK_GRAY;
-	private Color ACTIVE_REACTR = Color.GRAY;
-	private Color BROKEN_REACTR = Color.DARK_GRAY;
+	private Color	ACTIVE_WEAPON	= Color.RED;
+	private Color	BROKEN_WEAPON	= Color.DARK_GRAY;
+	private Color	ACTIVE_SENSOR	= Color.GREEN;
+	private Color	BROKEN_SENSOR	= Color.DARK_GRAY;
+	private Color	ACTIVE_EXTRAS	= Color.YELLOW;
+	private Color	BROKEN_EXTRAS	= Color.DARK_GRAY;
+	private Color	ACTIVE_REACTR	= Color.GRAY;
+	private Color	BROKEN_REACTR	= Color.DARK_GRAY;
 
-	private int[][] blue = new int[2][6];
-	private int[][] orange = new int[2][5];
-	private int[][] grey = new int[2][3];
+	private int[][]	blue	= new int[2][6];
+	private int[][]	orange	= new int[2][5];
+	private int[][]	grey	= new int[2][3];
 
-	Rectangle west;
-	Rectangle north;
-	Rectangle south;
-	Rectangle east;
+	Rectangle	west;
+	Rectangle	north;
+	Rectangle	south;
+	Rectangle	east;
 
 	private boolean[] buttons = new boolean[24];
 

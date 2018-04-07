@@ -6,8 +6,8 @@ import visual.util.operations.GUIController;
 
 public class CaptainPane extends MapBasedElement {
 
-	private Position start;
-	private Object signal = new Object();
+	private Position	start;
+	private Object		signal	= new Object();
 
 	public CaptainPane(GUIController cx) {
 		super( cx );

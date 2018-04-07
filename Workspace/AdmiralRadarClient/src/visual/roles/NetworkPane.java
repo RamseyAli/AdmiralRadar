@@ -36,21 +36,21 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 	JPanel x, con, usrBtnPnl, userTab, gameTab;
 
 	// Connector Declarations
-	JComboBox<String> svr;
-	DefaultComboBoxModel<String> model;
-	JLabel cxnStatus;
+	JComboBox<String>				svr;
+	DefaultComboBoxModel<String>	model;
+	JLabel							cxnStatus;
 
 	// Connection Interactor Declarations
-	JTextField usr;
-	JPasswordField pwd;
-	public JButton cxt, clr, log, ready, reg;
+	JTextField		usr;
+	JPasswordField	pwd;
+	public JButton	cxt, clr, log, ready, reg;
 
 	// Tabbed Pane
 	JTabbedPane tab;
 
 	// User Info Panel Declarations
-	JLabel username, wins, losses, avatar;
-	JButton avatarButton;
+	JLabel	username, wins, losses, avatar;
+	JButton	avatarButton;
 
 	// Game Info Panel Declarations
 	JLabel gameStatus;

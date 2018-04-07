@@ -25,11 +25,11 @@ import visual.util.operations.GUIController;
 
 public class ConnectionManager {
 
-	Socket s;
-	PrintWriter out;
-	BufferedReader in;
-	MyPacketOutputStream oos;
-	MyPacketInputStream ois;
+	Socket					s;
+	PrintWriter				out;
+	BufferedReader			in;
+	MyPacketOutputStream	oos;
+	MyPacketInputStream		ois;
 
 	GUIController interrupt;
 
@@ -61,21 +61,8 @@ public class ConnectionManager {
 	public int loginToServer(String user, String hash) {
 
 		try {
-			byte[] decodedKey = Base64.getDecoder().decode( "p5vVBP2rSX8=" ); // using
-																				// a
-																				// pre-set
-																				// hardcoded
-																				// key,
-																				// so
-																				// we're
-																				// not
-																				// generating
-																				// new
-																				// keys
-																				// with
-																				// every
-																				// server
-																				// run.
+			byte[] decodedKey = Base64.getDecoder().decode( "p5vVBP2rSX8=" );
+			// using  a pre-set key, so we're not generating new keys  with every server run.
 			SecretKey key = new SecretKeySpec( decodedKey , 0 , decodedKey.length , "DES" );
 			DesEncrypter encrypter = new DesEncrypter( key );
 			hash = encrypter.encrypt( hash );

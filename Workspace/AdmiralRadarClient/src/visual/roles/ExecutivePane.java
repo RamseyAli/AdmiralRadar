@@ -9,12 +9,12 @@ import visual.util.operations.GUIController;
 
 public class ExecutivePane extends ShipPanel {
 
-	SystemStatusGauge mineG = new SystemStatusGauge( 'M' , Color.RED , 3 );
-	SystemStatusGauge missG = new SystemStatusGauge( 'T' , Color.RED , 3 );
-	SystemStatusGauge dronG = new SystemStatusGauge( 'D' , Color.GREEN , 2 );
-	SystemStatusGauge radrG = new SystemStatusGauge( 'R' , Color.GREEN , 3 );
-	SystemStatusGauge scenG = new SystemStatusGauge( 'S' , Color.YELLOW , 3 );
-	SystemStatusGauge boosG = new SystemStatusGauge( 'B' , Color.YELLOW , 5 );
+	SystemStatusGauge	mineG	= new SystemStatusGauge( 'M' , Color.RED , 3 );
+	SystemStatusGauge	missG	= new SystemStatusGauge( 'T' , Color.RED , 3 );
+	SystemStatusGauge	dronG	= new SystemStatusGauge( 'D' , Color.GREEN , 2 );
+	SystemStatusGauge	radrG	= new SystemStatusGauge( 'R' , Color.GREEN , 3 );
+	SystemStatusGauge	scenG	= new SystemStatusGauge( 'S' , Color.YELLOW , 3 );
+	SystemStatusGauge	boosG	= new SystemStatusGauge( 'B' , Color.YELLOW , 5 );
 
 	public ExecutivePane(GUIController cx) {
 		super( cx );

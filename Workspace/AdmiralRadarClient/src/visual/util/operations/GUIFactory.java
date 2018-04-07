@@ -15,9 +15,9 @@ public class GUIFactory {
 
 	private GUIController nexus;
 
-	private GameFrame f;
-	private ShipPanel h;
-	private ConnectionManager n;
+	private GameFrame			f;
+	private ShipPanel			h;
+	private ConnectionManager	n;
 
 	public GUIFactory() {
 

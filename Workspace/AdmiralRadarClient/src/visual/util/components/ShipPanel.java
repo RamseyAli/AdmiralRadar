@@ -12,10 +12,10 @@ import visual.util.operations.GUIController;
 
 public abstract class ShipPanel extends JPanel {
 
-	public static final long serialVersionUID = 1L;
-	protected GUIController control;
-	protected Color background;
-	protected Graphics2D g;
+	public static final long	serialVersionUID	= 1L;
+	protected GUIController		control;
+	protected Color				background;
+	protected Graphics2D		g;
 
 	public ShipPanel(GUIController ctr) {
 

@@ -2,12 +2,8 @@ package game;
 
 import net.MyPacketable;
 
-public enum Direction implements MyPacketable{
+public enum Direction implements MyPacketable {
 
-	NORTH,
-	EAST,
-	SOUTH,
-	WEST,
-	STOP
-	
+	NORTH, EAST, SOUTH, WEST, STOP
+
 }

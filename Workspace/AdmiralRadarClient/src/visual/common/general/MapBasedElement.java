@@ -20,18 +20,18 @@ import visual.util.operations.GUIController;
 
 public abstract class MapBasedElement extends ShipPanel {
 
-	private static Color AST_1 = new Color( 50 , 50 , 50 );
-	private static Color AST_2 = new Color( 70 , 70 , 70 );
+	private static Color	AST_1	= new Color( 50 , 50 , 50 );
+	private static Color	AST_2	= new Color( 70 , 70 , 70 );
 
-	static int MARGIN = 30;
-	private static int Y = 5;
-	private static int Z = 8;
-	private static int R = 2;
+	static int			MARGIN	= 30;
+	private static int	Y		= 5;
+	private static int	Z		= 8;
+	private static int	R		= 2;
 
-	private GameMap map;
-	protected MapMouseListener ear;
-	private Position currentMouse;
-	private Image shipIcon;
+	private GameMap				map;
+	protected MapMouseListener	ear;
+	private Position			currentMouse;
+	private Image				shipIcon;
 
 	int sp;
 

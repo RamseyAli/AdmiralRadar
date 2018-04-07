@@ -27,8 +27,8 @@ public class GameFrame extends JFrame implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String IMAGE = "space.png";
-	private Image img;
+	private static final String	IMAGE	= "space.png";
+	private Image				img;
 
 	private class MainPane extends JPanel {
 
@@ -50,10 +50,10 @@ public class GameFrame extends JFrame implements ComponentListener {
 
 	private GUIController control;
 
-	private HealthPane h;
-	private ChatPane c;
-	private OrdersPane o;
-	private InfoPane i;
+	private HealthPane	h;
+	private ChatPane	c;
+	private OrdersPane	o;
+	private InfoPane	i;
 
 	public GameFrame(Point p, GUIController gc) {
 		super( "Admiral Radar" );

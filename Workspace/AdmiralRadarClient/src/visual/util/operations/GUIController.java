@@ -20,17 +20,17 @@ import visual.util.components.ShipPanel;
 
 public class GUIController {
 
-	ArrayList<ShipPanel> toUpdate = new ArrayList<ShipPanel>();
-	ConnectionManager cm;
-	GUIFactory fac;
+	ArrayList<ShipPanel>	toUpdate	= new ArrayList<ShipPanel>();
+	ConnectionManager		cm;
+	GUIFactory				fac;
 
 	HealthPane hlth;
 
-	private User u;
-	private GameMap m;
-	private Role r = Role.NETWORK;
-	private Spaceship s;
-	private Position sp;
+	private User		u;
+	private GameMap		m;
+	private Role		r	= Role.NETWORK;
+	private Spaceship	s;
+	private Position	sp;
 
 	public GUIController(GUIFactory guiFactory) {
 		fac = guiFactory;
