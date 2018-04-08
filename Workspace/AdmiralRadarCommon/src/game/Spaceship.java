@@ -86,6 +86,31 @@ public class Spaceship implements Serializable, MyPacketable {
 		nextDir = Direction.STOP;
 	}
 
+	// Drone //
+	public boolean checkSector(int guess, int n, int m) // n = dimension of N x N map // m = how many sectors in each row, m x m sectors
+	{
+		int sector;
+		int secSize;
+		boolean systemReady;
+		
+		systemReady = system.useSystem();
+		if (!systemReady())
+		{
+			// Should throw exception in the future, system is not fully charge
+			// throw new Exception()
+		} 
+		
+		// Note: "GamePreferences.SEG" is the size of the Map //
+		secSize = n / m;
+		
+		sector = m * (pos.getY() / secSize) + (pos.getX() / secSize);
+		
+		if (sector == guess)
+			return true;
+			
+		return false;
+	}
+	
 	public void printShip() // For testing purposes
 	{
 		System.out.println( "Position: x = " + pos.getX() + ", y = " + pos.getY() );
