@@ -149,4 +149,9 @@ public class GameFrame extends JFrame implements ComponentListener {
 
 	}
 
+	public void refresh() {
+		o.setup();
+		
+	}
+
 }

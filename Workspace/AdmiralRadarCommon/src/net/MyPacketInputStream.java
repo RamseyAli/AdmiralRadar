@@ -17,9 +17,15 @@ import ops.User;
 public class MyPacketInputStream extends ObjectInputStream {
 
 	MyPacket buffer;
+	String label;
 
 	public MyPacketInputStream(InputStream in) throws IOException {
+		this("Connection" , in );
+	}
+	
+	public MyPacketInputStream(String name, InputStream in) throws IOException {
 		super( in );
+		label = name;
 	}
 
 	public ObjEnum getClassOfNext() {
@@ -33,6 +39,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 			}
 
 		}
+		
 		return buffer.getObjectClass();
 
 	}
@@ -50,6 +57,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 		}
 
 		if (x == null) throw new BufferEmptyException();
+		System.out.println( label + " has received an " + (	(x.getObjectClass() == ObjEnum.STRING) ? ((SendableString) x.getObject()).getContent() : x.getObjectClass() ));
 		return x.getObject();
 	}
 

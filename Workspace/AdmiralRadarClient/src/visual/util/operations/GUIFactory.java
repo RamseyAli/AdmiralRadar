@@ -30,6 +30,13 @@ public class GUIFactory {
 
 	}
 
+	public GUIFactory(String n2) {
+		this();
+		
+		f.setTitle( n2 );
+		n.setName(n2);
+	}
+
 	public void beginGUI(Rectangle r) {
 
 		f.setSize( r.getSize() );
@@ -94,6 +101,11 @@ public class GUIFactory {
 			throw new IllegalArgumentException();
 		} else return ( (CaptainPane) h ).getStartLocation();
 
+	}
+
+	public void refresh() {
+		
+		f.refresh();
 	}
 
 }

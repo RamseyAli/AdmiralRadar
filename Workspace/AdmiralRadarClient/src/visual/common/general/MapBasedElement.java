@@ -117,7 +117,7 @@ public abstract class MapBasedElement extends ShipPanel {
 		}
 
 		if (control.getStartLocation() != null) {
-			Position pos = ( control.getSpaceship() == null ) ? ( control.getStartLocation() )
+			Position pos = ( ! control.getSpaceship().getPosition().isValid()) ? ( control.getStartLocation() )
 					: ( control.getSpaceship().getPosition() );
 
 			g.drawImage( shipIcon , x0 + pos.getX() * sp - shipIcon.getWidth( null ) / 2 ,

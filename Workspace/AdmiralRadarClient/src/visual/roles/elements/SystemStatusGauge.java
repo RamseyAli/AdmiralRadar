@@ -5,10 +5,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import visual.util.ColorPallate;
 
 public class SystemStatusGauge extends JPanel implements MouseListener {
 
@@ -25,6 +29,8 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 
 	double	rad1	= .7;
 	int		rad2;
+	Arc2D za;
+	Ellipse2D zb;
 
 	public SystemStatusGauge(char n, Color c, int s) {
 		name = n;
@@ -33,6 +39,8 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 		charge = 0;
 
 		addMouseListener( this );
+		setOpaque( false );
+		setBackground(ColorPallate.INVISIBLE);
 
 	}
 
@@ -48,20 +56,27 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 		Graphics2D g = (Graphics2D) gin;
 		super.paintComponent( g );
 
-		g.setColor( Color.GRAY );
+		zb = new Ellipse2D.Double( (int) ( x_ctr - rad1 * rad2 / 2 ) , (int) ( y_ctr - rad1 * rad2 / 2 ) , (int) ( rad1 * rad2 ) ,
+				(int) ( rad1 * rad2 ) );
+		
+		g.setColor( ColorPallate.EXEC_SYSTEM_DIAL );
 		g.fillOval( x_ctr - rad2 / 2 , y_ctr - rad2 / 2 , rad2 , rad2 );
 
 		for (int i = 0; i < spaces; i++) {
 
 			if (charge > i)
-				g.setColor( Color.BLACK );
-			else g.setColor( Color.WHITE );
-			g.fillArc( x_ctr - rad2 / 2 , y_ctr - rad2 / 2 , rad2 , rad2 , 89 - ( 45 * i ) , -43 );
+				g.setColor( ColorPallate.EXEC_SYSTEM_YES );
+			else g.setColor( ColorPallate.EXEC_SYSTEM_NO );
+			za = new Arc2D.Double( x_ctr - rad2 / 2.0 , y_ctr - rad2 / 2.0 , 1.0*rad2 , 1.0*rad2 , 89.0 - ( 45.0 * i ) , -43.0 , Arc2D.PIE);
+			
+			Area ax = new Area(za);
+			Area bx = new Area(zb);
+			ax.subtract( bx );
+			g.fill(ax);
 
 		}
 		g.setColor( col );
-		g.fillOval( (int) ( x_ctr - rad1 * rad2 / 2 ) , (int) ( y_ctr - rad1 * rad2 / 2 ) , (int) ( rad1 * rad2 ) ,
-				(int) ( rad1 * rad2 ) );
+		g.fill(zb);
 
 	}
 
@@ -70,7 +85,7 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 
 		rad2 = (int) ( Math.min( getSize().width , getSize().height ) / SCALE );
 
-		System.out.println( e.getPoint() );
+	//	System.out.println( e.getPoint() );
 
 		if (new Ellipse2D.Double( ( getSize().width / 2 ) - rad1 * rad2 / 2 ,
 				( getSize().height / 2 ) - rad1 * rad2 / 2 , rad1 * rad2 , rad1 * rad2 ).contains( e.getPoint() )) {

@@ -30,4 +30,9 @@ public class ColorPallate {
 
 	public static final Color INVISIBLE = new Color( 0 , 0 , 0 , 0 );
 
+	public static final Color EXEC_SYSTEM_DIAL = new Color (200 , 200 , 200 , 180);
+
+	public static final Color EXEC_SYSTEM_YES = new Color (250 , 250 , 250 , 150);
+	public static final Color EXEC_SYSTEM_NO = new Color (10 , 10 , 10 , 150);
+
 }

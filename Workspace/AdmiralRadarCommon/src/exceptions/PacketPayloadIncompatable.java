@@ -1,5 +1,7 @@
 package exceptions;
 
+import net.ObjEnum;
+
 public class PacketPayloadIncompatable extends RuntimeException {
 
 	/**
@@ -13,6 +15,10 @@ public class PacketPayloadIncompatable extends RuntimeException {
 
 	public PacketPayloadIncompatable(String m) {
 		super( m );
+	}
+	
+	public PacketPayloadIncompatable(ObjEnum o) {
+		super( o.name() );
 	}
 
 }

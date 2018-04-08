@@ -1,5 +1,6 @@
 package visual.common;
 
+import pref.VisualPreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
@@ -13,13 +14,12 @@ public class HealthPane extends ShipPanel {
 
 	public HealthPane(GUIController cx) {
 		super( cx );
-		cx.setHealthBar( this );
 	}
 
 	@Override
 	public void draw() {
 
-		int health = 2;
+		int health = control.getSpaceship().getHealth();
 
 		g.setColor( ColorPallate.HEALTH_BACKG );
 		int x = getSize().width;
@@ -28,7 +28,7 @@ public class HealthPane extends ShipPanel {
 		int boxW = (int) ( ( x ) / 4 );
 		int boxH = (int) ( y / 1.5 );
 		int margin = 20;
-		int border = 2;
+		int border = VisualPreferences.GENERAL_BORDER;
 
 		g.fillRect( margin , ( y - boxH ) / 2 , boxW - 2 * margin , boxH );
 		g.fillRect( margin + ( x ) / 4 , ( y - boxH ) / 2 , boxW - 2 * margin , boxH );

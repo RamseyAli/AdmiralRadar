@@ -15,15 +15,22 @@ import ops.User;
 public class MyPacketOutputStream extends ObjectOutputStream {
 
 	private boolean debug;
+	private String name;
 
 	public MyPacketOutputStream(OutputStream out) throws IOException {
-		this( out , false );
+		this( out , false , "" );
 
 	}
 
 	public MyPacketOutputStream(OutputStream out, boolean debug) throws IOException {
+		this( out , debug , "" );
+
+	}
+	
+	public MyPacketOutputStream(OutputStream out, boolean debug, String n) throws IOException {
 		super( out );
 		this.debug = debug;
+		name = n;
 
 	}
 
@@ -34,7 +41,7 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 	}
 
 	public void sendPosition(Position p) throws IOException {
-		if (debug) System.out.println( "Sending Posi" );
+		if (debug) System.out.println( "Sending Position" );
 		writeUnshared( new MyPacket( p ) );
 		flush();
 	}
@@ -52,7 +59,7 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 	}
 
 	public void sendString(String s) throws IOException {
-		if (debug) System.out.println( "Sending String" );
+		if (debug) System.out.println( name + "Sending String: " + s);
 		writeUnshared( new MyPacket( new SendableString( s ) ) );
 		flush();
 	}

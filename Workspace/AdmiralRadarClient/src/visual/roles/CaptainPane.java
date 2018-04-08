@@ -42,7 +42,7 @@ public class CaptainPane extends MapBasedElement {
 
 		control.setStartLocation( start );
 		removeMouseListener( ear );
-		// removeMouseMotionListener(ear);
+		removeMouseMotionListener( ear );
 		control.threadSafeRepaint( this );
 
 	}

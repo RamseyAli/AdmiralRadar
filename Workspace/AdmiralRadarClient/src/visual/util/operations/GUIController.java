@@ -24,8 +24,6 @@ public class GUIController {
 	ConnectionManager		cm;
 	GUIFactory				fac;
 
-	HealthPane hlth;
-
 	private User		u;
 	private GameMap		m;
 	private Role		r	= Role.NETWORK;
@@ -124,10 +122,6 @@ public class GUIController {
 		m = nextMap;
 	}
 
-	public void setHealthBar(HealthPane healthPane) {
-		hlth = healthPane;
-	}
-
 	public GameMap getMap() {
 		return m;
 	}
@@ -158,10 +152,12 @@ public class GUIController {
 
 	public void setSpaceship(Spaceship s) {
 		this.s = s;
+		globalRefresh();
 
 	}
 
-	public void globalRepaint() {
+	public void globalRefresh() {
+		fac.refresh();
 		threadSafeRepaint( fac.getShipPanel() );
 
 	}

@@ -169,6 +169,8 @@ public class AdmRadarServer {
 									map = arp.updateMap();
 									mpos.sendMap( map );
 
+									System.out.println( teamNo + "-" + turnNo );
+									
 									if (turnNo == 7) {
 										myPrint( "GAME BEGINS" );
 										gameOngoing = true;
@@ -180,6 +182,7 @@ public class AdmRadarServer {
 										mpos.sendRole( role );
 										mpos.sendString( "Enter initial location" );
 										Position pos = mpis.getNextPosition();
+										System.out.println( turnNo + "Initial Position Received" );
 										ship = gameShip.get( teamNo );
 										ship.setPos( pos );
 										gameShip.set( teamNo , ship );
@@ -195,6 +198,8 @@ public class AdmRadarServer {
 										mpos.sendRole( role );
 									}
 
+									System.out.println( teamNo + ":" + turnNo );
+									
 									ship = gameShip.get( teamNo );
 									mpos.sendSpaceShip( ship );
 									mpos.reset();

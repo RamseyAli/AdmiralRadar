@@ -30,11 +30,13 @@ public class ConnectionManager {
 	BufferedReader			in;
 	MyPacketOutputStream	oos;
 	MyPacketInputStream		ois;
+	String					name;
 
 	GUIController interrupt;
 
 	public ConnectionManager(GUIController nexus) {
 		interrupt = nexus;
+		name = "Default Name";
 
 	}
 
@@ -44,9 +46,9 @@ public class ConnectionManager {
 			s = new Socket( svr , GamePreferences.getPort() );
 
 			out = new PrintWriter( s.getOutputStream() , true );
-			oos = new MyPacketOutputStream( s.getOutputStream() , true );
+			oos = new MyPacketOutputStream( s.getOutputStream() , true , name);
 			in = new BufferedReader( new InputStreamReader( s.getInputStream() ) );
-			ois = new MyPacketInputStream( s.getInputStream() );
+			ois = new MyPacketInputStream(name, s.getInputStream() );
 
 		}
 		catch (IOException e) {
@@ -162,8 +164,6 @@ public class ConnectionManager {
 					if (( r = ois.getNextRole() ) != null) {
 						interrupt.setRole( r );
 						SoundManager.startRoleTrack( r );
-						System.out.println(
-								r + " Window is NOW:" + interrupt.getFactory().getShipPanel().getClass().getName() );
 						switch (r) {
 							case CAPTAIN:
 								captainNetworkLoop();
@@ -200,7 +200,7 @@ public class ConnectionManager {
 				try {
 
 					interrupt.setSpaceship( ois.getNextSpaceship() );
-					interrupt.globalRepaint();
+					interrupt.globalRefresh();
 				}
 				catch (IOException e) {
 					e.printStackTrace();
@@ -228,7 +228,16 @@ public class ConnectionManager {
 
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
 		oos.sendPosition( start );
+		System.out.println( ois.getClassOfNext() );
+		System.out.println( ois.getNextString() );
+		System.out.println( ois.getClassOfNext() );
+		interrupt.setSpaceship( ois.getNextSpaceship() );
 
+	}
+
+	public void setName(String n2) {
+		name = n2;
+		
 	}
 
 }

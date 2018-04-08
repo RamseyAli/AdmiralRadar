@@ -24,7 +24,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		pos = new Position();
 		pos.setPosition( -1 , -1 );
 		path = new ArrayList<Direction>();
-		health = MAX_HEALTH;
+		health = MAX_HEALTH - 3;
 		systems = new ShipSystems();
 		nextDir = Direction.STOP;
 	}
@@ -92,5 +92,11 @@ public class Spaceship implements Serializable, MyPacketable {
 		System.out.println( "Path: " + path );
 		System.out.println( "Health: " + health );
 		systems.printSystems();
+	}
+
+	public void toGameStartCondition(Position p) {
+		health = MAX_HEALTH;
+		pos = p;
+		
 	}
 }
