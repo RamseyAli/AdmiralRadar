@@ -14,21 +14,22 @@ public class AdmRadarProtocol {
 		NUMCOMMANDS = 0;
 		map1 = new GameMap();
 	}
+	
+	public Spaceship processDirections(Direction dir, Spaceship ship) {
+		if (ship == null) return null;
 
+		NUMCOMMANDS++;
+		
+		ship.setDirection(dir);
+		
+		return ship;
+	}
+	
 	public Spaceship processCommands(String command, Spaceship ship) {
 		if (ship == null) return null;
 
 		NUMCOMMANDS++;
-
-		if (command.equalsIgnoreCase( "NORTH" )) {
-			ship.setDirection( Direction.NORTH );
-		} else if (command.equalsIgnoreCase( "SOUTH" )) {
-			ship.setDirection( Direction.SOUTH );
-		} else if (command.equalsIgnoreCase( "EAST" )) {
-			ship.setDirection( Direction.EAST );
-		} else if (command.equalsIgnoreCase( "WEST" )) {
-			ship.setDirection( Direction.WEST );
-		} else if (command.equalsIgnoreCase( "Sonar" )) {
+		if (command.equalsIgnoreCase( "Sonar" )) {
 			ship.getShipSystem().chargeSystem( "Sonar" );
 		} else if (command.equalsIgnoreCase( "Missile" )) {
 			ship.getShipSystem().chargeSystem( "Missile" );

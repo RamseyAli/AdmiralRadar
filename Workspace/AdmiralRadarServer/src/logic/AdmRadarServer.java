@@ -20,6 +20,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import security.DesEncrypter;
+import game.Direction;
 import game.GameMap;
 import game.Position;
 import game.Role;
@@ -130,224 +131,233 @@ public class AdmRadarServer {
 						User u = (User) inputObject;
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
-
-						int success;
-
-						if (username.equalsIgnoreCase( "alohomora" ))
-							success = 0;
-						else success = login( username , encPassword );
-
-						u.loginSuccessful( success );
-
-						if (success == 0) {
-							// These are slow enough to cause a delay during login
-							if (username.equalsIgnoreCase( "alohomora" )) {
-								u.setWins( 1 );
-								u.setLoss( 0 );
-								u.setAvatar( "http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg" );
-							} else {
-								u.setWins( getWins( username ) );
-								u.setLoss( getLosses( username ) );
-								u.setAvatar( getURL( username ) );
-							}
-
-							mpos.sendUser( u );
-							// myPrint("Sending User Back!");
-
-							while (true) {
-								ObjEnum temp = mpis.getClassOfNext();
-								if (temp == ObjEnum.USER) {
-									inputObject = mpis.getNextUser();
-									u = (User) inputObject;
-									resetPW( username , u.getEncryptedPassword() , 8242 );
-									setURL( username , u.getAvatar() );
-									mpos.sendUser( u );
-								} else if (temp == ObjEnum.STRING) {
-									inputObject = mpis.getNextString();
-									// String s = (String)inputObject;
-									if (nPlayers == 0) {
-										myPrint( "GAME LOBBY" );
-										myPrint( "Error: Not enough players" );
-										myPrint( "Game Mode: Turn Based" );
-									}
-
-									teamNo = nPlayers / 4;
-									turnNo = nPlayers;
-									myPrint( "team no: " + teamNo + " turn no: " + turnNo );
-									nPlayers++;
-
-									while (nPlayers < 8) {
-										Thread.sleep( 1 );
-										// mpos.sendString("WAITING");
-									}
-
-									AdmRadarProtocol arp = new AdmRadarProtocol();
-
-									map = new GameMap();
-									map = arp.updateMap();
-									mpos.sendMap( map );
-
-									System.out.println( teamNo + "-" + turnNo );
-									
-									if (turnNo == 7) {
-										myPrint( "GAME BEGINS" );
-										gameOngoing = true;
-
-									}
-
-									if (turnNo == 0 || turnNo == 4) {
-										role = Role.CAPTAIN;
-										mpos.sendRole( role );
-										mpos.sendString( "Enter initial location" );
-										Position pos = mpis.getNextPosition();
-										System.out.println( turnNo + "Initial Position Received" );
+						
+						if(userExists(username)) {						
+							int success;
+							
+							if (username.equalsIgnoreCase( "alohomora" ))
+								success = 0;
+							else success = login( username , encPassword );
+							
+							u.loginSuccessful( success );
+							
+							if (success == 0) {
+								// These are slow enough to cause a delay during login
+								if (username.equalsIgnoreCase( "alohomora" )) {
+									u.setWins( 1 );
+									u.setLoss( 0 );
+									u.setAvatar( "http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg" );
+								} else {
+									u.setWins( getWins( username ) );
+									u.setLoss( getLosses( username ) );
+									u.setAvatar( getURL( username ) );
+									u.setPin( getUserPin(username) );
+								}
+								
+								mpos.sendUser( u );
+								// myPrint("Sending User Back!");
+								
+								while (true) {
+									ObjEnum temp = mpis.getClassOfNext();
+									if (temp == ObjEnum.USER) {
+										inputObject = mpis.getNextUser();
+										u = (User) inputObject;
+										resetPW( username , u.getEncryptedPassword() , 8242 );
+										setURL( username , u.getAvatar() );
+										mpos.sendUser( u );
+									} else if (temp == ObjEnum.STRING) {
+										inputObject = mpis.getNextString();
+										// String s = (String)inputObject;
+										if (nPlayers == 0) {
+											myPrint( "GAME LOBBY" );
+											myPrint( "Error: Not enough players" );
+											myPrint( "Game Mode: Turn Based" );
+										}
+										
+										teamNo = nPlayers / 4;
+										turnNo = nPlayers;
+										myPrint( "team no: " + teamNo + " turn no: " + turnNo );
+										nPlayers++;
+										
+										while (nPlayers < 8) {
+											Thread.sleep( 1 );
+											// mpos.sendString("WAITING");
+										}
+										
+										AdmRadarProtocol arp = new AdmRadarProtocol();
+										
+										map = new GameMap();
+										map = arp.updateMap();
+										mpos.sendMap( map );
+										
+										myPrint( teamNo + "-" + turnNo );
+										
+										if (turnNo == 7) {
+											myPrint( "GAME BEGINS" );
+											gameOngoing = true;
+										}
+										
+										if (turnNo == 0 || turnNo == 4) {
+											role = Role.CAPTAIN;
+											mpos.sendRole( role );
+											mpos.sendString( "Enter initial location" );
+											Position pos = mpis.getNextPosition();
+											System.out.println( turnNo + "Initial Position Received" );
+											ship = gameShip.get( teamNo );
+											ship.setPos( pos );
+											gameShip.set( teamNo , ship );
+											// gameShip.get(teamNo).printShip();
+										} else if (turnNo == 1 || turnNo == 5) {
+											role = Role.FIRST;
+											mpos.sendRole( role );
+										} else if (turnNo == 2 || turnNo == 6) {
+											role = Role.ENGINE;
+											mpos.sendRole( role );
+										} else if (turnNo == 3 || turnNo == 7) {
+											role = Role.RADIO;
+											mpos.sendRole( role );
+										}
+										
+										myPrint( teamNo + ":" + turnNo );
+										
 										ship = gameShip.get( teamNo );
-										ship.setPos( pos );
-										gameShip.set( teamNo , ship );
-										// gameShip.get(teamNo).printShip();
-									} else if (turnNo == 1 || turnNo == 5) {
-										role = Role.FIRST;
-										mpos.sendRole( role );
-									} else if (turnNo == 2 || turnNo == 6) {
-										role = Role.ENGINE;
-										mpos.sendRole( role );
-									} else if (turnNo == 3 || turnNo == 7) {
-										role = Role.RADIO;
-										mpos.sendRole( role );
-									}
-
-									System.out.println( teamNo + ":" + turnNo );
-									
-									ship = gameShip.get( teamNo );
-									mpos.sendSpaceShip( ship );
-									mpos.reset();
-
-									while (true) {
-										if (role == Role.RADIO) {
-
-											if (teamNo == 0) {
-												if (gameShip.get( 1 ) != null) {
-													mpos.sendPath( gameShip.get( 1 ).getPath() );
+										mpos.sendSpaceShip( ship );
+										mpos.reset();
+	
+										while (true) {
+											if (role == Role.RADIO) {
+	
+												if (teamNo == 0) {
+													if (gameShip.get( 1 ) != null) {
+														mpos.sendPath( gameShip.get( 1 ).getPath() );
+													} else {
+														mpos.sendString( "Game ended" );
+														break;
+													}
+													
+													/*
+													 * while(!moveComplete[1]) { // Do nothing System.out.print(""); }
+													 */
 												} else {
-													mpos.sendString( "Game ended" );
-													break;
+													if (gameShip.get( 0 ) != null) {
+														mpos.sendPath( gameShip.get( 0 ).getPath() );
+													} else {
+														mpos.sendString( "Game ended" );
+														break;
+													}
+													/*
+													 * while(!moveComplete[0]) { // Do nothing System.out.print(""); }
+													 */
 												}
-												
-												/*
-												 * while(!moveComplete[1]) { // Do nothing System.out.print(""); }
-												 */
 											} else {
-												if (gameShip.get( 0 ) != null) {
-													mpos.sendPath( gameShip.get( 0 ).getPath() );
-												} else {
-													mpos.sendString( "Game ended" );
-													break;
-												}
-												/*
-												 * while(!moveComplete[0]) { // Do nothing System.out.print(""); }
-												 */
-											}
-										} else {
-											
-											if (turn == turnNo) {
-												myPrint( "" + turn );
-
-												if (turnNo == 0 || turnNo == 4) {
-													moveComplete[teamNo] = false;
-												}
 												
-												ship = gameShip.get( teamNo );
-												// ship.printShip();
-												
-												if (ship != null && ( turnNo == 1 || turnNo == 2 || turnNo == 5 || turnNo == 6 )) {
-													mpos.sendDirection( ship.getDirection() );
-												} else {
-													mpos.sendString( "Your turn" );
-												}
-												
-												if(role == Role.CAPTAIN) { 
-													String temp1 = "Do you want to do any special action?";
-													mpos.sendString(temp1);
-													temp1 = mpis.getNextString();
-													if(!temp1.equalsIgnoreCase("No")); {
-														if(processSpecialAction(temp1)) { 
-															temp1 += " successful";
-															//mpos.sendString(temp1); 
-														} else {
-															temp1 += " unsuccessful";
-															//mpos.sendString(temp1);
-														} 
-													} 
-												}
-												
-												String action = mpis.getNextString();
-												ship = arp.processCommands( action , ship );
-												gameShip.set(teamNo, ship);
-												
-												if (turnNo == 2 || turnNo == 6) {
-													if (gameShip.get( teamNo ) == null) {
-														gameOngoing = false;
+												if (turn == turnNo) {
+													//myPrint( "" + turn );
+													
+													if (turnNo == 0 || turnNo == 4) {
+														moveComplete[teamNo] = false;
+													}
+													
+													ship = gameShip.get( teamNo );
+													// ship.printShip();
+													
+													if (ship != null && ( turnNo == 1 || turnNo == 2 || turnNo == 5 || turnNo == 6 )) {
+														mpos.sendDirection( ship.getDirection() );
+													} else {
+														mpos.sendString( "Your turn" );
+													}
+													
+													if(role == Role.CAPTAIN) { 
+														String temp1 = "Do you want to do any special action?";
+														mpos.sendString(temp1);
+														temp1 = mpis.getNextString();
+														if(!temp1.equalsIgnoreCase("No")); {
+															if(processSpecialAction(temp1)) { 
+																temp1 += " successful";
+																//mpos.sendString(temp1); 
+															} else {
+																temp1 += " unsuccessful";
+																//mpos.sendString(temp1);
+															} 
+														}
 														
-														myPrint( "GAME ENDED" );
-													}
-													moveComplete[teamNo] = true;
-												}
-												
-												turn++;
-												if (turn == 3) {
-													if(turnMiss == 0) {
-														turn++;
+														Direction dir = mpis.getNextDirection();
+														ship = arp.processDirections(dir, ship);
+														gameShip.set(teamNo, ship);
 													} else {
-														turnMiss--;
-														turn = 0;
+														String action = mpis.getNextString();
+														ship = arp.processCommands( action , ship );
+														gameShip.set(teamNo, ship);
 													}
-												} else if (turn == 7) {
-													if(turnMiss == 0) {
-														turn = 0;
+													
+													if (role == Role.ENGINE) {
+														if (gameShip.get( teamNo ) == null) {
+															gameOngoing = false;
+															myPrint( "GAME ENDED" );
+														}
+														moveComplete[teamNo] = true;
+													}
+													
+													turn++;
+													if (turn == 3) {
+														if(turnMiss == 0) {
+															turn++;
+														} else {
+															turnMiss--;
+															turn = 0;
+														}
+													} else if (turn == 7) {
+														if(turnMiss == 0) {
+															turn = 0;
+														} else {
+															turnMiss--;
+															turn = 4;
+														}
+													}
+													
+													while (!moveComplete[teamNo]) {
+														// Do nothing
+														Thread.sleep(1);
+														// System.out.print("");
+													}
+													
+													ship = gameShip.get( teamNo );
+													// ship.printShip();
+													
+													if (ship == null) {
+														Spaceship emptyShip = new Spaceship();
+														mpos.sendSpaceShip( emptyShip );
+														mpos.reset();
+														break;
 													} else {
-														turnMiss--;
-														turn = 4;
+														mpos.sendSpaceShip( ship );
+														mpos.reset();
 													}
-												}
-												
-												while (!moveComplete[teamNo]) {
-													// Do nothing
-													Thread.sleep(1);
-													// System.out.print("");
-												}
-												
-												ship = gameShip.get( teamNo );
-												// ship.printShip();
-												
-												if (ship == null) {
-													Spaceship emptyShip = new Spaceship();
-													mpos.sendSpaceShip( emptyShip );
-													mpos.reset();
-													break;
+												} else if (!gameOngoing) {
+														gameShip.set( teamNo , null );
+														mpos.sendString( "Game Ended" );
+														break;
 												} else {
-													mpos.sendSpaceShip( ship );
-													mpos.reset();
+														Thread.sleep( 1 );
+														// System.out.print("");
+														// mpos.sendString("Waiting for turn");
 												}
-											} else if (!gameOngoing) {
-													gameShip.set( teamNo , null );
-													mpos.sendString( "Game Ended" );
-													break;
-											} else {
-													Thread.sleep( 1 );
-													// System.out.print("");
-													// mpos.sendString("Waiting for turn");
 											}
 										}
+									} else {
+										mpos.sendString( "Naughty" );
 									}
-								} else {
-									mpos.sendString( "Naughty" );
 								}
+							} else {
+								mpos.sendUser( u );
 							}
 						} else {
-							mpos.sendUser( u );
+							String avatar = u.getAvatar();
+							int pin = createUser(username,encPassword,avatar);
+							u.setPin(pin);
+							mpos.sendUser(u);
 						}
 					}
-
 				}
 			}
 			catch (Exception ex) {

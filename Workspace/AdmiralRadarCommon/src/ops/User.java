@@ -13,7 +13,8 @@ public class User implements Serializable, MyPacketable {
 	private String				username;
 	private String				password_enc;
 	private int					success;
-
+	
+	private int		pin		= -1;
 	private int		wins	= -1;
 	private int		loss	= -1;
 	private String	avatar	= "NONE";
@@ -57,6 +58,10 @@ public class User implements Serializable, MyPacketable {
 		return avatar;
 	}
 
+	public int getPin() {
+		return pin;
+	}
+
 	public void setAvatar(String s) {
 		avatar = s;
 
@@ -75,5 +80,9 @@ public class User implements Serializable, MyPacketable {
 	public void setNewPassword(String password) {
 		password_enc = password;
 
+	}
+
+	public void setPin(int pin) {
+		this.pin = pin;
 	}
 }
