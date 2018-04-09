@@ -9,16 +9,23 @@ import visual.util.operations.GUIController;
 
 public class ExecutivePane extends ShipPanel {
 
-	SystemStatusGauge	mineG	= new SystemStatusGauge( 'M' , ColorPallate.TACTICAL , 3 );
-	SystemStatusGauge	missG	= new SystemStatusGauge( 'T' , ColorPallate.TACTICAL , 3 );
-	SystemStatusGauge	dronG	= new SystemStatusGauge( 'D' , ColorPallate.SENSORY , 2 );
-	SystemStatusGauge	radrG	= new SystemStatusGauge( 'R' , ColorPallate.SENSORY , 3 );
-	SystemStatusGauge	scenG	= new SystemStatusGauge( 'S' , ColorPallate.UTILITY , 3 );
-	SystemStatusGauge	boosG	= new SystemStatusGauge( 'B' , ColorPallate.UTILITY , 5 );
+	SystemStatusGauge	mineG	= new SystemStatusGauge( "Mine" , ColorPallate.TACTICAL , 3 );
+	SystemStatusGauge	missG	= new SystemStatusGauge( "Missile" , ColorPallate.TACTICAL , 3 );
+	SystemStatusGauge	dronG	= new SystemStatusGauge( "Drone" , ColorPallate.SENSORY , 2 );
+	SystemStatusGauge	radrG	= new SystemStatusGauge( "Sonar" , ColorPallate.SENSORY , 3 );
+	SystemStatusGauge	scenG	= new SystemStatusGauge( "Scenario", ColorPallate.UTILITY , 3 );
+	SystemStatusGauge	boosG	= new SystemStatusGauge( "Silent" , ColorPallate.UTILITY , 5 );
 
 	public ExecutivePane(GUIController cx) {
 		super( cx );
 		this.setLayout( new GridLayout( 2 , 3 ) );
+		mineG.addController(control);
+		missG.addController(control);
+		dronG.addController(control);
+		radrG.addController(control);
+		scenG.addController(control);
+		boosG.addController(control);
+		
 		add( mineG );
 		add( dronG );
 		add( scenG );

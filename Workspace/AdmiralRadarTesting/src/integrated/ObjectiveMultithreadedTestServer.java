@@ -21,14 +21,14 @@ public class ObjectiveMultithreadedTestServer {
 		MyPacketInputStream ois;
 		MyPacketOutputStream oos;
 		int c;
-		Object key;
-		int collector;
+		MyInt key;
+		int collector = 0;
 
-		public RadarSocket(Socket s, int i, Object o){
+		public RadarSocket(Socket s, int i, MyInt o){
 
 			try {
-				oos = new MyPacketOutputStream( s.getOutputStream() );
-				ois = new MyPacketInputStream( s.getInputStream() );
+				oos = new MyPacketOutputStream( s.getOutputStream() ,true , "Server" );
+				ois = new MyPacketInputStream(  "Server"  , s.getInputStream() );
 			}
 			catch (IOException e) {
 				e.printStackTrace();
@@ -64,6 +64,7 @@ public class ObjectiveMultithreadedTestServer {
 					if (ear.size() != 8) key.wait();
 					else key.notifyAll();
 				}
+
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
@@ -84,137 +85,172 @@ public class ObjectiveMultithreadedTestServer {
 				e.printStackTrace();
 			}
 
-
 			//If the thread connects to a Captain, get their position at the start of the game. 
 			if ((c % 4) == 0){
 				try {
-
 					Position p = ois.getNextPosition();
 					ship[c / 4].toGameStartCondition(p);
-					synchronized (key) {
-						if (! ship[1 - (c / 4)].getPosition().isValid()) key.wait(); //Pause thread if other captain hasnt sent position.
-						else key.notifyAll(); //Resume all threads if we have both ships.
-					}
-				}
-				catch (IOException | InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			else synchronized(key){ //if not a captain, hang on.
-				try {
-					if ((! ship[0].getPosition().isValid()) || ( !ship[1].getPosition().isValid())){
-						key.wait();
-					}
-					else key.notifyAll();
-				}
-				catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			while(game){
-
-				//Everybody gets a spaceship, then waits for the captain
-				try {
-					System.out.println( "Sending Ship To: " + c );
-					oos.sendSpaceShip( ship[c / 4] );
-					synchronized (key) {
-						switch(c % 4){
-							case 0:  break;
-							case 1:  key.wait(); break;
-							case 2:  key.wait(); break;
-							case 3:  key.wait(); break;
-						}
-					}
-				}
-				catch (IOException | InterruptedException e) {
-					e.printStackTrace();
-				}
-
-
-				if ((c % 4) == 0){
-					//Does the Captain use a system?
-					switch(ois.getClassOfNext()){
-						case STRING:
-							//Captain has used a system
-							//TODO: SYSTEM LOGIC
-							//DO NOT BREAK OUT OF THIS CASE: After sending String, Client sends Direction
-						case DIRECTION:
-							//Captain is sending a direction
-							//TODO: DIRECTION LOGIC
-							break;
-						default: break;
-						
-					}
-					System.out.println( "CON:" + ois.getClassOfNext() );
-
-				}
-
-
-				//Send ship w/ direction to all members of friendly team
-				try {
-					oos.sendSpaceShip( ship[c / 4] );
-					//				if ((c / 4))
 				}
 				catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
 
-				//Send ONLY direction to enemy RO
+			synchronized(key){
+				try{
+					if (key.getX() < 3) {
+						System.err.println(key.getName() + key.getX() + " Pausing " + c );
+						
+						key.setX( key.getX() + 1 );
+						key.wait();
 
-
-
-
-				//What system does the FO charge and parts does the EO disable?
-				Spaceship sf = null , se = null;
-				try {
-					oos.sendMap( map );
-					switch(c % 4){
-						case 0: key.wait(); break;
-						case 1:  sf = ois.getNextSpaceship(); break;
-						case 2:  se = ois.getNextSpaceship(); break;
-						case 3:  key.wait(); break;
-					}
-					if ((sf == null)||(se == null)) key.wait();
-					else {
-						completeShipActions(ship[c / 4] , sf, se);
+					} else{
+						System.out.println( "Launching " + key.getName() + " : " + c);
 						key.notifyAll();
 					}
-
-
-					oos.sendSpaceShip( ship[c / 4] ); //Send ships to everybody!!
+					
+			//		Thread.sleep( 1000 );
 				}
-				catch (IOException | InterruptedException e) {
+				catch (Exception e){
 					e.printStackTrace();
 				}
+				
+			}
+
+			
+			System.out.println( "Memories: " + c );
+
+			//Wait Until the Captains have set their start positions
 
 
-				//Pause for a few seconds for chat / RO actions / slow the game down a bit
-				try {
-					Thread.sleep( 1000 );
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			//			while(game){
+			//
+			//				//Everybody gets a spaceship, then waits for the captain
+			//				try {
+			//					System.out.println( "Sending Ship To: " + c );
+			//					oos.sendSpaceShip( ship[c / 4] );
+			//					synchronized (key) {
+			//						switch(c % 4){
+			//							case 0:  break;
+			//							case 1:  key.wait(); break;
+			//							case 2:  key.wait(); break;
+			//							case 3:  key.wait(); break;
+			//						}
+			//					}
+			//				}
+			//				catch (IOException | InterruptedException e) {
+			//					e.printStackTrace();
+			//				}
+			//
+			//
+			//				if ((c % 4) == 0){
+			//					//Does the Captain use a system?
+			//					switch(ois.getClassOfNext()){
+			//						case STRING:
+			//							//Captain has used a system
+			//							//TODO: SYSTEM LOGIC
+			//							//DO NOT BREAK OUT OF THIS CASE: After sending String, Client sends Direction
+			//						case DIRECTION:
+			//							//Captain is sending a direction
+			//							//TODO: DIRECTION LOGIC
+			//							break;
+			//						default: break;
+			//
+			//					}
+			//					System.out.println( "CON:" + ois.getClassOfNext() );
+			//
+			//				}
+			//				synchronized(key){
+			//					key.notifyAll();
+			//				}
+			//
+			//				//Send ship w/ direction to all members of friendly team
+			//				try {
+			//					oos.sendSpaceShip( ship[c / 4] );
+			//					//				if ((c / 4))
+			//				}
+			//				catch (IOException e) {
+			//					// TODO Auto-generated catch block
+			//					e.printStackTrace();
+			//				}
+
+			//Send ONLY direction to enemy RO
 
 
 
-			}//NEXT TURN
+
+			//				//What system does the FO charge and parts does the EO disable?
+			//				Spaceship sf = null , se = null;
+			//				try {
+			//					oos.sendMap( map );
+			//					switch(c % 4){
+			//						case 0: key.wait(); break;
+			//						case 1:  sf = ois.getNextSpaceship(); break;
+			//						case 2:  se = ois.getNextSpaceship(); break;
+			//						case 3:  key.wait(); break;
+			//					}
+			//					if ((sf == null)||(se == null)) key.wait();
+			//					else {
+			//						completeShipActions(ship[c / 4] , sf, se);
+			//						key.notifyAll();
+			//					}
+			//
+			//
+			//					oos.sendSpaceShip( ship[c / 4] ); //Send ships to everybody!!
+			//				}
+			//				catch (IOException | InterruptedException e) {
+			//					e.printStackTrace();
+			//				}
+
+
+			//Pause for a few seconds for chat / RO actions / slow the game down a bit
+			try {
+				Thread.sleep( 1000 );
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+
+
+		}//NEXT TURN
 
 
 
 
-		}
+
 
 		private void completeShipActions(Spaceship main , Spaceship first, Spaceship engine) {
 			// TODO Merge actions of First and Engineering Officers. Should also analyze EO's circuits. Apply these ALL to the "main" Spaceship object.
 
 		}
 	}
+	
+	class MyInt  {
+		private int x;
+		private String name;
+		
+		public MyInt(int i, String n){
+			setX( i );
+			name = n;
+		}
+		
+		public int getX() {
+			return x;
+		}
+		
+		public void setX(int x) {
+			this.x = x;
+		}
+		
+		public String getName(){
+			return name;
+		}
+		
+		
+	}
 
-	private Object team1 , team2;
+	private MyInt team1 , team2;
 	private ArrayList<RadarSocket> ear = new ArrayList<RadarSocket>();
 
 	private GameMap map;
@@ -223,8 +259,8 @@ public class ObjectiveMultithreadedTestServer {
 
 	public ObjectiveMultithreadedTestServer(){
 		map = new GameMap();
-		team1 = new Object();
-		team2 = new Object();
+		team1 = new MyInt(0, "Team Key 1 ");
+		team2 = new MyInt(0, "Team Key 2 ");
 		ship[0] = new Spaceship();
 		ship[1] = new Spaceship();
 
@@ -242,7 +278,7 @@ public class ObjectiveMultithreadedTestServer {
 			ServerSocket ss = new ServerSocket( GamePreferences.getPort() );
 			while (ear.size() <= 8){
 
-				rsa = new RadarSocket(ss.accept(), i++ , ear.size() < 5 ? team1 : team2);
+				rsa = new RadarSocket(ss.accept(), i++ , ear.size() < 4 ? team1 : team2);
 				ear.add( rsa );
 				new Thread( rsa ).start();
 			}

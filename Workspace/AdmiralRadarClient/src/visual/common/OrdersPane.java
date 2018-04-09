@@ -235,12 +235,16 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (north.contains( e.getPoint() )) {
+			control.flyInDirection(Direction.NORTH);
 			System.out.println( "North" );
 		} else if (south.contains( e.getPoint() )) {
+			control.flyInDirection(Direction.SOUTH);
 			System.out.println( "South" );
 		} else if (east.contains( e.getPoint() )) {
+			control.flyInDirection(Direction.EAST);
 			System.out.println( "East" );
 		} else if (west.contains( e.getPoint() )) {
+			control.flyInDirection(Direction.WEST);
 			System.out.println( "West" );
 		}
 

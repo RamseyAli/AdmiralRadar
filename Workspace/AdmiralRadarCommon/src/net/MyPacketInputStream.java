@@ -57,7 +57,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 		}
 
 		if (x == null) throw new BufferEmptyException();
-		System.out.println( label + " has received an " + (	(x.getObjectClass() == ObjEnum.STRING) ? ((SendableString) x.getObject()).getContent() : x.getObjectClass() ));
+		System.out.println( label + " has received " + (	(x.getObjectClass() == ObjEnum.STRING) ? "String " + ((SendableString) x.getObject()).getContent() : x.getObjectClass() ));
 		return x.getObject();
 	}
 

@@ -13,8 +13,10 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
 
 import audio.SoundManager;
+import game.Direction;
 import game.Position;
 import game.Role;
+import game.Spaceship;
 import security.DesEncrypter;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
@@ -273,6 +275,29 @@ public class ConnectionManager {
 
 	public void setName(String n2) {
 		name = n2;
+		
+	}
+
+	public void sendDirectionCommand(Direction d) {
+		try {
+			oos.sendString( "No" );
+			oos.sendString( d.name() );
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void sendShip(Spaceship s) {
+		try {
+			oos.sendSpaceShip( s );
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

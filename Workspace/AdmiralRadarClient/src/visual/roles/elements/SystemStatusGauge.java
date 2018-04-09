@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import visual.util.ColorPallate;
+import visual.util.operations.GUIController;
 
 public class SystemStatusGauge extends JPanel implements MouseListener {
 
@@ -22,7 +23,7 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 	private static final long	serialVersionUID	= 1L;
 	private static final double	SCALE				= 1.5;
 
-	char	name;
+	String	name;
 	Color	col;
 	int		spaces;
 	int		charge;
@@ -31,8 +32,9 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 	int		rad2;
 	Arc2D za;
 	Ellipse2D zb;
+	GUIController ctrl;
 
-	public SystemStatusGauge(char n, Color c, int s) {
+	public SystemStatusGauge(String n, Color c, int s) {
 		name = n;
 		col = c;
 		spaces = s;
@@ -64,7 +66,7 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 
 		for (int i = 0; i < spaces; i++) {
 
-			if (charge > i)
+			if (ctrl.getSpaceship().getShipSystem().getPowerLevel( name ) > i)
 				g.setColor( ColorPallate.EXEC_SYSTEM_YES );
 			else g.setColor( ColorPallate.EXEC_SYSTEM_NO );
 			za = new Arc2D.Double( x_ctr - rad2 / 2.0 , y_ctr - rad2 / 2.0 , 1.0*rad2 , 1.0*rad2 , 89.0 - ( 45.0 * i ) , -43.0 , Arc2D.PIE);
@@ -85,11 +87,10 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 
 		rad2 = (int) ( Math.min( getSize().width , getSize().height ) / SCALE );
 
-	//	System.out.println( e.getPoint() );
-
 		if (new Ellipse2D.Double( ( getSize().width / 2 ) - rad1 * rad2 / 2 ,
 				( getSize().height / 2 ) - rad1 * rad2 / 2 , rad1 * rad2 , rad1 * rad2 ).contains( e.getPoint() )) {
-			if (charge < spaces) charge++;
+			if (! ctrl.getSpaceship().getShipSystem().isSystemCharged( name ) ) 
+				ctrl.charge(name);
 
 			SwingUtilities.invokeLater( new Runnable() {
 				public void run() {
@@ -97,6 +98,8 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 				}
 			} );
 		}
+		
+		removeMouseListener(this);
 
 	}
 
@@ -122,6 +125,11 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void addController(GUIController control) {
+		ctrl = control;
+		
 	}
 
 }
