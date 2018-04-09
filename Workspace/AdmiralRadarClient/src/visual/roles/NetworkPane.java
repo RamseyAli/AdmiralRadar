@@ -239,16 +239,24 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		} else if (e.getSource() == clr) {
 			GamePreferences.clearIPs();
 			model.removeAllElements();
-		} else if (e.getSource() == log) {
-			setState( control.login( usr.getText() , new String( encrypt( pwd.getPassword() ) ) ) );
-
-		} else if (e.getSource() == avatarButton) {
-			control.setAvatar( JOptionPane.showInputDialog( "Enter URL for new Avatar" ) );
+		}
+		else if (e.getSource() == log){
+			setState(control.login(usr.getText(), new String(pwd.getPassword())));
+			
+		}
+		else if (e.getSource() == avatarButton){
+			control.setAvatar(JOptionPane.showInputDialog("Enter URL for new Avatar"));
 			updateUserInfoPanel();
 
 		} else if (e.getSource() == reg) {
-			setState( control.newUser( JOptionPane.showInputDialog( "Enter URL for new Avatar" ) , usr.getText() ,
-					new String( pwd.getPassword() ) ) );
+			int result = control.newUser( JOptionPane.showInputDialog( "Enter URL for new Avatar" ) , usr.getText() , new String( pwd.getPassword() ) );
+			if (result == -1) {
+				JOptionPane.showMessageDialog(null, "This username is already in use!", "Invalid Username", JOptionPane.ERROR_MESSAGE);
+			} else if (result == -2) {
+				JOptionPane.showMessageDialog(null, "There is an error in the registration process!", "Error", JOptionPane.ERROR_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "Registration Successful! Your recovery PIN is: " + String.format("%04d", result), "Success", JOptionPane.PLAIN_MESSAGE);
+			}
 
 		} else if (e.getSource() == ready) {
 			setState( control.ready() );
@@ -260,12 +268,6 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 
 		control.threadSafeRepaint( this );
 
-	}
-
-	private String encrypt(char[] password) {
-		// TODO @Ramsey
-		// WRITE THIS SHIT
-		return new String( password );
 	}
 
 	// 1 - No Connection

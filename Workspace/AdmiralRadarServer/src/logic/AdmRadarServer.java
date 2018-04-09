@@ -73,28 +73,37 @@ public class AdmRadarServer {
 				turnMiss = 3;
 				return true;
 			} else if (action.equalsIgnoreCase( "Drone" )) {
-				// TODO: Required input - Sector Guess (of activating team) //
+				// TODO: Required input - Sector Guess (of activating team) - n (map dimension) - m (sector dimension) //
 
 				int targetTeam, sector;
+				int placeholderM = 3, placeholderGuesss = 0; // placeholders for the sector dimension and the sector guess
+				
 				Spaceship targetShip;
 
 				// Insert Drone action //
 				if (teamNo == 1) // Ideally targets team other than user of Drone
 					targetTeam = 0;
-				else targetTeam = 1;
+				else 
+					targetTeam = 1;
 
 				targetShip = gameShip.get( targetTeam );
-
-				Position pos = targetShip.getPosition();
-
+				
 				// TODO: Calculate sector based on coordinates //
 				// Note: "GamePreferences.SEG" is the size of the Map //
-				sector = 3 * ( pos.getY() / 5 ) + ( pos.getX() / 5 );
-
-				// TODO: Check user's guess and respond
+				// Position pos = targetShip.getPosition();
+				// sector = 3 * ( pos.getY() / 5 ) + ( pos.getX() / 5 );
+				
 				// TODO: Communicate info to client //
+				if (targetShip.checkSector(placeholderGuess, GamePreferences.SEG, placeholderM))
+				{
+					// guess correct
+				}
+				else
+				{
+					
+				}
 
-				return true; // placeholder return
+				return true;
 			} else if (action.equalsIgnoreCase( "Sonar" )) {
 				int targetTeam;
 				Spaceship targetShip;
@@ -102,6 +111,8 @@ public class AdmRadarServer {
 				return true; // placeholder return
 
 			} else return false;
+			
+			return false; // failsafe
 		}
 
 		public void run() {
@@ -964,10 +975,12 @@ public class AdmRadarServer {
 	}
 
 	/*
-	 * "0000-9999" - Success "-1" - ERROR: Username already in-use "-2" - ERROR: Misc.
+	 * 0-9999 - Success
+	 * -1 - ERROR: Username already in-use
+	 * -2 - ERROR: Misc.
 	 */
-	public static String createUser(String username, String password, String avatar) {
-
+	public static int createUser(String username, String password, String avatar) {	
+		
 		Random rand = new Random();
 		int pinInt = rand.nextInt( 10000 );
 		String pinString = String.format( "%04d" , pinInt );
@@ -1005,19 +1018,36 @@ public class AdmRadarServer {
 			preparedStmt.setString( 3 , avatar );
 			preparedStmt.setInt( 4 , pinInt );
 			preparedStmt.executeUpdate();
-			// myPrint("Prepared Statement: " + preparedStmt);
-		}
-		catch (Exception e) {
-			if (e.getMessage().contains( "Duplicate" )) {
-				return "-1";
+
+			//myPrint("Prepared Statement: " + preparedStmt);
+		} catch (Exception e) {
+			if (e.getMessage().contains("Duplicate")) {
+				return -1;
 			} else {
 				e.printStackTrace();
-				return "-2";
+				return -2;
 			}
 		}
 
 		DBobj.close();
-		return pinString;
+		return pinInt;
+	}
+	
+	public static boolean userExists(String username) {
+		dbQuery DBobj = query("SELECT * FROM USER WHERE USERNAME = \"" + username + "\"");
+		
+		try {
+			while (DBobj.rs.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			myPrint("There's an issue retrieving info. from query results");
+		}
+		
+		DBobj.close();
+		
+		return false;
 	}
 
 }
