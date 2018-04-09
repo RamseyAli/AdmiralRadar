@@ -99,9 +99,45 @@ public class ConnectionManager {
 
 	}
 	
-	public int registerUserWithServer(String uRL, String user, String password) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int registerUserWithServer(String uRL, String user, String hash) {
+		
+		try {
+			byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
+			SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
+			DesEncrypter encrypter = new DesEncrypter(key);
+			hash = encrypter.encrypt(hash);
+		} catch (Exception ex) {
+			//do nothing (pw not encrypted)
+		}
+
+		User u = null;
+		
+		try {
+			u = new User(user, hash);
+			oos.sendUser(u);
+			System.out.println("Client has sent u");
+			u = ois.getNextUser();
+			System.out.println("Client has received a U");
+
+			interrupt.setUser(u);
+
+			if (u.getResult() == -1) {
+				//Username in-use
+				return -1;
+			} else if (u.getResult() == -2) {
+				//Misc. error
+				return -2;
+			} else {
+				//auto-gen PIN
+				return u.getResult();
+			}
+
+
+
+		} catch (IOException e) {
+			return 2;
+		}
+		
 	}
 
 	public void disconnect(){

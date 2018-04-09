@@ -1047,11 +1047,11 @@ public class AdmRadarServer
 	}
 	
 	/*
-	 * "0000-9999" - Success
-	 * "-1" - ERROR: Username already in-use
-	 * "-2" - ERROR: Misc.
+	 * 0-9999 - Success
+	 * -1 - ERROR: Username already in-use
+	 * -2 - ERROR: Misc.
 	 */
-	public static String createUser(String username, String password, String avatar) {	
+	public static int createUser(String username, String password, String avatar) {	
 		
 		Random rand = new Random();
 		int pinInt = rand.nextInt(10000);
@@ -1090,15 +1090,32 @@ public class AdmRadarServer
 			//myPrint("Prepared Statement: " + preparedStmt);
 		} catch (Exception e) {
 			if (e.getMessage().contains("Duplicate")) {
-				return "-1";
+				return -1;
 			} else {
 				e.printStackTrace();
-				return "-2";
+				return -2;
 			}
 		}
 		
 		DBobj.close();
-		return pinString;
+		return pinInt;
+	}
+	
+	public static boolean userExists(String username) {
+		dbQuery DBobj = query("SELECT * FROM USER WHERE USERNAME = \"" + username + "\"");
+		
+		try {
+			while (DBobj.rs.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			myPrint("There's an issue retrieving info. from query results");
+		}
+		
+		DBobj.close();
+		
+		return false;
 	}
 	
 }

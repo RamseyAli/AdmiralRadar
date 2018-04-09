@@ -248,7 +248,7 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 			model.removeAllElements();
 		}
 		else if (e.getSource() == log){
-			setState(control.login(usr.getText(), new String(encrypt(pwd.getPassword()))));
+			setState(control.login(usr.getText(), new String(pwd.getPassword())));
 			
 		}
 		else if (e.getSource() == avatarButton){
@@ -270,12 +270,6 @@ public class NetworkPane extends ShipPanel implements ActionListener{
 
 		control.threadSafeRepaint(this);
 
-	}
-
-	private String encrypt(char[] password) {
-		// TODO @Ramsey
-		// WRITE THIS SHIT
-		return new String(password);
 	}
 
 	// 1 - No Connection
