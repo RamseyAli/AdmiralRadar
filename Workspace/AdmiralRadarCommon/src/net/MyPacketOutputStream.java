@@ -59,7 +59,7 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 	}
 
 	public void sendString(String s) throws IOException {
-		if (debug) System.out.println( name + "Sending String: " + s);
+		if (debug) System.out.println( name + " Sending String: " + s);
 		writeUnshared( new MyPacket( new SendableString( s ) ) );
 		flush();
 	}
@@ -71,13 +71,13 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 	}
 
 	public void sendDirection(Direction d) throws IOException {
-		if (debug) System.out.println( "Sending Role" );
+		if (debug) System.out.println( "Sending Direction" + d );
 		writeUnshared( new MyPacket( d ) );
 		flush();
 	}
 
 	public void sendPath(ArrayList<Direction> p) throws IOException {
-		if (debug) System.out.println( "Sending Role" );
+		if (debug) System.out.println( "Sending Path" );
 		writeUnshared( new MyPacket( new SendablePath( p ) ) );
 		flush();
 	}

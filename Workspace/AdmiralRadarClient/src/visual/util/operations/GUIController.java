@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import game.Direction;
 import game.GameMap;
 import game.Position;
 import game.Role;
@@ -151,6 +152,7 @@ public class GUIController {
 	}
 
 	public void setSpaceship(Spaceship s) {
+		System.out.println( fac.getFrame().getTitle() + ": I have a spaceship!" );
 		this.s = s;
 		globalRefresh();
 
@@ -160,6 +162,17 @@ public class GUIController {
 		fac.refresh();
 		threadSafeRepaint( fac.getShipPanel() );
 
+	}
+
+	public void flyInDirection(Direction south) {
+		cm.sendDirectionCommand(south);
+		
+	}
+
+	public void charge(String name) {
+		s.getShipSystem().chargeSystem( name );
+		cm.sendShip(s);
+		
 	}
 
 }

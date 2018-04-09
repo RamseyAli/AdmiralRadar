@@ -29,13 +29,13 @@ public class Testapus {
 
 	public static class ARServer {
 
-		public ObjectiveMultithreadedTestServer server;
+		public AdmRadarServer server;
 
 		public ARServer() {
 
 			// Start Server in new Thread
-			//new Thread( () -> server = new AdmRadarServer() ).start();
-			new Thread( () -> server = new ObjectiveMultithreadedTestServer() ).start();
+			new Thread( () -> server = new AdmRadarServer() ).start();
+			//new Thread( () -> server = new ObjectiveMultithreadedTestServer() ).start();
 
 		}
 	}

@@ -130,7 +130,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		randNum = rand.nextInt( n - 1 ); // excludes the correct coordinate
 		
 		// Randomly change 1 of the coordinates to a false coordinate //
-		if (rand.nextInt(1))
+		if (rand.nextInt(1) == 0)
 		{
 			if (randNum >= pos.getY()) // ensures that the correct coordinate is not returned
 				++randNum;
