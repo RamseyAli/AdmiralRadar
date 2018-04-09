@@ -33,8 +33,6 @@ import ops.User;
 import pref.GamePreferences;
 
 public class AdmRadarServer {
-	ArrayList<MyPacketOutputStream>	clientOutputStreams;
-	ArrayList<MyPacketInputStream>	clientInputStreams;
 	ArrayList<Spaceship>			gameShip;
 	static int						nPlayers;
 	static boolean					gameOngoing;
@@ -59,9 +57,7 @@ public class AdmRadarServer {
 				turnNo = -1;
 				sock = clientSock;
 				mpos = new MyPacketOutputStream( sock.getOutputStream() );
-				clientOutputStreams.add( mpos );
 				mpis = new MyPacketInputStream( sock.getInputStream() );
-				clientInputStreams.add( mpis );
 			}
 			catch (Exception ex) {
 				ex.printStackTrace();
@@ -397,8 +393,6 @@ public class AdmRadarServer {
 	}
 
 	public void go(int port) {
-		clientOutputStreams = new ArrayList<MyPacketOutputStream>();
-		clientInputStreams = new ArrayList<MyPacketInputStream>();
 		gameShip = new ArrayList<Spaceship>();
 		Spaceship initial1 = new Spaceship();
 		gameShip.add( 0 , initial1 );
