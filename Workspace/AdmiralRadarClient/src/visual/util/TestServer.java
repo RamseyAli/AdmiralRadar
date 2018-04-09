@@ -9,7 +9,7 @@ import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
 
-public class TestServer implements Runnable{
+public class TestServer implements Runnable {
 
 	@Override
 	public void run() {
@@ -17,46 +17,42 @@ public class TestServer implements Runnable{
 		int portNumber = 2069;
 		boolean listening = true;
 
-		try (ServerSocket serverSocket = new ServerSocket(portNumber)) { 
+		try (ServerSocket serverSocket = new ServerSocket( portNumber )) {
 			while (listening) {
-				System.out.println("Loop!");
+				System.out.println( "Loop!" );
 				Socket s = serverSocket.accept();
-				System.out.println("New Connection");
+				System.out.println( "New Connection" );
 
-				try (
-						MyPacketOutputStream out = new MyPacketOutputStream(s.getOutputStream());
-						MyPacketInputStream in = new MyPacketInputStream(s.getInputStream());
-						) {
+				try (MyPacketOutputStream out = new MyPacketOutputStream( s.getOutputStream() );
+						MyPacketInputStream in = new MyPacketInputStream( s.getInputStream() );) {
 					Object inputLine;
-					
-					while (true){
-						if((inputLine = in.getNextUser()) != null) {
-							
-								User u = (User)inputLine;
-							
-								if(u.getResult() == 0)
-								{
-									u.setWins(new Random().nextInt() % 20);
-									u.setLoss(new Random().nextInt() % 20);
-									u.setAvatar("http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg");
-								}
-							out.sendUser(u);
+
+					while (true) {
+						if (( inputLine = in.getNextUser() ) != null) {
+
+							User u = (User) inputLine;
+
+							if (u.getResult() == 0) {
+								u.setWins( new Random().nextInt() % 20 );
+								u.setLoss( new Random().nextInt() % 20 );
+								u.setAvatar( "http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg" );
+							}
+							out.sendUser( u );
 						}
 					}
-					
-				} catch (IOException e) {
+
+				}
+				catch (IOException e) {
 					s.close();
 					e.printStackTrace();
 				}
 			}
 
-
-		} catch (IOException e) {
-			System.err.println("Could not listen on port " + portNumber);
-			System.exit(-1);
+		}
+		catch (IOException e) {
+			System.err.println( "Could not listen on port " + portNumber );
+			System.exit( -1 );
 		}
 	}
 
 }
-
-

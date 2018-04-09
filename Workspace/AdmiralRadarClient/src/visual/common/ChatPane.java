@@ -1,14 +1,8 @@
 package visual.common;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
 
 import pref.VisualPreferences;
 import visual.roles.elements.ChatTextPane;
@@ -19,11 +13,12 @@ import visual.util.operations.GUIController;
 public class ChatPane extends ShipPanel implements ActionListener {
 
 	ChatTextPane chat;
+
 	public ChatPane(GUIController ctr) {
 		super( ctr );
-		
+
 		chat = new ChatTextPane();
-		add(chat);
+		add( chat );
 	}
 
 	/**
@@ -53,7 +48,6 @@ public class ChatPane extends ShipPanel implements ActionListener {
 
 		chat.setSize( (int) ( r_outer.getWidth() * 0.9 ) , (int) ( r_outer.getHeight() * 0.8 ) );
 		chat.setLocation( (int) ( r_outer.getCenterX() - chat.getWidth() / 2 ) , (int) ( r_outer.getY() + 40 ) );
-
 
 	}
 

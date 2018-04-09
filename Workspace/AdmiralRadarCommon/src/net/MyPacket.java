@@ -3,46 +3,62 @@ package net;
 import java.io.Serializable;
 import java.util.UnknownFormatConversionException;
 
-
-public class MyPacket implements Serializable{
+public class MyPacket implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
-	private MyPacketable payload;
-	private ObjEnum objectClass;
-	
-	private MyPacket(MyPacketable p, String n){
+
+	private MyPacketable	payload;
+	private ObjEnum			objectClass;
+
+	private MyPacket(MyPacketable p, String n) {
 		payload = p;
-		
-		switch(n){
-		case "GameMap": objectClass = ObjEnum.MAP; break;
-		case "Position": objectClass = ObjEnum.POSITION; break;
-		case "Role": objectClass = ObjEnum.ROLE; break;
-		case "Spaceship": objectClass = ObjEnum.SPACESHIP; break;
-		case "SendableString": objectClass = ObjEnum.STRING; break;
-		case "User": objectClass = ObjEnum.USER; break;
-		default: throw new UnknownFormatConversionException("X");
+
+		switch (n) {
+			case "GameMap":
+				objectClass = ObjEnum.MAP;
+				break;
+			case "Position":
+				objectClass = ObjEnum.POSITION;
+				break;
+			case "Role":
+				objectClass = ObjEnum.ROLE;
+				break;
+			case "Spaceship":
+				objectClass = ObjEnum.SPACESHIP;
+				break;
+			case "SendableString":
+				objectClass = ObjEnum.STRING;
+				break;
+			case "User":
+				objectClass = ObjEnum.USER;
+				break;
+			case "Direction":
+				objectClass = ObjEnum.DIRECTION;
+				break;
+			case "SendablePath":
+				objectClass = ObjEnum.PATH;
+				break;
+			default:
+				throw new UnknownFormatConversionException( "X" );
 		}
 	}
-	
+
 	MyPacket(MyPacketable p) {
-		this(p, p.getClass().getSimpleName());
+		this( p , p.getClass().getSimpleName() );
 	}
 
-	public MyPacketable getObject(){
-		
+	public MyPacketable getObject() {
+
 		return payload;
-		
+
 	}
-	
-	public ObjEnum getObjectClass(){
-		
+
+	public ObjEnum getObjectClass() {
+
 		return objectClass;
 	}
-	
 
 }
