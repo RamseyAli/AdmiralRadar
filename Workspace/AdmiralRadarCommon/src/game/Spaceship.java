@@ -93,8 +93,8 @@ public class Spaceship implements Serializable, MyPacketable {
 		int secSize;
 		boolean systemReady;
 		
-		systemReady = system.useSystem();
-		if (!systemReady())
+		systemReady = systems.useSystem("Drone");
+		if (!systemReady)
 		{
 			// Should throw exception in the future, system is not fully charge
 			// throw new Exception()
