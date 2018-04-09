@@ -75,8 +75,8 @@ public class Spaceship implements Serializable, MyPacketable {
 		health = ( health - valueToRemove < 0 ? 0 : health - valueToRemove );
 	}
 
-	public void restoreHealth() {
-		health = MAX_HEALTH;
+	public boolean restoreSystems() {
+		return systems.enableSystems();
 	}
 
 	public void destroyShip() {

@@ -122,7 +122,17 @@ public class ShipSystems implements Serializable {
 		}
 
 	}
-
+	
+	public boolean enableSystems()
+	{
+		sonar[SYSTEM_STATUS] = NOT_CHARGED;
+		missile[SYSTEM_STATUS] = NOT_CHARGED;
+		mine[SYSTEM_STATUS] = NOT_CHARGED;
+		drone[SYSTEM_STATUS] = NOT_CHARGED;
+		silent[SYSTEM_STATUS] = NOT_CHARGED;
+		return true;
+	}
+	
 	// power-level and charged to 0
 	public boolean useSystem(String sys) {
 		if (sys.equals( "Sonar" ) && sonar[CHARGED_STATUS] == CHARGED && sonar[SYSTEM_STATUS] == NOT_DESTROYED) {
