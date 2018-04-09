@@ -2,6 +2,7 @@ package game;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random; // for Sonar
 
 import net.MyPacketable;
 
@@ -99,16 +100,52 @@ public class Spaceship implements Serializable, MyPacketable {
 			// Should throw exception in the future, system is not fully charge
 			// throw new Exception()
 		} 
-		
+		if (n < 1 || m < 1)
+		{
+			// incorrect dimensions
+		}
 		// Note: "GamePreferences.SEG" is the size of the Map //
 		secSize = n / m;
 		
-		sector = m * (pos.getY() / secSize) + (pos.getX() / secSize);
+		sector = m * ( pos.getY() / secSize ) + ( pos.getX() / secSize );
 		
 		if (sector == guess)
 			return true;
 			
 		return false;
+	}
+	// Current sonar implementation //
+	public Position randomSonar(int n) // n = dimension of map
+	{
+		Position answer = new Position(); // return value
+		Random rand = new Random();
+		int randNum;
+		
+		if (n < 1)
+		{
+			// TODO: handle error
+		}
+		
+		answer.setPosition( pos.getX(), pos.getY() );
+		randNum = rand.nextInt( n - 1 ); // excludes the correct coordinate
+		
+		// Randomly change 1 of the coordinates to a false coordinate //
+		if (rand.nextInt(1))
+		{
+			if (randNum >= pos.getY()) // ensures that the correct coordinate is not returned
+				++randNum;
+			
+			answer.setY( randNum );
+		}
+		else
+		{
+			if (randNum >= pos.getX())
+				++randNum;
+				
+			answer.setX( randNum );	
+		}
+		
+		return answer;
 	}
 	
 	public void printShip() // For testing purposes
