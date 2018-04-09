@@ -71,6 +71,11 @@ public class AdmRadarServer {
 			if (action.equalsIgnoreCase( "Spacewalk" )) {
 				gameShip.get( teamNo ).restoreSystems();
 				turnMiss = 3;
+				if(turn == 0) {
+					turn = 4;
+				} else {
+					turn = 0;
+				}
 				return true;
 			} else if (action.equalsIgnoreCase( "Drone" )) {
 				// TODO: Required input - Sector Guess (of activating team) - n (map dimension) - m (sector dimension) //
@@ -298,7 +303,7 @@ public class AdmRadarServer {
 													}
 												} else if (turn == 7) {
 													if(turnMiss == 0) {
-														turn == 0;
+														turn = 0;
 													} else {
 														turnMiss--;
 														turn = 4;
