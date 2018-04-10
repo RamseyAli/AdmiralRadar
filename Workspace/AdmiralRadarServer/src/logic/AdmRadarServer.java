@@ -128,16 +128,16 @@ public class AdmRadarServer {
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
 						
-						boolean aloha; // To be removed in the end
-						if(username.equalsIgnoreCase( "alohamora" )) {	// To be removed in the end
-							aloha = true;	// To be removed in the end
-						}	// To be removed in the end
+					//	boolean aloha = false; // To be removed in the end
+					//	if(username.equalsIgnoreCase( "alohamora" )) {	// To be removed in the end
+					//		aloha = true;	// To be removed in the end
+					//	}	// To be removed in the end
 						
-						if(!aloha) {	// To be removed in the end
-							aloha = userExists(username);
-						}	// To be removed in the end
+					//	if(!aloha) {	// To be removed in the end
+					//		aloha = userExists(username);
+					//	}	// To be removed in the end
 						
-						if (aloha) {					// To be removed in the end	
+			//			if (aloha) {					// To be removed in the end	
 							int success;
 							
 							if (username.equalsIgnoreCase( "alohomora" ))	// To be removed in the end
@@ -156,7 +156,7 @@ public class AdmRadarServer {
 									u.setWins( getWins( username ) );
 									u.setLoss( getLosses( username ) );
 									u.setAvatar( getURL( username ) );
-									u.setPin( getUserPin(username) );
+							//		u.setPin( getUserPin(username) );
 								}
 								
 								mpos.sendUser( u );
@@ -356,12 +356,12 @@ public class AdmRadarServer {
 							} else {
 								mpos.sendUser( u );
 							}
-						} else {
-							String avatar = u.getAvatar();
-							int pin = createUser(username,encPassword,avatar);
-							u.setPin(pin);
-							mpos.sendUser(u);
-						}
+				//		} else {
+				//			String avatar = u.getAvatar();
+				//			int pin = createUser(username,encPassword,avatar);
+					//		u.setPin(pin);
+				//			mpos.sendUser(u);
+				//		}
 					}
 				}
 			}

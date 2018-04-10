@@ -253,12 +253,18 @@ public class ConnectionManager {
 	}
 
 	private void firstOfficerNetworkLoop() throws IOException {
-		// Listen for FO Info
+		interrupt.setSpaceship( ois.getNextSpaceship() );
+		interrupt.getSpaceship().setDirection( ois.getNextDirection() );
+		System.out.println( " Gumdrop " );
+		interrupt.refreshFrame();
+	//	interrupt.globalRefresh();
 
 	}
 
 	private void engineerNetworkLoop() throws IOException {
-		// Listen for ENGR info
+		interrupt.setSpaceship( ois.getNextSpaceship() );
+		interrupt.getSpaceship().setDirection( ois.getNextDirection() );
+		interrupt.refreshFrame();
 
 	}
 
@@ -281,7 +287,7 @@ public class ConnectionManager {
 	public void sendDirectionCommand(Direction d) {
 		try {
 			oos.sendString( "No" );
-			oos.sendString( d.name() );
+			oos.sendDirection( d );
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -293,6 +299,17 @@ public class ConnectionManager {
 	public void sendShip(Spaceship s) {
 		try {
 			oos.sendSpaceShip( s );
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void sendChargeCommand(String name2) {
+		try {
+			oos.sendString( name2 );
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block

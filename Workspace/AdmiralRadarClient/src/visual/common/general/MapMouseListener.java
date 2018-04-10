@@ -68,11 +68,11 @@ public class MapMouseListener implements MouseListener, MouseMotionListener {
 
 		x_w = root.getSize().width;
 		y_w = root.getSize().height;
-		sMax = (int) ( 0.9 * Math.min( x_w , y_w ) ) - 2 * MapBasedElement.MARGIN;
+		sMax = (int) ( 0.9 * Math.min( x_w , y_w ) ) - 2 * root.getMarginSize();
 		s = sMax - ( sMax % ( GamePreferences.SEG - 1 ) );
 		x0 = ( x_w - s ) / 2;
 		y0 = ( y_w - s ) / 2;
-		sp = root.sp;
+		sp = root.getSp();
 
 		x = e.getX() + sp / 2;
 		y = e.getY() + sp / 2;
