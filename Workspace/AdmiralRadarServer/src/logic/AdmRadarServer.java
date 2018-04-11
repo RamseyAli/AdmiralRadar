@@ -147,7 +147,7 @@ public class AdmRadarServer {
 									u.setWins( getWins( username ) );
 									u.setLoss( getLosses( username ) );
 									u.setAvatar( getURL( username ) );
-									u.setPin( getUserPin(username) );
+									u.setPin( getUserPIN(username) );
 								}
 								
 								mpos.sendUser( u );
@@ -1041,7 +1041,9 @@ public class AdmRadarServer {
 		DBobj.close();
 		return pinInt;
 	}
-	
+	/*
+	 * Self-explanatory on what it returns.
+	 */
 	public static boolean userExists(String username) {
 		dbQuery DBobj = query("SELECT * FROM USER WHERE USERNAME = \"" + username + "\"");
 		
@@ -1057,6 +1059,28 @@ public class AdmRadarServer {
 		DBobj.close();
 		
 		return false;
+	}
+	
+	
+	/*
+	 * 0000-9999 - returned PIN
+	 * -1 - Misc. Error
+	 */
+	public static int getUserPIN(String username) {
+		dbQuery DBobj = query("SELECT PIN FROM USER WHERE USERNAME = \"" + username + "\"");
+		
+		try {
+			while (DBobj.rs.next()) {
+				return DBobj.rs.getInt( "PIN" );
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			myPrint("There's an issue retrieving info. from query results");
+		}
+		
+		DBobj.close();
+		
+		return -1;
 	}
 
 }
