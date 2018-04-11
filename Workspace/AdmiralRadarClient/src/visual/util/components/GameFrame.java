@@ -27,7 +27,7 @@ public class GameFrame extends JFrame implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String	IMAGE	= "space.png";
+	private static final String	IMAGE	= "doggo.gif";
 	private Image				img;
 
 	private class MainPane extends JPanel {
@@ -40,7 +40,7 @@ public class GameFrame extends JFrame implements ComponentListener {
 
 		protected void paintComponent(Graphics g) {
 			super.paintComponent( g );
-			g.drawImage( img , 0 , 0 , getWidth() , getHeight() , null );
+			g.drawImage( img , 0 , 0 , getWidth() , getHeight() , this );
 			g.setColor( new Color( 10 , 10 , 10 , 70 ) );
 			g.fillRect( 0 , 0 , getWidth() , getHeight() );
 		}
@@ -152,6 +152,16 @@ public class GameFrame extends JFrame implements ComponentListener {
 	public void refresh() {
 		o.setup();
 		
+	}
+	
+	public void threadSafeRepaint(){
+
+		SwingUtilities.invokeLater( new Runnable() {
+			public void run() {
+				mainPane.repaint();
+			}
+		} );
+	
 	}
 
 }

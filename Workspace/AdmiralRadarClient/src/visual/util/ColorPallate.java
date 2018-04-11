@@ -34,5 +34,12 @@ public class ColorPallate {
 
 	public static final Color EXEC_SYSTEM_YES = new Color (250 , 250 , 250 , 150);
 	public static final Color EXEC_SYSTEM_NO = new Color (10 , 10 , 10 , 150);
+	
+	public static final Color	ASTEROID_DARK	= new Color( 50 , 50 , 50 , 200);
+	public static final Color	ASTEROID_LIGHT	= new Color( 70 , 70 , 70 , 200 );
+
+	public static final Color MAP_BACKGROUND =  new Color( 20 , 20 , 20 , 50 ) ;
+
+	public static final Color MAP_DOTS = new Color( 213 , 213 , 0 , 240 );
 
 }

@@ -98,6 +98,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 	}
 
 	public Direction getNextDirection() throws IOException {
+		System.out.println( label + "Himaleyan Pink Salt!" );
 		if (getClassOfNext() == ObjEnum.DIRECTION)
 			return (Direction) getBuffer();
 		else throw new PacketPayloadIncompatable();

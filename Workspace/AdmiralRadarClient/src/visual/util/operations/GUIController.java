@@ -15,7 +15,6 @@ import game.Role;
 import game.Spaceship;
 import network.ConnectionManager;
 import ops.User;
-import visual.common.HealthPane;
 import visual.roles.NetworkPane;
 import visual.util.components.ShipPanel;
 
@@ -171,7 +170,12 @@ public class GUIController {
 
 	public void charge(String name) {
 		s.getShipSystem().chargeSystem( name );
-		cm.sendShip(s);
+		cm.sendChargeCommand(name);
+		
+	}
+
+	public void refreshFrame() {
+		fac.getFrame().threadSafeRepaint();
 		
 	}
 
