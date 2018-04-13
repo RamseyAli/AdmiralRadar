@@ -37,13 +37,8 @@ public class TestClient {
 				mpo.sendUser( u );
 
 				u = mpi.getNextUser();
-				System.out.println( "Details:" );
-				System.out.println( u.getUsername() );
-				System.out.println( u.getEncryptedPassword() );
-				System.out.println( u.getWins() );
-				System.out.println( u.getLosses() );
-				System.out.println( u.getAvatar() );
-
+				u.printDetails();
+				
 				int success = u.getResult();
 				if (success == 0) {
 					System.out.println( "Logged in" );
@@ -64,12 +59,8 @@ public class TestClient {
 							u.setAvatar( temp );
 							mpo.sendUser( u );
 							u = mpi.getNextUser();
-							System.out.println( "Details:" );
-							System.out.println( u.getUsername() );
-							System.out.println( u.getEncryptedPassword() );
-							System.out.println( u.getWins() );
-							System.out.println( u.getLosses() );
-							System.out.println( u.getAvatar() );
+							u.printDetails();
+							
 						} else if (action == 2) {
 							mpo.sendString( "READY" );
 
