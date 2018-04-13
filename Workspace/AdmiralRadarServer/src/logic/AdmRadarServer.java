@@ -66,7 +66,7 @@ public class AdmRadarServer {
 					turn = 0;
 				}
 				return true;
-			} else if (action.equalsIgnoreCase( "Drone" )) {
+			} else if (action.contains( "Drone" )) {
 				// TODO: Required input - Sector Guess (of activating team) - n (map dimension) - m (sector dimension) //
 
 				int targetTeamNo, sector;
