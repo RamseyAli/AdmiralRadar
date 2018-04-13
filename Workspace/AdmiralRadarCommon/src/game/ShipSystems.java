@@ -363,10 +363,14 @@ public class ShipSystems implements Serializable {
 		for (Spaceship ship : ships) {
 			// If a mine exists in the same position as the launched missile,
 			// then detonate the mine but don't damage overlapping and/or adjacent ships
+			
+			if (miss.equals(ship.getPosition()))
+				ship.removeHealth(2);
+			if (miss.isAdjacent(ship.getPosition()))
+				ship.removeHealth(1);
+
 			ship.getShipMines().detonateMine( miss , ships , false );
 
-			if (miss.equals( ship )) ship.removeHealth( 2 );
-			if (miss.isAdjacent( ship.getPosition() )) ship.removeHealth( 1 );
 		}
 
 		// missile[CHARGED_STATUS] = NOT_CHARGED;
