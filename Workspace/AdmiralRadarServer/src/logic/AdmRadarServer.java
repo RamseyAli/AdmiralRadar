@@ -1,37 +1,28 @@
 package logic;
 
 import java.io.IOException;
-import java.util.Scanner;
+
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-import security.DesEncrypter;
-import game.Direction;
-import game.GameMap;
-import game.Position;
-import game.Role;
-import game.Spaceship;
-import helpers.AdmRadarProtocol;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import net.ObjEnum;
 import ops.User;
 import pref.GamePreferences;
-import database.dbQuery;
+
+import static database.dbQuery.*;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+
+import game.Direction;
+import game.GameMap;
+import game.Position;
+import game.Role;
+import game.Spaceship;
+
+import helpers.AdmRadarProtocol;
 
 public class AdmRadarServer {
 	ArrayList<Spaceship>			gameShip;
@@ -129,16 +120,16 @@ public class AdmRadarServer {
 						String username = u.getUsername();
 						String encPassword = u.getEncryptedPassword();
 						
-					//	boolean aloha = false; // To be removed in the end
-					//	if(username.equalsIgnoreCase( "alohamora" )) {	// To be removed in the end
-					//		aloha = true;	// To be removed in the end
-					//	}	// To be removed in the end
+						boolean aloha = false; // To be removed in the end
+						if(username.equalsIgnoreCase( "alohomora" )) {	// To be removed in the end
+							aloha = true;	// To be removed in the end
+						}	// To be removed in the end
 						
-					//	if(!aloha) {	// To be removed in the end
-					//		aloha = userExists(username);
-					//	}	// To be removed in the end
+						if(!aloha) {	// To be removed in the end
+							aloha = userExists(username);
+						}	// To be removed in the end
 						
-			//			if (aloha) {					// To be removed in the end	
+						if (aloha) {					// To be removed in the end	
 							int success;
 							
 							if (username.equalsIgnoreCase( "alohomora" ))	// To be removed in the end
@@ -357,12 +348,12 @@ public class AdmRadarServer {
 							} else {
 								mpos.sendUser( u );
 							}
-				//		} else {
-				//			String avatar = u.getAvatar();
-				//			int pin = createUser(username,encPassword,avatar);
-					//		u.setPin(pin);
-				//			mpos.sendUser(u);
-				//		}
+						} else {
+							String avatar = u.getAvatar();
+							int pin = createUser(username,encPassword,avatar);
+							u.setPin(pin);
+							mpos.sendUser(u);
+						}
 					}
 				}
 			}
