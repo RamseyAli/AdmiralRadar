@@ -39,14 +39,26 @@ public class GUIFactory {
 
 	public void beginGUI(Rectangle r) {
 
+
+		
 		f.setSize( r.getSize() );
 		f.setLocation( r.getLocation() );
 
 		f.setPanel( h );
 
+		System.out.println( "xx" );
+		
 		f.repaint();
+		
+		System.out.println( "x2" );
+		
 		h.repaint();
+		
+		System.out.println( "x3" );
+		
 		f.setVisible( true );
+		
+		System.out.println( "xx" );
 
 	}
 

@@ -42,6 +42,7 @@ public class Testapus {
 
 	public static void main(String[] args) throws InterruptedException {
 
+	
 		// Make sure the Graphics Fullscreen doesnt crash
 		GamePreferences.setFullscreen( false );
 
