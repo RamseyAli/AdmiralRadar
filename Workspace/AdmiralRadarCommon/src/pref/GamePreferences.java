@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class GamePreferences {
 
-	public static int SEG = 15;
+	public static final int SEG = 15;
+	public static final int SEC = 3;
 
 	public static boolean FULLSCREEN = true;
 	// public final static String PREF_FILE = "prefs.rdr";
