@@ -44,6 +44,10 @@ public class GUIController {
 	public int newUser(String URL, String user, String password) {
 		return cm.registerUserWithServer( URL , user , password );
 	}
+	
+	public int resetPassword(int PIN, String user, String password) {
+		return cm.newPassword( PIN , user , password );
+	}
 
 	// 2 - Connection Failure
 	// 3 - Connected to Server

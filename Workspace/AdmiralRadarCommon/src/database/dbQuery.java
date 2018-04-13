@@ -123,21 +123,6 @@ public class dbQuery {
 				if (user.equals( DBobj.rs.getString( "USERNAME" ) )) {
 					if (pin == DBobj.rs.getInt( "PIN" )) {
 
-						// encrypt the new pw
-						try {
-							byte[] decodedKey = Base64.getDecoder().decode( "p5vVBP2rSX8=" ); // using a pre-set
-																								// hardcoded key, so
-																								// we're not generating
-																								// new keys with every
-																								// server run.
-							SecretKey key = new SecretKeySpec( decodedKey , 0 , decodedKey.length , "DES" );
-							DesEncrypter encrypter = new DesEncrypter( key );
-							pw = encrypter.encrypt( pw );
-						}
-						catch (Exception ex) {
-							// pw = pw; //do nothing (pw not encrypted)
-						}
-
 						String query = "UPDATE USER SET PASSWORD = ? WHERE USERNAME = ?";
 						PreparedStatement preparedStmt = DBobj.conn.prepareStatement( query );
 						preparedStmt.setString( 1 , pw );
