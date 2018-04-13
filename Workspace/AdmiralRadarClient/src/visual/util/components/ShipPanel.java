@@ -1,89 +1,47 @@
 package visual.util.components;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import visual.util.operations.GUIController;
 
-public abstract class ShipPanel extends JPanel{
+public abstract class ShipPanel extends JPanel {
 
-	public static final long serialVersionUID = 1L;
-	protected GUIController control;
-	protected Color background;
-	private Dimension panelSize;
-	protected Graphics2D g;
-	
-	public ShipPanel(GUIController ctr){
-		
+	public static final long	serialVersionUID	= 1L;
+	protected GUIController		control;
+	protected Color				background;
+	protected Graphics2D		g;
+
+	public ShipPanel(GUIController ctr) {
+
 		control = ctr;
-		ctr.addToUpdatePuddle(this);
-		setBorder(BorderFactory.createEmptyBorder(10,10,10,10)); 
-		setOpaque(false);
-		
+		setBorder( BorderFactory.createEmptyBorder( 10 , 10 , 10 , 10 ) );
+		setOpaque( false );
+
 	}
-	
-	protected void paintComponent(Graphics gin){
+
+	protected void paintComponent(Graphics gin) {
 		g = (Graphics2D) gin;
-		super.paintComponent(g);
-		
+		super.paintComponent( g );
+
 		draw();
-		
+
 	}
-	
-	
-	public void defaultDraw(Color A, Color B){
-	}
-	
-	public void setConfigurationType(PanelPosition p, Dimension frameSize){
-		float x = frameSize.width;
-		float y = frameSize.height;
-		
-		int side = (int) (x*15.0f/64.0f);
-		int mainW = (int) (x*49.0f/64.0f);
-		int bannerHeight = (int) (y/8.0f);
-		
-		switch(p){
-		case BANNER:
-			panelSize = new Dimension(mainW,bannerHeight);
-			break;
-		case MIDDLEBIG:
-			panelSize = new Dimension(mainW, (int)y - bannerHeight);
-			break;
-		case MIDDLESHORT:
-			panelSize = new Dimension(mainW,(int)y - 2*bannerHeight);
-			break;
-		case MIDDLESMALL:
-			panelSize = new Dimension((int) (x - 2*side), (int)y - 2*bannerHeight); //TODO
-			break;
-		case SIDERECT:
-			panelSize = new Dimension(side, (int) (x/2.0f));
-			break;
-		case SIDESQUARE:
-			panelSize = new Dimension(side, (int) ((x - bannerHeight)/2.0f));
-			break;
-		case SIDETOP:
-			panelSize = new Dimension(side, bannerHeight);
-			break;
-		default:
-			break;
-		
-		}
-		//Dimension s = new Dimension((int) (panelSize.height*0.9) , (int) (panelSize.width*0.9));
-		//Dimension l = new Dimension((int) (panelSize.height*1.1) , (int) (panelSize.width*1.1));
-		
-		//System.out.println(panelSize);
-		//setMinimumSize(s);
-		if (p != PanelPosition.SIDETOP) setPreferredSize(panelSize);
-		//setMaximumSize(l);
-		
-	}
-	
+
+	public void defaultDraw(Color A, Color B) {}
+
 	public abstract void draw();
-	
-	
+
+	protected void swell(Rectangle2D r_outer, double dx, double dy) {
+		r_outer.setRect( r_outer.getX() - dx / 2 , r_outer.getY() - dy / 2 , r_outer.getWidth() + dx ,
+				r_outer.getHeight() + dy );
+		;
+
+	}
+
 }

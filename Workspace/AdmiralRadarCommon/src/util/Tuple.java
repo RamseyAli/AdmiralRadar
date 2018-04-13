@@ -1,14 +1,14 @@
 package util;
 
-public class Tuple< X , Y > {
+public class Tuple<X, Y> {
 
-	  private X x; 
-	  private Y y; 
-	  
-	  public Tuple(X x, Y y) { 
-	    this.setX(x); 
-	    this.setY(y); 
-	  }
+	private X	x;
+	private Y	y;
+
+	public Tuple(X x, Y y) {
+		this.setX( x );
+		this.setY( y );
+	}
 
 	public Y getY() {
 		return y;
@@ -24,6 +24,6 @@ public class Tuple< X , Y > {
 
 	public void setX(X x) {
 		this.x = x;
-	} 
-	  
+	}
+
 }
