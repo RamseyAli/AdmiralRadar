@@ -353,7 +353,7 @@ public class ShipSystems implements Serializable {
 			// then detonate the mine but don't damage overlapping and/or adjacent ships
 			ship.getShipMines().detonateMine(miss, ships, false);
 			
-			if (miss.equals(ship))
+			if (miss.equals(ship.getPosition()))
 				ship.removeHealth(2);
 			if (miss.isAdjacent(ship.getPosition()))
 				ship.removeHealth(1);
