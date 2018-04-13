@@ -50,7 +50,7 @@ public abstract class MapBasedElement extends ShipPanel{
 		sp = 30;
 
 		try {
-			bi = ImageIO.read( new File( "ship.png" ) );
+			bi = ImageIO.read( new File(GamePreferences.RESOURCES_PATH + "ship.png" ) );
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -80,8 +80,8 @@ public abstract class MapBasedElement extends ShipPanel{
 
 		sp =  (int) ( s / ( GamePreferences.SEG - 1 ) ) ;
 
-		int r = (int) ( sp / 10 );
-		int z = (int) ( sp / (2.0 * r) );
+		int r = (int) ( sp / 5 );
+		int z = (int) ( sp / (1.0 * r) );
 		int w = (int) ( z / 1.5 );
 
 		char c = 'A';
