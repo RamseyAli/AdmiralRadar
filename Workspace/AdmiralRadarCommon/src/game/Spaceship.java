@@ -86,12 +86,20 @@ public class Spaceship implements Serializable, MyPacketable {
 		health = 0;
 		nextDir = Direction.STOP;
 	}
-
+	
+	
 	// Drone //
+	private int getSector(int n, int m)
+	{
+		int secSize;
+		// Note: "GamePreferences.SEG" is the size of the Map //
+		secSize = n / m;
+				
+		return m * ( pos.getY() / secSize ) + ( pos.getX() / secSize );
+	}
 	public boolean checkSector(int guess, int n, int m) // n = dimension of N x N map // m = how many sectors in each row, m x m sectors
 	{
 		int sector;
-		int secSize;
 		boolean systemReady;
 		
 		systemReady = systems.useSystem("Drone");
@@ -104,14 +112,12 @@ public class Spaceship implements Serializable, MyPacketable {
 		{
 			// incorrect dimensions
 		}
-		// Note: "GamePreferences.SEG" is the size of the Map //
-		secSize = n / m;
 		
-		sector = m * ( pos.getY() / secSize ) + ( pos.getX() / secSize );
+		sector = getSector(n, m);
 		
 		if (sector == guess)
 			return true;
-			
+		
 		return false;
 	}
 	// Current sonar implementation //
@@ -130,7 +136,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		randNum = rand.nextInt( n - 1 ); // excludes the correct coordinate
 		
 		// Randomly change 1 of the coordinates to a false coordinate //
-		if (rand.nextInt(1) == 0)
+		if (rand.nextInt(2) == 0)
 		{
 			if (randNum >= pos.getY()) // ensures that the correct coordinate is not returned
 				++randNum;
