@@ -64,17 +64,8 @@ public class ConnectionManager {
 
 	public int loginToServer(String user, String hash) {
 
-		try {
-			byte[] decodedKey = Base64.getDecoder().decode( "p5vVBP2rSX8=" );
-			// using a pre-set key, so we're not generating new keys with every server run.
-			SecretKey key = new SecretKeySpec( decodedKey , 0 , decodedKey.length , "DES" );
-			DesEncrypter encrypter = new DesEncrypter( key );
-			hash = encrypter.encrypt( hash );
-		}
-		catch (Exception ex) {
-			// do nothing (pw not encrypted)
-		}
-
+		hash = encrypt(hash);
+		
 		User u = null;
 		try {
 			u = new User( user , hash );
@@ -107,14 +98,7 @@ public class ConnectionManager {
 	
 	public int registerUserWithServer(String uRL, String user, String hash) {
 		
-		try {
-			byte[] decodedKey = Base64.getDecoder().decode("p5vVBP2rSX8="); //using a pre-set hardcoded key, so we're not generating new keys with every server run.
-			SecretKey key = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
-			DesEncrypter encrypter = new DesEncrypter(key);
-			hash = encrypter.encrypt(hash);
-		} catch (Exception ex) {
-			//do nothing (pw not encrypted)
-		}
+		hash = encrypt(hash);
 
 		User u = null;
 		
@@ -168,6 +152,35 @@ public class ConnectionManager {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+
+	}
+	
+	/*
+	 * 0 - Success
+	 * -1 - ERROR: Invalid PIN
+	 * -2 - ERROR: Misc.
+	 */
+	public int newPassword(int PIN, String user, String password) {
+
+		String hash = encrypt(password);
+		
+		int storedPIN = interrupt.getUser().getPin();
+		
+		if (storedPIN != PIN) {
+			return -1;
+		}
+		
+		interrupt.getUser().setNewPassword(hash);
+
+		try {
+			oos.sendUser( interrupt.getUser() );
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			return -2;
+		}
+		
+		return 0;
 
 	}
 
@@ -317,6 +330,21 @@ public class ConnectionManager {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private String encrypt(String password) {
+		String hash = "";
+		try {
+			byte[] decodedKey = Base64.getDecoder().decode( "p5vVBP2rSX8=" );
+			// using a pre-set key, so we're not generating new keys with every server run.
+			SecretKey key = new SecretKeySpec( decodedKey , 0 , decodedKey.length , "DES" );
+			DesEncrypter encrypter = new DesEncrypter( key );
+			hash = encrypter.encrypt( password );
+		}
+		catch (Exception ex) {
+			// do nothing (pw not encrypted)
+		}
+		return hash;
 	}
 
 }

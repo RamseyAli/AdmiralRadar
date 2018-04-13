@@ -50,7 +50,7 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 
 	// User Info Panel Declarations
 	JLabel	username, wins, losses, avatar;
-	JButton	avatarButton;
+	JButton	avatarButton, resetButton;
 
 	// Game Info Panel Declarations
 	JLabel gameStatus;
@@ -148,18 +148,22 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		avatar.setOpaque( false );
 		avatarButton = new JButton( "Change Avatar" );
 		avatarButton.addActionListener( this );
+		resetButton = new JButton( "Reset Password " );
+		resetButton.addActionListener( this );
 
 		username.setAlignmentX( Component.CENTER_ALIGNMENT );
 		wins.setAlignmentX( Component.CENTER_ALIGNMENT );
 		losses.setAlignmentX( Component.CENTER_ALIGNMENT );
 		avatar.setAlignmentX( Component.CENTER_ALIGNMENT );
 		avatarButton.setAlignmentX( Component.CENTER_ALIGNMENT );
-
+		resetButton.setAlignmentX( Component.CENTER_ALIGNMENT );
+		
 		userTab.add( avatar );
 		userTab.add( username );
 		userTab.add( wins );
 		userTab.add( losses );
 		userTab.add( avatarButton );
+		userTab.add( resetButton );
 
 		// Tabbed Panes
 		tab.add( "Game" , gameTab );
@@ -247,6 +251,40 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		else if (e.getSource() == avatarButton){
 			control.setAvatar(JOptionPane.showInputDialog("Enter URL for new Avatar"));
 			updateUserInfoPanel();
+
+		}
+		else if (e.getSource() == resetButton) {
+			String[] userData = control.getUserInfo();
+			String strPIN = JOptionPane.showInputDialog("Enter your PIN:");
+			int intPIN = -1;
+			try {
+				intPIN = Integer.parseInt(strPIN);
+				if (strPIN.length() != 4) {
+					intPIN = -2; //PIN is not 4 digits
+				}
+			} catch (Exception ex) {
+				intPIN = -1; //Invalid Integer
+			}
+			if (intPIN == -1) {
+				JOptionPane.showMessageDialog(null, "Please provide a valid number!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
+			} else if (intPIN == -2) {
+				JOptionPane.showMessageDialog(null, "Please provide a 4-digit PIN!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
+			} else {
+				JPasswordField pf = new JPasswordField();
+				int okCxl = JOptionPane.showConfirmDialog(null, pf, "New Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				if (okCxl == JOptionPane.OK_OPTION) {
+				  String password = new String(pf.getPassword());
+				  int result = control.resetPassword(intPIN, userData[0], password);
+				  if (result == -1) {
+						JOptionPane.showMessageDialog(null, "The PIN provided does not match the User's PIN!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
+					} else if (result == -2) {
+						JOptionPane.showMessageDialog(null, "There was an error resetting the password", "Misc. Error", JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "Your password was changed successfully!", "Success", JOptionPane.PLAIN_MESSAGE);
+					}
+				}
+			}
 
 		} else if (e.getSource() == reg) {
 			int result = control.newUser( JOptionPane.showInputDialog( "Enter URL for new Avatar" ) , usr.getText() , new String( pwd.getPassword() ) );
