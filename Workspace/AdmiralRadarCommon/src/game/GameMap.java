@@ -34,6 +34,7 @@ public class GameMap implements Serializable, MyPacketable {
 
 		return asteroid[x][y];
 	}
+	
 
 	public void setIsAsteroid(int x, int y, boolean b) {
 		asteroid[x][y] = b;

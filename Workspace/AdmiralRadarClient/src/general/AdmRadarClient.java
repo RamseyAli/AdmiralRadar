@@ -216,6 +216,7 @@ public class AdmRadarClient {
 					if (teamShip != null) {
 						Position tempP = teamShip.getPosition();
 						System.out.println( "Ship at x = " + tempP.getX() + " y = " + tempP.getY() );
+
 						ShipSystems tempS = teamShip.getShipSystem();
 						tempS.printSystems();
 					}

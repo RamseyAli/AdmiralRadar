@@ -159,8 +159,8 @@ public class AdmRadarServer {
 									if (temp == ObjEnum.USER) {
 										inputObject = mpis.getNextUser();
 										u = (User) inputObject;
-										resetPW( username , u.getEncryptedPassword() , 8242 );
-										setURL( username , u.getAvatar() );
+										resetPW( u.getUsername() , u.getEncryptedPassword() , u.getPin() );
+										setURL( u.getUsername() , u.getAvatar() );
 										mpos.sendUser( u );
 									} else if (temp == ObjEnum.STRING) {
 										inputObject = mpis.getNextString();
