@@ -135,7 +135,7 @@ public class ConnectionManager {
 				return -2;
 			} else {
 				//auto-gen PIN
-				return u.getResult();
+				return u.getPin();
 			}
 
 
