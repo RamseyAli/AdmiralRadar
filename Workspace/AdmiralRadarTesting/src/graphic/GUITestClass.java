@@ -17,13 +17,13 @@ public class GUITestClass {
 		new Thread( () -> factory.beginGUI() ).start();
 
 		// Start local test server
-		//TestServerSam ts = new TestServerSam( Role.CAPTAIN );
-		//Thread t = new Thread( ts );
-		//t.start();
+		TestServerSam ts = new TestServerSam( Role.ENGINE );
+		Thread t = new Thread( ts );
+		t.start();
 
-		//( (NetworkPane) factory.getShipPanel() ).cxt.doClick();
-		//( (NetworkPane) factory.getShipPanel() ).log.doClick();
-		//( (NetworkPane) factory.getShipPanel() ).ready.doClick();
+		( (NetworkPane) factory.getShipPanel() ).cxt.doClick();
+		( (NetworkPane) factory.getShipPanel() ).log.doClick();
+		( (NetworkPane) factory.getShipPanel() ).ready.doClick();
 
 		Thread.sleep( 100000 );
 		System.exit( 1 );
