@@ -120,6 +120,7 @@ public class ConnectionManager {
 		
 		try {
 			u = new User(user, hash);
+			u.setAvatar(uRL);
 			oos.sendUser(u);
 			System.out.println("Client has sent u");
 			u = ois.getNextUser();
@@ -127,10 +128,10 @@ public class ConnectionManager {
 
 			interrupt.setUser(u);
 
-			if (u.getResult() == -1) {
+			if (u.getPin() == -1) {
 				//Username in-use
 				return -1;
-			} else if (u.getResult() == -2) {
+			} else if (u.getPin() == -2) {
 				//Misc. error
 				return -2;
 			} else {
