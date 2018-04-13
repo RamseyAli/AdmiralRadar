@@ -85,4 +85,14 @@ public class User implements Serializable, MyPacketable {
 	public void setPin(int pin) {
 		this.pin = pin;
 	}
+	
+	public void printDetails() {
+		System.out.println( "Details:" );
+		System.out.println( username );
+		System.out.println( password_enc );
+		System.out.println( pin );
+		System.out.println( wins );
+		System.out.println( loss );
+		System.out.println( avatar );
+	}
 }
