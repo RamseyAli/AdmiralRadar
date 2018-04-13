@@ -112,13 +112,8 @@ public class AdmRadarClient {
 				teamShip = (Spaceship) mainClient.objInput.readUnshared();
 				if (teamShip != null) {
 					Position temp = teamShip.getPosition();
-<<<<<<< HEAD
-					System.out.println("Ship at x = "+temp.getX()+" y = "+temp.getY());
-					System.out.println("Ship path :"+teamShip.getPath());
-=======
 					System.out.println( "Ship at x = " + temp.getX() + " y = " + temp.getY() );
 					System.out.println( "Ship path :" + teamShip.getPath() );
->>>>>>> 0b818083f574a4c44f0ff8c0d26ac80b76d5340e
 				}
 			}
 		}
@@ -197,13 +192,8 @@ public class AdmRadarClient {
 					teamShip = (Spaceship) is.readUnshared();
 					if (teamShip != null) {
 						Position temp = teamShip.getPosition();
-<<<<<<< HEAD
-						System.out.println("Ship at x = "+temp.getX()+" y = "+temp.getY());
-						System.out.println("Ship path :"+teamShip.getPath());
-=======
 						System.out.println( "Ship at x = " + temp.getX() + " y = " + temp.getY() );
 						System.out.println( "Ship path :" + teamShip.getPath() );
->>>>>>> 0b818083f574a4c44f0ff8c0d26ac80b76d5340e
 					}
 				}
 			} else if (fromUser.equals( "First Officer" )) {
@@ -225,11 +215,8 @@ public class AdmRadarClient {
 					teamShip = (Spaceship) is.readUnshared();
 					if (teamShip != null) {
 						Position tempP = teamShip.getPosition();
-<<<<<<< HEAD
-						System.out.println("Ship at x = "+tempP.getX()+" y = "+tempP.getY());
-=======
 						System.out.println( "Ship at x = " + tempP.getX() + " y = " + tempP.getY() );
->>>>>>> 0b818083f574a4c44f0ff8c0d26ac80b76d5340e
+
 						ShipSystems tempS = teamShip.getShipSystem();
 						tempS.printSystems();
 					}
