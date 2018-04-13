@@ -220,6 +220,7 @@ public class ObjectiveMultithreadedTestServer {
 
 
 
+		@SuppressWarnings("unused")
 		private void completeShipActions(Spaceship main , Spaceship first, Spaceship engine) {
 			// TODO Merge actions of First and Engineering Officers. Should also analyze EO's circuits. Apply these ALL to the "main" Spaceship object.
 
@@ -255,6 +256,7 @@ public class ObjectiveMultithreadedTestServer {
 
 	private GameMap map;
 	private Spaceship[] ship = new Spaceship[2];
+	@SuppressWarnings("unused")
 	private boolean game = true; //game is running
 
 	public ObjectiveMultithreadedTestServer(){
