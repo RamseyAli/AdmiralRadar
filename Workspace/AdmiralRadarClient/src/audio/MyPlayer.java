@@ -20,21 +20,19 @@ public class MyPlayer extends Application{
         
 	}
 	
-	
 	public void setString(String s){
 		name = s;
 	}
 	
-	
 	public void play() {
-
-        mp.play();
-    }
+		mp.play();
+	}
+    
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
        
 	}
-
+	
 }

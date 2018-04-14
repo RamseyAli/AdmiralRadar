@@ -87,7 +87,35 @@ public class Spaceship implements Serializable, MyPacketable {
 		nextDir = Direction.STOP;
 	}
 	
+	/* TACTICAL SYSTEMS */
+	public void placeMine(Position min) {
+		if (systems.useSystem("Mine"))
+			shipMines.addMine(min);
+	}
 	
+	public boolean hasPlacedMines() {
+		return shipMines.getMines().size() > 0;
+	}
+	
+	public void launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
+		if (!systems.useSystem( "Missile" )) return;
+
+		for (Spaceship ship : ships) {
+			// If a mine exists in the same position as the launched missile,
+			// then detonate the mine but don't damage overlapping and/or adjacent ships
+			
+			if (miss.equals(ship.getPosition()))
+				ship.removeHealth(2);
+			if (miss.isAdjacent(ship.getPosition()))
+				ship.removeHealth(1);
+
+			ship.getShipMines().detonateMine( miss , ships , false );
+
+		}
+
+		// missile[CHARGED_STATUS] = NOT_CHARGED;
+		// missile[POWER_LEVEL] = 0;
+	}
 	// Drone //
 	private int getSector(int n, int m)
 	{
