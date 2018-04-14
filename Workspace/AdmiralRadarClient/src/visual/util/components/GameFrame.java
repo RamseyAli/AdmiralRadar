@@ -35,7 +35,9 @@ public class GameFrame extends JFrame implements ComponentListener {
 		private static final long serialVersionUID = 1L;
 
 		public MainPane() {
+			System.out.println(  GamePreferences.RESOURCES_PATH + IMAGE );
 			img = new ImageIcon( GamePreferences.RESOURCES_PATH + IMAGE ).getImage();
+			System.out.println( img );
 		}
 
 		protected void paintComponent(Graphics g) {
