@@ -8,7 +8,7 @@ public class SoundTestClass{
 	public static void main(String[] args) {
 		
 		
-		SoundManager.startRoleTrack( Role.NETWORK );
+	SoundManager.startRoleTrack( Role.RADIO );
 		
 	}
 

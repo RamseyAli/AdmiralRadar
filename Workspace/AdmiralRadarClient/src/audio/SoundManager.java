@@ -1,30 +1,25 @@
 package audio;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import game.Role;
-import javafx.application.Application;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
-import pref.GamePreferences;
 
 public class SoundManager {
 
-	
-	private static MyPlayer sound = new MyPlayer("pit");
+	private static Map<Role, MyPlayer> players; 
 	
 	static{
-		
-		Application.launch(  );
+		players = new HashMap<Role, MyPlayer>();
+		players.put( Role.CAPTAIN , new MyPlayer(Role.CAPTAIN.name()) );
+		players.put( Role.FIRST , new MyPlayer(Role.FIRST.name()) );
+		players.put( Role.ENGINE , new MyPlayer(Role.ENGINE.name()) );
+		players.put( Role.NETWORK , new MyPlayer(Role.NETWORK.name()) );
+		players.put( Role.RADIO , new MyPlayer(Role.RADIO.name()) );
 	}
 	
 	public static void startRoleTrack(Role r) {
-
-		sound.playTrack();
-		
-	}
-
-	public static void startTrack(int t) {
-
+		players.get( r ).play();
 	}
 
 	public static void playSoundEffect(int t) {
