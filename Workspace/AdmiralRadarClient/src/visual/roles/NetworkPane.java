@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -191,8 +192,12 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		// Load Avatar Image
 		try {
 			int x = (int) ( usr.getWidth() / 2.25f );
-
-			BufferedImage bi = ImageIO.read( new URL( userData[3] ) );
+			
+			URL url = new URL(userData[3]);
+			URLConnection uc;
+			uc = url.openConnection();
+			uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");	//spoof the image request
+			BufferedImage bi = ImageIO.read( uc.getInputStream() );
 			Image imageIcon = bi.getScaledInstance( x , (int) ( ( bi.getHeight() * x ) / ( (float) bi.getWidth() ) ) ,
 					Image.SCALE_DEFAULT );
 			avatar.setIcon( new ImageIcon( imageIcon ) );
@@ -249,51 +254,102 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 			
 		}
 		else if (e.getSource() == avatarButton){
-			control.setAvatar(JOptionPane.showInputDialog("Enter URL for new Avatar"));
-			updateUserInfoPanel();
+			String StringURL = JOptionPane.showInputDialog("Enter URL for new Avatar");
+			
+			//if they did not press the 'Cancel' button'
+			if (StringURL != null) {
+				//URL needs to have http(s):// to be considered a valid URL
+				if (!StringURL.contains("http://") && !StringURL.contains("https://")) {
+					StringURL = "http://" + StringURL;	//shouldn't assume https, thus use http for default
+				}
+				try {
+					URL url = new URL(StringURL);
+					URLConnection uc;
+					uc = url.openConnection();
+					uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");	//spoof the image request
+					Image image = ImageIO.read(uc.getInputStream());
+					if(image != null) {	//if not null, it was a valid image url
+						control.setAvatar(StringURL);
+						updateUserInfoPanel();
+					}else{
+						JOptionPane.showMessageDialog(null, "Please provide a valid direct image URL!", "Invalid Avatar", JOptionPane.ERROR_MESSAGE); 
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Please provide a valid URL!", "Invalid Avatar", JOptionPane.ERROR_MESSAGE); 
+				}
+			}
 
 		}
 		else if (e.getSource() == resetButton) {
 			String[] userData = control.getUserInfo();
 			String strPIN = JOptionPane.showInputDialog("Enter your PIN:");
-			int intPIN = -1;
-			try {
-				intPIN = Integer.parseInt(strPIN);
-				if (strPIN.length() != 4) {
-					intPIN = -2; //PIN is not 4 digits
+			
+			//if they did not press the 'Cancel' button'
+			if (strPIN != null) {
+				
+				int intPIN = -1;
+				try {
+					intPIN = Integer.parseInt(strPIN);
+					if (strPIN.length() != 4) {
+						intPIN = -2; //PIN is not 4 digits
+					}
+				} catch (Exception ex) {
+					intPIN = -1; //Invalid Integer
 				}
-			} catch (Exception ex) {
-				intPIN = -1; //Invalid Integer
-			}
-			if (intPIN == -1) {
-				JOptionPane.showMessageDialog(null, "Please provide a valid number!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
-			} else if (intPIN == -2) {
-				JOptionPane.showMessageDialog(null, "Please provide a 4-digit PIN!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
-			} else {
-				JPasswordField pf = new JPasswordField();
-				int okCxl = JOptionPane.showConfirmDialog(null, pf, "New Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-				if (okCxl == JOptionPane.OK_OPTION) {
-				  String password = new String(pf.getPassword());
-				  int result = control.resetPassword(intPIN, userData[0], password);
-				  if (result == -1) {
-						JOptionPane.showMessageDialog(null, "The PIN provided does not match the User's PIN!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
-					} else if (result == -2) {
-						JOptionPane.showMessageDialog(null, "There was an error resetting the password", "Misc. Error", JOptionPane.ERROR_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null, "Your password was changed successfully!", "Success", JOptionPane.PLAIN_MESSAGE);
+				if (intPIN == -1) {
+					JOptionPane.showMessageDialog(null, "Please provide a valid number!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
+				} else if (intPIN == -2) {
+					JOptionPane.showMessageDialog(null, "Please provide a 4-digit PIN!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
+				} else {
+					JPasswordField pf = new JPasswordField();
+					int okCxl = JOptionPane.showConfirmDialog(null, pf, "New Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+	
+					if (okCxl == JOptionPane.OK_OPTION) {
+					  String password = new String(pf.getPassword());
+					  int result = control.resetPassword(intPIN, userData[0], password);
+					  if (result == -1) {
+							JOptionPane.showMessageDialog(null, "The PIN provided does not match the User's PIN!", "Invalid PIN", JOptionPane.ERROR_MESSAGE);
+						} else if (result == -2) {
+							JOptionPane.showMessageDialog(null, "There was an error resetting the password", "Misc. Error", JOptionPane.ERROR_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Your password was changed successfully!", "Success", JOptionPane.PLAIN_MESSAGE);
+						}
 					}
 				}
 			}
 
 		} else if (e.getSource() == reg) {
-			int result = control.newUser( JOptionPane.showInputDialog( "Enter URL for new Avatar" ) , usr.getText() , new String( pwd.getPassword() ) );
-			if (result == -1) {
-				JOptionPane.showMessageDialog(null, "This username is already in use!", "Invalid Username", JOptionPane.ERROR_MESSAGE);
-			} else if (result == -2) {
-				JOptionPane.showMessageDialog(null, "There is an error in the registration process!", "Error", JOptionPane.ERROR_MESSAGE);
-			} else {
-				JOptionPane.showMessageDialog(null, "Registration Successful! Your recovery PIN is: " + String.format("%04d", result), "Success", JOptionPane.PLAIN_MESSAGE);
+			String StringURL = JOptionPane.showInputDialog("Enter URL for new Avatar");
+			
+			//if they did not press the 'Cancel' button'
+			if (StringURL != null) {
+				//URL needs to have http(s):// to be considered a valid URL
+				if (!StringURL.contains("http://") && !StringURL.contains("https://")) {
+					StringURL = "http://" + StringURL;	//shouldn't assume https, thus use http for default
+				}
+				try {
+					URL url = new URL(StringURL);
+					URLConnection uc;
+					uc = url.openConnection();
+					uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");	//spoof the image request
+					Image image = ImageIO.read(uc.getInputStream());
+					if(image == null) {	//if not null, it was a valid image url
+						
+						int result = control.newUser( StringURL , usr.getText() , new String( pwd.getPassword() ) );
+						if (result == -1) {
+							JOptionPane.showMessageDialog(null, "This username is already in use!", "Invalid Username", JOptionPane.ERROR_MESSAGE);
+						} else if (result == -2) {
+							JOptionPane.showMessageDialog(null, "There is an error in the registration process!", "Error", JOptionPane.ERROR_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Registration Successful! Your recovery PIN is: " + String.format("%04d", result), "Success", JOptionPane.PLAIN_MESSAGE);
+						}
+						
+					}else{
+						JOptionPane.showMessageDialog(null, "Please provide a valid direct image URL!", "Invalid Avatar", JOptionPane.ERROR_MESSAGE); 
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Please provide a valid URL!", "Invalid Avatar", JOptionPane.ERROR_MESSAGE); 
+				}
 			}
 
 		} else if (e.getSource() == ready) {

@@ -18,7 +18,7 @@ public class Spaceship implements Serializable, MyPacketable {
 	private ShipSystems		systems;
 
 	private static final long serialVersionUID = 1L;
-
+	private static Random rand = new Random();
 	private Direction nextDir;
 
 	public Spaceship() {
@@ -149,22 +149,66 @@ public class Spaceship implements Serializable, MyPacketable {
 		return false;
 	}
 	// Current sonar implementation //
-	public Position randomSonar(int n) // n = dimension of map
+	// Will return array of 3 integers, representing X, Y, and Sector of ship //
+	// The non-returned value is -1 //
+	public int[] randomSonar(int n, int m) // n = dimension of map
 	{
+		int randNum, lie;
+		int ans[] = new int[3];
+		int indices[] = new int [2]; // 2 indices corresponding to returned vals // 0=x, 1=y, 2=sector
 		Position answer = new Position(); // return value
-		Random rand = new Random();
-		int randNum;
 		
-		if (n < 1)
+		
+		if (n < 1 || m < 1)
 		{
 			// TODO: handle error
 		}
 		
-		answer.setPosition( pos.getX(), pos.getY() );
+		// Correct info //
+		ans[0] = pos.getX();
+		ans[1] = pos.getY();
+		ans[2] = getSector(n, m);
+		
+		//answer.setPosition( pos.getX(), pos.getY() );
+		
+		randNum = rand.nextInt(3);
+		switch (randNum)
+		{
+			case 0:
+				indices[0] = 1;
+				indices[1] = 2;
+				break;
+			case 1:
+				indices[0] = 0;
+				indices[1] = 2;
+				break;
+			case 2:
+				indices[0] = 0;
+				indices[1] = 1;
+				break;
+			default: break;
+		}
+		
+		ans[randNum] = -1;
+		
+		lie = indices[randNum = rand.nextInt(2)]; // which value to change
+		
+		switch(lie)
+		{
+			case 0:
+			case 1:
+				
+				break;
+			case 2:
+				
+				break;
+			default: break;
+		}
+		
 		randNum = rand.nextInt( n - 1 ); // excludes the correct coordinate
 		
 		// Randomly change 1 of the coordinates to a false coordinate //
-		if (rand.nextInt(2) == 0)
+		if (rand.nextInt(2) == 1)
 		{
 			if (randNum >= pos.getY()) // ensures that the correct coordinate is not returned
 				++randNum;
@@ -179,7 +223,7 @@ public class Spaceship implements Serializable, MyPacketable {
 			answer.setX( randNum );	
 		}
 		
-		return answer;
+		return ans;
 	}
 	
 	public void printShip() // For testing purposes
