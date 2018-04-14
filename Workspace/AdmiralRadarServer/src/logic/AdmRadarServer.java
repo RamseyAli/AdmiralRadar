@@ -9,7 +9,7 @@ import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import net.ObjEnum;
 import ops.User;
-import pref.GamePreferences;
+import static pref.GamePreferences.*;
 
 import static database.dbQuery.*;
 
@@ -58,6 +58,8 @@ public class AdmRadarServer {
 
 		public boolean processSpecialAction(String action) {
 			if (action.equalsIgnoreCase( "Spacewalk" )) {
+				int teamRealNo = teamNo + 1;
+				sendGlobalMessage("SERVER", "Team "+teamRealNo+" conducting spacewalk");
 				gameShip.get( teamNo ).restoreSystems();
 				turnMiss = 3;
 				if(turn == 0) {
@@ -67,46 +69,34 @@ public class AdmRadarServer {
 				}
 				return true;
 			} else if (action.contains( "Drone" )) {
-				// TODO: Required input - Sector Guess (of activating team) - n (map dimension) - m (sector dimension) //
-
-				int targetTeamNo, sector;
-				int placeholderM = 3, placeholderGuesss = 0; // placeholders for the sector dimension and the sector guess
+				String args [] = action.split(" ");
 				
-				Spaceship targetShip;
-
-				// Insert Drone action //
-				if (teamNo == 1) // Ideally targets team other than user of Drone
-					targetTeamNo = 0;
-				else 
-					targetTeamNo = 1;
-
-				targetShip = gameShip.get( targetTeamNo );
+				int sectorGuess = Integer.parseInt(args[1]);
+				boolean result;
 				
-				// TODO: Calculate sector based on coordinates //
-				// Note: "GamePreferences.SEG" is the size of the Map //
-				// Position pos = targetShip.getPosition();
-				// sector = 3 * ( pos.getY() / 5 ) + ( pos.getX() / 5 );
-				
-				// TODO: Communicate info to client //
-				/*if (targetShip.checkSector(placeholderGuess, GamePreferences.SEG, placeholderM))
-				{
-					// guess correct
+				if (teamNo == 1) {
+					sendGlobalMessage("SERVER","Drone activated by team 2");
+					result = gameShip.get(0).checkSector(sectorGuess, SEG, SEC);
+				} else {
+					sendGlobalMessage("SERVER","Drone activated by team 1");
+					result = gameShip.get(1).checkSector(sectorGuess, SEG, SEC);
 				}
-				else
-				{
-					
-				}*/
-
-				return true;
-			} else if (action.equalsIgnoreCase( "Sonar" )) {
+				
+				if (result) {
+					sendTeamMessage("SERVER","Opponent ship located in Sector "+sectorGuess,teamNo);
+					return true;
+				}
+				else {
+					sendTeamMessage("SEVER","Opponent ship not in Sector "+sectorGuess,teamNo);
+					return false;
+				}
+			} else if (action.contains( "Sonar" )) {
 				int targetTeam;
 				Spaceship targetShip;
 
 				return true; // placeholder return
 
 			} else return false;
-			
-			//return false; // failsafe
 		}
 
 		public void run() {
@@ -379,7 +369,7 @@ public class AdmRadarServer {
 		gameOngoing = false;
 		turn = 0;
 		nPlayers = 0;
-		new AdmRadarServer().go( GamePreferences.getPort() );
+		new AdmRadarServer().go( getPort() );
 
 	}
 
@@ -390,7 +380,7 @@ public class AdmRadarServer {
 		gameOngoing = false;
 		turn = 0;
 		nPlayers = 0;
-		go( GamePreferences.getPort() );
+		go( getPort() );
 	}
 
 	public void go(int port) {
