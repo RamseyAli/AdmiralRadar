@@ -159,7 +159,7 @@ public class Spaceship implements Serializable, MyPacketable {
 	// Current sonar implementation //
 	// Will return array of 3 integers, representing X, Y, and Sector of ship //
 	// The non-returned value is -1 //
-	public int[] randomSonar(int n, int m) // n = dimension of map
+	public int[] randomRadar(int n, int m) // n = dimension of map
 	{
 		int randNum, lie, correctVal;
 		int ans[] = new int[3];
