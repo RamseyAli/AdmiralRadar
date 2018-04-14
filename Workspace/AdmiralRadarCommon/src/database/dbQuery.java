@@ -35,14 +35,22 @@ public class dbQuery {
 		}
 
 	
-
-	public static dbQuery query(String query) {
+	/*
+	 * For 'int db':
+	 * 1 - User DB
+	 * 2 - Chat DB
+	 */
+	public static dbQuery query(String query, int db) {
 
 		Connection conn = null;
 
 		try {
-
-			String url = "jdbc:mysql://radar.c87i64zdxk4i.us-east-2.rds.amazonaws.com:3306/AdmiralRadar?verifyServerCertificate=false&useSSL=true&requireSSL=true";
+			String url;
+			if (db == 1) {
+				url = "jdbc:mysql://radar.c87i64zdxk4i.us-east-2.rds.amazonaws.com:3306/AdmiralRadar?verifyServerCertificate=false&useSSL=true&requireSSL=true";
+			} else {
+				url = "jdbc:mysql://radarchat.c87i64zdxk4i.us-east-2.rds.amazonaws.com:3306/AdmiralRadarChat?verifyServerCertificate=false&useSSL=true&requireSSL=true";
+			}
 			Properties info = new Properties();
 			info.put( "user" , "api_user" );
 			info.put( "password" , "password1234" );
@@ -87,7 +95,7 @@ public class dbQuery {
 	 */
 	public static int login(String user, String pw) {
 
-		dbQuery DBobj = query( "SELECT USERNAME, PASSWORD FROM USER" );
+		dbQuery DBobj = query( "SELECT USERNAME, PASSWORD FROM USER", 1 );
 
 		try {
 			while (DBobj.rs.next()) {
@@ -116,7 +124,7 @@ public class dbQuery {
 	 */
 	public static int resetPW(String user, String pw, int pin) {
 
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" );
+		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER", 1 );
 
 		try {
 			while (DBobj.rs.next()) {
@@ -156,7 +164,7 @@ public class dbQuery {
 	 */
 	public static int setURL(String user, String url) {
 
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER", 1 ); // just to init obj.
 		String query = "UPDATE USER SET AVATAR = ? WHERE USERNAME = ?";
 
 		try {
@@ -181,7 +189,7 @@ public class dbQuery {
 	 */
 	public static String getURL(String user) {
 
-		dbQuery DBobj = query( "SELECT USERNAME, AVATAR FROM USER" );
+		dbQuery DBobj = query( "SELECT USERNAME, AVATAR FROM USER", 1 );
 
 		try {
 			while (DBobj.rs.next()) {
@@ -206,7 +214,7 @@ public class dbQuery {
 	 */
 	public static int getWins(String user) {
 
-		dbQuery DBobj = query( "SELECT USERNAME, WINS FROM USER" );
+		dbQuery DBobj = query( "SELECT USERNAME, WINS FROM USER", 1 );
 
 		try {
 			while (DBobj.rs.next()) {
@@ -230,7 +238,7 @@ public class dbQuery {
 	 */
 	public static int getLosses(String user) {
 
-		dbQuery DBobj = query( "SELECT USERNAME, LOSSES FROM USER" );
+		dbQuery DBobj = query( "SELECT USERNAME, LOSSES FROM USER", 1 );
 
 		try {
 			while (DBobj.rs.next()) {
@@ -253,7 +261,7 @@ public class dbQuery {
 	 * Returns a List of formatted messages
 	 */
 	public static List<String> getTeamMessages(int teamID) {
-		dbQuery DBobj = query( "SELECT USERNAME, TIMESTAMP, MESSAGE, TEAM_ID FROM TEAM_CHAT" );
+		dbQuery DBobj = query( "SELECT USERNAME, TIMESTAMP, MESSAGE, TEAM_ID FROM TEAM_CHAT", 2 );
 
 		List<String> messages = new ArrayList<String>();
 
@@ -282,7 +290,7 @@ public class dbQuery {
 	 * Returns a List of formatted messages
 	 */
 	public static List<String> getGlobalMessages() {
-		dbQuery DBobj = query( "SELECT USERNAME, TIMESTAMP, MESSAGE FROM GLOBAL_CHAT" );
+		dbQuery DBobj = query( "SELECT USERNAME, TIMESTAMP, MESSAGE FROM GLOBAL_CHAT", 2 );
 
 		List<String> messages = new ArrayList<String>();
 
@@ -309,7 +317,7 @@ public class dbQuery {
 	 * Returns a true boolean on successful message entry
 	 */
 	public static boolean sendTeamMessage(String username, String message, int teamID) {
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, TIMESTAMP, MESSAGE FROM TEAM_CHAT", 2 ); // just to init obj.
 		String query = "INSERT INTO TEAM_CHAT (USERNAME, MESSAGE, TEAM_ID) VALUES (?,?,?)";
 
 		try {
@@ -333,7 +341,7 @@ public class dbQuery {
 	 * Returns a true boolean on successful message entry
 	 */
 	public static boolean sendGlobalMessage(String username, String message) {
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, TIMESTAMP, MESSAGE FROM GLOBAL_CHAT", 2 ); // just to init obj.
 		String query = "INSERT INTO GLOBAL_CHAT (USERNAME, MESSAGE) VALUES (?,?)";
 
 		try {
@@ -356,7 +364,7 @@ public class dbQuery {
 	 * Returns a true boolean on successful chat wipe
 	 */
 	public static boolean clearTeamMessages() {
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, TIMESTAMP, MESSAGE FROM TEAM_CHAT", 2 ); // just to init obj.
 		String query = "TRUNCATE TEAM_CHAT";
 
 		try {
@@ -376,7 +384,7 @@ public class dbQuery {
 	 * Returns a true boolean on successful chat wipe
 	 */
 	public static boolean clearGlobalMessages() {
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, TIMESTAMP, MESSAGE FROM GLOBAL_CHAT", 2 ); // just to init obj.
 		String query = "TRUNCATE GLOBAL_CHAT";
 
 		try {
@@ -396,7 +404,7 @@ public class dbQuery {
 	 * >0 - the user's team_id 0 - this user is not assigned to a team -1 - this user could not be found
 	 */
 	public static int getTeamID(String username) {
-		dbQuery DBobj = query( "SELECT TEAM_ID, USERNAME FROM USER" );
+		dbQuery DBobj = query( "SELECT TEAM_ID, USERNAME FROM USER", 1 );
 
 		try {
 			while (DBobj.rs.next()) {
@@ -427,7 +435,7 @@ public class dbQuery {
 	 * Will return true boolean upon successful update - if false, check that username and teamID exist
 	 */
 	public static boolean setTeamID(String username, int teamID) {
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER", 1 ); // just to init obj.
 		String query = "UPDATE USER SET TEAM_ID = ? WHERE USERNAME = ?";
 
 		try {
@@ -450,7 +458,7 @@ public class dbQuery {
 	 * Will return true boolean upon success TeamID reset
 	 */
 	public static boolean resetTeamID(String username) {
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER", 1 ); // just to init obj.
 		String query = "UPDATE USER SET TEAM_ID = NULL WHERE USERNAME = ?";
 
 		try {
@@ -471,7 +479,7 @@ public class dbQuery {
 	 * >=0 - Returns value of team's health -1 - Could not find team with this ID
 	 */
 	public static int getTeamHealth(int teamID) {
-		dbQuery DBobj = query( "SELECT HEALTH FROM TEAM" );
+		dbQuery DBobj = query( "SELECT HEALTH FROM TEAM", 1 );
 
 		try {
 			while (DBobj.rs.next()) {
@@ -495,7 +503,7 @@ public class dbQuery {
 	 * Will return true boolean upon successful health update
 	 */
 	public static boolean setTeamHealth(int teamID, int health) {
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER", 1 ); // just to init obj.
 		String query = "UPDATE TEAM SET HEALTH = ? WHERE ID = ?";
 
 		try {
@@ -534,7 +542,7 @@ public class dbQuery {
 			}
 		}
 
-		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" ); // just to init obj.
+		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER" , 1); // just to init obj.
 
 		String query = "INSERT INTO USER (USERNAME, PASSWORD, AVATAR, PIN) VALUES (?,?,?, ?)";
 
@@ -563,7 +571,7 @@ public class dbQuery {
 	 * Self-explanatory on what it returns.
 	 */
 	public static boolean userExists(String username) {
-		dbQuery DBobj = query("SELECT * FROM USER WHERE USERNAME = \"" + username + "\"");
+		dbQuery DBobj = query("SELECT * FROM USER WHERE USERNAME = \"" + username + "\"", 1);
 		
 		try {
 			while (DBobj.rs.next()) {
@@ -585,7 +593,7 @@ public class dbQuery {
 	 * -1 - Misc. Error
 	 */
 	public static int getUserPIN(String username) {
-		dbQuery DBobj = query("SELECT PIN FROM USER WHERE USERNAME = \"" + username + "\"");
+		dbQuery DBobj = query("SELECT PIN FROM USER WHERE USERNAME = \"" + username + "\"", 1);
 		
 		try {
 			while (DBobj.rs.next()) {
