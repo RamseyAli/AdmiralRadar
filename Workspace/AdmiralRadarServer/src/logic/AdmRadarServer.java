@@ -119,7 +119,7 @@ public class AdmRadarServer {
 					int teamRealNo = teamNo + 1;
 					
 					sendGlobalMessage("SERVER","Mine blasted by team "+teamRealNo);
-					gameShip.get(teamNo).blastMine(mineNo, gameShip);
+					gameShip = gameShip.get(teamNo).blastMine(mineNo, gameShip);
 					
 					sendTeamMessage("SERVER", "Mine "+args[1]+" blasted",teamNo);
 				}
@@ -129,10 +129,10 @@ public class AdmRadarServer {
 				Position missilePos = new Position(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
 				if (teamNo == 1) {
 					sendGlobalMessage("SERVER","Missile deployed by team 2");
-					gameShip.get(0).launchMissile(missilePos, gameShip);
+					gameShip = gameShip.get(0).launchMissile(missilePos, gameShip);
 				} else {
 					sendGlobalMessage("SERVER","Missile deployed by team 1");
-					//result = gameShip.get(1).checkSector(sectorGuess, SEG, SEC);
+					gameShip = gameShip.get(0).launchMissile(missilePos, gameShip);
 				}
 					
 				sendTeamMessage("SERVER", "Missile blasted at ("+args[1]+","+args[2]+")",teamNo);
