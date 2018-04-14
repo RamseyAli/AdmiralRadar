@@ -508,5 +508,10 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		usr.setText( s );
 
 	}
+	
+	public void setPassword(String s) {
+		pwd.setText( s );
+
+	}
 
 }

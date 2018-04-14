@@ -1,8 +1,17 @@
 package visual.common;
 
+import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import pref.VisualPreferences;
 import visual.roles.elements.ChatTextPane;
@@ -13,12 +22,34 @@ import visual.util.operations.GUIController;
 public class ChatPane extends ShipPanel implements ActionListener {
 
 	ChatTextPane chat;
+	JLabel avatar;
 
 	public ChatPane(GUIController ctr) {
 		super( ctr );
 
 		chat = new ChatTextPane();
-		add( chat );
+		avatar = new JLabel();
+		/*
+		int x = 1;
+			
+		try {
+			String[] userData = ctr.getUserInfo();
+			URL url = new URL(userData[3]);
+			URLConnection uc;
+			uc = url.openConnection();
+			uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");	//spoof the image request
+			BufferedImage bi = ImageIO.read( uc.getInputStream() );
+			Image imageIcon = bi.getScaledInstance( x , (int) ( ( bi.getHeight() * x ) / ( (float) bi.getWidth() ) ) ,
+					Image.SCALE_DEFAULT );
+			avatar.setIcon( new ImageIcon( imageIcon ) );
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		avatar.setAlignmentX( Component.CENTER_ALIGNMENT );
+		
+		add( avatar );
+		add( chat );*/
 	}
 
 	/**
