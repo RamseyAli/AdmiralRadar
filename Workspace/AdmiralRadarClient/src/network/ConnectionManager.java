@@ -286,10 +286,8 @@ public class ConnectionManager {
 
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
 		oos.sendPosition( start );
-		System.out.println( ois.getClassOfNext() );
-		System.out.println( ois.getNextString() );
-		System.out.println( ois.getClassOfNext() );
 		interrupt.setSpaceship( ois.getNextSpaceship() );
+		
 
 	}
 
@@ -345,6 +343,16 @@ public class ConnectionManager {
 			// do nothing (pw not encrypted)
 		}
 		return hash;
+	}
+
+	public void sendAction(Systems sys) {
+		try {
+			oos.sendSystem( sys );
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
