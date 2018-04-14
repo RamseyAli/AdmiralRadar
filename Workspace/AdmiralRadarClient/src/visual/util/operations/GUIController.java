@@ -13,6 +13,7 @@ import game.GameMap;
 import game.Position;
 import game.Role;
 import game.Spaceship;
+import game.Systems;
 import network.ConnectionManager;
 import ops.User;
 import visual.roles.NetworkPane;
@@ -172,7 +173,7 @@ public class GUIController {
 		
 	}
 
-	public void charge(String name) {
+	public void charge( Systems name ) {
 		s.getShipSystem().chargeSystem( name );
 		cm.sendChargeCommand(name);
 		

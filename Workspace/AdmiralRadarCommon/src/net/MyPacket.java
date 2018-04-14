@@ -41,6 +41,9 @@ public class MyPacket implements Serializable {
 			case "SendablePath":
 				objectClass = ObjEnum.PATH;
 				break;
+			case "System":
+				objectClass = ObjEnum.SYSTEM;
+				break;
 			default:
 				throw new UnknownFormatConversionException( "X" );
 		}

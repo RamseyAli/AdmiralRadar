@@ -23,7 +23,7 @@ public class MineController implements Serializable {
 		mines.add( p );
 		return true;
 	}
-
+	
 	public boolean isMine(Position p) {
 		for (Position currentMine : mines) {
 			if (currentMine.equals( p )) return true;

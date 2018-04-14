@@ -3,6 +3,7 @@ package helpers;
 import game.Direction;
 import game.GameMap;
 import game.Spaceship;
+import game.Systems;
 
 public class AdmRadarProtocol {
 	@SuppressWarnings("unused")
@@ -25,30 +26,35 @@ public class AdmRadarProtocol {
 		return ship;
 	}
 	
-	public Spaceship processCommands(String command, Spaceship ship) {
+	public Spaceship processCommands(Systems command, Spaceship ship) {
 		if (ship == null) return null;
 
 		NUMCOMMANDS++;
-		if (command.equalsIgnoreCase( "Sonar" )) {
-			ship.getShipSystem().chargeSystem( "Sonar" );
-		} else if (command.equalsIgnoreCase( "Missile" )) {
-			ship.getShipSystem().chargeSystem( "Missile" );
-		} else if (command.equalsIgnoreCase( "Mine" )) {
-			ship.getShipSystem().chargeSystem( "Mine" );
+		if (command == Systems.RADAR) {
+			ship.getShipSystem().chargeSystem( Systems.RADAR );
+		} else if (command == Systems.MISSILE) {
+			ship.getShipSystem().chargeSystem( Systems.MISSILE );
+		} else if (command == Systems.MINE) {
+			ship.getShipSystem().chargeSystem( Systems.MINE );
 			;
-		} else if (command.equalsIgnoreCase( "Drone" )) {
-			ship.getShipSystem().chargeSystem( "Drone" );
-		} else if (command.equalsIgnoreCase( "Silent" )) {
-			ship.getShipSystem().chargeSystem( "Silent" );
-		} else if (command.equals( "0" ) || command.equals( "1" ) || command.equals( "2" ) || command.equals( "3" )
-				|| command.equals( "4" ) || command.equals( "5" ) || command.equals( "6" ) || command.equals( "7" )
-				|| command.equals( "8" ) || command.equals( "9" ) || command.equals( "10" ) || command.equals( "11" )
-				|| command.equals( "12" ) || command.equals( "13" ) || command.equals( "14" ) || command.equals( "15" )
-				|| command.equals( "16" ) || command.equals( "17" ) || command.equals( "18" ) || command.equals( "19" )
-				|| command.equals( "20" ) || command.equals( "21" ) || command.equals( "22" )
-				|| command.equals( "23" )) {
-			ship.getShipSystem().disableSystemComponent( Integer.parseInt( command ) );
-		} else if (command.equalsIgnoreCase( "exit" )) {
+		} else if (command == Systems.DRONE) {
+			ship.getShipSystem().chargeSystem( Systems.DRONE );
+		} else if (command == Systems.BOOST) {
+			ship.getShipSystem().chargeSystem( Systems.BOOST );
+		} else if (command.getPayload().equals( "0" ) || command.getPayload().equals( "1" ) 
+				|| command.getPayload().equals( "2" ) || command.getPayload().equals( "3" )
+				|| command.getPayload().equals( "4" ) || command.getPayload().equals( "5" ) 
+				|| command.getPayload().equals( "6" ) || command.getPayload().equals( "7" )
+				|| command.getPayload().equals( "8" ) || command.getPayload().equals( "9" ) 
+				|| command.getPayload().equals( "10" ) || command.getPayload().equals( "11" )
+				|| command.getPayload().equals( "12" ) || command.getPayload().equals( "13" ) 
+				|| command.getPayload().equals( "14" ) || command.getPayload().equals( "15" )
+				|| command.getPayload().equals( "16" ) || command.getPayload().equals( "17" ) 
+				|| command.getPayload().equals( "18" ) || command.getPayload().equals( "19" )
+				|| command.getPayload().equals( "20" ) || command.getPayload().equals( "21" ) 
+				|| command.getPayload().equals( "22" ) || command.getPayload().equals( "23" )) {
+			ship.getShipSystem().disableSystemComponent( Integer.parseInt( command.getPayload() ) );
+		} else if (command.getPayload().equals( "exit" )) {
 			ship = null;
 		} else {
 

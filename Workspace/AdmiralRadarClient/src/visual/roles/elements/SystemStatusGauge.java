@@ -12,6 +12,7 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import game.Systems;
 import visual.util.ColorPallate;
 import visual.util.operations.GUIController;
 
@@ -23,7 +24,7 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 	private static final long	serialVersionUID	= 1L;
 	private static final double	SCALE				= 1.5;
 
-	String	name;
+	Systems	name;
 	Color	col;
 	int		spaces;
 	int		charge;
@@ -34,7 +35,7 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 	Ellipse2D zb;
 	GUIController ctrl;
 
-	public SystemStatusGauge(String n, Color c, int s) {
+	public SystemStatusGauge(Systems n, Color c, int s) {
 		name = n;
 		col = c;
 		spaces = s;

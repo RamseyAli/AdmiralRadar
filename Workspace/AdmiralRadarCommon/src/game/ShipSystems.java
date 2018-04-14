@@ -32,10 +32,10 @@ public class ShipSystems implements Serializable {
 	private int[]	missile	= new int[3];	// Tactical Systems
 	private int[]	mine	= new int[3];
 
-	private int[]	sonar	= new int[3];	// Sensory Systems
+	private int[]	radar	= new int[3];	// Sensory Systems
 	private int[]	drone	= new int[3];
 
-	private int[] silent = new int[3]; // Auxilary System
+	private int[] 	boost 	= new int[3]; 	// Auxilary System
 
 	// Refer to Engineer Pane image
 	// true: component is enabled
@@ -51,17 +51,17 @@ public class ShipSystems implements Serializable {
 		mine[CHARGED_STATUS] = NOT_CHARGED;
 		mine[SYSTEM_STATUS] = NOT_DESTROYED;
 
-		sonar[POWER_LEVEL] = 0;
-		sonar[CHARGED_STATUS] = NOT_CHARGED;
-		sonar[SYSTEM_STATUS] = NOT_DESTROYED;
+		radar[POWER_LEVEL] = 0;
+		radar[CHARGED_STATUS] = NOT_CHARGED;
+		radar[SYSTEM_STATUS] = NOT_DESTROYED;
 
 		drone[POWER_LEVEL] = 0;
 		drone[CHARGED_STATUS] = NOT_CHARGED;
 		drone[SYSTEM_STATUS] = NOT_DESTROYED;
 
-		silent[POWER_LEVEL] = 0;
-		silent[CHARGED_STATUS] = NOT_CHARGED;
-		silent[SYSTEM_STATUS] = NOT_DESTROYED;
+		boost[POWER_LEVEL] = 0;
+		boost[CHARGED_STATUS] = NOT_CHARGED;
+		boost[SYSTEM_STATUS] = NOT_DESTROYED;
 
 		Arrays.fill( sysComponents , ENABLED );
 	}
@@ -70,9 +70,9 @@ public class ShipSystems implements Serializable {
 		/*
 		 * Update CHARGED Status
 		 */
-		if (sonar[POWER_LEVEL] == 3)
-			sonar[CHARGED_STATUS] = CHARGED;
-		else sonar[CHARGED_STATUS] = NOT_CHARGED;
+		if (radar[POWER_LEVEL] == 3)
+			radar[CHARGED_STATUS] = CHARGED;
+		else radar[CHARGED_STATUS] = NOT_CHARGED;
 
 		if (missile[POWER_LEVEL] == 3)
 			missile[CHARGED_STATUS] = CHARGED;
@@ -86,9 +86,9 @@ public class ShipSystems implements Serializable {
 			drone[CHARGED_STATUS] = CHARGED;
 		else drone[CHARGED_STATUS] = NOT_CHARGED;
 
-		if (silent[POWER_LEVEL] == 6)
-			silent[CHARGED_STATUS] = CHARGED;
-		else silent[CHARGED_STATUS] = NOT_CHARGED;
+		if (boost[POWER_LEVEL] == 6)
+			boost[CHARGED_STATUS] = CHARGED;
+		else boost[CHARGED_STATUS] = NOT_CHARGED;
 
 		/*
 		 * Update SYSTEM Status
@@ -107,89 +107,89 @@ public class ShipSystems implements Serializable {
 				|| sysComponents[12] == DISABLED || sysComponents[18] == DISABLED || sysComponents[22] == DISABLED) {
 			// Disable Sensory Systems
 			drone[SYSTEM_STATUS] = DESTROYED;
-			sonar[SYSTEM_STATUS] = DESTROYED;
+			radar[SYSTEM_STATUS] = DESTROYED;
 		} else {
 			drone[SYSTEM_STATUS] = NOT_DESTROYED;
-			sonar[SYSTEM_STATUS] = NOT_DESTROYED;
+			radar[SYSTEM_STATUS] = NOT_DESTROYED;
 		}
 
 		if (sysComponents[1] == DISABLED || sysComponents[6] == DISABLED || sysComponents[8] == DISABLED
 				|| sysComponents[13] == DISABLED || sysComponents[17] == DISABLED || sysComponents[19] == DISABLED) {
 			// Disable Auxilary System(s)
-			silent[SYSTEM_STATUS] = DESTROYED;
+			boost[SYSTEM_STATUS] = DESTROYED;
 		} else {
-			silent[SYSTEM_STATUS] = NOT_DESTROYED;
+			boost[SYSTEM_STATUS] = NOT_DESTROYED;
 		}
 
 	}
 	
 	public boolean enableSystems()
 	{
-		sonar[SYSTEM_STATUS] = NOT_CHARGED;
+		radar[SYSTEM_STATUS] = NOT_CHARGED;
 		missile[SYSTEM_STATUS] = NOT_CHARGED;
 		mine[SYSTEM_STATUS] = NOT_CHARGED;
 		drone[SYSTEM_STATUS] = NOT_CHARGED;
-		silent[SYSTEM_STATUS] = NOT_CHARGED;
+		boost[SYSTEM_STATUS] = NOT_CHARGED;
 		return true;
 	}
 	
 	// power-level and charged to 0
-	public boolean useSystem(String sys) {
-		if (sys.equals( "Sonar" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
-			sonar[POWER_LEVEL] = 0;
-			sonar[CHARGED_STATUS] = NOT_CHARGED;
+	public boolean useSystem(Systems sys) {
+		if (sys == Systems.RADAR && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
+			radar[POWER_LEVEL] = 0;
+			radar[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
-		} else if (sys.equals( "Missile" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
+		} else if (sys == Systems.MISSILE && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
 			missile[POWER_LEVEL] = 0;
 			missile[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
-		} else if (sys.equals( "Mine" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
+		} else if (sys == Systems.MINE && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
 			mine[POWER_LEVEL] = 0;
 			mine[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
-		} else if (sys.equals( "Drone" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
+		} else if (sys == Systems.DRONE && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
 			drone[POWER_LEVEL] = 0;
 			drone[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
-		} else if (sys.equals( "Silent" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
-			silent[POWER_LEVEL] = 0;
-			silent[CHARGED_STATUS] = NOT_CHARGED;
+		} else if (sys == Systems.BOOST && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
+			boost[POWER_LEVEL] = 0;
+			boost[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
 		}
 
 		return false;
 		// throw new IllegalArgumentException(sys + " is an invalid Ship System type:"
-		// + "(Sonar, Missile, Mine, Drone, Silent)...");
+		// + "(Radar, Missile, Mine, Drone, Boost)...");
 	}
 
 	// Used by the First Officer to charge up a ship system for later use
-	public void chargeSystem(String sys) {
+	public void chargeSystem(Systems sys) {
 		switch (sys) {
-			case "Sonar": {
-				if (sonar[POWER_LEVEL] != 3) sonar[POWER_LEVEL]++;
+			case RADAR: {
+				if (radar[POWER_LEVEL] != 3) radar[POWER_LEVEL]++;
 				break;
 			}
-			case "Missile": {
+			case MISSILE: {
 				if (missile[POWER_LEVEL] != 3) missile[POWER_LEVEL]++;
 				break;
 			}
-			case "Mine": {
+			case MINE: {
 				if (mine[POWER_LEVEL] != 3) mine[POWER_LEVEL]++;
 				break;
 			}
-			case "Drone": {
+			case DRONE: {
 				if (drone[POWER_LEVEL] != 4) drone[POWER_LEVEL]++;
 				break;
 			}
-			case "Silent": {
-				if (silent[POWER_LEVEL] != 6) silent[POWER_LEVEL]++;
+			case BOOST: {
+				if (boost[POWER_LEVEL] != 6) boost[POWER_LEVEL]++;
 				break;
 			}
 
 			default:
 				/*
 				 * throw new IllegalArgumentException (sys + " is an invalid Ship System type:" +
-				 * "(Sonar, Missile, Mine, Drone, Silent)...");
+				 * "(Radar, Missile, Mine, Drone, Boost)...");
 				 */
 				return;
 		}
@@ -237,89 +237,89 @@ public class ShipSystems implements Serializable {
 		updateStatuses();
 	}
 
-	public int getPowerLevel(String sys) {
+	public int getPowerLevel(Systems sys) {
 		switch (sys) {
-			case "Sonar":
-				return sonar[POWER_LEVEL];
-			case "Missile":
+			case RADAR:
+				return radar[POWER_LEVEL];
+			case MISSILE:
 				return missile[POWER_LEVEL];
-			case "Mine":
+			case MINE:
 				return mine[POWER_LEVEL];
-			case "Drone":
+			case DRONE:
 				return drone[POWER_LEVEL];
-			case "Silent":
-				return silent[POWER_LEVEL];
+			case BOOST:
+				return boost[POWER_LEVEL];
 
 			default:
 				/*
 				 * throw new IllegalArgumentException (sys + " is an invalid Ship System type:" +
-				 * "(Sonar, Missile, Mine, Drone, Silent)...");
+				 * "(Radar, Missile, Mine, Drone, Boost)...");
 				 */
 				return -1;
 		}
 	}
 	
-	public void setPowerLevel(String sys, int level) {
+	public void setPowerLevel(Systems sys, int level) {
 		switch (sys) { // If power level ever equals -1, then the level arg is WRONG
-			case "Sonar":
-				sonar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
-			case "Missile":
-				sonar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
-			case "Mine":
-				sonar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
-			case "Drone":
-				sonar[POWER_LEVEL] = ((level <= 4 && level >= 0) ? level : -1);
-			case "Silent":
-				sonar[POWER_LEVEL] = ((level <= 6 && level >= 0) ? level : -1);
+			case RADAR:
+				radar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
+			case MISSILE:
+				radar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
+			case MINE:
+				radar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
+			case DRONE:
+				radar[POWER_LEVEL] = ((level <= 4 && level >= 0) ? level : -1);
+			case BOOST:
+				radar[POWER_LEVEL] = ((level <= 6 && level >= 0) ? level : -1);
 
 			default:
 				/*
 				 * throw new IllegalArgumentException (sys + " is an invalid Ship System type:" +
-				 * "(Sonar, Missile, Mine, Drone, Silent)...");
+				 * "(Radar, Missile, Mine, Drone, Boost)...");
 				 */
 				return;
 		}
 	}
 
-	public boolean isSystemCharged(String sys) {
+	public boolean isSystemCharged(Systems sys) {
 		switch (sys) {
-			case "Sonar":
-				return sonar[CHARGED_STATUS] == CHARGED;
-			case "Missile":
+			case RADAR:
+				return radar[CHARGED_STATUS] == CHARGED;
+			case MISSILE:
 				return missile[CHARGED_STATUS] == CHARGED;
-			case "Mine":
+			case MINE:
 				return mine[CHARGED_STATUS] == CHARGED;
-			case "Drone":
+			case DRONE:
 				return drone[CHARGED_STATUS] == CHARGED;
-			case "Silent":
-				return silent[CHARGED_STATUS] == CHARGED;
+			case BOOST:
+				return boost[CHARGED_STATUS] == CHARGED;
 
 			default:
 				/*
 				 * throw new IllegalArgumentException (sys + " is an invalid Ship System type:" +
-				 * "(Sonar, Missile, Mine, Drone, Silent)...");
+				 * "(Radar, Missile, Mine, Drone, Boost)...");
 				 */
 				return false;
 		}
 	}
 
-	public boolean isSystemDestroyed(String sys) {
+	public boolean isSystemDestroyed(Systems sys) {
 		switch (sys) {
-			case "Sonar":
-				return sonar[SYSTEM_STATUS] == DESTROYED;
-			case "Missile":
+			case RADAR:
+				return radar[SYSTEM_STATUS] == DESTROYED;
+			case MISSILE:
 				return missile[SYSTEM_STATUS] == DESTROYED;
-			case "Mine":
+			case MINE:
 				return mine[SYSTEM_STATUS] == DESTROYED;
-			case "Drone":
+			case DRONE:
 				return drone[SYSTEM_STATUS] == DESTROYED;
-			case "Silent":
-				return silent[SYSTEM_STATUS] == DESTROYED;
+			case BOOST:
+				return boost[SYSTEM_STATUS] == DESTROYED;
 
 			default:
 				/*
 				 * throw new IllegalArgumentException (sys + " is an invalid Ship System type:" +
-				 * "(Sonar, Missile, Mine, Drone, Silent)...");
+				 * "(Radar, Missile, Mine, Drone, Boost)...");
 				 */
 				return false;
 		}
@@ -329,45 +329,45 @@ public class ShipSystems implements Serializable {
 		return sysComponents[comp] == ENABLED;
 	}
 
-	public void setChargedStatus(String sys, int status) {
+	public void setChargedStatus(Systems sys, int status) {
 		switch (sys) {
-			case "Sonar":
-				sonar[CHARGED_STATUS] = status;
-			case "Missile":
+			case RADAR:
+				radar[CHARGED_STATUS] = status;
+			case MISSILE:
 				missile[CHARGED_STATUS] = status;
-			case "Mine":
+			case MINE:
 				mine[CHARGED_STATUS] = status;
-			case "Drone":
+			case DRONE:
 				drone[CHARGED_STATUS] = status;
-			case "Silent":
-				silent[CHARGED_STATUS] = status;
+			case BOOST:
+				boost[CHARGED_STATUS] = status;
 
 			default:
 				/*
 				 * throw new IllegalArgumentException (sys + " is an invalid Ship System type:" +
-				 * "(Sonar, Missile, Mine, Drone, Silent)...");
+				 * "(Radar, Missile, Mine, Drone, Boost)...");
 				 */
 				return;
 		}
 	}
 
-	public void setSystemStatus(String sys, int status) {
+	public void setSystemStatus(Systems sys, int status) {
 		switch (sys) {
-			case "Sonar":
-				sonar[SYSTEM_STATUS] = status;
-			case "Missile":
+			case RADAR:
+				radar[SYSTEM_STATUS] = status;
+			case MISSILE:
 				missile[SYSTEM_STATUS] = status;
-			case "Mine":
+			case MINE:
 				mine[SYSTEM_STATUS] = status;
-			case "Drone":
+			case DRONE:
 				drone[SYSTEM_STATUS] = status;
-			case "Silent":
-				silent[SYSTEM_STATUS] = status;
+			case BOOST:
+				boost[SYSTEM_STATUS] = status;
 
 			default:
 				/*
 				 * throw new IllegalArgumentException (sys + " is an invalid Ship System type:" +
-				 * "(Sonar, Missile, Mine, Drone, Silent)...");
+				 * "(Radar, Missile, Mine, Drone, Boost)...");
 				 */
 				return;
 		}
@@ -377,29 +377,29 @@ public class ShipSystems implements Serializable {
 	{
 		System.out.println( "------------------ TACTICAL SHIP SYSTEMS -------------------" );
 		System.out.print( "Current Missile power level: 	" + missile[POWER_LEVEL] + ", System Status: " );
-		if (isSystemDestroyed( "Missile" ))
+		if (isSystemDestroyed( Systems.MISSILE ))
 			System.out.printf( "DISABLED\n" );
 		else System.out.printf( "ENABLED\n" );
 
 		System.out.print( "Current Mine power level: 	" + mine[POWER_LEVEL] + ", System Status: " );
-		if (isSystemDestroyed( "Mine" ))
+		if (isSystemDestroyed( Systems.MINE ))
 			System.out.printf( "DISABLED\n\n" );
 		else System.out.printf( "ENABLED\n\n" );
 
 		System.out.println( "------------------ SENSORY SHIP SYSTEMS -------------------" );
-		System.out.print( "Current Sonar power level: 	" + sonar[POWER_LEVEL] + ", System Status: " );
-		if (isSystemDestroyed( "Sonar" ))
+		System.out.print( "Current Radar power level: 	" + radar[POWER_LEVEL] + ", System Status: " );
+		if (isSystemDestroyed( Systems.RADAR ))
 			System.out.printf( "DISABLED\n" );
 		else System.out.printf( "ENABLED\n" );
 
 		System.out.print( "Current Drone power level: 	" + drone[POWER_LEVEL] + ", System Status: " );
-		if (isSystemDestroyed( "Drone" ))
+		if (isSystemDestroyed( Systems.DRONE ))
 			System.out.printf( "DISABLED\n\n" );
 		else System.out.printf( "ENABLED\n\n" );
 
 		System.out.println( "------------------ AUXILARY SHIP SYSTEMS -------------------" );
-		System.out.print( "Current Silent power level: 	" + silent[POWER_LEVEL] + ", System Status: " );
-		if (isSystemDestroyed( "Silent" ))
+		System.out.print( "Current Boost power level: 	" + boost[POWER_LEVEL] + ", System Status: " );
+		if (isSystemDestroyed( Systems.BOOST ))
 			System.out.printf( "DISABLED\n\n" );
 		else System.out.printf( "ENABLED\n\n" );
 	}
