@@ -102,7 +102,6 @@ public class AdmRadarServer {
 		public void run() {
 			try {
 				while (true) {
-					// System.out.println("Step");
 					Object inputObject;
 					if (( inputObject = mpis.getNextUser() ) != null) {
 						myPrint( "I Have A User" );
@@ -129,7 +128,6 @@ public class AdmRadarServer {
 							u.loginSuccessful( success );
 							
 							if (success == 0) {
-								// These are slow enough to cause a delay during login
 								if (username.equalsIgnoreCase( "alohomora" )) {
 									u.setWins( 1 );
 									u.setLoss( 0 );
@@ -142,7 +140,6 @@ public class AdmRadarServer {
 								}
 								
 								mpos.sendUser( u );
-								// myPrint("Sending User Back!");
 								
 								while (true) {
 									ObjEnum temp = mpis.getClassOfNext();
@@ -154,7 +151,6 @@ public class AdmRadarServer {
 										mpos.sendUser( u );
 									} else if (temp == ObjEnum.STRING) {
 										inputObject = mpis.getNextString();
-										// String s = (String)inputObject;
 										if (nPlayers == 0) {
 											myPrint( "GAME LOBBY" );
 											myPrint( "Error: Not enough players" );
@@ -358,6 +354,10 @@ public class AdmRadarServer {
 					}
 				}
 			}
+		}
+		
+		public ClientHandler() {
+			
 		}
 	}
 
