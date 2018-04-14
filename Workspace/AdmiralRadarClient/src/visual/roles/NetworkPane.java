@@ -78,6 +78,7 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		x.setBackground( ColorPallate.PRIMARY_TRANSPARENT_GRAY );
 		x.setBorder( new EmptyBorder( 10 , 10 , 10 , 10 ) );
 
+		x.setOpaque(false);
 		con.setOpaque( false );
 		usrBtnPnl.setOpaque( false );
 		userTab.setOpaque( false );
@@ -133,6 +134,7 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		// Game Tab
 		ready = new JButton( "Ready to Play" );
 		gameStatus = new JLabel( "Not Ready" );
+		gameStatus.setForeground( Color.WHITE );
 
 		gameTab.add( ready );
 		gameTab.add( gameStatus );
@@ -151,6 +153,10 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		avatarButton.addActionListener( this );
 		resetButton = new JButton( "Reset Password " );
 		resetButton.addActionListener( this );
+		
+		username.setForeground(Color.WHITE);
+		wins.setForeground(Color.WHITE);
+		losses.setForeground(Color.WHITE);
 
 		username.setAlignmentX( Component.CENTER_ALIGNMENT );
 		wins.setAlignmentX( Component.CENTER_ALIGNMENT );
@@ -379,9 +385,12 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				log.setEnabled( false );
 				reg.setEnabled( false );
 				cxt.setEnabled( true );
-				tab.setEnabled( true );
+				tab.removeAll();
 				ready.setEnabled( false );
-
+				clr.setEnabled(true);
+				pwd.setEnabled(false);
+				usr.setEnabled(false);
+				svr.setEnabled(true);
 			}
 				break;
 
@@ -392,9 +401,12 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				log.setEnabled( false );
 				reg.setEnabled( false );
 				cxt.setEnabled( true );
-				tab.setEnabled( false );
+				tab.removeAll();
 				ready.setEnabled( false );
-
+				clr.setEnabled(true);
+				pwd.setEnabled(false);
+				usr.setEnabled(false);
+				svr.setEnabled(true);
 			}
 				break;
 
@@ -405,9 +417,12 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				reg.setEnabled( true );
 				log.setEnabled( true );
 				cxt.setEnabled( false );
-				tab.setEnabled( false );
+				tab.removeAll();
 				ready.setEnabled( false );
-
+				clr.setEnabled(false);
+				pwd.setEnabled(true);
+				usr.setEnabled(true);
+				svr.setEnabled(false);
 			}
 				break;
 
@@ -418,9 +433,12 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				reg.setEnabled( true );
 				log.setEnabled( true );
 				cxt.setEnabled( false );
-				tab.setEnabled( false );
+				tab.removeAll();
 				ready.setEnabled( false );
-
+				clr.setEnabled(false);
+				pwd.setEnabled(true);
+				usr.setEnabled(true);
+				svr.setEnabled(false);
 			}
 				break;
 
@@ -431,10 +449,14 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				reg.setEnabled( false );
 				log.setEnabled( false );
 				cxt.setEnabled( false );
-				tab.setEnabled( true );
+				tab.add( "Game" , gameTab );
+				tab.add( "User" , userTab );
 				ready.setEnabled( true );
 				updateUserInfoPanel();
-
+				clr.setEnabled(false);
+				pwd.setEnabled(false);
+				usr.setEnabled(false);
+				svr.setEnabled(false);
 			}
 				break;
 
@@ -445,11 +467,15 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				reg.setEnabled( false );
 				log.setEnabled( false );
 				cxt.setEnabled( false );
-				tab.setEnabled( false );
+				tab.add( "Game" , gameTab );
+				tab.add( "User" , userTab );
 				ready.setEnabled( false );
 				gameStatus.setText( "Waiting" );
 				updateUserInfoPanel();
-
+				clr.setEnabled(false);
+				pwd.setEnabled(false);
+				usr.setEnabled(false);
+				svr.setEnabled(false);
 			}
 				break;
 		}
