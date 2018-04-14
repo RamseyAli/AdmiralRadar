@@ -105,7 +105,7 @@ public class MyPacketInputStream extends ObjectInputStream {
 		else throw new PacketPayloadIncompatable();
 	}
 	
-	public Systems getNextSystem() throws IOException {
+	public Systems getNextCommand() throws IOException {
 		System.out.println( label + "Himaleyan Pink Salt!" );
 		if (getClassOfNext() == ObjEnum.SYSTEM)
 			return (Systems) getBuffer();

@@ -88,7 +88,7 @@ public class Spaceship implements Serializable, MyPacketable {
 	}
 	
 	/* TACTICAL SYSTEMS */
-	public boolean placeMine(Position min) {
+	public boolean dropMine(Position min) {
 		if (systems.useSystem(Systems.MINE)) {
 			shipMines.addMine(min);
 			return true;

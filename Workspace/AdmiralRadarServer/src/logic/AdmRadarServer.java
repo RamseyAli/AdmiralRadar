@@ -110,7 +110,7 @@ public class AdmRadarServer {
 				int teamRealNo = teamNo + 1;
 				
 				sendGlobalMessage("SERVER","Mine droped by team "+teamRealNo);
-				boolean result = gameShip.get(teamNo).placeMine(minePos);
+				boolean result = gameShip.get(teamNo).dropMine(minePos);
 				
 				sendTeamMessage("SERVER", "Mine dropped at ("+args[1]+","+args[2]+")",teamNo);
 				
@@ -317,7 +317,7 @@ public class AdmRadarServer {
 														ship = arp.processDirections(dir, ship);
 														gameShip.set(teamNo, ship);
 													} else {
-														Systems action = mpis.getNextSystem();
+														Systems action = mpis.getNextCommand();
 
 														mpos.sendDirection( ship.getDirection() );
 
