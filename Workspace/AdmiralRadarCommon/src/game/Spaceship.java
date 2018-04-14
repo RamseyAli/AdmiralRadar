@@ -97,16 +97,19 @@ public class Spaceship implements Serializable, MyPacketable {
 		}
 	}
 	
-	public void blastMine(Position min, ArrayList<Spaceship> ships) {
-		shipMines.detonateMine(min, ships, true);
+	public ArrayList<Spaceship> blastMine(int index, ArrayList<Spaceship> ships) {
+		if (shipMines.isMine(index))
+			shipMines.detonateMine(shipMines.getMines().get(index), ships, true);
+		
+		return ships; // For ship server updates
 	}
 	
 	public boolean hasPlacedMines() {
 		return shipMines.getMines().size() > 0;
 	}
 	
-	public void launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
-		if (!systems.useSystem( Systems.MISSILE )) return;
+	public ArrayList<Spaceship> launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
+		if (!systems.useSystem( Systems.MISSILE )) return ships;
 
 		for (Spaceship ship : ships) {
 			// If a mine exists in the same position as the launched missile,
@@ -121,8 +124,7 @@ public class Spaceship implements Serializable, MyPacketable {
 
 		}
 
-		// missile[CHARGED_STATUS] = NOT_CHARGED;
-		// missile[POWER_LEVEL] = 0;
+		return ships;
 	}
 	// Drone //
 	private int getSector(int n, int m)

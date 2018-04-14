@@ -16,7 +16,7 @@ public class MineController implements Serializable {
 
 	// Add a mine to the board
 	public boolean addMine(Position p) {
-		if (isMine( p )) {
+		if (isPlacedMine( p )) {
 			// Maybe send an error message later??
 			return false;
 		}
@@ -24,11 +24,15 @@ public class MineController implements Serializable {
 		return true;
 	}
 	
-	public boolean isMine(Position p) {
+	public boolean isPlacedMine(Position p) {
 		for (Position currentMine : mines) {
 			if (currentMine.equals( p )) return true;
 		}
 		return false;
+	}
+	
+	public boolean isMine(int index) {
+		return index >= 0 && index < mines.size();
 	}
 
 	// Check the current and adjacent locations and remove necessary amounts of health to the Ships
