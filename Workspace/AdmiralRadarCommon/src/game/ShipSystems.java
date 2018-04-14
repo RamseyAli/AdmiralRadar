@@ -135,25 +135,23 @@ public class ShipSystems implements Serializable {
 	
 	// power-level and charged to 0
 	public boolean useSystem(String sys) {
-		if (sys.equals( "Sonar" ) && sonar[CHARGED_STATUS] == CHARGED && sonar[SYSTEM_STATUS] == NOT_DESTROYED) {
+		if (sys.equals( "Sonar" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
 			sonar[POWER_LEVEL] = 0;
 			sonar[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
-		} else if (sys.equals( "Missile" ) && missile[CHARGED_STATUS] == CHARGED
-				&& missile[SYSTEM_STATUS] == NOT_DESTROYED) {
+		} else if (sys.equals( "Missile" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
 			missile[POWER_LEVEL] = 0;
 			missile[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
-		} else if (sys.equals( "Mine" ) && mine[CHARGED_STATUS] == CHARGED && mine[SYSTEM_STATUS] == NOT_DESTROYED) {
+		} else if (sys.equals( "Mine" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
 			mine[POWER_LEVEL] = 0;
 			mine[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
-		} else if (sys.equals( "Drone" ) && drone[CHARGED_STATUS] == CHARGED && drone[SYSTEM_STATUS] == NOT_DESTROYED) {
+		} else if (sys.equals( "Drone" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
 			drone[POWER_LEVEL] = 0;
 			drone[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
-		} else if (sys.equals( "Silent" ) && silent[CHARGED_STATUS] == CHARGED
-				&& silent[SYSTEM_STATUS] == NOT_DESTROYED) {
+		} else if (sys.equals( "Silent" ) && isSystemCharged(sys) && !isSystemDestroyed(sys)) {
 			silent[POWER_LEVEL] = 0;
 			silent[CHARGED_STATUS] = NOT_CHARGED;
 			return true;
@@ -260,6 +258,28 @@ public class ShipSystems implements Serializable {
 				return -1;
 		}
 	}
+	
+	public void setPowerLevel(String sys, int level) {
+		switch (sys) { // If power level ever equals -1, then the level arg is WRONG
+			case "Sonar":
+				sonar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
+			case "Missile":
+				sonar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
+			case "Mine":
+				sonar[POWER_LEVEL] = ((level <= 3 && level >= 0) ? level : -1);
+			case "Drone":
+				sonar[POWER_LEVEL] = ((level <= 4 && level >= 0) ? level : -1);
+			case "Silent":
+				sonar[POWER_LEVEL] = ((level <= 6 && level >= 0) ? level : -1);
+
+			default:
+				/*
+				 * throw new IllegalArgumentException (sys + " is an invalid Ship System type:" +
+				 * "(Sonar, Missile, Mine, Drone, Silent)...");
+				 */
+				return;
+		}
+	}
 
 	public boolean isSystemCharged(String sys) {
 		switch (sys) {
@@ -351,30 +371,6 @@ public class ShipSystems implements Serializable {
 				 */
 				return;
 		}
-	}
-
-	public void placeMine(Position min) {
-
-	}
-
-	public void launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
-		if (!isSystemCharged( "Missile" )) return;
-
-		for (Spaceship ship : ships) {
-			// If a mine exists in the same position as the launched missile,
-			// then detonate the mine but don't damage overlapping and/or adjacent ships
-			
-			if (miss.equals(ship.getPosition()))
-				ship.removeHealth(2);
-			if (miss.isAdjacent(ship.getPosition()))
-				ship.removeHealth(1);
-
-			ship.getShipMines().detonateMine( miss , ships , false );
-
-		}
-
-		// missile[CHARGED_STATUS] = NOT_CHARGED;
-		// missile[POWER_LEVEL] = 0;
 	}
 
 	public void printSystems() // For Testing purposes

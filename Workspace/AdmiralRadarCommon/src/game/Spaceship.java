@@ -87,7 +87,35 @@ public class Spaceship implements Serializable, MyPacketable {
 		nextDir = Direction.STOP;
 	}
 	
+	/* TACTICAL SYSTEMS */
+	public void placeMine(Position min) {
+		if (systems.useSystem("Mine"))
+			shipMines.addMine(min);
+	}
 	
+	public boolean hasPlacedMines() {
+		return shipMines.getMines().size() > 0;
+	}
+	
+	public void launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
+		if (!systems.useSystem( "Missile" )) return;
+
+		for (Spaceship ship : ships) {
+			// If a mine exists in the same position as the launched missile,
+			// then detonate the mine but don't damage overlapping and/or adjacent ships
+			
+			if (miss.equals(ship.getPosition()))
+				ship.removeHealth(2);
+			if (miss.isAdjacent(ship.getPosition()))
+				ship.removeHealth(1);
+
+			ship.getShipMines().detonateMine( miss , ships , false );
+
+		}
+
+		// missile[CHARGED_STATUS] = NOT_CHARGED;
+		// missile[POWER_LEVEL] = 0;
+	}
 	// Drone //
 	private int getSector(int n, int m)
 	{
@@ -125,13 +153,13 @@ public class Spaceship implements Serializable, MyPacketable {
 	// The non-returned value is -1 //
 	public int[] randomSonar(int n, int m) // n = dimension of map
 	{
-		int randNum, lie;
+		int randNum, lie, correctVal;
 		int ans[] = new int[3];
 		int indices[] = new int [2]; // 2 indices corresponding to returned vals // 0=x, 1=y, 2=sector
 		Position answer = new Position(); // return value
 		
 		
-		if (n < 1 || m < 1)
+		if (n < 2 || m < 2)
 		{
 			// TODO: handle error
 		}
@@ -143,58 +171,48 @@ public class Spaceship implements Serializable, MyPacketable {
 		
 		//answer.setPosition( pos.getX(), pos.getY() );
 		
-		randNum = rand.nextInt(3);
-		switch (randNum)
+		randNum = rand.nextInt(3); 
+		switch (randNum) // which data to leave out
 		{
-			case 0:
+			case 0: // x coordinate
 				indices[0] = 1;
 				indices[1] = 2;
 				break;
-			case 1:
+				
+			case 1: // y coordinate
 				indices[0] = 0;
 				indices[1] = 2;
 				break;
-			case 2:
+				
+			case 2: default: // sector
 				indices[0] = 0;
 				indices[1] = 1;
 				break;
-			default: break;
 		}
 		
 		ans[randNum] = -1;
 		
 		lie = indices[randNum = rand.nextInt(2)]; // which value to change
 		
-		switch(lie)
+		if (lie < 2) // false coordinate
 		{
-			case 0:
-			case 1:
-				
-				break;
-			case 2:
-				
-				break;
-			default: break;
-		}
-		
-		randNum = rand.nextInt( n - 1 ); // excludes the correct coordinate
-		
-		// Randomly change 1 of the coordinates to a false coordinate //
-		if (rand.nextInt(2) == 1)
-		{
-			if (randNum >= pos.getY()) // ensures that the correct coordinate is not returned
-				++randNum;
+			if (lie == 0)
+				correctVal = pos.getX(); // get true X value
+			else
+				correctVal = pos.getY();
 			
-			answer.setY( randNum );
+			randNum = rand.nextInt( n - 1 );
 		}
-		else
+		else // Give false Sector
 		{
-			if (randNum >= pos.getX())
-				++randNum;
-				
-			answer.setX( randNum );	
+			correctVal = getSector( n, m );
+			randNum = rand.nextInt( m * m - 1 );
 		}
 		
+		if (randNum >= correctVal) // excludes the correct coordinate or sector
+			++randNum;
+		
+		ans[lie] = randNum;
 		return ans;
 	}
 	
