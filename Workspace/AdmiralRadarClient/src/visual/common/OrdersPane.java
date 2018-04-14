@@ -2,6 +2,7 @@ package visual.common;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
@@ -26,6 +27,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 	private RoundRectangle2D	north, south, east, west;
 	private Ellipse2D	compass;
 	private boolean[]			overlay = {false, false, false, false};
+	private Polygon bigMineArrow, litMineArrow;
 
 	/**
 	 * 
@@ -64,7 +66,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 		int h = getHeight();
 
 		int sysWidth = w / 2; // .5
-		int sysHeight = (int) ( h / 14 );
+		int sysHeight = (int) ( h / 20 );
 		int sysYGap = sysHeight / 2;
 
 		int sysX = (int) ( ( w * 0.125 ) / 2.0 );
@@ -85,15 +87,38 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 		int c = ss / 2;
 
 
-
-		// g.setColor(ColorPallate.ORDER_PANEL);
-		// g.fillOval(compX0 - compRi, compY0 - compRi, 2*compRi, 2*compRi);
 		compass = new Ellipse2D.Double( compX0 - compRo , compY0 - compRo , 2 * compRo , 2 * compRo );
 		north = new RoundRectangle2D.Double( compX0 - ss / 2 , compY0 - tg - ls , ss , ls , c , c );
 		east = new RoundRectangle2D.Double( compX0 + tg , compY0 - ss / 2 , ls , ss , c , c );
 		south = new RoundRectangle2D.Double( compX0 - ss / 2 , compY0 + tg , ss , ls , c , c );
 		west = new RoundRectangle2D.Double( compX0 - tg - ls , compY0 - ss / 2 , ls , ss , c , c );
+		
+		
+		int B = 2;
+		int W = 10;
+		int H = sysHeight;
+		int hp = (B*H) / (2 * W);
+		int xp = (int) ( H*Math.sqrt( (hp * hp) + (B * B) ) / (2*W) );
+		
+		
+		int xtB =  VisualPreferences.GENERAL_BORDER*2 + sysX + sysWidth;
+		int ytB = VisualPreferences.GENERAL_BORDER + sysYGap + 4 * ( sysYGap + sysHeight );
+		
+		int[] xp1 = {xtB ,
+					xtB ,
+					xtB + W};
+		int[] yp1 = {ytB , ytB + sysHeight , ytB + sysHeight / 2};
+		
+		int[] xp2 = {xp1[0] + B ,
+					xp1[1] + B ,
+					xp1[2] - xp};
+		int[] yp2 = {yp1[0] + 2*hp , yp1[1] - 2*hp , yp1[2] };
+		
+		bigMineArrow = new Polygon(xp1 , yp1 , 3);
+		litMineArrow = new Polygon(xp2 , yp2 , 3);
 
+		
+		
 		// Display Art
 
 		g.setColor( ColorPallate.ORDER_PANEL_BORDER );
@@ -130,21 +155,34 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 				VisualPreferences.GENERAL_BORDER + sysYGap + 3 * ( sysYGap + sysHeight ) , sysWidth , sysHeight );
 		g.fillRect( VisualPreferences.GENERAL_BORDER + sysX ,
 				VisualPreferences.GENERAL_BORDER + sysYGap + 4 * ( sysYGap + sysHeight ) , sysWidth , sysHeight );
+		g.fillRect( VisualPreferences.GENERAL_BORDER + sysX ,
+				VisualPreferences.GENERAL_BORDER + sysYGap + 5 * ( sysYGap + sysHeight ) , sysWidth , sysHeight );
+		g.fillRect( VisualPreferences.GENERAL_BORDER + sysX ,
+				VisualPreferences.GENERAL_BORDER + sysYGap + 6 * ( sysYGap + sysHeight ) , sysWidth , sysHeight );
+		g.fillRect( VisualPreferences.GENERAL_BORDER + sysX ,
+				VisualPreferences.GENERAL_BORDER + sysYGap + 7 * ( sysYGap + sysHeight ) , sysWidth , sysHeight );
+		g.fillPolygon( bigMineArrow );
 
-		g.setColor( Color.BLACK );
+		g.setColor( Color.WHITE );
 		int sh = g.getFontMetrics().getHeight();
 		g.setFont( g.getFont().deriveFont( Font.BOLD ) );
 
 		g.drawString( "Drone" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 0.5 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( VisualPreferences.GENERAL_BORDER + 0.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Radar" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 1.5 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( VisualPreferences.GENERAL_BORDER + 1.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Missile" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 2.5 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
-		g.drawString( "Mines" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 3.5 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( VisualPreferences.GENERAL_BORDER + 2.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+		g.drawString( "Drop Mine" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+				(int) ( VisualPreferences.GENERAL_BORDER + 3.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+		g.drawString( "Blast Mine" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+				(int) ( VisualPreferences.GENERAL_BORDER + 4.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Boosters" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 4.5 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( VisualPreferences.GENERAL_BORDER + 5.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+		g.drawString( "Spacewalk" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+				(int) ( VisualPreferences.GENERAL_BORDER + 6.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+		g.drawString( "Cruise" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+				(int) ( VisualPreferences.GENERAL_BORDER + 7.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 
 		g.setColor( ColorPallate.ORDER_SYSTEM_BOX );
 		g.fillOval( VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX ,
@@ -157,10 +195,10 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 				VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight / 2 - sysCautR + 2 * ( sysYGap + sysHeight ) ,
 				2 * sysCautR , 2 * sysCautR );
 		g.fillOval( VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX ,
-				VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight / 2 - sysCautR + 3 * ( sysYGap + sysHeight ) ,
+				(int) (VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight / 2 - sysCautR + 3 * ( sysYGap + sysHeight )) ,
 				2 * sysCautR , 2 * sysCautR );
 		g.fillOval( VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX ,
-				VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight / 2 - sysCautR + 4 * ( sysYGap + sysHeight ) ,
+				VisualPreferences.GENERAL_BORDER + sysYGap + sysHeight / 2 - sysCautR + 5 * ( sysYGap + sysHeight ) ,
 				2 * sysCautR , 2 * sysCautR );
 
 		if (control.getSpaceship() != null) {
@@ -186,16 +224,24 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 			if (control.getSpaceship().getShipSystem().isSystemCharged( "Mine" ))
 				g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
-						VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
-						+ 3 * ( sysYGap + sysHeight ) ,
+						(int) (VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
+						+ 3 * ( sysYGap + sysHeight ) ),
 						sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
-
+		
+			g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
+					(int) (VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
+					+ 4 * ( sysYGap + sysHeight ) ),
+					sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
+			
+			
+			g.fillPolygon(litMineArrow);
+			
 			g.setColor( ColorPallate.UTILITY );
 			// if
 			// (control.getSpaceship().getShipSystem().isSystemCharged("Silent"))
 			g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
 					VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
-					+ 4 * ( sysYGap + sysHeight ) ,
+					+ 5 * ( sysYGap + sysHeight ) ,
 					sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
 
 			g.setColor( ColorPallate.ORDER_SYSTEM_CAUTION );
@@ -218,11 +264,12 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 					2 * sysCautL , 2 * sysCautL );
 
 			// if
-			// (control.getSpaceship().getShipSystem().isSystemDestroyed("Mine"))
+			// (control.getSpaceship().getShipSystem().isSystemDestroyed("Mine")){
 			g.fillOval(
-					VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX , VisualPreferences.GENERAL_BORDER
-					+ sysYGap + sysHeight / 2 - sysCautL + 3 * ( sysYGap + sysHeight ) ,
+					VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX , (int) (VisualPreferences.GENERAL_BORDER
+					+ sysYGap + sysHeight / 2 - sysCautL + 3 * ( sysYGap + sysHeight )) ,
 					2 * sysCautL , 2 * sysCautL );
+			
 
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed( "Silent" )) g.fillOval(
 					VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX , VisualPreferences.GENERAL_BORDER
