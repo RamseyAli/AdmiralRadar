@@ -3,6 +3,7 @@ package visual.util.operations;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
+import audio.SoundManager;
 import game.Role;
 import network.ConnectionManager;
 import pref.GamePreferences;
@@ -64,6 +65,8 @@ public class GUIFactory {
 
 	public void setGameRole(Role r) {
 		if (nexus.getRole() != r) nexus.setRole( r );
+		
+	//	SoundManager.startRoleTrack( r );
 
 		switch (r) {
 			case CAPTAIN:

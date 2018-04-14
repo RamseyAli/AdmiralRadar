@@ -35,7 +35,7 @@ public class GameFrame extends JFrame implements ComponentListener {
 		private static final long serialVersionUID = 1L;
 
 		public MainPane() {
-			img = new ImageIcon( GamePreferences.RESOURCES_PATH + IMAGE ).getImage();
+			img = new ImageIcon( (GamePreferences.RESOURCES_PATH + IMAGE).replaceAll( "%20" , " " ) ).getImage();
 		}
 
 		protected void paintComponent(Graphics g) {
