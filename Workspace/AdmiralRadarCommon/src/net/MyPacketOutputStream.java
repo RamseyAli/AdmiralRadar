@@ -10,6 +10,7 @@ import game.Direction;
 import game.GameMap;
 import game.Role;
 import game.Spaceship;
+import game.Systems;
 import ops.User;
 
 public class MyPacketOutputStream extends ObjectOutputStream {
@@ -73,6 +74,12 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 	public void sendDirection(Direction d) throws IOException {
 		if (debug) System.out.println( "Sending Direction" + d );
 		writeUnshared( new MyPacket( d ) );
+		flush();
+	}
+	
+	public void sendSystem(Systems s) throws IOException {
+		if (debug) System.out.println( "Sending System" + s );
+		writeUnshared( new MyPacket( s ) );
 		flush();
 	}
 

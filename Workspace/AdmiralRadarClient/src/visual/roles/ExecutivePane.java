@@ -2,6 +2,7 @@ package visual.roles;
 
 import java.awt.GridLayout;
 
+import game.Systems;
 import visual.roles.elements.SystemStatusGauge;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
@@ -9,12 +10,12 @@ import visual.util.operations.GUIController;
 
 public class ExecutivePane extends ShipPanel {
 
-	SystemStatusGauge	mineG	= new SystemStatusGauge( "Mine" , ColorPallate.TACTICAL , 3 );
-	SystemStatusGauge	missG	= new SystemStatusGauge( "Missile" , ColorPallate.TACTICAL , 3 );
-	SystemStatusGauge	dronG	= new SystemStatusGauge( "Drone" , ColorPallate.SENSORY , 2 );
-	SystemStatusGauge	radrG	= new SystemStatusGauge( "Sonar" , ColorPallate.SENSORY , 3 );
-	SystemStatusGauge	scenG	= new SystemStatusGauge( "Scenario", ColorPallate.UTILITY , 3 );
-	SystemStatusGauge	boosG	= new SystemStatusGauge( "Silent" , ColorPallate.UTILITY , 5 );
+	SystemStatusGauge	mineG	= new SystemStatusGauge( Systems.MINE , ColorPallate.TACTICAL , 3 );
+	SystemStatusGauge	missG	= new SystemStatusGauge( Systems.MISSILE , ColorPallate.TACTICAL , 3 );
+	SystemStatusGauge	dronG	= new SystemStatusGauge( Systems.DRONE , ColorPallate.SENSORY , 2 );
+	SystemStatusGauge	radrG	= new SystemStatusGauge( Systems.RADAR , ColorPallate.SENSORY , 3 );
+	SystemStatusGauge	scenG	= new SystemStatusGauge( Systems.SCENARIO, ColorPallate.UTILITY , 3 );
+	SystemStatusGauge	boosG	= new SystemStatusGauge( Systems.BOOST , ColorPallate.UTILITY , 5 );
 
 	public ExecutivePane(GUIController cx) {
 		super( cx );

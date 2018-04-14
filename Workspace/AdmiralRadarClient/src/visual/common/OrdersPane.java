@@ -12,6 +12,7 @@ import javax.swing.event.MouseInputListener;
 
 import game.Direction;
 import game.Role;
+import game.Systems;
 import pref.VisualPreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
@@ -203,12 +204,12 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 		if (control.getSpaceship() != null) {
 			g.setColor( ColorPallate.SENSORY );
-			if (control.getSpaceship().getShipSystem().isSystemCharged( "Drone" ))
+			if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.DRONE ))
 				g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
 						VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER ,
 						sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
 
-			if (control.getSpaceship().getShipSystem().isSystemCharged( "Radar" ))
+			if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.RADAR ))
 				g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
 						VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
 						+ 1 * ( sysYGap + sysHeight ) ,
@@ -222,7 +223,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 					+ 2 * ( sysYGap + sysHeight ) ,
 					sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
 
-			if (control.getSpaceship().getShipSystem().isSystemCharged( "Mine" ))
+			if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.MINE ))
 				g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
 						(int) (VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
 						+ 3 * ( sysYGap + sysHeight ) ),
@@ -246,7 +247,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 			g.setColor( ColorPallate.ORDER_SYSTEM_CAUTION );
 
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed( "Drone" )) g.fillOval(
+			if (control.getSpaceship().getShipSystem().isSystemDestroyed( Systems.DRONE )) g.fillOval(
 					VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX , VisualPreferences.GENERAL_BORDER
 					+ sysYGap + sysHeight / 2 - sysCautL + 0 * ( sysYGap + sysHeight ) ,
 					2 * sysCautL , 2 * sysCautL );
@@ -258,7 +259,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 					+ sysYGap + sysHeight / 2 - sysCautL + 1 * ( sysYGap + sysHeight ) ,
 					2 * sysCautL , 2 * sysCautL );
 
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed( "Missile" )) g.fillOval(
+			if (control.getSpaceship().getShipSystem().isSystemDestroyed( Systems.MISSILE )) g.fillOval(
 					VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX , VisualPreferences.GENERAL_BORDER
 					+ sysYGap + sysHeight / 2 - sysCautL + 2 * ( sysYGap + sysHeight ) ,
 					2 * sysCautL , 2 * sysCautL );
@@ -271,7 +272,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 					2 * sysCautL , 2 * sysCautL );
 			
 
-			if (control.getSpaceship().getShipSystem().isSystemDestroyed( "Silent" )) g.fillOval(
+			if (control.getSpaceship().getShipSystem().isSystemDestroyed( Systems.BOOST )) g.fillOval(
 					VisualPreferences.GENERAL_BORDER + sysCautX - sysCautL - sysX , VisualPreferences.GENERAL_BORDER
 					+ sysYGap + sysHeight / 2 - sysCautL + 4 * ( sysYGap + sysHeight ) ,
 					2 * sysCautL , 2 * sysCautL );
