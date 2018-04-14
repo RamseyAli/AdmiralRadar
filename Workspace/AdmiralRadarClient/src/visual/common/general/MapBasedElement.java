@@ -50,7 +50,7 @@ public abstract class MapBasedElement extends ShipPanel{
 		sp = 30;
 
 		try {
-			bi = ImageIO.read( new File(GamePreferences.RESOURCES_PATH + "ship.png" ) );
+			bi = ImageIO.read( new File((GamePreferences.RESOURCES_PATH + "ship.png" ).replaceAll( "%20" , " " ) ));
 		}
 		catch (IOException e) {
 			e.printStackTrace();
