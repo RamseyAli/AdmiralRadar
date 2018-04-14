@@ -40,7 +40,7 @@ public class GamePreferences {
 			File f = null;
 			f = Paths.get(new URL(loader.getResource("pref/GamePreferences.class").toString().replaceAll(" ","%20")).toURI()).toFile();
 			f = f.getParentFile().getParentFile().getParentFile().getParentFile();
-			return ("file://" + f.getAbsolutePath() + System.getProperty( "file.separator" ) + "Resources" + System.getProperty( "file.separator" )).replaceAll(" ","%20");
+			return ( f.getAbsolutePath() + System.getProperty( "file.separator" ) + "Resources" + System.getProperty( "file.separator" )).replaceAll(" ","%20");
 		}
 		catch (URISyntaxException | MalformedURLException e) {
 			e.printStackTrace();

@@ -1,4 +1,4 @@
-package clients;
+package server;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -55,7 +55,7 @@ public class TestClient {
 							u.setNewPassword( temp );
 							System.out.println( "Enter new avatar url(or same old url)" );
 							temp = br.readLine();
-							temp = "http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg";
+							//temp = "http://www.withanaccent.com/wp-content/uploads/2012/07/avatar-aang.jpg";
 							u.setAvatar( temp );
 							mpo.sendUser( u );
 							u = mpi.getNextUser();
@@ -65,11 +65,8 @@ public class TestClient {
 							mpo.sendString( "READY" );
 
 							String strInput, strOutput;
-
-							while (mpi.getClassOfNext().equals( String.class )) {
-								// mpi.getNextString();
-								// System.out.println(mpi.getNextString());
-							}
+							
+							
 
 							map = mpi.getNextMap();
 							map.printAsteroids();

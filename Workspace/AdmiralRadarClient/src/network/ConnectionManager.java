@@ -215,7 +215,6 @@ public class ConnectionManager {
 					Role r = null;
 					if (( r = ois.getNextRole() ) != null) {
 						interrupt.setRole( r );
-						SoundManager.startRoleTrack( r );
 						switch (r) {
 							case CAPTAIN:
 								captainNetworkLoop();

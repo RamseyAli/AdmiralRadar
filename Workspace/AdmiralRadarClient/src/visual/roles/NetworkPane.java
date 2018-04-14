@@ -201,7 +201,7 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 			Image imageIcon = bi.getScaledInstance( x , (int) ( ( bi.getHeight() * x ) / ( (float) bi.getWidth() ) ) ,
 					Image.SCALE_DEFAULT );
 			avatar.setIcon( new ImageIcon( imageIcon ) );
-
+			
 		}
 		catch (MalformedURLException e) {
 			avatar = new JLabel( "Image URL Failure" );
