@@ -97,16 +97,19 @@ public class Spaceship implements Serializable, MyPacketable {
 		}
 	}
 	
-	public void blastMine(Position min, ArrayList<Spaceship> ships) {
-		shipMines.detonateMine(min, ships, true);
+	public ArrayList<Spaceship> blastMine(int index, ArrayList<Spaceship> ships) {
+		if (shipMines.isMine(index))
+			shipMines.detonateMine(shipMines.getMines().get(index), ships, true);
+		
+		return ships; // For ship server updates
 	}
 	
 	public boolean hasPlacedMines() {
 		return shipMines.getMines().size() > 0;
 	}
 	
-	public void launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
-		if (!systems.useSystem( Systems.MISSILE )) return;
+	public ArrayList<Spaceship> launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
+		if (!systems.useSystem( Systems.MISSILE )) return ships;
 
 		for (Spaceship ship : ships) {
 			// If a mine exists in the same position as the launched missile,
@@ -121,8 +124,7 @@ public class Spaceship implements Serializable, MyPacketable {
 
 		}
 
-		// missile[CHARGED_STATUS] = NOT_CHARGED;
-		// missile[POWER_LEVEL] = 0;
+		return ships;
 	}
 	// Drone //
 	private int getSector(int n, int m)
@@ -159,14 +161,18 @@ public class Spaceship implements Serializable, MyPacketable {
 	// Current sonar implementation //
 	// Will return array of 3 integers, representing X, Y, and Sector of ship //
 	// The non-returned value is -1 //
-	public int[] randomRadar(int n, int m) // n = dimension of map
+	public int[] randomRadar(int n, int m) // n = map dimension, m = sector dimension
 	{
 		int randNum, lie, correctVal;
-		int ans[] = new int[3];
+		int ans[] = new int[3]; // return value { x, y, sector }
 		int indices[] = new int [2]; // 2 indices corresponding to returned vals // 0=x, 1=y, 2=sector
-		Position answer = new Position(); // return value
+		boolean systemReady;
 		
-		
+		systemReady = systems.useSystem(Systems.RADAR);
+		if (!systemReady)
+		{
+			// TODO: ship system not ready.
+		}
 		if (n < 2 || m < 2)
 		{
 			// TODO: handle error
