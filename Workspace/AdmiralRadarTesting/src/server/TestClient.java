@@ -66,17 +66,15 @@ public class TestClient {
 
 							String strInput, strOutput;
 							
-							
-
 							map = mpi.getNextMap();
 							map.printAsteroids();
-
+							
 							role = mpi.getNextRole();
-
+							
 							if (role == Role.CAPTAIN) {
 								System.out.println( "You are Captain" );
 								int x, y;
-								System.out.println( mpi.getNextString() );
+								System.out.println("Enter initial location");
 								System.out.println( "Enter x" );
 								x = Integer.parseInt( br.readLine() );
 								System.out.println( "Enter y" );
@@ -91,16 +89,14 @@ public class TestClient {
 							} else {
 								System.out.println( "You are Radio Officer" );
 							}
-
+							
 							ship = mpi.getNextSpaceship();
-
+							
 							if (role == Role.RADIO) {
 								int n = 0;
 								while (true) {
 									String str = mpi.getNextString();
 									if (!str.equals( "Game ended" )) {
-										// if(n == 4)
-										// System.out.println(str);
 										n++;
 										if (n == 5) n = 0;
 									} else {
@@ -111,24 +107,12 @@ public class TestClient {
 							} else {
 								while (true) {
 									strInput = mpi.getNextString();
-									// if(strInput.equals("Waiting for turn"))
-									// {
-									// System.out.println(strInput);
-									// }
 									if (strInput.equals( "Game Ended" )) {
 										System.out.println( strInput );
 										System.out.println( "Your Team Won" );
 										break;
 									} else {
 										System.out.println( strInput );
-										/*
-										 * if(role == Role.CAPTAIN) { strInput = mpi.getNextString();
-										 * System.out.println(strInput); strOutput = br.readLine();
-										 * mpo.sendString(strOutput); if(!strOutput.equalsIgnoreCase("No")) { strInput =
-										 * mpi.getNextString(); System.out.println(strInput); }
-										 * 
-										 * System.out.println("Enter next direction"); }
-										 */
 										strOutput = br.readLine();
 										mpo.sendString( strOutput );
 										ship = mpi.getNextSpaceship();
