@@ -88,8 +88,8 @@ public class Spaceship implements Serializable, MyPacketable {
 	}
 	
 	/* TACTICAL SYSTEMS */
-	public boolean placeMine(Position min) {
-		if (systems.useSystem("Mine")) {
+	public boolean dropMine(Position min) {
+		if (systems.useSystem(Systems.MINE)) {
 			shipMines.addMine(min);
 			return true;
 		} else {
@@ -97,12 +97,16 @@ public class Spaceship implements Serializable, MyPacketable {
 		}
 	}
 	
+	public void blastMine(Position min, ArrayList<Spaceship> ships) {
+		shipMines.detonateMine(min, ships, true);
+	}
+	
 	public boolean hasPlacedMines() {
 		return shipMines.getMines().size() > 0;
 	}
 	
 	public void launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
-		if (!systems.useSystem( "Missile" )) return;
+		if (!systems.useSystem( Systems.MISSILE )) return;
 
 		for (Spaceship ship : ships) {
 			// If a mine exists in the same position as the launched missile,
@@ -134,7 +138,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		int sector;
 		boolean systemReady;
 		
-		systemReady = systems.useSystem("Drone");
+		systemReady = systems.useSystem(Systems.DRONE);
 		if (!systemReady)
 		{
 			// Should throw exception in the future, system is not fully charge
@@ -155,7 +159,7 @@ public class Spaceship implements Serializable, MyPacketable {
 	// Current sonar implementation //
 	// Will return array of 3 integers, representing X, Y, and Sector of ship //
 	// The non-returned value is -1 //
-	public int[] randomSonar(int n, int m) // n = dimension of map
+	public int[] randomRadar(int n, int m) // n = dimension of map
 	{
 		int randNum, lie, correctVal;
 		int ans[] = new int[3];

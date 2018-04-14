@@ -21,7 +21,7 @@ import game.GameMap;
 import game.Position;
 import game.Role;
 import game.Spaceship;
-
+import game.Systems;
 import helpers.AdmRadarProtocol;
 
 public class AdmRadarServer {
@@ -110,7 +110,7 @@ public class AdmRadarServer {
 				int teamRealNo = teamNo + 1;
 				
 				sendGlobalMessage("SERVER","Mine droped by team "+teamRealNo);
-				boolean result = gameShip.get(teamNo).placeMine(minePos);
+				boolean result = gameShip.get(teamNo).dropMine(minePos);
 				
 				sendTeamMessage("SERVER", "Mine dropped at ("+args[1]+","+args[2]+")",teamNo);
 				
@@ -317,8 +317,10 @@ public class AdmRadarServer {
 														ship = arp.processDirections(dir, ship);
 														gameShip.set(teamNo, ship);
 													} else {
+														Systems action = mpis.getNextCommand();
+
 														mpos.sendDirection( ship.getDirection() );
-														String action = mpis.getNextString();
+
 														ship = arp.processCommands( action , ship );
 														gameShip.set(teamNo, ship);
 													}

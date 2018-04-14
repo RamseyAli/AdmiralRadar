@@ -12,6 +12,7 @@ import game.Direction;
 import game.GameMap;
 import game.Role;
 import game.Spaceship;
+import game.Systems;
 import ops.User;
 
 public class MyPacketInputStream extends ObjectInputStream {
@@ -101,6 +102,13 @@ public class MyPacketInputStream extends ObjectInputStream {
 		System.out.println( label + "Himaleyan Pink Salt!" );
 		if (getClassOfNext() == ObjEnum.DIRECTION)
 			return (Direction) getBuffer();
+		else throw new PacketPayloadIncompatable();
+	}
+	
+	public Systems getNextCommand() throws IOException {
+		System.out.println( label + "Himaleyan Pink Salt!" );
+		if (getClassOfNext() == ObjEnum.SYSTEM)
+			return (Systems) getBuffer();
 		else throw new PacketPayloadIncompatable();
 	}
 
