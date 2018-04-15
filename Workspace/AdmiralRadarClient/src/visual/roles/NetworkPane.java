@@ -13,6 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
+import javax.net.ssl.SSLProtocolException;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -198,6 +199,7 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		// Load Avatar Image
 		try {
 			int x = (int) ( usr.getWidth() / 2.25f );
+			System.out.println( "Getting URL for " + userData[0] + ": " + userData[3] );
 			URL url = new URL(userData[3]);
 			URLConnection uc;
 			uc = url.openConnection();
@@ -211,6 +213,22 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		catch (MalformedURLException e) {
 			avatar = new JLabel( "Image URL Failure" );
 			e.printStackTrace();
+		}
+		catch (SSLProtocolException e) {
+			//SSL decryption issue - use duck avatar
+			try {
+				int x = (int) ( usr.getWidth() / 2.25f );
+				URL url = new URL("https://deltadailynews.com/wp-content/uploads/2016/06/ddn-duck.jpg");
+				URLConnection uc;
+				uc = url.openConnection();
+				uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");	//spoof the image request
+				BufferedImage bi = ImageIO.read( uc.getInputStream() );
+				Image imageIcon = bi.getScaledInstance( x , (int) ( ( bi.getHeight() * x ) / ( (float) bi.getWidth() ) ) ,
+						Image.SCALE_DEFAULT );
+				avatar.setIcon( new ImageIcon( imageIcon ) );
+			} catch (Exception ex) {
+				System.out.println("OK boss. We have a problem here.");
+			}
 		}
 		catch (IOException e) {
 			avatar = new JLabel( "Image Load Failure" );
