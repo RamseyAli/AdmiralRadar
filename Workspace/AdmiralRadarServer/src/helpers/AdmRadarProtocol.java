@@ -19,6 +19,7 @@ public class AdmRadarProtocol {
 	public Spaceship processDirections(Direction dir, Spaceship ship) {
 		if (ship == null) return null;
 
+		System.out.println( "Himalayan Pink Pepper" );
 		NUMCOMMANDS++;
 		
 		ship.setDirection(dir);
@@ -26,43 +27,28 @@ public class AdmRadarProtocol {
 		return ship;
 	}
 	
-	public Spaceship processCommands(Systems command, Spaceship ship) {
+	public Spaceship processSystems(Systems command, Spaceship ship) {
 		if (ship == null) return null;
 
 		NUMCOMMANDS++;
-		if (command == Systems.RADAR) {
-			ship.getShipSystem().chargeSystem( Systems.RADAR );
-		} else if (command == Systems.MISSILE) {
-			ship.getShipSystem().chargeSystem( Systems.MISSILE );
-		} else if (command == Systems.MINE) {
-			ship.getShipSystem().chargeSystem( Systems.MINE );
-			;
-		} else if (command == Systems.DRONE) {
-			ship.getShipSystem().chargeSystem( Systems.DRONE );
-		} else if (command == Systems.BOOST) {
-			ship.getShipSystem().chargeSystem( Systems.BOOST );
-		} else if (command.getPayload().equals( "0" ) || command.getPayload().equals( "1" ) 
-				|| command.getPayload().equals( "2" ) || command.getPayload().equals( "3" )
-				|| command.getPayload().equals( "4" ) || command.getPayload().equals( "5" ) 
-				|| command.getPayload().equals( "6" ) || command.getPayload().equals( "7" )
-				|| command.getPayload().equals( "8" ) || command.getPayload().equals( "9" ) 
-				|| command.getPayload().equals( "10" ) || command.getPayload().equals( "11" )
-				|| command.getPayload().equals( "12" ) || command.getPayload().equals( "13" ) 
-				|| command.getPayload().equals( "14" ) || command.getPayload().equals( "15" )
-				|| command.getPayload().equals( "16" ) || command.getPayload().equals( "17" ) 
-				|| command.getPayload().equals( "18" ) || command.getPayload().equals( "19" )
-				|| command.getPayload().equals( "20" ) || command.getPayload().equals( "21" ) 
-				|| command.getPayload().equals( "22" ) || command.getPayload().equals( "23" )) {
-			ship.getShipSystem().disableSystemComponent( Integer.parseInt( command.getPayload() ) );
-		} else if (command.getPayload().equals( "exit" )) {
-			ship = null;
-		} else {
-
-		}
-
+		ship.getShipSystem().chargeSystem( command );
+		
 		return ship;
 	}
-
+	
+	public Spaceship processParts(int partNo, Spaceship ship) {
+		if(ship == null) return null;
+		
+		NUMCOMMANDS++;
+		if(partNo >= 0 && partNo <= 23) {
+			ship.getShipSystem().disableSystemComponent(partNo);
+		} else {
+			// Do nothing
+		}
+		
+		return ship;
+	}
+	
 	public GameMap updateMap() {
 		return map1;
 	}

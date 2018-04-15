@@ -184,4 +184,15 @@ public class GUIController {
 		
 	}
 
+	public void specialAction(Systems drone) {
+		System.out.println( drone.name() + drone.getPayload() );
+		cm.sendAction(drone);
+		
+	}
+
+	public void quit() {
+		cm.quitGame();
+		
+	}
+
 }

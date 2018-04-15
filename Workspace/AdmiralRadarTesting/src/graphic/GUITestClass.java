@@ -17,7 +17,7 @@ public class GUITestClass {
 		new Thread( () -> factory.beginGUI() ).start();
 
 		// Start local test server
-		TestServerSam ts = new TestServerSam( Role.ENGINE );
+		TestServerSam ts = new TestServerSam( Role.CAPTAIN );
 		Thread t = new Thread( ts );
 		t.start();
 

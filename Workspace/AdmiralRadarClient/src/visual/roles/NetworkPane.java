@@ -198,7 +198,6 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		// Load Avatar Image
 		try {
 			int x = (int) ( usr.getWidth() / 2.25f );
-			
 			URL url = new URL(userData[3]);
 			URLConnection uc;
 			uc = url.openConnection();
@@ -506,6 +505,11 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 
 	public void setUsername(String s) {
 		usr.setText( s );
+
+	}
+	
+	public void setPassword(String s) {
+		pwd.setText( s );
 
 	}
 

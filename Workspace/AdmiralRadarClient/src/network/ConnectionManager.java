@@ -267,7 +267,9 @@ public class ConnectionManager {
 	}
 
 	private void firstOfficerNetworkLoop() throws IOException {
+		System.out.println( "Gummmy Bear" +ois.getClassOfNext());
 		interrupt.setSpaceship( ois.getNextSpaceship() );
+		System.out.println( "Ball Pit" + ois.getClassOfNext());
 		interrupt.getSpaceship().setDirection( ois.getNextDirection() );
 		System.out.println( " Gumdrop " );
 		interrupt.refreshFrame();
@@ -286,10 +288,8 @@ public class ConnectionManager {
 
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
 		oos.sendPosition( start );
-		System.out.println( ois.getClassOfNext() );
-		System.out.println( ois.getNextString() );
-		System.out.println( ois.getClassOfNext() );
 		interrupt.setSpaceship( ois.getNextSpaceship() );
+		
 
 	}
 
@@ -300,8 +300,9 @@ public class ConnectionManager {
 
 	public void sendDirectionCommand(Direction d) {
 		try {
-			oos.sendString( "No" );
+		//	oos.sendString( "No" );
 			oos.sendDirection( d );
+		//	ois.getNextSpaceship();
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -345,6 +346,21 @@ public class ConnectionManager {
 			// do nothing (pw not encrypted)
 		}
 		return hash;
+	}
+
+	public void sendAction(Systems sys) {
+		try {
+			oos.sendSystem( sys );
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void quitGame() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

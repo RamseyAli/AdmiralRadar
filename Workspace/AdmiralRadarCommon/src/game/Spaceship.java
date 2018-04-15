@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random; // for Sonar
 
+import exceptions.MapDimensionException;
 import net.MyPacketable;
 
 public class Spaceship implements Serializable, MyPacketable {
@@ -132,6 +133,9 @@ public class Spaceship implements Serializable, MyPacketable {
 		int secSize;
 		// Note: "GamePreferences.SEG" is the size of the Map //
 		secSize = n / m;
+		
+		if (n % m != 0) // if n is not a multiple of m, increase sector size by 1 
+			++secSize;
 				
 		return m * ( pos.getY() / secSize ) + ( pos.getX() / secSize );
 	}
@@ -146,9 +150,9 @@ public class Spaceship implements Serializable, MyPacketable {
 			// Should throw exception in the future, system is not fully charge
 			// throw new Exception()
 		} 
-		if (n < 1 || m < 1)
+		if (n < 2 || m < 2 || n % m != 0)
 		{
-			// incorrect dimensions
+			throw new MapDimensionException();
 		}
 		
 		sector = getSector(n, m);
@@ -173,9 +177,9 @@ public class Spaceship implements Serializable, MyPacketable {
 		{
 			// TODO: ship system not ready.
 		}
-		if (n < 2 || m < 2)
+		if (n < 2 || m < 2 || n % m != 0)
 		{
-			// TODO: handle error
+			throw new MapDimensionException();
 		}
 		
 		// Correct info //

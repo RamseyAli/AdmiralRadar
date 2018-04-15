@@ -119,7 +119,7 @@ public class AdmRadarServer {
 					int teamRealNo = teamNo + 1;
 					
 					sendGlobalMessage("SERVER","Mine blasted by team "+teamRealNo);
-					gameShip.get(teamNo).blastMine(mineNo, gameShip);
+					gameShip = gameShip.get(teamNo).blastMine(mineNo, gameShip);
 					
 					sendTeamMessage("SERVER", "Mine "+args[1]+" blasted",teamNo);
 				}
@@ -129,10 +129,10 @@ public class AdmRadarServer {
 				Position missilePos = new Position(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
 				if (teamNo == 1) {
 					sendGlobalMessage("SERVER","Missile deployed by team 2");
-					gameShip.get(0).launchMissile(missilePos, gameShip);
+					gameShip = gameShip.get(0).launchMissile(missilePos, gameShip);
 				} else {
 					sendGlobalMessage("SERVER","Missile deployed by team 1");
-					//result = gameShip.get(1).checkSector(sectorGuess, SEG, SEC);
+					gameShip = gameShip.get(0).launchMissile(missilePos, gameShip);
 				}
 					
 				sendTeamMessage("SERVER", "Missile blasted at ("+args[1]+","+args[2]+")",teamNo);
@@ -285,7 +285,6 @@ public class AdmRadarServer {
 											} else {
 												
 												if (turn == turnNo) {
-													//myPrint( "" + turn );
 													
 													if (turnNo == 0 || turnNo == 4) {
 														moveComplete[teamNo] = false;
@@ -295,23 +294,27 @@ public class AdmRadarServer {
 													// ship.printShip();			
 													
 													if(role == Role.CAPTAIN) { 
-														String temp1 = "Your turn";
-														mpos.sendString(temp1);
+														String message = "Your turn";
+														mpos.sendString(message);
 														processSpecialAction(mpis.getNextCommand());													
 														
 														Direction dir = mpis.getNextDirection();
 														ship = arp.processDirections(dir, ship);
 														gameShip.set(teamNo, ship);
-													} else {
-														Systems action = mpis.getNextCommand();
-
+													} else if (role == Role.FIRST) {
 														mpos.sendDirection( ship.getDirection() );
-
-														ship = arp.processCommands( action , ship );
+														Systems action = mpis.getNextCommand();
+														
+														ship = arp.processSystems( action , ship );
 														gameShip.set(teamNo, ship);
-													}
-													
-													if (role == Role.ENGINE) {
+													} else if (role == Role.ENGINE) {
+														mpos.sendDirection( ship.getDirection() );
+														
+														String action = mpis.getNextString();
+																				
+														ship = arp.processParts( Integer.parseInt(action) , ship );
+														gameShip.set(teamNo, ship);
+														
 														if (gameShip.get( teamNo ) == null) {
 															gameOngoing = false;
 															myPrint( "GAME ENDED" );
@@ -359,9 +362,8 @@ public class AdmRadarServer {
 														mpos.sendString( "Game Ended" );
 														break;
 												} else {
+														// Do nothing
 														Thread.sleep( 1 );
-														// System.out.print("");
-														// mpos.sendString("Waiting for turn");
 												}
 											}
 										}

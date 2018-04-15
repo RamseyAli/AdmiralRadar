@@ -195,8 +195,6 @@ public class dbQuery {
 			while (DBobj.rs.next()) {
 				if (user.equals( DBobj.rs.getString( "USERNAME" ) )) {
 					return DBobj.rs.getString( "AVATAR" );
-				} else {
-					return "ERROR";
 				}
 			}
 		}
