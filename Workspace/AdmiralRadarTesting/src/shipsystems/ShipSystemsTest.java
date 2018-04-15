@@ -30,9 +30,12 @@ public class ShipSystemsTest {
 		System.out.println();
 	}
 	
-	private static void testDrone1() {
-		final int TEST_SIZE = SEG * SEG;
+	private static void testDrone() {
+		final int lengthX = 20, lengthY = 30;
+		final int TEST_SIZE = lengthX * lengthY;
 		int i, j, x, y;
+		int startX = -5, startY = -5;
+		
 		Spaceship tempShip;
 		
 		/*
@@ -45,7 +48,7 @@ public class ShipSystemsTest {
 		for (i = 0; i < TEST_SIZE; ++i)
 		{
 			ships.add( new Spaceship() );
-			ships.get(i).toGameStartCondition(new Position(i % SEG, i / SEG));
+			ships.get(i).toGameStartCondition(new Position(startX + i % lengthX, startY + i / lengthX));
 		}
 		
 		for (i = 0; i < TEST_SIZE; ++i)
@@ -61,7 +64,7 @@ public class ShipSystemsTest {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		testDrone1();
+		testDrone();
 	}
 
 }

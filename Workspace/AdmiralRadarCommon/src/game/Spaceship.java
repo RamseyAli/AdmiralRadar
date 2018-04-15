@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random; // for Sonar
 
+import exceptions.MapDimensionException;
 import net.MyPacketable;
 
 public class Spaceship implements Serializable, MyPacketable {
@@ -149,9 +150,9 @@ public class Spaceship implements Serializable, MyPacketable {
 			// Should throw exception in the future, system is not fully charge
 			// throw new Exception()
 		} 
-		if (n < 2 || m < 2)
+		if (n < 2 || m < 2 || n % m != 0)
 		{
-			// incorrect dimensions
+			throw new MapDimensionException();
 		}
 		
 		sector = getSector(n, m);
@@ -176,9 +177,9 @@ public class Spaceship implements Serializable, MyPacketable {
 		{
 			// TODO: ship system not ready.
 		}
-		if (n < 2 || m < 2)
+		if (n < 2 || m < 2 || n % m != 0)
 		{
-			// TODO: handle error
+			throw new MapDimensionException();
 		}
 		
 		// Correct info //
