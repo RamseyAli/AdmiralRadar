@@ -35,6 +35,8 @@ public class ExecutivePane extends ShipPanel {
 		add( boosG );
 		setOpaque(false);
 		setBackground( ColorPallate.PRIMARY_TRANSPARENT_GRAY );
+		
+		enableInteraction();
 
 	}
 
@@ -47,6 +49,14 @@ public class ExecutivePane extends ShipPanel {
 	public void draw() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void enableInteraction(){
+		mineG.activateGuageInteraction();
+		dronG.activateGuageInteraction();
+		scenG.activateGuageInteraction();
+		missG.activateGuageInteraction();
+		radrG.activateGuageInteraction();
 	}
 
 }

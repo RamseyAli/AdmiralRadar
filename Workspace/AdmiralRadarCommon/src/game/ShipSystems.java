@@ -521,4 +521,8 @@ public class ShipSystems implements Serializable {
 		}
 
 	}
+	
+	public boolean[] getPartsStatus(){
+		return sysComponents;
+	}
 }

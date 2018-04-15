@@ -218,7 +218,7 @@ public class AdmRadarServer {
 										
 										while (nPlayers < 8) {
 											Thread.sleep( 1 );
-											// mpos.sendString("WAITING");
+											// Do nothing
 										}
 										
 										AdmRadarProtocol arp = new AdmRadarProtocol();
@@ -241,6 +241,7 @@ public class AdmRadarServer {
 											System.out.println( turnNo + "Initial Position Received" );
 											ship = gameShip.get( teamNo );
 											ship.setPos( pos );
+											ship.setShipMap(map);
 											gameShip.set( teamNo , ship );
 											// gameShip.get(teamNo).printShip();
 										} else if (turnNo == 1 || turnNo == 5) {

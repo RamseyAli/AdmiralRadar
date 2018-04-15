@@ -17,6 +17,7 @@ import game.Systems;
 import network.ConnectionManager;
 import ops.User;
 import visual.roles.NetworkPane;
+import visual.util.components.GameFrame;
 import visual.util.components.ShipPanel;
 
 public class GUIController {
@@ -103,7 +104,7 @@ public class GUIController {
 		return fac;
 	}
 
-	public Component getGUIFrame() {
+	public GameFrame getGUIFrame() {
 		return fac.getFrame();
 	}
 
@@ -193,6 +194,17 @@ public class GUIController {
 	public void quit() {
 		cm.quitGame();
 		
+	}
+	
+	public void breakPart(int part) {
+		s.getShipSystem().disableSystemComponent( part );
+		cm.sendBreakPart(part);
+		globalRefresh();
+		
+	}
+
+	public ConnectionManager getConnectionManager() {
+		return cm;
 	}
 
 }

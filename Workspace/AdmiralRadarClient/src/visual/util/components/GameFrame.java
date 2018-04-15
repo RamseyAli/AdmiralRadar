@@ -50,6 +50,7 @@ public class GameFrame extends JFrame implements ComponentListener {
 
 	private GUIController control;
 
+	private ShipPanel sp;
 	private HealthPane	h;
 	private ChatPane	c;
 	private OrdersPane	o;
@@ -96,6 +97,7 @@ public class GameFrame extends JFrame implements ComponentListener {
 	}
 
 	public void setPanel(ShipPanel p) {
+		sp = p;
 		mainPane.removeAll();
 		mainPane.add( p , BorderLayout.CENTER );
 		if (!( p instanceof NetworkPane )) {
@@ -162,6 +164,15 @@ public class GameFrame extends JFrame implements ComponentListener {
 			}
 		} );
 	
+	}
+
+	public OrdersPane getOrdersPane() {
+		return o;
+		
+	}
+	
+	public ShipPanel getSP(){
+		return sp;
 	}
 
 }

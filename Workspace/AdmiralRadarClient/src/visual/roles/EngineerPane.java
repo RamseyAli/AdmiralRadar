@@ -32,6 +32,7 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 	private int[][]	blue	= new int[2][6];
 	private int[][]	orange	= new int[2][5];
 	private int[][]	grey	= new int[2][3];
+	private Ellipse2D[] buttonAreas = new Ellipse2D[24];
 
 	Rectangle	west;
 	Rectangle	north;
@@ -57,6 +58,9 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 	@Override
 	public void draw() {
+
+		if (control.getSpaceship() != null)
+			buttons = control.getSpaceship().getShipSystem().getPartsStatus();
 
 		int x = getSize().width;
 		int y = getSize().height;
@@ -144,68 +148,68 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 	private void drawNorthBox(Rectangle o) {
 
-		drawPart( o , new Point( 1 , 1 ) , 3 , buttons[6] , Color.ORANGE );
-		drawPart( o , new Point( 1 , 2 ) , 1 , buttons[7] , Color.ORANGE );
-		drawPart( o , new Point( 3 , 2 ) , 3 , buttons[8] , Color.ORANGE );
+		buttonAreas[6] = drawPart( o , new Point( 1 , 1 ) , 3 , buttons[6] , Color.ORANGE );
+		buttonAreas[7] = drawPart( o , new Point( 1 , 2 ) , 1 , buttons[7] , Color.ORANGE );
+		buttonAreas[8] = drawPart( o , new Point( 3 , 2 ) , 3 , buttons[8] , Color.ORANGE );
 
-		drawPart( o , new Point( 1 , 3 ) , 2 , buttons[9] , null );
-		drawPart( o , new Point( 2 , 3 ) , 1 , buttons[10] , null );
-		drawPart( o , new Point( 3 , 3 ) , 4 , buttons[11] , null );
+		buttonAreas[9] = drawPart( o , new Point( 1 , 3 ) , 2 , buttons[9] , null );
+		buttonAreas[10] = drawPart( o , new Point( 2 , 3 ) , 1 , buttons[10] , null );
+		buttonAreas[11] = drawPart( o , new Point( 3 , 3 ) , 4 , buttons[11] , null );
 
 	}
 
 	private void drawEastBox(Rectangle o) {
 
-		drawPart( o , new Point( 1 , 1 ) , 2 , buttons[18] , Color.ORANGE );
-		drawPart( o , new Point( 1 , 2 ) , 3 , buttons[19] , Color.DARK_GRAY );
-		drawPart( o , new Point( 3 , 2 ) , 1 , buttons[20] , Color.BLUE );
+		buttonAreas[18] = drawPart( o , new Point( 1 , 1 ) , 2 , buttons[18] , Color.ORANGE );
+		buttonAreas[19] = drawPart( o , new Point( 1 , 2 ) , 3 , buttons[19] , Color.DARK_GRAY );
+		buttonAreas[20] = drawPart( o , new Point( 3 , 2 ) , 1 , buttons[20] , Color.BLUE );
 
-		drawPart( o , new Point( 1 , 3 ) , 4 , buttons[21] , null );
-		drawPart( o , new Point( 2 , 3 ) , 2 , buttons[22] , null );
-		drawPart( o , new Point( 3 , 3 ) , 4 , buttons[23] , null );
+		buttonAreas[21] = drawPart( o , new Point( 1 , 3 ) , 4 , buttons[21] , null );
+		buttonAreas[22] = drawPart( o , new Point( 2 , 3 ) , 2 , buttons[22] , null );
+		buttonAreas[23] = drawPart( o , new Point( 3 , 3 ) , 4 , buttons[23] , null );
 
 	}
 
 	private void drawSouthBox(Rectangle o) {
 
-		drawPart( o , new Point( 1 , 1 ) , 2 , buttons[12] , Color.DARK_GRAY );
-		drawPart( o , new Point( 1 , 2 ) , 3 , buttons[13] , Color.DARK_GRAY );
-		drawPart( o , new Point( 3 , 2 ) , 1 , buttons[14] , Color.DARK_GRAY );
+		buttonAreas[12] = drawPart( o , new Point( 1 , 1 ) , 2 , buttons[12] , Color.DARK_GRAY );
+		buttonAreas[13] = drawPart( o , new Point( 1 , 2 ) , 3 , buttons[13] , Color.DARK_GRAY );
+		buttonAreas[14] = drawPart( o , new Point( 3 , 2 ) , 1 , buttons[14] , Color.DARK_GRAY );
 
-		drawPart( o , new Point( 1 , 3 ) , 1 , buttons[15] , null );
-		drawPart( o , new Point( 2 , 3 ) , 4 , buttons[16] , null );
-		drawPart( o , new Point( 3 , 3 ) , 3 , buttons[17] , null );
+		buttonAreas[15] = drawPart( o , new Point( 1 , 3 ) , 1 , buttons[15] , null );
+		buttonAreas[16] = drawPart( o , new Point( 2 , 3 ) , 4 , buttons[16] , null );
+		buttonAreas[17] = drawPart( o , new Point( 3 , 3 ) , 3 , buttons[17] , null );
 
 	}
 
 	private void drawWestBox(Rectangle o) {
 
-		drawPart( o , new Point( 1 , 1 ) , 1 , buttons[0] , Color.BLUE );
-		drawPart( o , new Point( 3 , 1 ) , 3 , buttons[1] , Color.BLUE );
-		drawPart( o , new Point( 3 , 2 ) , 2 , buttons[2] , Color.BLUE );
+		buttonAreas[0] = drawPart( o , new Point( 1 , 1 ) , 1 , buttons[0] , Color.BLUE );
+		buttonAreas[1] = drawPart( o , new Point( 3 , 1 ) , 3 , buttons[1] , Color.BLUE );
+		buttonAreas[2] = drawPart( o , new Point( 3 , 2 ) , 2 , buttons[2] , Color.BLUE );
 
-		drawPart( o , new Point( 1 , 3 ) , 2 , buttons[3] , null );
-		drawPart( o , new Point( 2 , 3 ) , 4 , buttons[4] , null );
-		drawPart( o , new Point( 3 , 3 ) , 4 , buttons[5] , null );
+		buttonAreas[3] = drawPart( o , new Point( 1 , 3 ) , 2 , buttons[3] , null );
+		buttonAreas[4] = drawPart( o , new Point( 2 , 3 ) , 4 , buttons[4] , null );
+		buttonAreas[5] = drawPart( o , new Point( 3 , 3 ) , 4 , buttons[5] , null );
 
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
-		Rectangle r = null;
+		System.out.println( "Clicky!" );
+		int indexPart = 0;
+		
+		for (indexPart = 0; indexPart < 24; indexPart++)
+			if (buttonAreas[indexPart].contains(e.getPoint()))
 
-		if (west.contains( e.getPoint() )) {
-			r = west;
-		} else if (north.contains( e.getPoint() )) {
-			r = north;
-		} else if (south.contains( e.getPoint() )) {
-			r = south;
-		} else if (east.contains( e.getPoint() )) {
-			r = east;
-		} else return;
-
-		clickCheck( r , e.getPoint().x , e.getPoint().y );
+		if (buttons[indexPart]){
+			System.out.println( buttons[indexPart] + "Button" + indexPart );
+			if (control.getConnectionManager().engineerButtonsEnabled()){
+				buttons[indexPart] = false;
+				control.breakPart(indexPart);
+			}
+		}
 
 		SwingUtilities.invokeLater( new Runnable() {
 			public void run() {
@@ -215,58 +219,9 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 	}
 
-	private void clickCheck(Rectangle r, int x1, int y1) {
-
-		double a = (int) ( r.width / ( 2 * ( A + 1 ) ) );
-		double b = (int) ( r.height / ( 2 * ( B + 1 ) ) );
-		double rad = (int) 40;
-
-		int i = 0;
-		int j = 0;
-		Point p = null;
-
-		for (i = 0; i < 4; i++)
-			for (j = 0; j < 4; j++) {
-				if (( new Ellipse2D.Double( r.x + (int) ( A * a ) + a * ( i - 1 ) - rad ,
-						r.y + (int) ( B * b ) + b * ( j - 1 ) - rad , 2 * rad , 2 * rad ) )
-								.contains( new Point( x1 , y1 ) ))
-					p = new Point( i , j );
-			}
-
-		if (p == null) return;
-
-		int ding = 0;
-
-		// IF BOTTOM PANEL
-		if (p.y == 3) ding = 3 + p.x;
-
-		// IF NORTHWEST
-		if (( p.y == 1 ) && ( p.x == 1 )) ding = 1;
-
-		// IF SOUTHEAST
-		if (( p.y == 2 ) && ( p.x == 3 )) ding = 3;
-
-		// IF NORTHEAST (ONLY FIRST)
-		if (r == west) {
-			if (( p.y == 1 ) && ( p.x == 3 )) ding = 2;
-		} else {
-			if (( p.y == 2 ) && ( p.x == 1 )) ding = 2;
-		}
-
-		if (r == west) {
-			buttons[ding - 1] = false;
-		} else if (r == north) {
-			buttons[5 + ding] = false;
-		} else if (r == south) {
-			buttons[11 + ding] = false;
-		} else if (r == east) {
-			buttons[17 + ding] = false;
-		}
-
-	}
 
 	// 1 - Red, 2-Green, 3-Yellow, 4-Atomic
-	private void drawPart(Rectangle r, Point p, int type, boolean active, Color system) {
+	private Ellipse2D drawPart(Rectangle r, Point p, int type, boolean active, Color system) {
 
 		int a = (int) ( r.width / ( 2 * ( A + 1 ) ) );
 		int b = (int) ( r.height / ( 2 * ( B + 1 ) ) );
@@ -300,10 +255,11 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 		x_o = r.x + ap + a * ( p.x - 1 );
 		y_o = r.y + bp + b * ( p.y - 1 );
+		
+		Ellipse2D er2d = new Ellipse2D.Double( x_o - rad , y_o - rad , 2 * rad , 2 * rad );
+		g.fill(er2d);
 
-		g.fillOval( x_o - rad , y_o - rad , 2 * rad , 2 * rad );
-
-		if (active) return;
+		if (active) return er2d;
 
 		switch (type) {
 			case 1:
@@ -322,6 +278,8 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 		int rad2 = (int) ( a / 3.3 );
 		g.fillOval( x_o - rad2 , y_o - rad2 , 2 * rad2 , 2 * rad2 );
+		
+		return er2d; 
 
 	}
 

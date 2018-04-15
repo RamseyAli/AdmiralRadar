@@ -18,6 +18,7 @@ public class Spaceship implements Serializable, MyPacketable {
 
 	private MineController	shipMines;
 	private ShipSystems		systems;
+	private GameMap			map;
 
 	private static final long serialVersionUID = 1L;
 	private static Random rand = new Random();
@@ -316,5 +317,13 @@ public class Spaceship implements Serializable, MyPacketable {
 		health = MAX_HEALTH;
 		pos = p;
 		
+	}
+
+	public GameMap getShipMap() {
+		return map;
+	}
+
+	public void setShipMap(GameMap map) {
+		this.map = map;
 	}
 }

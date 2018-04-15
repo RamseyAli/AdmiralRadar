@@ -15,11 +15,22 @@ public class GameMap implements Serializable, MyPacketable {
 			for (int j = 0; j < GamePreferences.SEG; j++)
 				asteroid[i][j] = false;
 
-		asteroid[1][2] = true;
-		asteroid[1][3] = true;
-		asteroid[5][4] = true;
-		asteroid[5][5] = true;
-		asteroid[6][5] = true;
+		asteroid[2][1] = true;
+		asteroid[2][2] = true;
+		asteroid[2][11] = true;
+		asteroid[3][7] = true;
+		asteroid[3][8] = true;
+		asteroid[3][10] = true;
+		asteroid[7][11] = true;
+		asteroid[8][2] = true;
+		asteroid[8][3] = true;
+		asteroid[8][13] = true;
+		asteroid[11][8] = true;
+		asteroid[11][11] = true;
+		asteroid[12][1] = true;
+		asteroid[12][8] = true;
+		asteroid[13][1] = true;
+		asteroid[13][8] = true;
 
 	}
 

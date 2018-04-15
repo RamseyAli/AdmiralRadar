@@ -46,7 +46,7 @@ public class Testapus {
 		// Make sure the Graphics Fullscreen doesnt crash
 		GamePreferences.setFullscreen( false );
 
-		// Make a shitton of Clients
+		// Make Clients
 		ARClient[] clients = new ARClient[8];
 		final int S = 400;
 		final int S2 = (int) ( S * 0.9 );
