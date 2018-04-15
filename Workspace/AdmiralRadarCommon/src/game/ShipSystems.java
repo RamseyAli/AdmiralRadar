@@ -166,23 +166,23 @@ public class ShipSystems implements Serializable {
 	public void chargeSystem(Systems sys) {
 		switch (sys) {
 			case RADAR: {
-				if (radar[POWER_LEVEL] != 3) radar[POWER_LEVEL]++;
+				if (radar[POWER_LEVEL] < 3) radar[POWER_LEVEL]++;
 				break;
 			}
 			case MISSILE: {
-				if (missile[POWER_LEVEL] != 3) missile[POWER_LEVEL]++;
+				if (missile[POWER_LEVEL] < 3) missile[POWER_LEVEL]++;
 				break;
 			}
 			case MINE: {
-				if (mine[POWER_LEVEL] != 3) mine[POWER_LEVEL]++;
+				if (mine[POWER_LEVEL] < 3) mine[POWER_LEVEL]++;
 				break;
 			}
 			case DRONE: {
-				if (drone[POWER_LEVEL] != 4) drone[POWER_LEVEL]++;
+				if (drone[POWER_LEVEL] < 4) drone[POWER_LEVEL]++;
 				break;
 			}
 			case BOOST: {
-				if (boost[POWER_LEVEL] != 6) boost[POWER_LEVEL]++;
+				if (boost[POWER_LEVEL] < 6) boost[POWER_LEVEL]++;
 				break;
 			}
 

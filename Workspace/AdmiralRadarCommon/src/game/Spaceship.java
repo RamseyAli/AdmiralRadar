@@ -93,9 +93,8 @@ public class Spaceship implements Serializable, MyPacketable {
 		if (systems.useSystem(Systems.MINE)) {
 			shipMines.addMine(min);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 	
 	public ArrayList<Spaceship> blastMine(int index, ArrayList<Spaceship> ships) {
@@ -113,18 +112,16 @@ public class Spaceship implements Serializable, MyPacketable {
 		if (!systems.useSystem( Systems.MISSILE )) return ships;
 
 		for (Spaceship ship : ships) {
-			// If a mine exists in the same position as the launched missile,
-			// then detonate the mine but don't damage overlapping and/or adjacent ships
-			
+
 			if (miss.equals(ship.getPosition()))
 				ship.removeHealth(2);
 			if (miss.isAdjacent(ship.getPosition()))
 				ship.removeHealth(1);
 
+			// If a mine exists in the same position as the launched missile,
+			// then detonate the mine but don't damage overlapping and/or adjacent ships
 			ship.getShipMines().detonateMine( miss , ships , false );
-
 		}
-
 		return ships;
 	}
 	// Drone //
