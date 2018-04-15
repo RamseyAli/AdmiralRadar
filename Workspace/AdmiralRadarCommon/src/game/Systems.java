@@ -6,7 +6,7 @@ import net.MyPacketable;
 
 public enum Systems implements Serializable, MyPacketable {
 		
-	MINE, MISSILE, DRONE, RADAR, BOOST, SCENARIO, SPACEWALK; // Not using or checking for this atm
+	MINE, MISSILE, DRONE, RADAR, BOOST, SCENARIO, SPACEWALK; // Not using or checking for SPACEWALK atm
 	
 	private String payload;
 

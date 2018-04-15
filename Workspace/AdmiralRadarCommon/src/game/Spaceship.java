@@ -6,6 +6,7 @@ import java.util.Random; // for Sonar
 
 import exceptions.MapDimensionException;
 import net.MyPacketable;
+import pref.GamePreferences;
 
 public class Spaceship implements Serializable, MyPacketable {
 
@@ -88,7 +89,10 @@ public class Spaceship implements Serializable, MyPacketable {
 		nextDir = Direction.STOP;
 	}
 	
-	/* TACTICAL SYSTEMS */
+	/* 
+	 * TACTICAL SYSTEMS 
+	 */
+	
 	public boolean dropMine(Position min) {
 		if (systems.useSystem(Systems.MINE)) {
 			shipMines.addMine(min);
@@ -124,6 +128,10 @@ public class Spaceship implements Serializable, MyPacketable {
 		}
 		return ships;
 	}
+	
+	/* 
+	 * SENSORY SYSTEMS 
+	 */
 	// Drone //
 	private int getSector(int n, int m)
 	{
@@ -159,7 +167,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		
 		return false;
 	}
-	// Current sonar implementation //
+	// Current radar implementation //
 	// Will return array of 3 integers, representing X, Y, and Sector of ship //
 	// The non-returned value is -1 //
 	public int[] randomRadar(int n, int m) // n = map dimension, m = sector dimension
@@ -231,8 +239,65 @@ public class Spaceship implements Serializable, MyPacketable {
 		return ans;
 	}
 	
-	/* BOOST SYSTEM */
+	/* 
+	 * AUXILARY (BOOST) SYSTEM 
+	 */
+	private static boolean isValidCheck(int x, int y) { // Used mainly for boostCheck
+		if (( x >= 0 ) && ( x < GamePreferences.SEG )) {
+			if (( y >= 0 ) && ( y < GamePreferences.SEG )) { return true; }
+		}
+		return false;
+	}
 	
+	private boolean boostCheck(Direction d, int dist) 
+	{
+		Position boostedPos = this.pos;
+		for (int i = 1; i <= dist; i++) {
+			switch (d) {
+				case NORTH: {
+					if (isValidCheck(boostedPos.getX(), boostedPos.getY() + 1)) { // HANDLE asteroids soon
+						boostedPos.setY(boostedPos.getY() + 1);
+					}
+					else break;
+				} case SOUTH: {
+					if (isValidCheck(boostedPos.getX(), boostedPos.getY() - 1)) { // HANDLE asteroids soon
+						boostedPos.setY(boostedPos.getY() - 1);
+					}
+					else break;
+				} case EAST: {
+					if (isValidCheck(boostedPos.getX() + 1, boostedPos.getY())) { // HANDLE asteroids soon
+						boostedPos.setX(boostedPos.getX() + 1);
+					}
+					else break;
+				} case WEST: {
+					if (isValidCheck(boostedPos.getX() - 1, boostedPos.getY())) { // HANDLE asteroids soon
+						boostedPos.setX(boostedPos.getX() + 1);
+					}
+					else break;
+				}
+				default: return false;
+			}
+		}
+		// Update Ship position to the boosted ship position
+		this.pos = boostedPos;
+		return true;
+	}
+	
+	public boolean boostShip(Direction direction, int distance) 
+	{
+		if (direction == Direction.STOP || distance < 0 || distance > 4)
+			return false;
+		if (distance == 0)
+			return true;
+		
+		switch (direction) {
+			case NORTH: return boostCheck(Direction.NORTH, 	distance);
+			case SOUTH: return boostCheck(Direction.SOUTH, 	distance);
+			case EAST: 	return boostCheck(Direction.EAST,  	distance);
+			case WEST: 	return boostCheck(Direction.WEST,	distance);
+			default:	return false; // SHOULD NEVER GO HERE
+		}
+	}
 	
 	
 	public void printShip() // For testing purposes
