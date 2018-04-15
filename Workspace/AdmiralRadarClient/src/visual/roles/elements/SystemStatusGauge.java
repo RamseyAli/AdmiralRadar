@@ -41,7 +41,7 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 		spaces = s;
 		charge = 0;
 
-		addMouseListener( this );
+	//	addMouseListener( this );
 		setOpaque( false );
 		setBackground(ColorPallate.INVISIBLE);
 
@@ -131,6 +131,10 @@ public class SystemStatusGauge extends JPanel implements MouseListener {
 	public void addController(GUIController control) {
 		ctrl = control;
 		
+	}
+	
+	public void activateGuageInteraction(){
+		addMouseListener(this);
 	}
 
 }

@@ -24,6 +24,7 @@ import net.MyPacketOutputStream;
 import net.ObjEnum;
 import ops.User;
 import pref.GamePreferences;
+import visual.roles.ExecutivePane;
 import visual.util.operations.GUIController;
 
 public class ConnectionManager {
@@ -34,12 +35,19 @@ public class ConnectionManager {
 	MyPacketOutputStream	oos;
 	MyPacketInputStream		ois;
 	String					name;
+	boolean					game = true;
+	Object					chargeLock;
+	Object					engineLock;
 
+	boolean					listenForChargeCommands = false;
+	boolean					listenForDamageCommands = false;
 	GUIController interrupt;
 
 	public ConnectionManager(GUIController nexus) {
 		interrupt = nexus;
 		name = "Default Name";
+		chargeLock = new Object();
+		engineLock = new Object();
 
 	}
 
@@ -66,7 +74,7 @@ public class ConnectionManager {
 	public int loginToServer(String user, String hash) {
 
 		hash = encrypt(hash);
-		
+
 		User u = null;
 		try {
 			u = new User( user , hash );
@@ -96,13 +104,13 @@ public class ConnectionManager {
 		return 2;
 
 	}
-	
+
 	public int registerUserWithServer(String uRL, String user, String hash) {
-		
+
 		hash = encrypt(hash);
 
 		User u = null;
-		
+
 		try {
 			u = new User(user, hash);
 			u.setAvatar(uRL);
@@ -129,7 +137,7 @@ public class ConnectionManager {
 		} catch (IOException e) {
 			return 2;
 		}
-		
+
 	}
 
 	public void disconnect() {
@@ -155,7 +163,7 @@ public class ConnectionManager {
 		}
 
 	}
-	
+
 	/*
 	 * 0 - Success
 	 * -1 - ERROR: Invalid PIN
@@ -164,13 +172,13 @@ public class ConnectionManager {
 	public int newPassword(int PIN, String user, String password) {
 
 		String hash = encrypt(password);
-		
+
 		int storedPIN = interrupt.getUser().getPin();
-		
+
 		if (storedPIN != PIN) {
 			return -1;
 		}
-		
+
 		interrupt.getUser().setNewPassword(hash);
 
 		try {
@@ -180,7 +188,7 @@ public class ConnectionManager {
 			e.printStackTrace();
 			return -2;
 		}
-		
+
 		return 0;
 
 	}
@@ -269,18 +277,38 @@ public class ConnectionManager {
 	private void firstOfficerNetworkLoop() throws IOException {
 		System.out.println( "Gummmy Bear" +ois.getClassOfNext());
 		interrupt.setSpaceship( ois.getNextSpaceship() );
-		System.out.println( "Ball Pit" + ois.getClassOfNext());
-		interrupt.getSpaceship().setDirection( ois.getNextDirection() );
-		System.out.println( " Gumdrop " );
-		interrupt.refreshFrame();
-	//	interrupt.globalRefresh();
+
+		while(game){
+			interrupt.getSpaceship().setDirection( ois.getNextDirection() );
+			interrupt.refreshFrame();
+			System.out.println( "XO Turn Beginning!" );
+
+			((ExecutivePane) (interrupt.getGUIFrame().getSP())).enableInteraction();
+			listenForChargeCommands = true;
+
+			System.out.println( " Gumdrop " + ois.getClassOfNext());
+			interrupt.setSpaceship( ois.getNextSpaceship() );
+			interrupt.refreshFrame();
+			System.out.println( "First Officer Turn Complete" );
+		}
 
 	}
 
 	private void engineerNetworkLoop() throws IOException {
 		interrupt.setSpaceship( ois.getNextSpaceship() );
-		interrupt.getSpaceship().setDirection( ois.getNextDirection() );
-		interrupt.refreshFrame();
+
+		while(game){
+			interrupt.getSpaceship().setDirection( ois.getNextDirection() );
+			interrupt.refreshFrame();
+			System.out.println( "Engineer Turn Beginning!" );
+
+			listenForDamageCommands = true;
+
+			System.out.println( " Hershy Kiss " + ois.getClassOfNext());
+			interrupt.setSpaceship( ois.getNextSpaceship() );
+			interrupt.refreshFrame();
+			System.out.println( "Engineer Turn Complete" );
+		}
 
 	}
 
@@ -289,26 +317,51 @@ public class ConnectionManager {
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
 		oos.sendPosition( start );
 		interrupt.setSpaceship( ois.getNextSpaceship() );
-		
+
+		while(game){
+			
+			
+			switch(ois.getNextString()){
+				case "Your turn" : break;
+				case "Game Ended": 
+					JOptionPane.showMessageDialog(interrupt.getGUIFrame(), "Game Over!");
+					interrupt.quit(); 
+					break;
+				default: System.out.println( "Something has gone Horribly Wrong aroung line 327 of connectionManager" );
+			}
+			
+			interrupt.getGUIFrame().getOrdersPane().beginTurn();
+			
+			//Send System to Server
+			
+			//Send Direction to Server
+			
+			interrupt.setSpaceship( ois.getNextSpaceship() );
+			interrupt.refreshFrame();
+			
+			
+
+		}
+
 
 	}
 
 	public void setName(String n2) {
 		name = n2;
-		
+
 	}
 
 	public void sendDirectionCommand(Direction d) {
 		try {
-		//	oos.sendString( "No" );
+			//	oos.sendString( "No" );
 			oos.sendDirection( d );
-		//	ois.getNextSpaceship();
+			//	ois.getNextSpaceship();
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void sendShip(Spaceship s) {
@@ -319,20 +372,41 @@ public class ConnectionManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void sendChargeCommand(Systems name2) {
+		if (listenForChargeCommands){
+			try {
+
+				oos.sendSystem( name2 );
+
+			}
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+
+
+
+	}
+
+	public void sendBreakPart(int part) {
 		try {
-			oos.sendSystem( name2 );
+
+			oos.sendString( "" + part );
+
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+
 	}
-	
+
 	private String encrypt(String password) {
 		String hash = "";
 		try {
@@ -355,12 +429,16 @@ public class ConnectionManager {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void quitGame() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public boolean engineerButtonsEnabled() {
+		return listenForDamageCommands;
 	}
 
 }

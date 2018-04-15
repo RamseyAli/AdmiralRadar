@@ -40,6 +40,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 	int phaseOfTurn = 0;
 	boolean commandHasBeenSent = false;
+	boolean directionHasBeenSent = false;
 	// 0 - Place Ship (Captain)
 	// 1 = Special Action (Captain)
 	// 2 - Pick Direction / Charge System / Destructor (All)
@@ -359,53 +360,53 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 			else if 		(droneBox.contains( e.getPoint() )){
 				commandHasBeenSent = true;
-				phaseOfTurn = 2;
+				setup();
 				Systems x =  Systems.DRONE;
 				x.setPayload( "" + droneSector );
 				control.specialAction(x);
 			}
 			else if (radarBox.contains( e.getPoint() )){
 				commandHasBeenSent = true;
-				phaseOfTurn = 2;
+				setup();
 				control.specialAction(Systems.RADAR);
 			}
 			else if (missleBox.contains( e.getPoint() )){
 				commandHasBeenSent = true;
-				phaseOfTurn = 2;
+				setup();
 				Systems x =  Systems.MISSILE;
 				x.setPayload( "" + JOptionPane.showInputDialog(this, "MISSILE COORDINATES:") );
 				control.specialAction(x);
 			}
 			else if (dropMine.contains( e.getPoint() )){
 				commandHasBeenSent = true;
-				phaseOfTurn = 2;
+				setup();
 				Systems x =  Systems.MINE;
 				x.setPayload("Drop " + JOptionPane.showInputDialog(this, "DROP MINE COORDINATES:"));
 				control.specialAction(x);
 			}
 			else if (blastMineBox.contains( e.getPoint() )){
 				commandHasBeenSent = true;
-				phaseOfTurn = 2;
+				setup();
 				Systems x =  Systems.MINE;
 				x.setPayload( "Blast " + + selectedMine );
 				control.specialAction(x);
 			}
 			else if (boostBox.contains( e.getPoint() )){
 				commandHasBeenSent = true;
-				phaseOfTurn = 2;
+				setup();
 				Systems x =  Systems.BOOST;
 				x.setPayload( "Boost " + boostPower );
 				control.specialAction(x);
 			}
 			else if (walkBox.contains( e.getPoint() )){
 				commandHasBeenSent = true;
-				phaseOfTurn = 2;
+				setup();
 				control.specialAction(Systems.SPACEWALK);
 			}
 
 			else if (cruiseBox.contains( e.getPoint() )){
 				commandHasBeenSent = true;
-				phaseOfTurn = 2;
+				setup();
 				control.specialAction(Systems.SCENARIO);
 			}
 		}
@@ -506,19 +507,27 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 		switch (control.getRole()) {
 			case CAPTAIN:
+				removeMouseMotionListener(this);
+				removeMouseListener(this);
 				System.out.println( control.getSpaceship().getPosition() );
 				if (!control.getSpaceship().getPosition().isValid()){
 					System.out.println( "Captain Window Turn Start --------------------------------------------NOT" );
 					phaseOfTurn = 0;
 					commandHasBeenSent = false;
+					addMouseListener( this );
+					addMouseMotionListener( this );
 
 				} else{ //Position is set, so EITHER we need to send a command (1) or direction (2)
-					System.out.println( "Captain Window Turn Start --------------------------------------------YEP" );
+					System.out.println( "Captain Window Turn Start --------------------------------------------YEP" + commandHasBeenSent + "|" + directionHasBeenSent);
 					if (!commandHasBeenSent){
 						phaseOfTurn = 1;
+						addMouseListener( this );
+					} else if (!directionHasBeenSent) {
+						phaseOfTurn = 2;
+						addMouseListener( this );
 						addMouseMotionListener( this );
-					} else phaseOfTurn = 2;
-					addMouseListener( this );
+					} else phaseOfTurn = 3;
+					
 					
 				}
 				System.out.println( "Captain Window Turn Start --------------------------------------------YE" + phaseOfTurn );
@@ -537,9 +546,12 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 	}
 
-	public void setState(int i)
+	public void beginTurn()
 	{
-		phaseOfTurn = i;
+		phaseOfTurn = 1;
+		directionHasBeenSent = false;
+		commandHasBeenSent = false;
+		
 	}
 
 }
