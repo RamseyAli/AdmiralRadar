@@ -112,7 +112,7 @@ public class Testapus {
 		r.mouseRelease( InputEvent.BUTTON1_DOWN_MASK );
 
 
-		Thread.sleep( 60000 );
+		Thread.sleep( 100000 );
 
 		System.exit( 0 );
 

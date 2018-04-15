@@ -71,51 +71,51 @@ public class MyPacketInputStream extends ObjectInputStream {
 	public Spaceship getNextSpaceship() throws IOException {
 		if (getClassOfNext() == ObjEnum.SPACESHIP)
 			return (Spaceship) getBuffer();
-		else throw new PacketPayloadIncompatable();
+		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 
 	public GameMap getNextMap() throws IOException {
 		if (getClassOfNext() == ObjEnum.MAP)
 			return (GameMap) getBuffer();
-		else throw new PacketPayloadIncompatable();
+		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 
 	public Position getNextPosition() throws IOException {
 		if (getClassOfNext() == ObjEnum.POSITION)
 			return (Position) getBuffer();
-		else throw new PacketPayloadIncompatable();
+		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 
 	public String getNextString() throws IOException {
 		if (getClassOfNext() == ObjEnum.STRING)
 			return ( (SendableString) getBuffer() ).getContent();
-		else throw new PacketPayloadIncompatable();
+		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 
 	public Role getNextRole() throws IOException {
 		if (getClassOfNext() == ObjEnum.ROLE)
 			return (Role) getBuffer();
-		else throw new PacketPayloadIncompatable();
+		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 
 	public Direction getNextDirection() throws IOException {
 		System.out.println( label + "Himaleyan Pink Salt!" );
 		if (getClassOfNext() == ObjEnum.DIRECTION)
 			return (Direction) getBuffer();
-		else throw new PacketPayloadIncompatable();
+		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 	
 	public Systems getNextCommand() throws IOException {
 		System.out.println( label + "Himaleyan Pink Salt!" );
 		if (getClassOfNext() == ObjEnum.SYSTEM)
 			return (Systems) getBuffer();
-		else throw new PacketPayloadIncompatable();
+		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 
 	public ArrayList<Direction> getNextPath() throws IOException {
 		if (getClassOfNext() == ObjEnum.PATH)
 			return ( (SendablePath) getBuffer() ).getContent();
-		else throw new PacketPayloadIncompatable();
+		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 
 }

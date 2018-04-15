@@ -42,4 +42,11 @@ public class ColorPallate {
 
 	public static final Color MAP_DOTS = new Color( 213 , 213 , 0 , 240 );
 
+	public static final Color INFO_PANEL_BORDER	= new Color( 0 , 0 , 100 , 180 );
+	public static final Color INFO_CHAT_PANEL	= new Color( 60 , 60 , 60 , 150 );
+
+	public static final Color QUIT_BUTTON = new Color( 200 , 40 , 40 , 100 );
+
+	public static final Color QUIT_TEXT = new Color( 240 , 240 , 240 , 200 );
+
 }

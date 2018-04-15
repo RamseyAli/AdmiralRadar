@@ -16,6 +16,7 @@ import javax.swing.event.MouseInputListener;
 import game.Direction;
 import game.Role;
 import game.Systems;
+import pref.GamePreferences;
 import pref.VisualPreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
@@ -32,8 +33,17 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 	private Rectangle droneBox , radarBox, missleBox , dropMine, blastMineBox, boostBox, walkBox, cruiseBox;
 	private Ellipse2D	compass;
 	private boolean[]			overlay = {false, false, false, false};
-	private Polygon bigMineArrow, litMineArrow;
-	int selectedMine = -1;
+	private Polygon bigMineArrow, litMineArrow , bigDroneArrow, litDroneArrow, bigBoostArrow, litBoostArrow;
+	int selectedMine = 0;
+	int droneSector = 0;
+	int boostPower = 4;
+
+	int phaseOfTurn = 0;
+	boolean commandHasBeenSent = false;
+	// 0 - Place Ship (Captain)
+	// 1 = Special Action (Captain)
+	// 2 - Pick Direction / Charge System / Destructor (All)
+	// 3 - Waiting! (All)
 
 	/**
 	 * 
@@ -109,6 +119,8 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 		int xtB =  VisualPreferences.GENERAL_BORDER*2 + sysX + sysWidth;
 		int ytB = VisualPreferences.GENERAL_BORDER + sysYGap + 4 * ( sysYGap + sysHeight );
+		int ytB4 = VisualPreferences.GENERAL_BORDER + sysYGap + 0 * ( sysYGap + sysHeight );
+		int ytB5 = VisualPreferences.GENERAL_BORDER + sysYGap + 5 * ( sysYGap + sysHeight );
 
 		int[] xp1 = {xtB ,
 				xtB ,
@@ -118,10 +130,22 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 		int[] xp2 = {xp1[0] + B ,
 				xp1[1] + B ,
 				xp1[2] - xp};
-		int[] yp2 = {yp1[0] + 2*hp , yp1[1] - 2*hp , yp1[2] };
+		int[] yp2 = {yp1[0] + 2*hp , yp1[1] - 2*hp , yp1[2] };	
+
+		int[] yd1 = {ytB4 , ytB4 + sysHeight , ytB4 + sysHeight / 2};
+		int[] yd2 = {yp1[0] + 2*hp , yp1[1] - 2*hp , yp1[2] };
+
+		int[] yb1 = {ytB5 , ytB5 + sysHeight , ytB5 + sysHeight / 2};
+		int[] yb2 = {yp1[0] + 2*hp , yp1[1] - 2*hp , yp1[2] };
 
 		bigMineArrow = new Polygon(xp1 , yp1 , 3);
 		litMineArrow = new Polygon(xp2 , yp2 , 3);
+
+		bigDroneArrow = new Polygon(xp1 , yd1 , 3);
+		litDroneArrow = new Polygon(xp2 , yd2 , 3);
+
+		bigBoostArrow = new Polygon(xp1 , yb1 , 3);
+		litBoostArrow = new Polygon(xp2 , yb2 , 3);
 
 
 
@@ -170,6 +194,8 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 				VisualPreferences.GENERAL_BORDER + sysYGap + 7 * ( sysYGap + sysHeight ) , sysWidth , sysHeight );
 
 		g.fillPolygon( bigMineArrow );
+		g.fillPolygon( bigDroneArrow );
+		g.fillPolygon( bigBoostArrow );
 		g.fill( droneBox );
 		g.fill( radarBox );
 		g.fill( missleBox );
@@ -183,7 +209,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 		int sh = g.getFontMetrics().getHeight();
 		g.setFont( g.getFont().deriveFont( Font.BOLD ) );
 
-		g.drawString( "Drone" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+		g.drawString( "Drone Sec" + droneSector , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 0.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Radar" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 1.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
@@ -191,9 +217,9 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 				(int) ( VisualPreferences.GENERAL_BORDER + 2.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Drop Mine" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 3.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
-		g.drawString( "Blast Mine" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+		g.drawString( "Blast Mine" + selectedMine , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 4.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
-		g.drawString( "Boosters" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+		g.drawString( "Boost " + boostPower, VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 5.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Spacewalk" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 6.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
@@ -219,11 +245,13 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 		if (control.getSpaceship() != null) {
 			g.setColor( ColorPallate.SENSORY );
-			if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.DRONE ))
+			if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.DRONE )){
 				g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
 						VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER ,
 						sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
 
+				g.fillPolygon(litMineArrow);
+			}
 			if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.RADAR ))
 				g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
 						VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
@@ -255,12 +283,14 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 			}
 			g.setColor( ColorPallate.UTILITY );
-			if (control.getSpaceship().getShipSystem().isSystemCharged(Systems.BOOST))
+
+			if (control.getSpaceship().getShipSystem().isSystemCharged(Systems.BOOST)){
 				g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
 						VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
 						+ 5 * ( sysYGap + sysHeight ) ,
 						sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
-
+				g.fillPolygon(litBoostArrow);
+			}
 			g.setColor( ColorPallate.ORDER_SYSTEM_CAUTION );
 
 			if (control.getSpaceship().getShipSystem().isSystemDestroyed( Systems.DRONE )) g.fillOval(
@@ -296,56 +326,111 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (north.contains( e.getPoint() )) {
-			control.flyInDirection(Direction.NORTH);
-			System.out.println( "North" );
-		} else if (south.contains( e.getPoint() )) {
-			control.flyInDirection(Direction.SOUTH);
-			System.out.println( "South" );
-		} else if (east.contains( e.getPoint() )) {
-			control.flyInDirection(Direction.EAST);
-			System.out.println( "East" );
-		} else if (west.contains( e.getPoint() )) {
-			control.flyInDirection(Direction.WEST);
-			System.out.println( "West" );
+		if (compass.contains( e.getPoint() ) && (phaseOfTurn == 2)){
+			if (north.contains( e.getPoint() )) {
+				removeMouseMotionListener( this );
+				control.flyInDirection(Direction.NORTH);
+				phaseOfTurn = 0;
+			} else if (south.contains( e.getPoint() )) {
+				removeMouseMotionListener( this );
+				phaseOfTurn = 0;
+				control.flyInDirection(Direction.SOUTH);
+			} else if (east.contains( e.getPoint() )) {
+				removeMouseMotionListener( this );
+				phaseOfTurn = 0;
+				control.flyInDirection(Direction.EAST);
+			} else if (west.contains( e.getPoint() )) {
+				removeMouseMotionListener( this );
+				phaseOfTurn = 0;
+				control.flyInDirection(Direction.WEST);
+			}
+
+
 		}
-		else if 		(droneBox.contains( e.getPoint() )){
-			Systems x =  Systems.DRONE;
-			x.setPayload( "" + JOptionPane.showInputDialog(this, "DRONE SECTOR") );
-			control.specialAction(x);
+		else if (phaseOfTurn == 1){
+
+			if( bigMineArrow.contains( e.getPoint() )){
+				increaseSelectedMine();
+			} else if ( bigMineArrow.contains( e.getPoint() )){
+				increaseSelectedDroneSector();
+			} else if ( bigMineArrow.contains( e.getPoint() )){
+				increaseBoostPower();
+			} 
+
+			else if 		(droneBox.contains( e.getPoint() )){
+				commandHasBeenSent = true;
+				phaseOfTurn = 2;
+				Systems x =  Systems.DRONE;
+				x.setPayload( "" + droneSector );
+				control.specialAction(x);
+			}
+			else if (radarBox.contains( e.getPoint() )){
+				commandHasBeenSent = true;
+				phaseOfTurn = 2;
+				control.specialAction(Systems.RADAR);
+			}
+			else if (missleBox.contains( e.getPoint() )){
+				commandHasBeenSent = true;
+				phaseOfTurn = 2;
+				Systems x =  Systems.MISSILE;
+				x.setPayload( "" + JOptionPane.showInputDialog(this, "MISSILE COORDINATES:") );
+				control.specialAction(x);
+			}
+			else if (dropMine.contains( e.getPoint() )){
+				commandHasBeenSent = true;
+				phaseOfTurn = 2;
+				Systems x =  Systems.MINE;
+				x.setPayload("Drop " + JOptionPane.showInputDialog(this, "DROP MINE COORDINATES:"));
+				control.specialAction(x);
+			}
+			else if (blastMineBox.contains( e.getPoint() )){
+				commandHasBeenSent = true;
+				phaseOfTurn = 2;
+				Systems x =  Systems.MINE;
+				x.setPayload( "Blast " + + selectedMine );
+				control.specialAction(x);
+			}
+			else if (boostBox.contains( e.getPoint() )){
+				commandHasBeenSent = true;
+				phaseOfTurn = 2;
+				Systems x =  Systems.BOOST;
+				x.setPayload( "Boost " + boostPower );
+				control.specialAction(x);
+			}
+			else if (walkBox.contains( e.getPoint() )){
+				commandHasBeenSent = true;
+				phaseOfTurn = 2;
+				control.specialAction(Systems.SPACEWALK);
+			}
+
+			else if (cruiseBox.contains( e.getPoint() )){
+				commandHasBeenSent = true;
+				phaseOfTurn = 2;
+				control.specialAction(Systems.SCENARIO);
+			}
 		}
-		else if (radarBox.contains( e.getPoint() ))
-			control.specialAction(Systems.RADAR);
-		else if (missleBox.contains( e.getPoint() )){
-			Systems x =  Systems.MISSILE;
-			x.setPayload( "" + JOptionPane.showInputDialog(this, "MISSILE COORDINATES:") );
-			control.specialAction(x);
-		}
-		else if (dropMine.contains( e.getPoint() )){
-			Systems x =  Systems.MINE;
-			x.setPayload("Drop " + JOptionPane.showInputDialog(this, "DROP MINE COORDINATES:"));
-			control.specialAction(x);
-		}
-		else if (blastMineBox.contains( e.getPoint() )){
-			Systems x =  Systems.MINE;
-			x.setPayload( "Blast " + JOptionPane.showInputDialog(this, "MINE NUMBER TOO DESTROY:") );
-			control.specialAction(x);
-		}
-		else if (boostBox.contains( e.getPoint() )){
-			Systems x =  Systems.BOOST;
-			x.setPayload( "" + JOptionPane.showInputDialog(this, "BOOST LENGTH:") );
-			control.specialAction(x);
-		}
-		else if (walkBox.contains( e.getPoint() ))
-			control.specialAction(Systems.SPACEWALK);
-		else if (cruiseBox.contains( e.getPoint() ))
-			control.specialAction(Systems.SCENARIO);
+
+	}
+
+	private void increaseSelectedDroneSector() {
+		droneSector++;
+		if (droneSector > (GamePreferences.SEG * GamePreferences.SEG)) droneSector = 0;
+
+	}
+
+	private void increaseBoostPower() {
+		boostPower++;
+		if (boostPower > 4) boostPower = 0;
 
 	}
 
 	private int getDroneSectorNumber() {
-		// TODO Auto-generated method stub
-		return 0;
+		return droneSector;
+	}
+
+	private void increaseSelectedMine() {
+		selectedMine++;
+		if (selectedMine > control.getSpaceship().getShipMines().getMines().size()) selectedMine = 0;
 	}
 
 	@Override
@@ -377,34 +462,35 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 	public void mouseMoved(MouseEvent e) {
 		if (!compass.contains( e.getPoint() )) return;
 
-			if (north.contains( e.getPoint() )) {
-				overlay[0] = true;
-				overlay[1] = false;
-				overlay[2] = false;
-				overlay[3] = false;
-			} else if (south.contains( e.getPoint() )) {
-				overlay[0] = false;
-				overlay[1] = true;
-				overlay[2] = false;
-				overlay[3] = false;
-			} else if (east.contains( e.getPoint() )) {
-				overlay[0] = false;
-				overlay[1] = false;
-				overlay[2] = true;
-				overlay[3] = false;
-			} else if (west.contains( e.getPoint() )) {
-				overlay[0] = false;
-				overlay[1] = false;
-				overlay[2] = false;
-				overlay[3] = true;
-			} else {
-				overlay[0] = false;
-				overlay[1] = false;
-				overlay[2] = false;
-				overlay[3] = false;
-			}
 
-		
+		if (north.contains( e.getPoint() )) {
+			overlay[0] = true;
+			overlay[1] = false;
+			overlay[2] = false;
+			overlay[3] = false;
+		} else if (south.contains( e.getPoint() )) {
+			overlay[0] = false;
+			overlay[1] = true;
+			overlay[2] = false;
+			overlay[3] = false;
+		} else if (east.contains( e.getPoint() )) {
+			overlay[0] = false;
+			overlay[1] = false;
+			overlay[2] = true;
+			overlay[3] = false;
+		} else if (west.contains( e.getPoint() )) {
+			overlay[0] = false;
+			overlay[1] = false;
+			overlay[2] = false;
+			overlay[3] = true;
+		} else {
+			overlay[0] = false;
+			overlay[1] = false;
+			overlay[2] = false;
+			overlay[3] = false;
+		}
+
+
 		SwingUtilities.invokeLater( new Runnable() {
 			public void run() {
 				repaint();
@@ -417,23 +503,43 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 	}
 
 	public void setup() {
+
 		switch (control.getRole()) {
 			case CAPTAIN:
-				if (control.getSpaceship().getPosition().isValid()){
+				System.out.println( control.getSpaceship().getPosition() );
+				if (!control.getSpaceship().getPosition().isValid()){
+					System.out.println( "Captain Window Turn Start --------------------------------------------NOT" );
+					phaseOfTurn = 0;
+					commandHasBeenSent = false;
+
+				} else{ //Position is set, so EITHER we need to send a command (1) or direction (2)
+					System.out.println( "Captain Window Turn Start --------------------------------------------YEP" );
+					if (!commandHasBeenSent){
+						phaseOfTurn = 1;
+						addMouseMotionListener( this );
+					} else phaseOfTurn = 2;
 					addMouseListener( this );
-					addMouseMotionListener( this );
+					
 				}
+				System.out.println( "Captain Window Turn Start --------------------------------------------YE" + phaseOfTurn );
 				break;
 			case ENGINE:
 				break;
 			case FIRST:
+				break;
+			case NETWORK:
+				break;
 			case RADIO:
-
 				break;
 			default:
 				break;
 		}
 
+	}
+
+	public void setState(int i)
+	{
+		phaseOfTurn = i;
 	}
 
 }

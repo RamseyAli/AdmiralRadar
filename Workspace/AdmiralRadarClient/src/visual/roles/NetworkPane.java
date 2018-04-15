@@ -198,7 +198,8 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		// Load Avatar Image
 		try {
 			int x = (int) ( usr.getWidth() / 2.25f );
-			
+			System.out.println( "Getting URL: " + userData[3] );
+			userData[3] = "https://deltadailynews.com/wp-content/uploads/2016/06/ddn-duck.jpg";
 			URL url = new URL(userData[3]);
 			URLConnection uc;
 			uc = url.openConnection();

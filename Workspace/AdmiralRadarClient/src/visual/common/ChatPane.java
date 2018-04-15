@@ -75,6 +75,7 @@ public class ChatPane extends ShipPanel implements ActionListener {
 		swell( r_outer , -2 * VisualPreferences.GENERAL_BORDER , -2 * VisualPreferences.GENERAL_BORDER );
 
 		g.setColor( ColorPallate.CHAT_PANEL );
+		
 		g.fill( r_outer );
 
 		chat.setSize( (int) ( r_outer.getWidth() * 0.9 ) , (int) ( r_outer.getHeight() * 0.8 ) );

@@ -190,4 +190,9 @@ public class GUIController {
 		
 	}
 
+	public void quit() {
+		cm.quitGame();
+		
+	}
+
 }

@@ -19,6 +19,7 @@ public class AdmRadarProtocol {
 	public Spaceship processDirections(Direction dir, Spaceship ship) {
 		if (ship == null) return null;
 
+		System.out.println( "Himalayan Pink Pepper" );
 		NUMCOMMANDS++;
 		
 		ship.setDirection(dir);
