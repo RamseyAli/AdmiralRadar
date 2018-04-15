@@ -253,30 +253,33 @@ public class Spaceship implements Serializable, MyPacketable {
 	private boolean boostCheck(Direction d, int dist) 
 	{
 		Position boostedPos = this.pos;
-		for (int i = 1; i <= dist; i++) {
+		for (int i = 0; i < dist; i++) {
 			switch (d) {
 				case NORTH: {
-					if (isValidCheck(boostedPos.getX(), boostedPos.getY() + 1)
-							) { // HANDLE asteroids soon
+					if (isValidCheck(boostedPos.getX(), boostedPos.getY() + 1) &&
+							!map.isAsteroid(boostedPos.getX(), boostedPos.getY() + 1))
+					{
 						boostedPos.setY(boostedPos.getY() + 1);
 					}
 					else break;
 				} case SOUTH: {
-					if (isValidCheck(boostedPos.getX(), boostedPos.getY() - 1)
-							) { // HANDLE asteroids soon
+					if (isValidCheck(boostedPos.getX(), boostedPos.getY() - 1) &&
+							!map.isAsteroid(boostedPos.getX(), boostedPos.getY() - 1)) 
+					{
 						boostedPos.setY(boostedPos.getY() - 1);
 					}
 					else break;
 				} case EAST: {
-					if (isValidCheck(boostedPos.getX() + 1, boostedPos.getY())
-							) { // HANDLE asteroids soon
+					if (isValidCheck(boostedPos.getX() + 1, boostedPos.getY()) &&
+							!map.isAsteroid(boostedPos.getX() + 1, boostedPos.getY())) 
+					{
 						boostedPos.setX(boostedPos.getX() + 1);
 					}
 					else break;
 				} case WEST: {
-					if (isValidCheck(boostedPos.getX() - 1, boostedPos.getY())
-							) { // HANDLE asteroids soon
-						boostedPos.setX(boostedPos.getX() + 1);
+					if (isValidCheck(boostedPos.getX() - 1, boostedPos.getY()) &&
+							!map.isAsteroid(boostedPos.getX() - 1, boostedPos.getY())) { // HANDLE asteroids soon
+						boostedPos.setX(boostedPos.getX() - 1);
 					}
 					else break;
 				}
