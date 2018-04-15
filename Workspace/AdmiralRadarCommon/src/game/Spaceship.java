@@ -234,6 +234,10 @@ public class Spaceship implements Serializable, MyPacketable {
 		return ans;
 	}
 	
+	/* BOOST SYSTEM */
+	
+	
+	
 	public void printShip() // For testing purposes
 	{
 		System.out.println( "Position: x = " + pos.getX() + ", y = " + pos.getY() );
