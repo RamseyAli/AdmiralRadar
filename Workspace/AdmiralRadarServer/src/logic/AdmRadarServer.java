@@ -42,6 +42,7 @@ public class AdmRadarServer {
 		GameMap					map;
 		Role					role;
 		Spaceship				ship;
+		boolean					boostInitiated;
 
 		public ClientHandler(Socket clientSock) {
 			try {
@@ -50,16 +51,30 @@ public class AdmRadarServer {
 				sock = clientSock;
 				mpos = new MyPacketOutputStream( sock.getOutputStream() );
 				mpis = new MyPacketInputStream( sock.getInputStream() );
+				boostInitiated = false;
 			}
 			catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
-
+		
+		public int oppTeamNo() {
+			if (teamNo == 0) {
+				return 1;
+			}
+			else if (teamNo == 1) {
+				return 0;
+			} else {
+				return -1;
+			}
+		}
+		
 		public void processSpecialAction(Systems action) {
+			int teamRealNo = teamNo+1;
+			String serverName = "SERVER";
+			System.out.println(action.getPayload());
 			if (action == Systems.SPACEWALK) {
-				int teamRealNo = teamNo + 1;
-				sendGlobalMessage("SERVER", "Team "+teamRealNo+" conducting spacewalk");
+				sendGlobalMessage(serverName, "Team "+teamRealNo+" conducting spacewalk");
 				gameShip.get( teamNo ).restoreSystems();
 				turnMiss = 3;
 				if(turn == 0) {
@@ -71,86 +86,63 @@ public class AdmRadarServer {
 				int sectorGuess = Integer.parseInt(action.getPayload());
 				boolean result = false;
 				
-				if (teamNo == 1) {
-					sendGlobalMessage("SERVER","Drone activated by team 2");
-					result = gameShip.get(0).checkSector(sectorGuess, SEG, SEC);
-				} else {
-					sendGlobalMessage("SERVER","Drone activated by team 1");
-					result = gameShip.get(1).checkSector(sectorGuess, SEG, SEC);
-				}
+				sendGlobalMessage(serverName,"Drone activated by team "+teamRealNo);
+				result = gameShip.get(oppTeamNo()).checkSector(sectorGuess, SEG, SEC);
 				
 				if (result) {
-					sendTeamMessage("SERVER","Opponent ship located in Sector "+sectorGuess,teamNo);
+					sendTeamMessage(serverName,"Opponent ship located in Sector "+sectorGuess,teamNo);
 				}
 				else {
-					sendTeamMessage("SEVER","Opponent ship not in Sector "+sectorGuess,teamNo);
+					sendTeamMessage(serverName,"Opponent ship not in Sector "+sectorGuess,teamNo);
 				}
 			} else if (action == Systems.RADAR) {
 				int result[];
 					
-				if (teamNo == 1) {
-					sendGlobalMessage("SERVER","Radar activated by team 2");
-					result = gameShip.get(0).randomRadar(SEG, SEC);
-				} else {
-					sendGlobalMessage("SERVER","Radar activated by team 1");
-					result = gameShip.get(1).randomRadar(SEG, SEC);
-				}
+				sendGlobalMessage(serverName,"Radar activated by team "+teamRealNo);
+				result = gameShip.get(oppTeamNo()).randomRadar(SEG, SEC);
 				
 				if (result[0] == -1) {
-					sendTeamMessage("SERVER", "Opponent team maybe at row: "+result[1]+", sector: "+result[2],teamNo);
+					sendTeamMessage(serverName, "Opponent team maybe at row: "+result[1]+", sector: "+result[2],teamNo);
 				} else if (result[1] == -1) {
-					sendTeamMessage("SERVER", "Opponent team maybe at column: "+result[0]+", sector: "+result[2],teamNo);
+					sendTeamMessage(serverName, "Opponent team maybe at column: "+result[0]+", sector: "+result[2],teamNo);
 				} else {
-					sendTeamMessage("SERVER", "Opponent team maybe at column: "+result[0]+", row: "+result[1],teamNo);
+					sendTeamMessage(serverName, "Opponent team maybe at column: "+result[0]+", row: "+result[1],teamNo);
 				}
 			} else if (action == Systems.MINE) {
 				String args[] = action.getPayload().split(" ");
 				
 				if(args[0].equalsIgnoreCase("Drop")) {
 					Position minePos = new Position(Integer.parseInt(args[1]),Integer.parseInt(args[2]));
-					int teamRealNo = teamNo + 1;
 					
-					sendGlobalMessage("SERVER","Mine droped by team "+teamRealNo);
+					sendGlobalMessage(serverName,"Mine droped by team "+teamRealNo);
 					boolean result = gameShip.get(teamNo).dropMine(minePos);
 					
-					sendTeamMessage("SERVER", "Mine dropped at ("+args[1]+","+args[2]+")",teamNo);					
+					sendTeamMessage(serverName, "Mine dropped at ("+args[1]+","+args[2]+")",teamNo);					
 				} else if (args[0].equalsIgnoreCase("Blast")) {
 					int mineNo = Integer.parseInt(args[1]);
-					int teamRealNo = teamNo + 1;
 					
-					sendGlobalMessage("SERVER","Mine blasted by team "+teamRealNo);
+					sendGlobalMessage(serverName,"Mine blasted by team "+teamRealNo);
 					gameShip = gameShip.get(teamNo).blastMine(mineNo, gameShip);
 					
-					sendTeamMessage("SERVER", "Mine "+args[1]+" blasted",teamNo);
+					sendTeamMessage(serverName, "Mine "+args[1]+" blasted",teamNo);
 				}
 			} else if (action == Systems.MISSILE) {
 				String args[] = action.getPayload().split(" ");
 				
 				Position missilePos = new Position(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
-				if (teamNo == 1) {
-					sendGlobalMessage("SERVER","Missile deployed by team 2");
-					gameShip = gameShip.get(0).launchMissile(missilePos, gameShip);
-				} else {
-					sendGlobalMessage("SERVER","Missile deployed by team 1");
-					gameShip = gameShip.get(0).launchMissile(missilePos, gameShip);
-				}
+				sendGlobalMessage(serverName,"Missile deployed by team "+teamRealNo);
+				gameShip = gameShip.get(oppTeamNo()).launchMissile(missilePos, gameShip);
 					
-				sendTeamMessage("SERVER", "Missile blasted at ("+args[1]+","+args[2]+")",teamNo);
+				sendTeamMessage(serverName, "Missile blasted at ("+args[0]+","+args[1]+")",teamNo);
 			} else if (action == Systems.BOOST) {
-				int result[];
-					
-				if (teamNo == 1) {
-					sendGlobalMessage("SERVER","Boost activated by team 2");
-					//result = gameShip.get(0).checkSector(sectorGuess, SEG, SEC);
-				} else {
-					sendGlobalMessage("SERVER","Boost activated by team 1");
-					//result = gameShip.get(1).checkSector(sectorGuess, SEG, SEC);
-				}
-					
-				sendTeamMessage("SERVER", "Opponent team at ",teamNo);
+				sendGlobalMessage(serverName,"Boost activated by team "+teamRealNo);
+				
+				boostInitiated = true;
 			} else if (action == Systems.SCENARIO) {
 				// Do nothing
 			}
+			
+			
 		}
 		
 		public void run() {
@@ -243,7 +235,6 @@ public class AdmRadarServer {
 											ship.setPos( pos );
 											ship.setShipMap(map);
 											gameShip.set( teamNo , ship );
-											// gameShip.get(teamNo).printShip();
 										} else if (turnNo == 1 || turnNo == 5) {
 											role = Role.FIRST;
 											mpos.sendRole( role );
@@ -262,25 +253,22 @@ public class AdmRadarServer {
 										mpos.reset();
 	
 										while (true) {
-											if (role == Role.RADIO) {
-												
-												if (teamNo == 0) {
-													if (gameShip.get( 1 ) != null) {
-														mpos.sendPath( gameShip.get( 1 ).getPath() );
-													} else {
-														mpos.sendString( "Game ended" );
-														break;
-													}
-													
-													/*
-													 * while(!moveComplete[1]) { // Do nothing System.out.print(""); }
-													 */
-												} else {
-													if (gameShip.get( 0 ) != null) {
-														mpos.sendPath( gameShip.get( 0 ).getPath() );
-													} else {
-														mpos.sendString( "Game ended" );
-														break;
+											if (!gameOngoing) {
+												mpos.sendString("Game Ended");
+												Spaceship newTempShip = new Spaceship();
+												gameShip.set(teamNo, newTempShip);
+												moveComplete[teamNo] = false;
+												teamNo = -1;
+												turnNo = -1;
+												boostInitiated = false;
+												role = Role.NETWORK;
+												turn = 0;
+												turnMiss = 0;
+												nPlayers = 0;
+											} else if (role == Role.RADIO) {
+												if (moveComplete[oppTeamNo()]) {
+													if (gameShip.get(oppTeamNo()) != null) {
+														mpos.sendPath( gameShip.get(oppTeamNo()).getPath() );
 													}
 												}
 											} else {
@@ -297,10 +285,20 @@ public class AdmRadarServer {
 													if(role == Role.CAPTAIN) { 
 														String message = "Your turn";
 														mpos.sendString(message);
-														processSpecialAction(mpis.getNextCommand());													
+														Systems action = mpis.getNextCommand();
+														processSpecialAction(action);								
+														
+														moveComplete[oppTeamNo()] = false;
 														
 														Direction dir = mpis.getNextDirection();
-														ship = arp.processDirections(dir, ship);
+														
+														if(!boostInitiated) {
+															ship = arp.processDirections(dir, ship);
+														} else {
+															ship.boostShip(dir, Integer.parseInt(action.getPayload()));
+															sendTeamMessage("SERVER", "Boosted ship by "+action.getPayload()+" moves",teamNo);
+															boostInitiated = false;
+														}
 														gameShip.set(teamNo, ship);
 													} else if (role == Role.FIRST) {
 														mpos.sendDirection( ship.getDirection() );
@@ -312,7 +310,7 @@ public class AdmRadarServer {
 														mpos.sendDirection( ship.getDirection() );
 														
 														String action = mpis.getNextString();
-																				
+														
 														ship = arp.processParts( Integer.parseInt(action) , ship );
 														gameShip.set(teamNo, ship);
 														
@@ -358,10 +356,6 @@ public class AdmRadarServer {
 														mpos.sendSpaceShip( ship );
 														mpos.reset();
 													}
-												} else if (!gameOngoing) {
-														gameShip.set( teamNo , null );
-														mpos.sendString( "Game Ended" );
-														break;
 												} else {
 														// Do nothing
 														Thread.sleep( 1 );
