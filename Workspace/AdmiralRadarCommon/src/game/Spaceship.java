@@ -99,9 +99,6 @@ public class Spaceship implements Serializable, MyPacketable {
 	 */
 	
 	public boolean dropMine(Position min) {
-		if (shipMines.isPlacedMine(min))
-			return false;
-			
 		if (systems.useSystem(Systems.MINE)) {
 			shipMines.addMine(min);
 			return true;
