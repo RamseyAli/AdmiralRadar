@@ -2,9 +2,13 @@ package visual.roles;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -14,6 +18,7 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.SSLProtocolException;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -25,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import pref.GamePreferences;
@@ -32,7 +38,7 @@ import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
-public class NetworkPane extends ShipPanel implements ActionListener {
+public class NetworkPane extends ShipPanel implements ActionListener, ComponentListener {
 
 	// Panel Declarations
 	JPanel x, con, usrBtnPnl, userTab, gameTab;
@@ -51,7 +57,7 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 	JTabbedPane tab;
 
 	// User Info Panel Declarations
-	JLabel	username, wins, losses, avatar;
+	JLabel	username, wins, losses, avatar, logo;
 	JButton	avatarButton, resetButton;
 
 	// Game Info Panel Declarations
@@ -74,6 +80,9 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		gameTab = new JPanel();
 		usrBtnPnl = new JPanel();
 		tab = new JTabbedPane();
+		
+		//Listener
+		addComponentListener( this );
 
 		setOpaque( false );
 		x.setBackground( ColorPallate.PRIMARY_TRANSPARENT_GRAY );
@@ -99,6 +108,10 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		cxnStatus.setAlignmentX( Component.CENTER_ALIGNMENT );
 
 		cxnStatus.setForeground( Color.RED );
+		
+		//Bolding
+		Font f = cxnStatus.getFont();
+		cxnStatus.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 
 		// Combo Box
 		svr = new JComboBox<>( GamePreferences.getIPs() );
@@ -117,11 +130,9 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 
 		log = new JButton( "Login" );
 		log.addActionListener( this );
-		log.setEnabled( false );
 
 		reg = new JButton( "Register" );
 		reg.addActionListener( this );
-		reg.setEnabled( false );
 
 		// Server Connection Line
 		con.add( svr );
@@ -149,7 +160,10 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		wins = new JLabel();
 		losses = new JLabel();
 		avatar = new JLabel();
+		logo = new JLabel();
+		
 		avatar.setOpaque( false );
+		logo.setOpaque(false);
 		avatarButton = new JButton( "Change Avatar" );
 		avatarButton.addActionListener( this );
 		resetButton = new JButton( "Reset Password " );
@@ -163,8 +177,10 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		wins.setAlignmentX( Component.CENTER_ALIGNMENT );
 		losses.setAlignmentX( Component.CENTER_ALIGNMENT );
 		avatar.setAlignmentX( Component.CENTER_ALIGNMENT );
+		logo.setAlignmentX( Component.CENTER_ALIGNMENT );
 		avatarButton.setAlignmentX( Component.CENTER_ALIGNMENT );
 		resetButton.setAlignmentX( Component.CENTER_ALIGNMENT );
+		
 		
 		userTab.add( avatar );
 		userTab.add( username );
@@ -178,6 +194,7 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		tab.add( "User" , userTab );
 
 		// Final Assembly
+		x.add(logo);
 		x.add( con );
 		x.add( usr );
 		x.add( pwd );
@@ -192,13 +209,16 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 	private void updateUserInfoPanel() {
 		String[] userData = control.getUserInfo();
 
-		username.setText( "Username: " + userData[0] );
-		wins.setText( "Wins: " + userData[1] );
-		losses.setText( "Losses: " + userData[2] );
+		username.setText( "<html><strong>Username: </strong>" + userData[0] + "</html>");
+		username.setHorizontalAlignment(SwingConstants.CENTER);
+		wins.setText( "<html><strong>Wins: </strong>" + userData[1] + "</html>");
+		wins.setHorizontalAlignment(SwingConstants.CENTER);
+		losses.setText( "<html><strong>Losses: </strong>" + userData[2] + "</html>");
+		losses.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Load Avatar Image
 		try {
-			int x = (int) ( usr.getWidth() / 2.25f );
+			int x = (int) ( 400 / 2.25f );
 			System.out.println( "Getting URL for " + userData[0] + ": " + userData[3] );
 			URL url = new URL(userData[3]);
 			URLConnection uc;
@@ -209,6 +229,8 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 					Image.SCALE_DEFAULT );
 			avatar.setIcon( new ImageIcon( imageIcon ) );
 			
+			avatar.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+			
 		}
 		catch (MalformedURLException e) {
 			avatar = new JLabel( "Image URL Failure" );
@@ -217,15 +239,20 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 		catch (SSLProtocolException e) {
 			//SSL decryption issue - use duck avatar
 			try {
-				int x = (int) ( usr.getWidth() / 2.25f );
-				URL url = new URL("https://deltadailynews.com/wp-content/uploads/2016/06/ddn-duck.jpg");
-				URLConnection uc;
-				uc = url.openConnection();
-				uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");	//spoof the image request
-				BufferedImage bi = ImageIO.read( uc.getInputStream() );
-				Image imageIcon = bi.getScaledInstance( x , (int) ( ( bi.getHeight() * x ) / ( (float) bi.getWidth() ) ) ,
+				int x = (int) ( 400 / 2.25f );
+				Image imageIcon = new ImageIcon( (GamePreferences.RESOURCES_PATH + "Error_duck.png").replaceAll( "%20" , " " ) ).getImage();
+				BufferedImage bufferedImage = new BufferedImage(imageIcon.getWidth(null), imageIcon.getHeight(null), BufferedImage.TYPE_INT_RGB);
+			    Graphics g = bufferedImage.createGraphics();
+			    g.drawImage(imageIcon, 0, 0, null);
+			    g.dispose();
+			    
+			    Image imageIconFinal = bufferedImage.getScaledInstance( x , (int) ( ( bufferedImage.getHeight() * x ) / ( (float) bufferedImage.getWidth() ) ) ,
 						Image.SCALE_DEFAULT );
-				avatar.setIcon( new ImageIcon( imageIcon ) );
+				avatar.setIcon( new ImageIcon( imageIconFinal ) );
+				
+				avatar.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+				
+				
 			} catch (Exception ex) {
 				System.out.println("OK boss. We have a problem here.");
 			}
@@ -252,6 +279,21 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 	public void drawInGame() {
 
 	}
+	
+	@Override
+    public void componentResized(ComponentEvent e) {
+		int w = this.getWidth();
+		int h = this.getHeight();
+		
+		try {
+			Image imageIcon = new ImageIcon( (GamePreferences.RESOURCES_PATH + "logo.png").replaceAll( "%20" , " " ) ).getImage();
+			imageIcon = imageIcon.getScaledInstance( (int)(w*0.55) , (int)(h*0.45),  Image.SCALE_DEFAULT);
+			
+			logo.setIcon( new ImageIcon( imageIcon ) );
+		} catch (Exception ex) {
+			
+		}
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -399,15 +441,15 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				state = 1;
 				cxnStatus.setForeground( Color.RED );
 				cxnStatus.setText( "Not Connected" );
-				log.setEnabled( false );
-				reg.setEnabled( false );
-				cxt.setEnabled( true );
+				log.setVisible( false );
+				reg.setVisible( false );
+				cxt.setVisible( true );
 				tab.removeAll();
-				ready.setEnabled( false );
-				clr.setEnabled(true);
-				pwd.setEnabled(false);
-				usr.setEnabled(false);
-				svr.setEnabled(true);
+				ready.setVisible( false );
+				clr.setVisible(true);
+				pwd.setVisible(false);
+				usr.setVisible(false);
+				svr.setVisible(true);
 			}
 				break;
 
@@ -415,15 +457,15 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				state = 2;
 				cxnStatus.setForeground( Color.RED );
 				cxnStatus.setText( "Connection Failure" );
-				log.setEnabled( false );
-				reg.setEnabled( false );
-				cxt.setEnabled( true );
+				log.setVisible( false );
+				reg.setVisible( false );
+				cxt.setVisible( true );
 				tab.removeAll();
-				ready.setEnabled( false );
-				clr.setEnabled(true);
-				pwd.setEnabled(false);
-				usr.setEnabled(false);
-				svr.setEnabled(true);
+				ready.setVisible( false );
+				clr.setVisible(true);
+				pwd.setVisible(false);
+				usr.setVisible(false);
+				svr.setVisible(true);
 			}
 				break;
 
@@ -431,15 +473,15 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				state = 3;
 				cxnStatus.setForeground( Color.BLUE );
 				cxnStatus.setText( "Connected. Please Log In." );
-				reg.setEnabled( true );
-				log.setEnabled( true );
-				cxt.setEnabled( false );
+				reg.setVisible( true );
+				log.setVisible( true );
+				cxt.setVisible( false );
 				tab.removeAll();
-				ready.setEnabled( false );
-				clr.setEnabled(false);
-				pwd.setEnabled(true);
-				usr.setEnabled(true);
-				svr.setEnabled(false);
+				ready.setVisible( false );
+				clr.setVisible(false);
+				pwd.setVisible(true);
+				usr.setVisible(true);
+				svr.setVisible(false);
 			}
 				break;
 
@@ -447,15 +489,15 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				state = 4;
 				cxnStatus.setForeground( Color.RED );
 				cxnStatus.setText( "Username / Password Do Not Match" );
-				reg.setEnabled( true );
-				log.setEnabled( true );
-				cxt.setEnabled( false );
+				reg.setVisible( true );
+				log.setVisible( true );
+				cxt.setVisible( false );
 				tab.removeAll();
-				ready.setEnabled( false );
-				clr.setEnabled(false);
-				pwd.setEnabled(true);
-				usr.setEnabled(true);
-				svr.setEnabled(false);
+				ready.setVisible( false );
+				clr.setVisible(false);
+				pwd.setVisible(true);
+				usr.setVisible(true);
+				svr.setVisible(false);
 			}
 				break;
 
@@ -463,17 +505,17 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				state = 5;
 				cxnStatus.setForeground( Color.GREEN );
 				cxnStatus.setText( "Logged In" );
-				reg.setEnabled( false );
-				log.setEnabled( false );
-				cxt.setEnabled( false );
+				reg.setVisible( false );
+				log.setVisible( false );
+				cxt.setVisible( false );
 				tab.add( "Game" , gameTab );
 				tab.add( "User" , userTab );
-				ready.setEnabled( true );
+				ready.setVisible( true );
 				updateUserInfoPanel();
-				clr.setEnabled(false);
-				pwd.setEnabled(false);
-				usr.setEnabled(false);
-				svr.setEnabled(false);
+				clr.setVisible(false);
+				pwd.setVisible(false);
+				usr.setVisible(false);
+				svr.setVisible(false);
 			}
 				break;
 
@@ -481,18 +523,18 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 				state = 6;
 				cxnStatus.setForeground( Color.GREEN );
 				cxnStatus.setText( "Logged In" );
-				reg.setEnabled( false );
-				log.setEnabled( false );
-				cxt.setEnabled( false );
+				reg.setVisible( false );
+				log.setVisible( false );
+				cxt.setVisible( false );
 				tab.add( "Game" , gameTab );
 				tab.add( "User" , userTab );
-				ready.setEnabled( false );
+				ready.setVisible( false );
 				gameStatus.setText( "Waiting" );
 				updateUserInfoPanel();
-				clr.setEnabled(false);
-				pwd.setEnabled(false);
-				usr.setEnabled(false);
-				svr.setEnabled(false);
+				clr.setVisible(false);
+				pwd.setVisible(false);
+				usr.setVisible(false);
+				svr.setVisible(false);
 			}
 				break;
 		}
@@ -529,6 +571,24 @@ public class NetworkPane extends ShipPanel implements ActionListener {
 	public void setPassword(String s) {
 		pwd.setText( s );
 
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		//Unused
+		
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+		//Unused
+		
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+		//Unused
+		
 	}
 
 }

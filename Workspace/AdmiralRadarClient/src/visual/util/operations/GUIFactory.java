@@ -59,7 +59,7 @@ public class GUIFactory {
 			beginGUI( new Rectangle( 0 , 0 , (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() ,
 					(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() ) );
 
-		else beginGUI( new Rectangle( 100 , 100 , 1000 , 600 ) );
+		else beginGUI( new Rectangle( 100 , 100 , 780 , 640 ) );
 
 	}
 
