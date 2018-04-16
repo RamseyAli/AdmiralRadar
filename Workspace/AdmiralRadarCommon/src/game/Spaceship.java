@@ -26,7 +26,6 @@ public class Spaceship implements Serializable, MyPacketable {
 
 	public Spaceship() {
 		pos = new Position();
-		pos.setPosition( -1 , -1 );
 		path = new ArrayList<Direction>();
 		health = MAX_HEALTH - 3;
 		systems = new ShipSystems();
@@ -35,7 +34,7 @@ public class Spaceship implements Serializable, MyPacketable {
 	}
 
 	public void setPos(Position p) {
-		pos = p;
+		this.pos = p;
 	}
 
 	public void setDirection(Direction dir) {
@@ -49,10 +48,7 @@ public class Spaceship implements Serializable, MyPacketable {
 			pos.setX( pos.getX() + 1 );
 		} else if (dir == Direction.WEST) {
 			pos.setX( pos.getX() - 1 );
-		}
-		
-		if(map.isAsteroid(pos.getX(), pos.getY()))
-			destroyShip();
+		}		
 	}
 
 	public ArrayList<Direction> getPath() {
@@ -60,7 +56,7 @@ public class Spaceship implements Serializable, MyPacketable {
 	}
 
 	public Position getPosition() {
-		return pos;
+		return this.pos;
 	}
 
 	public int getHealth() {

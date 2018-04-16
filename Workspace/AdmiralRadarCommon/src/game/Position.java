@@ -19,8 +19,8 @@ public class Position implements Serializable, MyPacketable {
 	}
 
 	public Position() {
-		x = 0;
-		y = 0;
+		x = -1;
+		y = -1;
 	}
 
 	public Position(Point p) {
@@ -58,11 +58,11 @@ public class Position implements Serializable, MyPacketable {
 	}
 
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 	public String toString() {

@@ -230,7 +230,7 @@ public class AdmRadarServer {
 											role = Role.CAPTAIN;
 											mpos.sendRole( role );
 											Position pos = mpis.getNextPosition();
-											System.out.println( turnNo + "Initial Position Received" );
+											myPrint( turnNo + ": Initial Position Received" );
 											ship = gameShip.get( teamNo );
 											ship.setPos( pos );
 											ship.setShipMap(map);
