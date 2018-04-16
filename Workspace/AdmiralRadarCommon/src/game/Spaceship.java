@@ -278,7 +278,8 @@ public class Spaceship implements Serializable, MyPacketable {
 					else break;
 				} case WEST: {
 					if (isValidCheck(boostedPos.getX() - 1, boostedPos.getY()) &&
-							!map.isAsteroid(boostedPos.getX() - 1, boostedPos.getY())) { // HANDLE asteroids soon
+							!map.isAsteroid(boostedPos.getX() - 1, boostedPos.getY())) 
+					{
 						boostedPos.setX(boostedPos.getX() - 1);
 					}
 					else break;
