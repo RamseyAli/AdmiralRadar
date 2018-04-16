@@ -316,18 +316,13 @@ public class Spaceship implements Serializable, MyPacketable {
 	
 	public boolean boostShip(Direction direction, int distance) 
 	{
+		nextDir = direction;
 		if (direction == Direction.STOP || distance < 0 || distance > 4)
 			return false;
 		if (distance == 0)
 			return systems.useSystem(Systems.BOOST);
 		
-		switch (direction) {
-			case NORTH: return boostCheck(Direction.NORTH, 	distance);
-			case SOUTH: return boostCheck(Direction.SOUTH, 	distance);
-			case EAST: 	return boostCheck(Direction.EAST,  	distance);
-			case WEST: 	return boostCheck(Direction.WEST,	distance);
-			default:	return false; // SHOULD NEVER GO HERE
-		}
+		return boostCheck(direction, distance);
 	}
 	
 	public void printShip() // For testing purposes

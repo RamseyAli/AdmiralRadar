@@ -295,6 +295,7 @@ public class ConnectionManager {
 			interrupt.setSpaceship( ois.getNextSpaceship() );
 			interrupt.refreshFrame();
 			System.out.println( "First Officer Turn Complete" );
+			listenForChargeCommands = false;
 		}
 
 	}
@@ -313,6 +314,7 @@ public class ConnectionManager {
 			interrupt.setSpaceship( ois.getNextSpaceship() );
 			interrupt.refreshFrame();
 			System.out.println( "Engineer Turn Complete" );
+			listenForDamageCommands = false;
 		}
 
 	}
