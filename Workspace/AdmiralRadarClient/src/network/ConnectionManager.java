@@ -79,6 +79,7 @@ public class ConnectionManager {
 		try {
 			u = new User( user , hash );
 			oos.sendUser( u );
+			oos.reset();
 			System.out.println( "Client has sent u" );
 			u = ois.getNextUser();
 			System.out.println( "Client has received a U" );
@@ -115,6 +116,7 @@ public class ConnectionManager {
 			u = new User(user, hash);
 			u.setAvatar(uRL);
 			oos.sendUser(u);
+			oos.reset();
 			System.out.println("Client has sent u");
 			u = ois.getNextUser();
 			System.out.println("Client has received a U");
@@ -157,6 +159,7 @@ public class ConnectionManager {
 
 		try {
 			oos.sendUser( interrupt.getUser() );
+			oos.reset();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -183,6 +186,7 @@ public class ConnectionManager {
 
 		try {
 			oos.sendUser( interrupt.getUser() );
+			oos.reset();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -196,6 +200,7 @@ public class ConnectionManager {
 	public int ready() {
 		try {
 			oos.sendString( "READY" );
+			oos.reset();
 			new Thread( () -> waitForStart() ).start();
 			return 6;
 		}
@@ -315,7 +320,9 @@ public class ConnectionManager {
 	private void captainNetworkLoop() throws IOException {
 
 		Position start = interrupt.getFactory().getInitialPositionFromCaptain();
+		System.out.println(start.getX()+" "+start.getY());
 		oos.sendPosition( start );
+		oos.reset();
 		interrupt.setSpaceship( ois.getNextSpaceship() );
 
 		while(game){
@@ -355,6 +362,7 @@ public class ConnectionManager {
 		try {
 			//	oos.sendString( "No" );
 			oos.sendDirection( d );
+			oos.reset();
 			//	ois.getNextSpaceship();
 		}
 		catch (IOException e) {
@@ -367,6 +375,7 @@ public class ConnectionManager {
 	public void sendShip(Spaceship s) {
 		try {
 			oos.sendSpaceShip( s );
+			oos.reset();
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -380,7 +389,7 @@ public class ConnectionManager {
 			try {
 
 				oos.sendSystem( name2 );
-
+				oos.reset();
 			}
 			catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -397,6 +406,7 @@ public class ConnectionManager {
 		try {
 
 			oos.sendString( "" + part );
+			oos.reset();
 
 		}
 		catch (IOException e) {
@@ -425,6 +435,7 @@ public class ConnectionManager {
 	public void sendAction(Systems sys) {
 		try {
 			oos.sendSystem( sys );
+			oos.reset();
 		}
 		catch (IOException e) {
 			e.printStackTrace();

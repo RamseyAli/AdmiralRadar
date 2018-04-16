@@ -42,7 +42,6 @@ public class GameMap implements Serializable, MyPacketable {
 	}
 
 	public boolean isAsteroid(int x, int y) {
-		System.out.println(x+" "+y);
 		return asteroid[x][y];
 	}
 	
