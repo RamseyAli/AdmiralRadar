@@ -175,7 +175,7 @@ public class GUIController {
 	}
 
 	public void charge( Systems name ) {
-		s.getShipSystem().chargeSystem( name );
+		//s.getShipSystem().chargeSystem( name );
 		cm.sendChargeCommand(name);
 		
 	}
