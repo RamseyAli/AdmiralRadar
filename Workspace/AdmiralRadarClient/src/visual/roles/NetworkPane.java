@@ -3,6 +3,7 @@ package visual.roles;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -238,15 +239,20 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		catch (SSLProtocolException e) {
 			//SSL decryption issue - use duck avatar
 			try {
-				int x = (int) ( usr.getWidth() / 2.25f );
-				URL url = new URL("https://deltadailynews.com/wp-content/uploads/2016/06/ddn-duck.jpg");
-				URLConnection uc;
-				uc = url.openConnection();
-				uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");	//spoof the image request
-				BufferedImage bi = ImageIO.read( uc.getInputStream() );
-				Image imageIcon = bi.getScaledInstance( x , (int) ( ( bi.getHeight() * x ) / ( (float) bi.getWidth() ) ) ,
+				int x = (int) ( 400 / 2.25f );
+				Image imageIcon = new ImageIcon( (GamePreferences.RESOURCES_PATH + "Error_duck.png").replaceAll( "%20" , " " ) ).getImage();
+				BufferedImage bufferedImage = new BufferedImage(imageIcon.getWidth(null), imageIcon.getHeight(null), BufferedImage.TYPE_INT_RGB);
+			    Graphics g = bufferedImage.createGraphics();
+			    g.drawImage(imageIcon, 0, 0, null);
+			    g.dispose();
+			    
+			    Image imageIconFinal = bufferedImage.getScaledInstance( x , (int) ( ( bufferedImage.getHeight() * x ) / ( (float) bufferedImage.getWidth() ) ) ,
 						Image.SCALE_DEFAULT );
-				avatar.setIcon( new ImageIcon( imageIcon ) );
+				avatar.setIcon( new ImageIcon( imageIconFinal ) );
+				
+				avatar.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+				
+				
 			} catch (Exception ex) {
 				System.out.println("OK boss. We have a problem here.");
 			}
