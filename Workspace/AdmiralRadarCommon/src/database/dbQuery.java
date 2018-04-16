@@ -607,4 +607,62 @@ public class dbQuery {
 		return -1;
 	}
 	
+	/*
+	 * true - success
+	 * false - failure
+	 */
+	public static boolean addWin(String username) {
+		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER", 1 ); // just to init obj.
+		
+		int newWins = getWins(username) + 1;
+		if (newWins == 0) {
+			return false;
+		}
+		
+		String query = "UPDATE USER SET WINS = ? WHERE USERNAME = ?";
+
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement( query );
+			preparedStmt.setInt( 1 , newWins );
+			preparedStmt.setString( 2 , username );
+			preparedStmt.executeUpdate();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		DBobj.close();
+		return true;
+	}
+	
+	/*
+	 * true - success
+	 * false - failure
+	 */
+	public static boolean addLoss(String username) {
+		dbQuery DBobj = query( "SELECT USERNAME, PIN FROM USER", 1 ); // just to init obj.
+		
+		int newLosses = getLosses(username) + 1;
+		if (newLosses == 0) {
+			return false;
+		}
+		
+		String query = "UPDATE USER SET LOSSES = ? WHERE USERNAME = ?";
+
+		try {
+			PreparedStatement preparedStmt = DBobj.conn.prepareStatement( query );
+			preparedStmt.setInt( 1 , newLosses );
+			preparedStmt.setString( 2 , username );
+			preparedStmt.executeUpdate();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		DBobj.close();
+		return true;
+	}
+	
 }
