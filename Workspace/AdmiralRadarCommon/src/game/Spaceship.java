@@ -99,6 +99,9 @@ public class Spaceship implements Serializable, MyPacketable {
 	 */
 	
 	public boolean dropMine(Position min) {
+		if (shipMines.isPlacedMine(min))
+			return false;
+			
 		if (systems.useSystem(Systems.MINE)) {
 			shipMines.addMine(min);
 			return true;
@@ -264,39 +267,53 @@ public class Spaceship implements Serializable, MyPacketable {
 	
 	private boolean boostCheck(Direction d, int dist) 
 	{
+		if (systems.useSystem(Systems.BOOST) == false) 
+			return false;
+		
 		Position boostedPos = this.pos;
 		for (int i = 0; i < dist; i++) {
 			switch (d) {
 				case NORTH: {
-					if (isValidCheck(boostedPos.getX(), boostedPos.getY() + 1) &&
-							!map.isAsteroid(boostedPos.getX(), boostedPos.getY() + 1))
-					{
+					if (isValidCheck(boostedPos.getX(), boostedPos.getY() + 1)) {
+						if (map.isAsteroid(boostedPos.getX(), boostedPos.getY() + 1)) {
+							destroyShip();
+							return false;
+						}
+	
 						boostedPos.setY(boostedPos.getY() + 1);
-					}
-					else break;
+					} else break;
+					
 				} case SOUTH: {
-					if (isValidCheck(boostedPos.getX(), boostedPos.getY() - 1) &&
-							!map.isAsteroid(boostedPos.getX(), boostedPos.getY() - 1)) 
-					{
+					if (isValidCheck(boostedPos.getX(), boostedPos.getY() - 1)) {
+						if (map.isAsteroid(boostedPos.getX(), boostedPos.getY() - 1)) {
+							destroyShip();
+							return false;
+						}
+	
 						boostedPos.setY(boostedPos.getY() - 1);
-					}
-					else break;
+					} else break;
+					
 				} case EAST: {
-					if (isValidCheck(boostedPos.getX() + 1, boostedPos.getY()) &&
-							!map.isAsteroid(boostedPos.getX() + 1, boostedPos.getY())) 
-					{
+					if (isValidCheck(boostedPos.getX() + 1, boostedPos.getY())) {
+						if (map.isAsteroid(boostedPos.getX() + 1, boostedPos.getY())) {
+							destroyShip();
+							return false;
+						}
+						
 						boostedPos.setX(boostedPos.getX() + 1);
-					}
-					else break;
+					} else break;
+					
 				} case WEST: {
-					if (isValidCheck(boostedPos.getX() - 1, boostedPos.getY()) &&
-							!map.isAsteroid(boostedPos.getX() - 1, boostedPos.getY())) 
-					{
+					if (isValidCheck(boostedPos.getX() - 1, boostedPos.getY())) {
+						if (map.isAsteroid(boostedPos.getX() - 1, boostedPos.getY())) {
+							destroyShip();
+							return false;
+						}
+						
 						boostedPos.setX(boostedPos.getX() - 1);
-					}
-					else break;
-				}
-				default: return false;
+					} else break;
+					
+				} default: return false;
 			}
 		}
 		// Update Ship position to the boosted ship position
@@ -309,7 +326,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		if (direction == Direction.STOP || distance < 0 || distance > 4)
 			return false;
 		if (distance == 0)
-			return true;
+			return systems.useSystem(Systems.BOOST);
 		
 		switch (direction) {
 			case NORTH: return boostCheck(Direction.NORTH, 	distance);
