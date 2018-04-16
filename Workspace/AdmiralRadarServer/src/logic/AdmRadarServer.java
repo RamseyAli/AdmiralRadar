@@ -72,7 +72,7 @@ public class AdmRadarServer {
 		public void processSpecialAction(Systems action) {
 			int teamRealNo = teamNo+1;
 			String serverName = "SERVER";
-			
+			System.out.println(action.getPayload());
 			if (action == Systems.SPACEWALK) {
 				sendGlobalMessage(serverName, "Team "+teamRealNo+" conducting spacewalk");
 				gameShip.get( teamNo ).restoreSystems();
@@ -133,7 +133,7 @@ public class AdmRadarServer {
 				sendGlobalMessage(serverName,"Missile deployed by team "+teamRealNo);
 				gameShip = gameShip.get(oppTeamNo()).launchMissile(missilePos, gameShip);
 					
-				sendTeamMessage(serverName, "Missile blasted at ("+args[1]+","+args[2]+")",teamNo);
+				sendTeamMessage(serverName, "Missile blasted at ("+args[0]+","+args[1]+")",teamNo);
 			} else if (action == Systems.BOOST) {
 				sendGlobalMessage(serverName,"Boost activated by team "+teamRealNo);
 				
