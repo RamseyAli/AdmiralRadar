@@ -49,6 +49,9 @@ public class Spaceship implements Serializable, MyPacketable {
 		} else if (dir == Direction.WEST) {
 			pos.setX( pos.getX() - 1 );
 		}
+		
+		if(map.isAsteroid(pos.getX(), pos.getY()))
+			destroyShip();
 	}
 
 	public ArrayList<Direction> getPath() {
@@ -113,6 +116,13 @@ public class Spaceship implements Serializable, MyPacketable {
 		return shipMines.getMines().size() > 0;
 	}
 	
+	public boolean gameWon() {
+		if (health > 0)
+			return true;
+		else
+			return false;
+	}
+	
 	public ArrayList<Spaceship> launchMissile(Position miss, ArrayList<Spaceship> ships) { // Fix Missile and MINE checks
 		if (!systems.useSystem( Systems.MISSILE )) return ships;
 
@@ -145,6 +155,7 @@ public class Spaceship implements Serializable, MyPacketable {
 				
 		return m * ( pos.getY() / secSize ) + ( pos.getX() / secSize );
 	}
+	
 	public boolean checkSector(int guess, int n, int m) // n = dimension of N x N map // m = how many sectors in each row, m x m sectors
 	{
 		int sector;
@@ -300,7 +311,6 @@ public class Spaceship implements Serializable, MyPacketable {
 		}
 	}
 	
-	
 	public void printShip() // For testing purposes
 	{
 		System.out.println( "Position: x = " + pos.getX() + ", y = " + pos.getY() );
@@ -312,7 +322,6 @@ public class Spaceship implements Serializable, MyPacketable {
 	public void toGameStartCondition(Position p) {
 		health = MAX_HEALTH;
 		pos = p;
-		
 	}
 
 	public GameMap getShipMap() {

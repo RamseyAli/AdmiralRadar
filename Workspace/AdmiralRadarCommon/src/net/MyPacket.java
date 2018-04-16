@@ -42,7 +42,7 @@ public class MyPacket implements Serializable {
 				objectClass = ObjEnum.PATH;
 				break;
 			case "Systems":
-				objectClass = ObjEnum.SYSTEM;
+				objectClass = ObjEnum.SYSTEMS;
 				break;
 			default:
 				throw new UnknownFormatConversionException( n );
