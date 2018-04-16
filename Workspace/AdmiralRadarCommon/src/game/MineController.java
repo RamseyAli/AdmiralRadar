@@ -16,10 +16,6 @@ public class MineController implements Serializable {
 
 	// Add a mine to the board
 	public boolean addMine(Position p) {
-		if (isPlacedMine( p )) {
-			// Maybe send an error message later??
-			return false;
-		}
 		mines.add( p );
 		return true;
 	}
