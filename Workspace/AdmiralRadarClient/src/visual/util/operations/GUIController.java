@@ -193,6 +193,8 @@ public class GUIController {
 
 	public void quit() {
 		cm.quitGame();
+		System.out.println( " I HAVE LEFT THE GAME! PLEASE DIE." );
+		System.exit( 0 );
 		
 	}
 	

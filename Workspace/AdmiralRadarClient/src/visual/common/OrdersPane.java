@@ -210,23 +210,24 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 		g.setColor( Color.WHITE );
 		int sh = g.getFontMetrics().getHeight();
 		g.setFont( FontPallate.getFontFromStringWidth( FontPallate.OPS_BUTTON_FONT , "Blast Mine x" , (int) (sysWidth * 0.7) ));
+		int textY = (sysHeight / 2)  + (g.getFontMetrics().getHeight() / 2);
 
 		g.drawString( "Drone Sec " + droneSector , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 0.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( droneBox.y + textY  ));
 		g.drawString( "Radar" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 1.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( radarBox.y + textY  ));
 		g.drawString( "Missile" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 2.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( missleBox.y + textY  ));
 		g.drawString( "Drop Mine" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 3.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( dropMine.y + textY  ));
 		g.drawString( "Blast Mine " + selectedMine , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 4.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( blastMineBox.y + textY  ));
 		g.drawString( "Boost " + boostPower, VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 5.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( boostBox.y + textY  ));
 		g.drawString( "Spacewalk" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 6.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( walkBox.y + textY  ));
 		g.drawString( "Cruise" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
-				(int) ( VisualPreferences.GENERAL_BORDER + 7.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
+				(int) ( cruiseBox.y + textY  ));
 
 		g.setColor( ColorPallate.ORDER_SYSTEM_BOX );
 		g.fillOval( VisualPreferences.GENERAL_BORDER + sysCautX - sysCautR - sysX ,

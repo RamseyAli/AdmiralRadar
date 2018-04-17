@@ -62,7 +62,7 @@ public class InfoPane extends ShipPanel implements MouseListener, MouseMotionLis
 		
 		g.setColor(ColorPallate.QUIT_TEXT );
 		g.setFont( FontPallate.getFont( FontPallate.ABORT_BUTTON_FONT , (int) (r_buttn.getHeight() / 2.0) )  );
-		g.drawString( "ABORT" , (int) (r_buttn.getX()*1.04) , (int) (r_buttn.getY() + g.getFontMetrics().getHeight()/1.075 ));
+		g.drawString( "ABORT" , (int) (r_buttn.getX()*1.04) , (int) (r_buttn.getY() + ((r_buttn.getHeight() / 2)  + (g.getFontMetrics().getHeight() / 2.5)) ));
 		g.setColor(ColorPallate.QUIT_BUTTON );
 		g.fill( r_buttn );
 		
@@ -73,7 +73,6 @@ public class InfoPane extends ShipPanel implements MouseListener, MouseMotionLis
 	public void mouseClicked(MouseEvent e) {
 		if (r_buttn.contains(e.getPoint())) {
 			control.quit();
-			System.exit( 0 );
 		}
 		
 	}
