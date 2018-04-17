@@ -16,6 +16,8 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import visual.util.ColorPallate;
+import visual.util.FontPallate;
+
 import static database.dbQuery.*;
 
 public class ChatTextPane extends JPanel implements MouseWheelListener, ComponentListener {
@@ -34,7 +36,7 @@ public class ChatTextPane extends JPanel implements MouseWheelListener, Componen
 
 		text.setWrapStyleWord( true );
 		text.setLineWrap( true );
-		text.setFont( new Font( Font.SANS_SERIF , Font.PLAIN , 9 ) );
+	//	text.setFont( FontPallate.getFont( FontPallate.CHAT_FONT , 10 ) );
 		text.setOpaque( false );
 		text.setFocusable( true );
 		text.setLayout( null );

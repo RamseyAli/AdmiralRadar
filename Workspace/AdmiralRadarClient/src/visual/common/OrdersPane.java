@@ -19,6 +19,7 @@ import game.Systems;
 import pref.GamePreferences;
 import pref.VisualPreferences;
 import visual.util.ColorPallate;
+import visual.util.FontPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
@@ -208,9 +209,9 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 		g.setColor( Color.WHITE );
 		int sh = g.getFontMetrics().getHeight();
-		g.setFont( g.getFont().deriveFont( Font.BOLD ) );
+		g.setFont( FontPallate.getFontFromStringWidth( FontPallate.OPS_BUTTON_FONT , "Blast Mine x" , (int) (sysWidth * 0.7) ));
 
-		g.drawString( "Drone Sec" + droneSector , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+		g.drawString( "Drone Sec " + droneSector , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 0.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Radar" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 1.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
@@ -218,7 +219,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 				(int) ( VisualPreferences.GENERAL_BORDER + 2.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Drop Mine" , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 3.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
-		g.drawString( "Blast Mine" + selectedMine , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
+		g.drawString( "Blast Mine " + selectedMine , VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 4.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
 		g.drawString( "Boost " + boostPower, VisualPreferences.GENERAL_BORDER + sysX + 10 ,
 				(int) ( VisualPreferences.GENERAL_BORDER + 5.75 * ( sysYGap + sysHeight ) + ( sh / 3 ) ) );
@@ -352,10 +353,13 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 			if( bigMineArrow.contains( e.getPoint() )){
 				increaseSelectedMine();
-			} else if ( bigMineArrow.contains( e.getPoint() )){
+				repaint();
+			} else if ( bigDroneArrow.contains( e.getPoint() )){
 				increaseSelectedDroneSector();
-			} else if ( bigMineArrow.contains( e.getPoint() )){
+				repaint();
+			} else if ( bigBoostArrow.contains( e.getPoint() )){
 				increaseBoostPower();
+				repaint();
 			} 
 
 			else if 		(droneBox.contains( e.getPoint() )){
@@ -431,7 +435,11 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 	private void increaseSelectedMine() {
 		selectedMine++;
-		if (selectedMine > control.getSpaceship().getShipMines().getMines().size()) selectedMine = 0;
+		if (control.getSpaceship().getShipMines() != null)
+		if (selectedMine > control.
+				getSpaceship().
+				getShipMines().
+				getMines().size()) selectedMine = 0;
 	}
 
 	@Override

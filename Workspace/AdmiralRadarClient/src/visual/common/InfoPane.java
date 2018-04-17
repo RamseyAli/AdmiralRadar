@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 
 import pref.VisualPreferences;
 import visual.util.ColorPallate;
+import visual.util.FontPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
@@ -52,12 +53,12 @@ public class InfoPane extends ShipPanel implements MouseListener {
 		g.fill( r_outer );
 		
 		instructions.setForeground( Color.WHITE );
-		instructions.setFont(  new Font(Font.SANS_SERIF , Font.PLAIN , 24 )  );
+		instructions.setFont( FontPallate.getFont( FontPallate.TURN_INSTRUCTIONS_FONT , (int) (r_outer.getHeight() / 2.0) )  );
 		instructions.setLocation( (getWidth() - w_m )/2  + 3*VisualPreferences.GENERAL_BORDER  , ( getHeight() - h_m )/2 + (h_m - h_b)/2 );
 
 		
 		g.setColor(ColorPallate.QUIT_TEXT );
-		g.setFont(   new Font(Font.SANS_SERIF , Font.PLAIN , 30)   );
+		g.setFont( FontPallate.getFont( FontPallate.ABORT_BUTTON_FONT , (int) (r_buttn.getHeight() / 2.0) )  );
 		g.drawString( "ABORT" , (int) (r_buttn.getX()*1.05) , (int) (r_buttn.getY() + g.getFontMetrics().getHeight()/1.2 ));
 
 		g.setColor(ColorPallate.QUIT_BUTTON );

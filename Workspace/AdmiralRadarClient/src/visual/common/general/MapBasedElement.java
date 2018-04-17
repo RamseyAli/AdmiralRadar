@@ -15,6 +15,7 @@ import game.GameMap;
 import game.Position;
 import pref.GamePreferences;
 import visual.util.ColorPallate;
+import visual.util.FontPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
@@ -92,6 +93,7 @@ public abstract class MapBasedElement extends ShipPanel{
 				y0 - w * r + (int) ( currentMouse.getY() * sp ) , 2 * w * r , 2 * w * r );
 
 		g.setColor( ColorPallate.MAP_DOTS );
+		g.setFont( FontPallate.getFont( FontPallate.MAP_LETTER_FONT , (int) (w*r*0.5) ) );
 		for (int i = 0; i < GamePreferences.SEG; i++) {
 
 			drawChar( c , x0 + ( i * sp ) , y0 - margin / 2 );

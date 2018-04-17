@@ -110,8 +110,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		cxnStatus.setForeground( Color.RED );
 		
 		//Bolding
-		Font f = cxnStatus.getFont();
-		cxnStatus.setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+		cxnStatus.setFont(cxnStatus.getFont().deriveFont(Font.BOLD));
 
 		// Combo Box
 		svr = new JComboBox<>( GamePreferences.getIPs() );

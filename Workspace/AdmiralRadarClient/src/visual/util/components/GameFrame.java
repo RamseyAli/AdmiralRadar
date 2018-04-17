@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.Image;
 import java.awt.Point;
@@ -21,6 +22,7 @@ import visual.common.HealthPane;
 import visual.common.InfoPane;
 import visual.common.OrdersPane;
 import visual.roles.NetworkPane;
+import visual.util.FontPallate;
 import visual.util.operations.GUIController;
 
 public class GameFrame extends JFrame implements ComponentListener {
@@ -38,11 +40,13 @@ public class GameFrame extends JFrame implements ComponentListener {
 			img = new ImageIcon( (GamePreferences.RESOURCES_PATH + IMAGE).replaceAll( "%20" , " " ) ).getImage();
 		}
 
-		protected void paintComponent(Graphics g) {
+		protected void paintComponent(Graphics g1) {
+			Graphics2D g = (Graphics2D) g1;
 			super.paintComponent( g );
 			g.drawImage( img , 0 , 0 , getWidth() , getHeight() , this );
 			g.setColor( new Color( 10 , 10 , 10 , 70 ) );
 			g.fillRect( 0 , 0 , getWidth() , getHeight() );
+			FontPallate.setup( g );
 		}
 	}
 
@@ -173,6 +177,10 @@ public class GameFrame extends JFrame implements ComponentListener {
 	
 	public ShipPanel getSP(){
 		return sp;
+	}
+
+	public JPanel getMainPane() {
+		return mainPane;
 	}
 
 }
