@@ -104,10 +104,10 @@ public abstract class MapBasedElement extends ShipPanel{
 				if (map.isAsteroid( i , j )) {
 					g.setColor( ColorPallate.ASTEROID_DARK );
 
-					g.fill( new RoundRectangle2D.Double( x0 - z * r + ( i * sp ) , y0 - z * r + ( j * sp ) , 2 * z * r ,
-							2 * z * r , 5 * r , 5 * r ) );
+					//g.fill( new RoundRectangle2D.Double( x0 - z * r + ( i * sp ) , y0 - z * r + ( j * sp ) , 2 * z * r ,
+					//		2 * z * r , 5 * r , 5 * r ) );
 
-					g.setColor( ColorPallate.ASTEROID_LIGHT );
+					//g.setColor( ColorPallate.ASTEROID_LIGHT );
 
 					g.fillOval( x0 - w * r + ( i * sp ) , y0 - w * r + ( j * sp ) , 2 * w * r , 2 * w * r );
 

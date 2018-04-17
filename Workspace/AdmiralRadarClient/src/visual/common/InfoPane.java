@@ -2,9 +2,11 @@ package visual.common;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JLabel;
@@ -15,11 +17,12 @@ import visual.util.FontPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
-public class InfoPane extends ShipPanel implements MouseListener {
+public class InfoPane extends ShipPanel implements MouseListener, MouseMotionListener {
 
 	public InfoPane(GUIController ctr) {
 		super( ctr );
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		instructions = new JLabel("Welcome to Admiral Radar!");
 		this.setLayout(new BorderLayout());
 		add(instructions, BorderLayout.CENTER);
@@ -59,10 +62,11 @@ public class InfoPane extends ShipPanel implements MouseListener {
 		
 		g.setColor(ColorPallate.QUIT_TEXT );
 		g.setFont( FontPallate.getFont( FontPallate.ABORT_BUTTON_FONT , (int) (r_buttn.getHeight() / 2.0) )  );
-		g.drawString( "ABORT" , (int) (r_buttn.getX()*1.05) , (int) (r_buttn.getY() + g.getFontMetrics().getHeight()/1.2 ));
-
+		g.drawString( "ABORT" , (int) (r_buttn.getX()*1.04) , (int) (r_buttn.getY() + g.getFontMetrics().getHeight()/1.075 ));
 		g.setColor(ColorPallate.QUIT_BUTTON );
 		g.fill( r_buttn );
+		
+		
 	}
 
 	@Override
@@ -94,6 +98,25 @@ public class InfoPane extends ShipPanel implements MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void mouseMoved(MouseEvent e) {
+	    double mx = e.getX();
+	    double my = e.getY();
+	    if ( r_buttn.contains(mx, my) ) {
+	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+	        setCursor(cursor);
+	    } else {
+	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR); 
+	        setCursor(cursor);
+	    }
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
