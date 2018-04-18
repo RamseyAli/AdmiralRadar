@@ -42,6 +42,8 @@ public class ConnectionManager {
 	boolean					listenForChargeCommands = false;
 	boolean					listenForDamageCommands = false;
 	GUIController interrupt;
+	
+	Role 					currentMusicTrack = Role.NETWORK; // Play main menu music
 
 	public ConnectionManager(GUIController nexus) {
 		interrupt = nexus;
@@ -230,22 +232,36 @@ public class ConnectionManager {
 					if (( r = ois.getNextRole() ) != null) {
 						interrupt.setRole( r );
 						switch (r) {
-							case CAPTAIN:
+							case CAPTAIN: {
+								stopRoleTrack(currentMusicTrack);
+								currentMusicTrack = Role.CAPTAIN;
+								startRoleTrack(currentMusicTrack);
 								captainNetworkLoop();
 								break;
-							case ENGINE:
+							} case ENGINE: {
+								stopRoleTrack(currentMusicTrack);
+								currentMusicTrack = Role.ENGINE;
+								startRoleTrack(currentMusicTrack);
 								engineerNetworkLoop();
 								break;
-							case FIRST:
+							} case FIRST: {
+								stopRoleTrack(currentMusicTrack);
+								currentMusicTrack = Role.FIRST;
+								startRoleTrack(currentMusicTrack);
 								firstOfficerNetworkLoop();
 								break;
-							case NETWORK:
+							} case NETWORK: {
+								stopRoleTrack(currentMusicTrack);
+								currentMusicTrack = Role.NETWORK;
+								startMusicTrack(currentMusicTrack);
 								break;
-							case RADIO:
+							} case RADIO: {
+								stopRoleTrack(currentMusicTrack);
+								currentMusicTrack = Role.RADIO;
+								startRoleTrack(currentMusicTrack);
 								radioOfficerNetworkLoop();
 								break;
-							default:
-								break;
+							} default: break;
 
 						}
 					}

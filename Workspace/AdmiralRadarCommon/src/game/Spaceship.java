@@ -90,6 +90,10 @@ public class Spaceship implements Serializable, MyPacketable {
 		nextDir = Direction.STOP;
 	}
 	
+	public void clearPath() {
+		path.clear();
+	}
+	
 	/* 
 	 * TACTICAL SYSTEMS 
 	 */
@@ -141,7 +145,7 @@ public class Spaceship implements Serializable, MyPacketable {
 	 * SENSORY SYSTEMS 
 	 */
 	// Drone //
-	private int getSector(int n, int m) // will return -1 if outside all sectors
+	public int getSector(int n, int m) // will return -1 if outside all sectors
 	{
 		int secSize;
 		

@@ -54,8 +54,8 @@ public class BabyTestapus {
 			clients[i] = new ARClient("Client " + i ,  new Rectangle( (int) (S * ( i % 2 ) * 1.1) , (int) ( S2 * 1.2 ) * ( i / 2 ) , S , S2 ) );
 
 		// Make a Server
-		@SuppressWarnings("unused")
-		ARServer serve = new ARServer();
+		//@SuppressWarnings("unused")
+		//ARServer serve = new ARServer();
 
 		System.out.println( "Server Running" );
 

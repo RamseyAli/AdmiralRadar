@@ -21,8 +21,11 @@ public class GamePreferences {
 	static {
 
 		servers = new ArrayList<String>();
+		servers.add( "ramseyisadork.com" );
 		servers.add( "127.0.0.1" );
-		servers.add( "nonlocalhost" );
+		servers.add( "admiralradar.io" );
+		servers.add( "samisbusy.com" );
+		
 		
 		RESOURCES_PATH = getResourcePath();
 		System.out.println( RESOURCES_PATH );
