@@ -242,11 +242,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 			avatar.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 			
 		}
-		catch (MalformedURLException e) {
-			avatar = new JLabel( "Image URL Failure" );
-			e.printStackTrace();
-		}
-		catch (SSLProtocolException e) {
+		catch (Exception e) {
 			//SSL decryption issue - use duck avatar
 			try {
 				int x = (int) ( 400 / 2.25f );
@@ -266,10 +262,6 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 			} catch (Exception ex) {
 				System.out.println("OK boss. We have a problem here.");
 			}
-		}
-		catch (IOException e) {
-			avatar = new JLabel( "Image Load Failure" );
-			e.printStackTrace();
 		}
 	}
 

@@ -68,8 +68,12 @@ public class GUIController {
 
 	// [username, win, loss, avatar]
 	public String[] getUserInfo() {
-
-		return new String[] { u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar() };
+		
+		if (u == null) {
+			return null;
+		} else {
+			return new String[] { u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar() };
+		}
 	}
 
 	public void setAvatar(String s) {
