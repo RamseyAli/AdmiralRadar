@@ -13,6 +13,7 @@ public class User implements Serializable, MyPacketable {
 	private String				username;
 	private String				password_enc;
 	private int					success;
+	private int					teamNo;
 	
 	private int		pin		= -1;
 	private int		wins	= -1;
@@ -23,7 +24,7 @@ public class User implements Serializable, MyPacketable {
 		username = u;
 		password_enc = p;
 		success = -1;
-
+		teamNo = -2;
 	}
 
 	public String getUsername() {
@@ -94,5 +95,13 @@ public class User implements Serializable, MyPacketable {
 		System.out.println( wins );
 		System.out.println( loss );
 		System.out.println( avatar );
+	}
+
+	public int getTeamNo() {
+		return teamNo;
+	}
+
+	public void setTeamNo(int teamNo) {
+		this.teamNo = teamNo;
 	}
 }

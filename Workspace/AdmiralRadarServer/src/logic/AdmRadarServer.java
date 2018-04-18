@@ -207,6 +207,7 @@ public class AdmRadarServer {
 										}
 										
 										teamNo = nPlayers / 4;
+										u.setTeamNo(teamNo);
 										turnNo = nPlayers;
 										myPrint( "team no: " + teamNo + " turn no: " + turnNo );
 										nPlayers++;
@@ -265,6 +266,7 @@ public class AdmRadarServer {
 												moveComplete[teamNo] = false;
 												teamNo = -1;
 												turnNo = -1;
+												u.setTeamNo(-1);
 												boostInitiated = false;
 												role = Role.NETWORK;
 												turn = 0;
