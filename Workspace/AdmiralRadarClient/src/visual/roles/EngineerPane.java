@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.SwingUtilities;
 
+import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
@@ -19,15 +20,6 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 	private float	B	= 0.5f;
 
 	private int margin = 10;
-
-	private Color	ACTIVE_WEAPON	= Color.RED;
-	private Color	BROKEN_WEAPON	= Color.DARK_GRAY;
-	private Color	ACTIVE_SENSOR	= Color.GREEN;
-	private Color	BROKEN_SENSOR	= Color.DARK_GRAY;
-	private Color	ACTIVE_EXTRAS	= Color.YELLOW;
-	private Color	BROKEN_EXTRAS	= Color.DARK_GRAY;
-	private Color	ACTIVE_REACTR	= Color.GRAY;
-	private Color	BROKEN_REACTR	= Color.DARK_GRAY;
 
 	private int[][]	blue	= new int[2][6];
 	private int[][]	orange	= new int[2][5];
@@ -73,7 +65,7 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 		south = new Rectangle( margin + ( 2 * x ) / 4 , ( y - boxH ) / 2 , boxW - 2 * margin , boxH );
 		east = new Rectangle( margin + ( 3 * x ) / 4 , ( y - boxH ) / 2 , boxW - 2 * margin , boxH );
 
-		g.setColor( Color.LIGHT_GRAY );
+		g.setColor( ColorPallate.ENGINEER_DIRECTION_BOX );
 		g.fill( west );
 		g.fill( north );
 		g.fill( south );
@@ -82,11 +74,11 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 		calculateSystemLines( west , new Rectangle( west.x , west.y , 4 * west.width + 6 * margin , west.height ) );
 
 		g.setStroke( new BasicStroke( 5 ) );
-		g.setColor( Color.BLUE );
+		g.setColor( ColorPallate.ENGR_CIRCUIT_WWWE );
 		g.drawPolyline( blue[0] , blue[1] , 6 );
-		g.setColor( Color.ORANGE );
+		g.setColor( ColorPallate.ENGR_CIRCUIT_NNNE );
 		g.drawPolyline( orange[0] , orange[1] , 5 );
-		g.setColor( Color.DARK_GRAY );
+		g.setColor( ColorPallate.ENGR_CIRCUIT_SSSE );
 		g.drawPolyline( grey[0] , grey[1] , 3 );
 
 		drawWestBox( west );
@@ -148,9 +140,9 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 	private void drawNorthBox(Rectangle o) {
 
-		buttonAreas[6] = drawPart( o , new Point( 1 , 1 ) , 3 , buttons[6] , Color.ORANGE );
-		buttonAreas[7] = drawPart( o , new Point( 1 , 2 ) , 1 , buttons[7] , Color.ORANGE );
-		buttonAreas[8] = drawPart( o , new Point( 3 , 2 ) , 3 , buttons[8] , Color.ORANGE );
+		buttonAreas[6] = drawPart( o , new Point( 1 , 1 ) , 3 , buttons[6] , ColorPallate.ENGR_CIRCUIT_NNNE );
+		buttonAreas[7] = drawPart( o , new Point( 1 , 2 ) , 1 , buttons[7] , ColorPallate.ENGR_CIRCUIT_NNNE );
+		buttonAreas[8] = drawPart( o , new Point( 3 , 2 ) , 3 , buttons[8] , ColorPallate.ENGR_CIRCUIT_NNNE );
 
 		buttonAreas[9] = drawPart( o , new Point( 1 , 3 ) , 2 , buttons[9] , null );
 		buttonAreas[10] = drawPart( o , new Point( 2 , 3 ) , 1 , buttons[10] , null );
@@ -160,9 +152,9 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 	private void drawEastBox(Rectangle o) {
 
-		buttonAreas[18] = drawPart( o , new Point( 1 , 1 ) , 2 , buttons[18] , Color.ORANGE );
-		buttonAreas[19] = drawPart( o , new Point( 1 , 2 ) , 3 , buttons[19] , Color.DARK_GRAY );
-		buttonAreas[20] = drawPart( o , new Point( 3 , 2 ) , 1 , buttons[20] , Color.BLUE );
+		buttonAreas[18] = drawPart( o , new Point( 1 , 1 ) , 2 , buttons[18] , ColorPallate.ENGR_CIRCUIT_NNNE );
+		buttonAreas[19] = drawPart( o , new Point( 1 , 2 ) , 3 , buttons[19] , ColorPallate.ENGR_CIRCUIT_SSSE );
+		buttonAreas[20] = drawPart( o , new Point( 3 , 2 ) , 1 , buttons[20] , ColorPallate.ENGR_CIRCUIT_WWWE );
 
 		buttonAreas[21] = drawPart( o , new Point( 1 , 3 ) , 4 , buttons[21] , null );
 		buttonAreas[22] = drawPart( o , new Point( 2 , 3 ) , 2 , buttons[22] , null );
@@ -172,9 +164,9 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 	private void drawSouthBox(Rectangle o) {
 
-		buttonAreas[12] = drawPart( o , new Point( 1 , 1 ) , 2 , buttons[12] , Color.DARK_GRAY );
-		buttonAreas[13] = drawPart( o , new Point( 1 , 2 ) , 3 , buttons[13] , Color.DARK_GRAY );
-		buttonAreas[14] = drawPart( o , new Point( 3 , 2 ) , 1 , buttons[14] , Color.DARK_GRAY );
+		buttonAreas[12] = drawPart( o , new Point( 1 , 1 ) , 2 , buttons[12] , ColorPallate.ENGR_CIRCUIT_SSSE );
+		buttonAreas[13] = drawPart( o , new Point( 1 , 2 ) , 3 , buttons[13] , ColorPallate.ENGR_CIRCUIT_SSSE );
+		buttonAreas[14] = drawPart( o , new Point( 3 , 2 ) , 1 , buttons[14] , ColorPallate.ENGR_CIRCUIT_SSSE );
 
 		buttonAreas[15] = drawPart( o , new Point( 1 , 3 ) , 1 , buttons[15] , null );
 		buttonAreas[16] = drawPart( o , new Point( 2 , 3 ) , 4 , buttons[16] , null );
@@ -184,9 +176,9 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 	private void drawWestBox(Rectangle o) {
 
-		buttonAreas[0] = drawPart( o , new Point( 1 , 1 ) , 1 , buttons[0] , Color.BLUE );
-		buttonAreas[1] = drawPart( o , new Point( 3 , 1 ) , 3 , buttons[1] , Color.BLUE );
-		buttonAreas[2] = drawPart( o , new Point( 3 , 2 ) , 2 , buttons[2] , Color.BLUE );
+		buttonAreas[0] = drawPart( o , new Point( 1 , 1 ) , 1 , buttons[0] , ColorPallate.ENGR_CIRCUIT_WWWE );
+		buttonAreas[1] = drawPart( o , new Point( 3 , 1 ) , 3 , buttons[1] , ColorPallate.ENGR_CIRCUIT_WWWE );
+		buttonAreas[2] = drawPart( o , new Point( 3 , 2 ) , 2 , buttons[2] , ColorPallate.ENGR_CIRCUIT_WWWE );
 
 		buttonAreas[3] = drawPart( o , new Point( 1 , 3 ) , 2 , buttons[3] , null );
 		buttonAreas[4] = drawPart( o , new Point( 2 , 3 ) , 4 , buttons[4] , null );
@@ -240,16 +232,16 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 		switch (type) {
 			case 1:
-				g.setColor( ACTIVE_WEAPON );
+				g.setColor( ColorPallate.ENGR_ACTIVE_WEAPON );
 				break;
 			case 2:
-				g.setColor( ACTIVE_SENSOR );
+				g.setColor( ColorPallate.ENGR_ACTIVE_SENSOR );
 				break;
 			case 3:
-				g.setColor( ACTIVE_EXTRAS );
+				g.setColor( ColorPallate.ENGR_ACTIVE_EXTRAS );
 				break;
 			case 4:
-				g.setColor( ACTIVE_REACTR );
+				g.setColor( ColorPallate.ENGR_ACTIVE_REACTR );
 				break;
 		}
 
@@ -263,16 +255,16 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 
 		switch (type) {
 			case 1:
-				g.setColor( BROKEN_WEAPON );
+				g.setColor( ColorPallate.ENGR_BROKEN_WEAPON );
 				break;
 			case 2:
-				g.setColor( BROKEN_SENSOR );
+				g.setColor( ColorPallate.ENGR_BROKEN_SENSOR );
 				break;
 			case 3:
-				g.setColor( BROKEN_EXTRAS );
+				g.setColor( ColorPallate.ENGR_BROKEN_EXTRAS );
 				break;
 			case 4:
-				g.setColor( BROKEN_REACTR );
+				g.setColor( ColorPallate.ENGR_BROKEN_REACTR );
 				break;
 		}
 

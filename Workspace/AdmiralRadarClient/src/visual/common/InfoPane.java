@@ -78,7 +78,6 @@ public class InfoPane extends ShipPanel implements MouseListener, MouseMotionLis
 	public void mouseClicked(MouseEvent e) {
 		if (r_buttn.contains(e.getPoint())) {
 			control.quit();
-			System.exit( 0 );
 		}
 		
 	}

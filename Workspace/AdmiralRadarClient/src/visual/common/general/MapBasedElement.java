@@ -89,9 +89,11 @@ public abstract class MapBasedElement extends ShipPanel{
 
 		g.setColor( ColorPallate.MAP_MOUSEOVER );
 
-		if (currentMouse.isValid()) g.fillOval( x0 - w * r + (int) ( currentMouse.getX() * sp ) ,
-				y0 - w * r + (int) ( currentMouse.getY() * sp ) , 2 * w * r , 2 * w * r );
-
+		if (this.getMouseMotionListeners().length != 0){
+			if (currentMouse.isValid()) g.fillOval( x0 - w * r + (int) ( currentMouse.getX() * sp ) ,
+					y0 - w * r + (int) ( currentMouse.getY() * sp ) , 2 * w * r , 2 * w * r );
+		}
+		
 		g.setColor( ColorPallate.MAP_DOTS );
 		g.setFont( FontPallate.getFont( FontPallate.MAP_LETTER_FONT , (int) (w*r*0.5) ) );
 		for (int i = 0; i < GamePreferences.SEG; i++) {
@@ -121,7 +123,7 @@ public abstract class MapBasedElement extends ShipPanel{
 					: ( control.getSpaceship().getPosition() );
 
 			setImageSize();
-			
+
 			g.drawImage( shipIcon , x0 + pos.getX() * sp - shipIcon.getWidth( null ) / 2 ,
 					y0 + pos.getY() * sp - shipIcon.getHeight( null ) / 2 , null );
 		}
@@ -162,7 +164,7 @@ public abstract class MapBasedElement extends ShipPanel{
 
 		if (imageX != sp){
 			imageX = sp;
-			
+
 			shipIcon = bi.getScaledInstance( imageX , (int) ( ( bi.getHeight() * imageX ) / ( (float) bi.getWidth() ) ) ,
 					Image.SCALE_DEFAULT );
 		}

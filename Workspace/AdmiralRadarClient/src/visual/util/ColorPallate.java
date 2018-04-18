@@ -48,5 +48,22 @@ public class ColorPallate {
 	public static final Color QUIT_BUTTON = new Color( 200 , 40 , 40 , 100 );
 
 	public static final Color QUIT_TEXT = new Color( 240 , 240 , 240 , 200 );
+	
+	public static final Color	ENGINEER_DIRECTION_BOX = new Color( 30 , 30 , 30 , 200 );
+	public static final Color	ENGR_ACTIVE_WEAPON	= Color.RED;
+	public static final Color	ENGR_BROKEN_WEAPON	= Color.DARK_GRAY;
+	public static final Color	ENGR_ACTIVE_SENSOR	= Color.GREEN;
+	public static final Color	ENGR_BROKEN_SENSOR	= Color.DARK_GRAY;
+	public static final Color	ENGR_ACTIVE_EXTRAS	= Color.YELLOW;
+	public static final Color	ENGR_BROKEN_EXTRAS	= Color.DARK_GRAY;
+	public static final Color	ENGR_ACTIVE_REACTR	= Color.GRAY;
+	public static final Color	ENGR_BROKEN_REACTR	= Color.DARK_GRAY;
+	public static final Color	ENGR_CIRCUIT_NNNE	= setTransparency(Color.ORANGE , 120);
+	public static final Color	ENGR_CIRCUIT_WWWE	= setTransparency(Color.BLUE , 120);
+	public static final Color	ENGR_CIRCUIT_SSSE	= setTransparency(Color.WHITE , 120);
+	
+	private static Color setTransparency(Color c, int alpha){
+		return new Color(c.getRed() , c.getGreen() , c.getBlue() , alpha);
+	}
 
 }

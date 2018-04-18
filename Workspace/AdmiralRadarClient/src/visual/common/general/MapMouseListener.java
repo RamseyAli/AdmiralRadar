@@ -9,7 +9,7 @@ import pref.GamePreferences;
 
 public class MapMouseListener implements MouseListener, MouseMotionListener {
 
-	private boolean			listening;
+	public boolean			listening;
 	private MapBasedElement	root;
 
 	public MapMouseListener(MapBasedElement mapBasedElement) {
