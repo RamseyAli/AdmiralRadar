@@ -381,7 +381,8 @@ public class AdmRadarServer {
 				}
 			}
 			catch (Exception ex) {
-				ex.printStackTrace( System.err );
+				//ex.printStackTrace( System.err );
+				gameOngoing = false;
 				if (sock != null && !sock.isClosed()) {
 					try {
 						clearGlobalMessages();
