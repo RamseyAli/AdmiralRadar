@@ -272,7 +272,7 @@ public class dbQuery {
 				String message = DBobj.rs.getString( "MESSAGE" );
 
 				if (teamID == userTeam) {
-					messages.add( username + " [" + time + "]: " + message );
+					messages.add( username + "]: " + message );
 				}
 			}
 		}
@@ -299,7 +299,7 @@ public class dbQuery {
 				String time = DBobj.rs.getString( "TIMESTAMP" ).substring( 11 , 18 );
 				String message = DBobj.rs.getString( "MESSAGE" );
 
-				messages.add( username + " [" + time + "]: " + message );
+				messages.add( username + ": " + message );
 			}
 		}
 		catch (Exception e) {

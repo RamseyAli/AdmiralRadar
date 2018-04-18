@@ -15,14 +15,17 @@ public class GamePreferences {
 
 	public static boolean FULLSCREEN = true;
 	// public final static String PREF_FILE = "prefs.rdr";
-	private final static int			PORT	= 2069;
+	private final static int			PORT	= 12019;
 	private static ArrayList<String>	servers;
 
 	static {
 
 		servers = new ArrayList<String>();
+		servers.add( "ramseyisadork.com" );
 		servers.add( "127.0.0.1" );
-		servers.add( "nonlocalhost" );
+		servers.add( "admiralradar.io" );
+		servers.add( "samisbusy.com" );
+		
 		
 		RESOURCES_PATH = getResourcePath();
 		System.out.println( RESOURCES_PATH );

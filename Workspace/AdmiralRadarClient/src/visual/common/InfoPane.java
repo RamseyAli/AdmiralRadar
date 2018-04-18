@@ -36,6 +36,7 @@ public class InfoPane extends ShipPanel implements MouseListener, MouseMotionLis
 	Rectangle2D r_outer;
 	Rectangle2D r_buttn;
 	JLabel instructions;
+	boolean white;
 
 	@Override
 	public void draw() {
@@ -62,8 +63,12 @@ public class InfoPane extends ShipPanel implements MouseListener, MouseMotionLis
 		
 		g.setColor(ColorPallate.QUIT_TEXT );
 		g.setFont( FontPallate.getFont( FontPallate.ABORT_BUTTON_FONT , (int) (r_buttn.getHeight() / 2.0) )  );
-		g.drawString( "ABORT" , (int) (r_buttn.getX()*1.04) , (int) (r_buttn.getY() + ((r_buttn.getHeight() / 2)  + (g.getFontMetrics().getHeight() / 2.5)) ));
-		g.setColor(ColorPallate.QUIT_BUTTON );
+		g.drawString( "ABORT" , (int) (r_buttn.getX()*1.04) , (int) (r_buttn.getY() + g.getFontMetrics().getHeight()/1.075 ));
+		if (white) {
+			g.setColor(ColorPallate.HEALTH_LIGHT);
+		} else {
+			g.setColor(ColorPallate.QUIT_BUTTON );
+		}
 		g.fill( r_buttn );
 		
 		
@@ -108,9 +113,11 @@ public class InfoPane extends ShipPanel implements MouseListener, MouseMotionLis
 	    if ( r_buttn.contains(mx, my) ) {
 	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
 	        setCursor(cursor);
+	        white = true;
 	    } else {
 	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR); 
 	        setCursor(cursor);
+	        white = false;
 	    }
 	}
 

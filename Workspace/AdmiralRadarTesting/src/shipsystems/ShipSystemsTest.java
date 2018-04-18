@@ -1,5 +1,8 @@
 package shipsystems;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import game.GameMap;
 import game.Position;
@@ -23,10 +26,19 @@ public class ShipSystemsTest {
 		System.out.print("    Guess: ");
 		System.out.print(guess);
 		System.out.print(" Verdict: ");
-		if (ships.get(index).checkSector(guess, SEG, SEC))
-			System.out.print("Yes");
-		else
-			System.out.print("No");
+		try 
+		{
+			if (ships.get(index).checkSector(guess, SEG, SEC))
+				System.out.print("Yes");
+			else
+				System.out.print("No");
+		}
+		catch (Exception ex)
+		{
+			System.out.print("Exception -> ");
+			System.out.print(ex.getMessage());
+		}
+		
 		System.out.println();
 	}
 	
@@ -62,8 +74,10 @@ public class ShipSystemsTest {
 		}
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws Exception {
+		PrintStream out = new PrintStream(new FileOutputStream("ShipSystemTest.txt"));
+		System.setOut(out);
+		
 		testDrone();
 	}
 

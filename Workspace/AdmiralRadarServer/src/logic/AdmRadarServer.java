@@ -74,8 +74,11 @@ public class AdmRadarServer {
 			String serverName = "SERVER";
 			System.out.println(action.getPayload());
 			if (action == Systems.SPACEWALK) {
+				int teamSector = gameShip.get(teamNo).getSector(SEG, SEC);
 				sendGlobalMessage(serverName, "Team "+teamRealNo+" conducting spacewalk");
+				sendGlobalMessage(serverName, "Team "+teamRealNo+" in sector "+teamSector);
 				gameShip.get( teamNo ).restoreSystems();
+				gameShip.get(teamNo).clearPath();
 				turnMiss = 3;
 				if(turn == 0) {
 					turn = 4;
@@ -254,6 +257,8 @@ public class AdmRadarServer {
 	
 										while (true) {
 											if (!gameOngoing) {
+												clearTeamMessages();
+												clearGlobalMessages();
 												mpos.sendString("Game Ended");
 												Spaceship newTempShip = new Spaceship();
 												gameShip.set(teamNo, newTempShip);
@@ -379,13 +384,16 @@ public class AdmRadarServer {
 				}
 			}
 			catch (Exception ex) {
-				ex.printStackTrace( System.err );
+				//ex.printStackTrace( System.err );
+				gameOngoing = false;
 				if (sock != null && !sock.isClosed()) {
 					try {
+						clearGlobalMessages();
+						clearTeamMessages();
 						sock.close();
 					}
 					catch (IOException e) {
-						e.printStackTrace( System.err );
+						//e.printStackTrace( System.err );
 					}
 				}
 			}

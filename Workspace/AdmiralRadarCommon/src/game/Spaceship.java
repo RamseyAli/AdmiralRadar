@@ -90,6 +90,10 @@ public class Spaceship implements Serializable, MyPacketable {
 		nextDir = Direction.STOP;
 	}
 	
+	public void clearPath() {
+		path.clear();
+	}
+	
 	/* 
 	 * TACTICAL SYSTEMS 
 	 */
@@ -141,15 +145,18 @@ public class Spaceship implements Serializable, MyPacketable {
 	 * SENSORY SYSTEMS 
 	 */
 	// Drone //
-	private int getSector(int n, int m)
+	public int getSector(int n, int m) // will return -1 if outside all sectors
 	{
 		int secSize;
-		// Note: "GamePreferences.SEG" is the size of the Map //
-		secSize = n / m;
 		
-		if (n % m != 0) // if n is not a multiple of m, increase sector size by 1 
+		if (pos.getX() < 0 || pos.getX() >= n || pos.getY() < 0 || pos.getY() >= n)
+			return -1;
+			//throw new MapDimensionException("X or Y is negative");
+		
+		secSize = n / m;
+		if (n % m != 0) // if n is not a multiple of m, increase sector size by 1
 			++secSize;
-				
+		
 		return m * ( pos.getY() / secSize ) + ( pos.getX() / secSize );
 	}
 	
@@ -166,7 +173,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		} 
 		if (n < 2 || m < 2 || n % m != 0)
 		{
-			throw new MapDimensionException();
+			throw new MapDimensionException("Incorrect map or sector dimensions");
 		}
 		
 		sector = getSector(n, m);
@@ -193,7 +200,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		}
 		if (n < 2 || m < 2 || n % m != 0)
 		{
-			throw new MapDimensionException();
+			throw new MapDimensionException("Incorrect map or sector dimensions");
 		}
 		
 		// Correct info //
