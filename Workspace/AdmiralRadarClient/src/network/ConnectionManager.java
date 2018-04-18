@@ -215,6 +215,7 @@ public class ConnectionManager {
 	private void waitForStart() {
 
 		boolean stop = false;
+		boolean firstLoop = true;
 		while (!stop) {
 			if (ois.getClassOfNext() == ObjEnum.MAP) {
 
@@ -231,7 +232,9 @@ public class ConnectionManager {
 					Role r = null;
 					if (( r = ois.getNextRole() ) != null) {
 						interrupt.setRole( r );
-						SoundManager.startRoleTrack(r);
+						if (!firstLoop)
+							SoundManager.stopRoleTrack(currentMusicTrack);
+						SoundManager.startRoleTrack(currentMusicTrack = r);
 						
 						switch (r) {
 							case CAPTAIN: {
@@ -275,6 +278,7 @@ public class ConnectionManager {
 					e.printStackTrace();
 				}
 			}
+			firstLoop = false;
 		}
 	}
 
