@@ -74,7 +74,9 @@ public class AdmRadarServer {
 			String serverName = "SERVER";
 			System.out.println(action.getPayload());
 			if (action == Systems.SPACEWALK) {
+				int teamSector = gameShip.get(teamNo).getSector(SEG, SEC);
 				sendGlobalMessage(serverName, "Team "+teamRealNo+" conducting spacewalk");
+				sendGlobalMessage(serverName, "Team "+teamRealNo+" in sector "+teamSector);
 				gameShip.get( teamNo ).restoreSystems();
 				turnMiss = 3;
 				if(turn == 0) {
