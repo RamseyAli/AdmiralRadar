@@ -390,7 +390,7 @@ public class AdmRadarServer {
 						sock.close();
 					}
 					catch (IOException e) {
-						e.printStackTrace( System.err );
+						//e.printStackTrace( System.err );
 					}
 				}
 			}
