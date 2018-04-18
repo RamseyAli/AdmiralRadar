@@ -21,7 +21,7 @@ public class SoundManager {
 	private static Map<Role, MyPlayer> 		roleMusic;
 	private static MyPlayer[] 	soundEffects = new MyPlayer[10];
 	
-	static{
+	static {
 		// Map Role to Associated Audio File
 		roleMusic = new HashMap<Role, MyPlayer>();
 		generatePlayer(Role.CAPTAIN);
@@ -39,8 +39,9 @@ public class SoundManager {
 		soundEffects[5] = new MyPlayer("MissileExplosion");
 		soundEffects[6] = new MyPlayer("sensorySounds");					// Drone and Sonar
 		soundEffects[7] = new MyPlayer("MouseHover");
-		soundEffects[8] = new MyPlayer("MineClick");			
-		// Add Boost, Spacewalk 15,16
+		soundEffects[8] = new MyPlayer("MineClick");
+		soundEffects[9] = new MyPlayer("ShipBoost");
+		soundEffects[10] = new MyPlayer("Spacewalk");
 	}
 	
 	public static void startRoleTrack(Role r) {

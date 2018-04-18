@@ -50,6 +50,7 @@ public class ConnectionManager {
 		name = "Default Name";
 		chargeLock = new Object();
 		engineLock = new Object();
+		
 
 	}
 
