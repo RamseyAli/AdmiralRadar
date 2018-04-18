@@ -59,6 +59,7 @@ public class SoundManager {
 		try {
 			roleMusic.get( r ).stop();
 		} catch (Exception e) {
+			System.out.println("ERROR: Problem stopping music track...");
 			e.printStackTrace();
 		}
 	}
