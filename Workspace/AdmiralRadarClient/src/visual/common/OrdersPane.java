@@ -1,6 +1,7 @@
 package visual.common;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Polygon;
 import java.awt.Rectangle;
@@ -477,26 +478,36 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 			overlay[1] = false;
 			overlay[2] = false;
 			overlay[3] = false;
+	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+	        setCursor(cursor);
 		} else if (south.contains( e.getPoint() )) {
 			overlay[0] = false;
 			overlay[1] = true;
 			overlay[2] = false;
+	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+	        setCursor(cursor);
 			overlay[3] = false;
 		} else if (east.contains( e.getPoint() )) {
 			overlay[0] = false;
 			overlay[1] = false;
 			overlay[2] = true;
 			overlay[3] = false;
+	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+	        setCursor(cursor);
 		} else if (west.contains( e.getPoint() )) {
 			overlay[0] = false;
 			overlay[1] = false;
 			overlay[2] = false;
 			overlay[3] = true;
+	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+	        setCursor(cursor);
 		} else {
 			overlay[0] = false;
 			overlay[1] = false;
 			overlay[2] = false;
 			overlay[3] = false;
+	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR); 
+	        setCursor(cursor);
 		}
 
 

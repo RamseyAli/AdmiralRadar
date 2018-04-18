@@ -2,6 +2,7 @@ package visual.roles.elements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -20,7 +21,7 @@ import visual.util.FontPallate;
 
 import static database.dbQuery.*;
 
-public class ChatTextPane extends JPanel implements MouseWheelListener, ComponentListener {
+public class ChatTextPane extends JPanel implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,43 +32,36 @@ public class ChatTextPane extends JPanel implements MouseWheelListener, Componen
 
 		setLayout( new BorderLayout() );
 		text = new JTextArea();
-		squirrel = new JScrollPane( text );
-		squirrel.addComponentListener( this );
+		
+		//Listener
+		addComponentListener( this );
 
-		text.setWrapStyleWord( true );
 		text.setLineWrap( true );
 	//	text.setFont( FontPallate.getFont( FontPallate.CHAT_FONT , 10 ) );
-		text.setOpaque( false );
-		text.setFocusable( true );
+		text.setEditable(false);
 		text.setLayout( null );
-		text.setForeground( Color.WHITE );
+		text.setLineWrap(false);
+		text.setForeground( Color.BLACK );
 		// text.setBackground(ColorPallate.INVISIBLE);
-
-		squirrel.setOpaque( false );
-		squirrel.setHorizontalScrollBarPolicy( ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
-		squirrel.setVerticalScrollBarPolicy( ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER );
-		// text.setBackground(ColorPallate.INVISIBLE);
-
-		setOpaque( true );
-		this.add( text , BorderLayout.CENTER );
-		this.setBackground( ColorPallate.INVISIBLE );
 		
 		new Thread( () -> refreshChat() ).start();
 		
+		squirrel = new JScrollPane( text );
+		squirrel.setOpaque( true );
+		squirrel.setBackground(ColorPallate.ASTEROID_DARK);
+
+		setOpaque( false );
+		this.add( squirrel , BorderLayout.CENTER );
+		this.setBackground( ColorPallate.INVISIBLE );
+		
+		
+		
 		}
-	
-
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void componentResized(ComponentEvent e) {
 		text.setSize( this.getWidth() , this.getHeight() );
-		squirrel.setSize( this.getWidth() , this.getHeight() );
-
+		squirrel.setPreferredSize(new Dimension(this.getWidth() , this.getHeight() ));
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package visual.roles;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -115,23 +116,30 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		// Combo Box
 		svr = new JComboBox<>( GamePreferences.getIPs() );
 		svr.setEditable( true );
+		svr.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		model = (DefaultComboBoxModel<String>) svr.getModel();
 
 		// Login / Connection Components
 		usr = new JTextField( "TEST_USER" , 20 );
+		usr.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		pwd = new JPasswordField( "newpassword1234" , 20 );
+		pwd.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		cxt = new JButton( "Connect" );
 		cxt.addActionListener( this );
+		cxt.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		clr = new JButton( "Clear" );
+		clr.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		clr.addActionListener( this );
 
 		log = new JButton( "Login" );
 		log.addActionListener( this );
-
+		log.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
 		reg = new JButton( "Register" );
 		reg.addActionListener( this );
+		reg.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		// Server Connection Line
 		con.add( svr );
@@ -144,6 +152,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 
 		// Game Tab
 		ready = new JButton( "Ready to Play" );
+		ready.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		gameStatus = new JLabel( "Not Ready" );
 		gameStatus.setForeground( Color.WHITE );
 
@@ -165,8 +174,10 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		logo.setOpaque(false);
 		avatarButton = new JButton( "Change Avatar" );
 		avatarButton.addActionListener( this );
+		avatarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		resetButton = new JButton( "Reset Password " );
 		resetButton.addActionListener( this );
+		resetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 		username.setForeground(Color.WHITE);
 		wins.setForeground(Color.WHITE);
