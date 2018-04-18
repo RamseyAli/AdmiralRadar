@@ -120,9 +120,9 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		model = (DefaultComboBoxModel<String>) svr.getModel();
 
 		// Login / Connection Components
-		usr = new JTextField( "TEST_USER" , 20 );
+		usr = new JTextField( "Username" , 20 );
 		usr.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		pwd = new JPasswordField( "newpassword1234" , 20 );
+		pwd = new JPasswordField( "password" , 20 );
 		pwd.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		cxt = new JButton( "Connect" );
