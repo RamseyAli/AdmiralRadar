@@ -27,10 +27,20 @@ public class dbQuery {
 		}
 
 		public boolean close() {
-			/*
-			 * try { if (rs != null) { rs.close(); } if (conn != null) { conn.close(); } if (statement != null) {
-			 * statement.close(); } } catch (Exception e) { e.printStackTrace(); return false; } return true;
-			 */
+			
+			 try { 
+				 if (rs != null) { 
+					 rs.close(); 
+				 } 
+				 if (conn != null) { 
+					 conn.close();
+				} if (statement != null) {
+					statement.close(); 
+				} 
+			} catch (Exception e) {
+				e.printStackTrace(); return false; 
+			}
+			 
 			return true;
 		}
 
@@ -141,6 +151,7 @@ public class dbQuery {
 						// execute the java preparedstatement
 						preparedStmt.executeUpdate();
 
+						DBobj.close();
 						return 0;
 
 					} else {
@@ -176,9 +187,10 @@ public class dbQuery {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			DBobj.close();
 			return 1;
 		}
-
+		DBobj.close();
 		return 0;
 
 	}
@@ -194,7 +206,9 @@ public class dbQuery {
 		try {
 			while (DBobj.rs.next()) {
 				if (user.equals( DBobj.rs.getString( "USERNAME" ) )) {
-					return DBobj.rs.getString( "AVATAR" );
+					String avatar = DBobj.rs.getString( "AVATAR" );
+					DBobj.close();
+					return avatar;
 				}
 			}
 		}
@@ -217,8 +231,9 @@ public class dbQuery {
 		try {
 			while (DBobj.rs.next()) {
 				if (user.equals( DBobj.rs.getString( "USERNAME" ) )) {
+					int wins = DBobj.rs.getInt( "WINS" );
 					DBobj.close();
-					return DBobj.rs.getInt( "WINS" );
+					return wins;
 				}
 			}
 		}
@@ -241,8 +256,9 @@ public class dbQuery {
 		try {
 			while (DBobj.rs.next()) {
 				if (user.equals( DBobj.rs.getString( "USERNAME" ) )) {
+					int losses = DBobj.rs.getInt( "LOSSES" );
 					DBobj.close();
-					return DBobj.rs.getInt( "LOSSES" );
+					return losses;
 				}
 			}
 		}
@@ -327,6 +343,7 @@ public class dbQuery {
 			// myPrint("Prepared Statement: " + preparedStmt);
 		}
 		catch (Exception e) {
+			DBobj.close();
 			e.printStackTrace();
 			return false;
 		}
@@ -350,6 +367,7 @@ public class dbQuery {
 			// myPrint("Prepared Statement: " + preparedStmt);
 		}
 		catch (Exception e) {
+			DBobj.close();
 			e.printStackTrace();
 			return false;
 		}
@@ -370,6 +388,7 @@ public class dbQuery {
 			preparedStmt.executeUpdate();
 		}
 		catch (Exception e) {
+			DBobj.close();
 			e.printStackTrace();
 			return false;
 		}
@@ -390,6 +409,7 @@ public class dbQuery {
 			preparedStmt.executeUpdate();
 		}
 		catch (Exception e) {
+			DBobj.close();
 			e.printStackTrace();
 			return false;
 		}
@@ -412,8 +432,10 @@ public class dbQuery {
 
 				if (user.equals( username )) {
 					if (team_id != 0) {
+						DBobj.close();
 						return team_id;
 					} else {
+						DBobj.close();
 						return 0;
 					}
 				}
@@ -444,6 +466,7 @@ public class dbQuery {
 			// myPrint("Prepared Statement: " + preparedStmt);
 		}
 		catch (Exception e) {
+			DBobj.close();
 			e.printStackTrace();
 			return false;
 		}
@@ -465,6 +488,7 @@ public class dbQuery {
 			preparedStmt.executeUpdate();
 		}
 		catch (Exception e) {
+			DBobj.close();
 			e.printStackTrace();
 			return false;
 		}
@@ -511,6 +535,7 @@ public class dbQuery {
 			preparedStmt.executeUpdate();
 		}
 		catch (Exception e) {
+			DBobj.close();
 			e.printStackTrace();
 			return false;
 		}
@@ -555,8 +580,10 @@ public class dbQuery {
 			//myPrint("Prepared Statement: " + preparedStmt);
 		} catch (Exception e) {
 			if (e.getMessage().contains("Duplicate")) {
+				DBobj.close();
 				return -1;
 			} else {
+				DBobj.close();
 				e.printStackTrace();
 				return -2;
 			}
@@ -573,6 +600,7 @@ public class dbQuery {
 		
 		try {
 			while (DBobj.rs.next()) {
+				DBobj.close();
 				return true;
 			}
 		} catch (Exception e) {
@@ -581,7 +609,6 @@ public class dbQuery {
 		}
 		
 		DBobj.close();
-		
 		return false;
 	}
 	
@@ -595,7 +622,9 @@ public class dbQuery {
 		
 		try {
 			while (DBobj.rs.next()) {
-				return DBobj.rs.getInt( "PIN" );
+				int result = DBobj.rs.getInt( "PIN" );
+				DBobj.close();
+				return result;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -603,7 +632,6 @@ public class dbQuery {
 		}
 		
 		DBobj.close();
-		
 		return -1;
 	}
 	
@@ -616,6 +644,7 @@ public class dbQuery {
 		
 		int newWins = getWins(username) + 1;
 		if (newWins == 0) {
+			DBobj.close();
 			return false;
 		}
 		
@@ -629,6 +658,7 @@ public class dbQuery {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			DBobj.close();
 			return false;
 		}
 
@@ -645,6 +675,7 @@ public class dbQuery {
 		
 		int newLosses = getLosses(username) + 1;
 		if (newLosses == 0) {
+			DBobj.close();
 			return false;
 		}
 		
@@ -658,6 +689,7 @@ public class dbQuery {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			DBobj.close();
 			return false;
 		}
 

@@ -60,8 +60,10 @@ public class Testapus {
 		System.out.println( "Server Running" );
 
 		// Connect to Server
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 8; i++) {
+			( (NetworkPane) clients[i].factory.getShipPanel() ).svr.setSelectedIndex( 2 );
 			( (NetworkPane) clients[i].factory.getShipPanel() ).cxt.doClick();
+		}
 
 		System.out.println( "Connected!" );
 
@@ -69,7 +71,6 @@ public class Testapus {
 
 		// Log In
 		for (int i = 0; i < 8; i++) {
-			( (NetworkPane) clients[i].factory.getShipPanel() ).svr.setSelectedIndex( 1 );
 			( (NetworkPane) clients[i].factory.getShipPanel() ).setUsername( "alohomora" );//"USER" + (i+1) );
 			( (NetworkPane) clients[i].factory.getShipPanel() ).setPassword( "password" + (i+1) );
 			( (NetworkPane) clients[i].factory.getShipPanel() ).log.doClick();
