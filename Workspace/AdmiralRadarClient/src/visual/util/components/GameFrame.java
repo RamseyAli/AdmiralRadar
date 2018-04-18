@@ -12,6 +12,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -181,6 +182,10 @@ public class GameFrame extends JFrame implements ComponentListener {
 
 	public JPanel getMainPane() {
 		return mainPane;
+	}
+
+	public ChatPane getChatPane() {
+		return c;
 	}
 
 }

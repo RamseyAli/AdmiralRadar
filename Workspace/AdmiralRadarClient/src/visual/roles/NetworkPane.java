@@ -45,7 +45,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 	JPanel x, con, usrBtnPnl, userTab, gameTab;
 
 	// Connector Declarations
-	JComboBox<String>				svr;
+	public JComboBox<String>				svr;
 	DefaultComboBoxModel<String>	model;
 	JLabel							cxnStatus;
 
@@ -317,7 +317,9 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 			model.removeAllElements();
 		}
 		else if (e.getSource() == log){
-			setState(control.login(usr.getText(), new String(pwd.getPassword())));
+			if (	(usr.getText().equals( "" )) 	||		(new String(pwd.getPassword()).equals( "" ))	)
+					System.out.println( usr.getText() + " -> "+ new String(pwd.getPassword()));
+			else setState(control.login(usr.getText(), new String(pwd.getPassword())));
 			
 		}
 		else if (e.getSource() == avatarButton){
