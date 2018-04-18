@@ -78,6 +78,7 @@ public class AdmRadarServer {
 				sendGlobalMessage(serverName, "Team "+teamRealNo+" conducting spacewalk");
 				sendGlobalMessage(serverName, "Team "+teamRealNo+" in sector "+teamSector);
 				gameShip.get( teamNo ).restoreSystems();
+				gameShip.get(teamNo).clearPath();
 				turnMiss = 3;
 				if(turn == 0) {
 					turn = 4;

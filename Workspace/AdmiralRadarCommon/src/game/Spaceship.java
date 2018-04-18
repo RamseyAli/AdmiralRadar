@@ -90,6 +90,10 @@ public class Spaceship implements Serializable, MyPacketable {
 		nextDir = Direction.STOP;
 	}
 	
+	public void clearPath() {
+		path.clear();
+	}
+	
 	/* 
 	 * TACTICAL SYSTEMS 
 	 */
