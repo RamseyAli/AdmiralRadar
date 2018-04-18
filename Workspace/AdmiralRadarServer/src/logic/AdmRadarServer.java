@@ -254,6 +254,8 @@ public class AdmRadarServer {
 	
 										while (true) {
 											if (!gameOngoing) {
+												clearTeamMessages();
+												clearGlobalMessages();
 												mpos.sendString("Game Ended");
 												Spaceship newTempShip = new Spaceship();
 												gameShip.set(teamNo, newTempShip);
@@ -382,6 +384,8 @@ public class AdmRadarServer {
 				ex.printStackTrace( System.err );
 				if (sock != null && !sock.isClosed()) {
 					try {
+						clearGlobalMessages();
+						clearTeamMessages();
 						sock.close();
 					}
 					catch (IOException e) {
