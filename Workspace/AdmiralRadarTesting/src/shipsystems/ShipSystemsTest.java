@@ -75,7 +75,7 @@ public class ShipSystemsTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		PrintStream out = new PrintStream(new FileOutputStream("output.txt"));
+		PrintStream out = new PrintStream(new FileOutputStream("ShipSystemTest.txt"));
 		System.setOut(out);
 		
 		testDrone();
