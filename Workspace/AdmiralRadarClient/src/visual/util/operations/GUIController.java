@@ -98,6 +98,7 @@ public class GUIController {
 
 	public void setUser(User usr) {
 		u = usr;
+		threadSafeRepaint( fac.getFrame().getChatPane() );
 	}
 
 	public int ready() {

@@ -21,9 +21,9 @@ public class GamePreferences {
 	static {
 
 		servers = new ArrayList<String>();
-		servers.add( "ramseyisadork.com" );
-		servers.add( "127.0.0.1" );
 		servers.add( "admiralradar.io" );
+		servers.add( "50.195.168.153" );
+		servers.add( "127.0.0.1" );
 		servers.add( "samisbusy.com" );
 		
 		
