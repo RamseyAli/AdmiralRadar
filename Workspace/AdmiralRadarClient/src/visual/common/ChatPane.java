@@ -22,9 +22,12 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import pref.GamePreferences;
@@ -39,16 +42,40 @@ import static database.dbQuery.*;
 
 public class ChatPane extends ShipPanel implements ActionListener, ComponentListener, MouseListener, MouseMotionListener {
 
-	ChatTextPane chat;
+	ChatTextPane global_chat, team_chat;
 	JLabel avatar;
 	JTextField txtbox;
 	Rectangle2D r_buttn;
+	
+	//Holds user's data
+	String[] userData;
+	int team;
+	String username;
+	String avatarS;
+	
+	
+	// Tabbed Pane
+	JTabbedPane tab;
+	
+	
+	//button color
 	boolean white;
 
 	public ChatPane(GUIController ctr) {
 		super( ctr );
+		
+		
+		userData = control.getUserInfo();
+		if (userData == null) {	//If I cannot get user's data, such as in the start of the game
+			userData = new String[]{"XXX", "10", "5", null, "1"};	//Username, Wins, Losses, Avatar, Team
+		}
+		team = Integer.parseInt(userData[4]);
+		username = userData[0];
+		avatarS = userData[3];
+		
 
-		chat = new ChatTextPane();
+		global_chat = new ChatTextPane(-1);
+		team_chat = new ChatTextPane(team);
 		avatar = new JLabel();
 		txtbox = new JTextField();
 		
@@ -57,8 +84,17 @@ public class ChatPane extends ShipPanel implements ActionListener, ComponentList
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		
+		//Tab init.
+		tab = new JTabbedPane();
+		tab.setOpaque( false );
+		tab.setVisible(true);
+		
+		tab.add( "Global" , global_chat );
+		tab.add( "Team" , team_chat );
+		
+		
 		add( avatar );
-		add( chat );
+		add( tab );
 		add( txtbox );
 	}
 
@@ -79,10 +115,21 @@ public class ChatPane extends ShipPanel implements ActionListener, ComponentList
 		//Load Avatar Image
 		Image image = null;
 		try {
-			image = new ImageIcon( (GamePreferences.RESOURCES_PATH + "Error_duck.png").replaceAll( "%20" , " " ) ).getImage();
-			
-		} catch (Exception ex) {
-			System.out.println("OK boss. We have a problem here.");
+			int x = (int) ( 400 / 2.25f );
+			URL url = new URL(avatarS);
+			URLConnection uc;
+			uc = url.openConnection();
+			uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");	//spoof the image request
+			BufferedImage bi = ImageIO.read( uc.getInputStream() );
+			image = bi.getScaledInstance( x , (int) ( ( bi.getHeight() * x ) / ( (float) bi.getWidth() ) ) , Image.SCALE_DEFAULT );
+		}
+		catch (Exception e) {
+			try {
+				image = new ImageIcon( (GamePreferences.RESOURCES_PATH + "Error_duck.png").replaceAll( "%20" , " " ) ).getImage();
+				
+			} catch (Exception ex) {
+				System.out.println("OK boss. We have a problem here.");	//Should never have a problem loading a resouce image!!
+			}
 		}
 	
 		avatar.setAlignmentX( Component.CENTER_ALIGNMENT );
@@ -99,20 +146,21 @@ public class ChatPane extends ShipPanel implements ActionListener, ComponentList
 		
 		g.fill( r_outer );
 
-		chat.setSize( (int) ( r_outer.getWidth() * 0.9 ) , (int) ( r_outer.getHeight() - avatar.getHeight()  - ( txtbox.getHeight()*2.5) ) );
+		tab.setSize((int) ( r_outer.getWidth() ) , (int) ( r_outer.getHeight() - avatar.getHeight()  - ( txtbox.getHeight()*2.15) ));
 		
 		image = image.getScaledInstance((int) (getWidth() / 1.5) , (int) (getWidth() / 1.5), Image.SCALE_DEFAULT);
 		avatar.setIcon( new ImageIcon( image ) );
-		avatar.setLocation((int) ( r_outer.getCenterX() - chat.getWidth() / 2.2 ) , (int) ( r_outer.getY() + (int) ( r_outer.getCenterX() - chat.getWidth() / 1.4 ) ));
+		avatar.setLocation((int) ( r_outer.getCenterX() - tab.getWidth() / 2.4 ) , (int) ( r_outer.getY() + (int) ( r_outer.getCenterX() - tab.getWidth() / 1.4 ) ));
 		avatar.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 		//avatar.setAlignmentX( Component.RIGHT_ALIGNMENT );
 		//avatar.setAlignmentY( Component.CENTER_ALIGNMENT );
 		
-		chat.setLocation( (int) ( r_outer.getCenterX() - chat.getWidth() / 2 ) , (int) ( r_outer.getY() + avatar.getHeight() + avatar.getY() ) );
+		tab.setLocation( (int) ( r_outer.getCenterX() - tab.getWidth() / 2 ) , (int) ( r_outer.getY() + avatar.getHeight() + avatar.getY() ) );
+		tab.setOpaque(false);
 		
 		//Textbox
-		txtbox.setLocation(chat.getX(), chat.getY() + chat.getHeight());
-		txtbox.setSize(chat.getWidth(), txtbox.getHeight());
+		txtbox.setLocation(tab.getX(), tab.getY() + tab.getHeight());
+		txtbox.setSize(tab.getWidth(), txtbox.getHeight());
 		
 		
 		//Send Button
@@ -139,9 +187,6 @@ public class ChatPane extends ShipPanel implements ActionListener, ComponentList
 		    
 		    g.drawString("SEND", x, y);
 	    ///
-		
-		//Repaint Chat
-		control.threadSafeRepaint(chat);
 
 	}
 	
@@ -194,7 +239,16 @@ public class ChatPane extends ShipPanel implements ActionListener, ComponentList
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (r_buttn.contains(e.getPoint())) {
-			sendGlobalMessage("XXX", txtbox.getText());
+			String msg = txtbox.getText();
+			if (msg.trim().length() == 0) {
+				JOptionPane.showMessageDialog(null, "Please enter a non-empty message", "Invalid Message", JOptionPane.ERROR_MESSAGE);
+			} else {
+				if (tab.getTitleAt(tab.getSelectedIndex()).equals("Global")) {
+					sendGlobalMessage(username, txtbox.getText());
+				} else {
+					sendTeamMessage(username, txtbox.getText(), team);
+				}
+			}
 			txtbox.setText("");
 		}
 	}

@@ -27,11 +27,13 @@ public class ChatTextPane extends JPanel implements ComponentListener {
 
 	private JScrollPane	squirrel;
 	private JTextArea	text;
+	private int team ; //-1 is Global, 0+ is Team
 
-	public ChatTextPane() {
+	public ChatTextPane(int team) {
 
 		setLayout( new BorderLayout() );
 		text = new JTextArea();
+		this.team = team;
 		
 		//Listener
 		addComponentListener( this );
@@ -44,7 +46,7 @@ public class ChatTextPane extends JPanel implements ComponentListener {
 		text.setForeground( Color.BLACK );
 		// text.setBackground(ColorPallate.INVISIBLE);
 		
-		new Thread( () -> refreshChat() ).start();
+		new Thread( () -> refreshChat(team) ).start();
 		
 		squirrel = new JScrollPane( text );
 		squirrel.setOpaque( true );
@@ -82,12 +84,17 @@ public class ChatTextPane extends JPanel implements ComponentListener {
 
 	}
 	
-	private void refreshChat() {
+	private void refreshChat(int team) {
 		List<String> messages = new ArrayList<String>();
 		
-		messages = getGlobalMessages();
+		if (team == -1) {
+			messages = getGlobalMessages();
+		} else {
+			messages = getTeamMessages(team);
+		}
 		
-		text.removeAll();
+		
+		text.setText(null);
 		
 		for (int i = 0; i < messages.size(); i++) {
 			text.append(messages.get(i));
@@ -99,6 +106,8 @@ public class ChatTextPane extends JPanel implements ComponentListener {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		refreshChat(team);
 	}
 
 }

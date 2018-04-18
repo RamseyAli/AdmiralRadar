@@ -231,34 +231,22 @@ public class ConnectionManager {
 					Role r = null;
 					if (( r = ois.getNextRole() ) != null) {
 						interrupt.setRole( r );
+						SoundManager.startRoleTrack(r);
+						
 						switch (r) {
 							case CAPTAIN: {
-								stopRoleTrack(currentMusicTrack);
-								currentMusicTrack = Role.CAPTAIN;
-								startRoleTrack(currentMusicTrack);
 								captainNetworkLoop();
 								break;
 							} case ENGINE: {
-								stopRoleTrack(currentMusicTrack);
-								currentMusicTrack = Role.ENGINE;
-								startRoleTrack(currentMusicTrack);
 								engineerNetworkLoop();
 								break;
 							} case FIRST: {
-								stopRoleTrack(currentMusicTrack);
-								currentMusicTrack = Role.FIRST;
-								startRoleTrack(currentMusicTrack);
 								firstOfficerNetworkLoop();
 								break;
 							} case NETWORK: {
-								stopRoleTrack(currentMusicTrack);
-								currentMusicTrack = Role.NETWORK;
-								startMusicTrack(currentMusicTrack);
 								break;
 							} case RADIO: {
-								stopRoleTrack(currentMusicTrack);
-								currentMusicTrack = Role.RADIO;
-								startRoleTrack(currentMusicTrack);
+								
 								radioOfficerNetworkLoop();
 								break;
 							} default: break;

@@ -272,7 +272,7 @@ public class dbQuery {
 				String message = DBobj.rs.getString( "MESSAGE" );
 
 				if (teamID == userTeam) {
-					messages.add( username + "]: " + message );
+					messages.add( username + ": " + message );
 				}
 			}
 		}
