@@ -16,7 +16,7 @@ public class MyPlayer extends Application{
 	public MyPlayer(String s){
 		name = s;
 		com.sun.javafx.application.PlatformImpl.startup(()->{});
-		med = new Media("file://" + GamePreferences.RESOURCES_PATH + name + ".mp3");
+		med = new Media("file:" + System.getProperty( "file.separator" ) + System.getProperty( "file.separator" ) + GamePreferences.RESOURCES_PATH + name + ".mp3");
         mp = new MediaPlayer(med);
         
 	}
