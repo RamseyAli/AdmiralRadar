@@ -38,13 +38,14 @@ public class GamePreferences {
 		return servers;
 	}
 
+	//%20
 	private static String getResourcePath() {
 		try {
 			ClassLoader loader = GamePreferences.class.getClassLoader();
 			File f = null;
 			f = Paths.get(new URL(loader.getResource("pref/GamePreferences.class").toString().replaceAll(" ","%20")).toURI()).toFile();
 			f = f.getParentFile().getParentFile().getParentFile().getParentFile();
-			return ( f.getAbsolutePath() + System.getProperty( "file.separator" ) + "Resources" + System.getProperty( "file.separator" )).replaceAll(" ","%20");
+			return ( f.getAbsolutePath() + System.getProperty( "file.separator" ) + "Resources" + System.getProperty( "file.separator" )).replaceAll(" "," ");
 		}
 		catch (URISyntaxException | MalformedURLException e) {
 			e.printStackTrace();

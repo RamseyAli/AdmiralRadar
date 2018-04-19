@@ -70,4 +70,14 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+    <target name="AdmiralRadarClientMain">
+        <java classname="general.AdmiralRadarClientMain" failonerror="true" fork="yes">
+            <classpath refid="AdmiralRadarClient.classpath"/>
+        </java>
+    </target>
+    <target name="AdmRadarClient">
+        <java classname="general.AdmRadarClient" failonerror="true" fork="yes">
+            <classpath refid="AdmiralRadarClient.classpath"/>
+        </java>
+    </target>
 </project>
