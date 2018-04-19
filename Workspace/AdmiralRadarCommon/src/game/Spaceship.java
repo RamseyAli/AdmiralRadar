@@ -29,6 +29,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		path = new ArrayList<Direction>();
 		health = MAX_HEALTH;
 		systems = new ShipSystems();
+		shipMines = new MineController();
 		nextDir = Direction.STOP;
 		map = new GameMap();
 	}
