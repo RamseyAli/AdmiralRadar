@@ -23,6 +23,7 @@ import visual.common.HealthPane;
 import visual.common.InfoPane;
 import visual.common.OrdersPane;
 import visual.roles.NetworkPane;
+import visual.roles.RadioPane;
 import visual.util.FontPallate;
 import visual.util.operations.GUIController;
 
@@ -68,14 +69,6 @@ public class GameFrame extends JFrame implements ComponentListener {
 		mainPane.setLayout( new BorderLayout() );
 		setContentPane( mainPane );
 
-		h = new HealthPane( control );
-		c = new ChatPane( control );
-		o = new OrdersPane( control );
-		i = new InfoPane( control );
-
-		addComponentListener( this );
-		setComponentSizes();
-
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
 		if (GamePreferences.isFullscreen()) fullscreen();
 		setLocation( p.x , p.y );
@@ -105,10 +98,21 @@ public class GameFrame extends JFrame implements ComponentListener {
 		sp = p;
 		mainPane.removeAll();
 		mainPane.add( p , BorderLayout.CENTER );
+
+
+		h = new HealthPane( control );
+		c = new ChatPane( control );
+		if (!(p instanceof RadioPane)) o = new OrdersPane( control );
+		i = new InfoPane( control );
+
+		addComponentListener( this );
+		setComponentSizes();
+
+
 		if (!( p instanceof NetworkPane )) {
 			o.setup();
 			mainPane.add( h , BorderLayout.NORTH );
-			mainPane.add( o , BorderLayout.EAST );
+			if (!(p instanceof RadioPane)) mainPane.add( o , BorderLayout.EAST );
 			mainPane.add( i , BorderLayout.SOUTH );
 			mainPane.add( c , BorderLayout.WEST );
 
@@ -158,9 +162,9 @@ public class GameFrame extends JFrame implements ComponentListener {
 
 	public void refresh() {
 		o.setup();
-		
+
 	}
-	
+
 	public void threadSafeRepaint(){
 
 		SwingUtilities.invokeLater( new Runnable() {
@@ -168,14 +172,14 @@ public class GameFrame extends JFrame implements ComponentListener {
 				mainPane.repaint();
 			}
 		} );
-	
+
 	}
 
 	public OrdersPane getOrdersPane() {
 		return o;
-		
+
 	}
-	
+
 	public ShipPanel getSP(){
 		return sp;
 	}
