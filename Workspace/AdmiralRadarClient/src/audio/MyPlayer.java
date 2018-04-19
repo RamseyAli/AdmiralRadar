@@ -30,6 +30,7 @@ public class MyPlayer extends Application{
 	}
 	
 	public void play() {
+		mp.seek(new Duration(0));
 		mp.play();
 	}
 	

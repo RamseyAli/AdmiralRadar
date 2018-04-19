@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -32,14 +35,19 @@ import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.plaf.TabbedPaneUI;
 
+import audio.SoundManager;
 import pref.GamePreferences;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
 
-public class NetworkPane extends ShipPanel implements ActionListener, ComponentListener {
+public class NetworkPane extends ShipPanel implements ActionListener, ComponentListener, PopupMenuListener, MouseListener, MouseMotionListener {
 
 	// Panel Declarations
 	JPanel x, con, usrBtnPnl, userTab, gameTab;
@@ -56,6 +64,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 
 	// Tabbed Pane
 	JTabbedPane tab;
+	boolean		inTabHover;	//boolean for MousemMotionLister so that music doesn't keep playing if still in tab
 
 	// User Info Panel Declarations
 	JLabel	username, wins, losses, avatar, logo;
@@ -84,6 +93,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		
 		//Listener
 		addComponentListener( this );
+		addMouseMotionListener( this );
 
 		setOpaque( false );
 		x.setBackground( ColorPallate.PRIMARY_TRANSPARENT_GRAY );
@@ -117,29 +127,39 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		svr = new JComboBox<>( GamePreferences.getIPs() );
 		svr.setEditable( true );
 		svr.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		svr.addPopupMenuListener(this);
+		((JTextField)svr.getEditor().getEditorComponent()).addMouseListener(this);
+		svr.addMouseListener(this);
+		
 		model = (DefaultComboBoxModel<String>) svr.getModel();
 
 		// Login / Connection Components
 		usr = new JTextField( "Username" , 20 );
 		usr.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		usr.addMouseListener(this);
 		pwd = new JPasswordField( "password" , 20 );
 		pwd.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		pwd.addMouseListener(this);
 
 		cxt = new JButton( "Connect" );
 		cxt.addActionListener( this );
 		cxt.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		cxt.addMouseListener(this);
 
 		clr = new JButton( "Clear" );
 		clr.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		clr.addActionListener( this );
+		clr.addMouseListener(this);
 
 		log = new JButton( "Login" );
 		log.addActionListener( this );
 		log.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		log.addMouseListener(this);
 		
 		reg = new JButton( "Register" );
 		reg.addActionListener( this );
 		reg.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		reg.addMouseListener(this);
 
 		// Server Connection Line
 		con.add( svr );
@@ -153,6 +173,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		// Game Tab
 		ready = new JButton( "Ready to Play" );
 		ready.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		ready.addMouseListener(this);
 		gameStatus = new JLabel( "Not Ready" );
 		gameStatus.setForeground( Color.WHITE );
 
@@ -175,9 +196,11 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		avatarButton = new JButton( "Change Avatar" );
 		avatarButton.addActionListener( this );
 		avatarButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		avatarButton.addMouseListener(this);
 		resetButton = new JButton( "Reset Password " );
 		resetButton.addActionListener( this );
 		resetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		resetButton.addMouseListener(this);
 		
 		username.setForeground(Color.WHITE);
 		wins.setForeground(Color.WHITE);
@@ -202,6 +225,8 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 		// Tabbed Panes
 		tab.add( "Game" , gameTab );
 		tab.add( "User" , userTab );
+		tab.addMouseListener(this);
+		tab.addMouseMotionListener(this);
 
 		// Final Assembly
 		x.add(logo);
@@ -299,6 +324,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		SoundManager.playSoundEffect(SoundManager.MSE_CLK_SOUND);
 		if (e.getSource() == cxt) {
 			String s = (String) svr.getSelectedItem();
 			if (!GamePreferences.getIPArrayList().contains( s )) {
@@ -593,6 +619,88 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 	public void componentHidden(ComponentEvent e) {
 		//Unused
 		
+	}
+
+	@Override
+	public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+		SoundManager.playSoundEffect(SoundManager.MSE_CLK_SOUND);
+		
+	}
+
+	@Override
+	public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+		SoundManager.playSoundEffect(SoundManager.MSE_CLK_SOUND);
+		
+	}
+
+	@Override
+	public void popupMenuCanceled(PopupMenuEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if ( (e.getSource() instanceof JTextField) || (e.getSource() instanceof JPasswordField) ) {
+			SoundManager.playSoundEffect(SoundManager.MSE_CLK_SOUND);
+		} else {
+			//check to see if it happened in the tab area
+		    TabbedPaneUI ui = tab.getUI();
+		    int index = ui.tabForCoordinate(tab, e.getX(), e.getY());
+
+		    if (index >= 0) {
+		    	  SoundManager.playSoundEffect(SoundManager.MSE_CLK_SOUND);
+		    }
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		if ( !(e.getSource() instanceof JTextField) && !(e.getSource() instanceof JPasswordField) ) {
+			SoundManager.playSoundEffect(SoundManager.MSE_HVR_SOUND);
+		}
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+	    TabbedPaneUI ui = tab.getUI();
+	    int index = ui.tabForCoordinate(tab, e.getX(), e.getY());
+
+	    if (index >= 0)
+	    {
+	      tab.setCursor(new Cursor((Cursor.HAND_CURSOR)));
+	      if (!inTabHover) {
+	    	  SoundManager.playSoundEffect(SoundManager.MSE_HVR_SOUND);
+	      }
+	      inTabHover = true;
+	    }
+	    else
+	    {
+	      tab.setCursor(null);
+	      inTabHover = false;
+	    }
 	}
 
 }
