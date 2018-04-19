@@ -298,7 +298,7 @@ public class ConnectionManager {
 			interrupt.getSpaceship().setDirection( ois.getNextDirection() );
 			System.out.println( "XO Turn Beginning!" );
 			interrupt.setTurn("Your Turn!");
-			interrupt.globalRefresh();;
+			interrupt.globalRefresh();
 
 			((ExecutivePane) (interrupt.getGUIFrame().getSP())).enableInteraction();
 			listenForChargeCommands = true;
@@ -307,7 +307,7 @@ public class ConnectionManager {
 			interrupt.setSpaceship( ois.getNextSpaceship() );
 			interrupt.setTurn("Waiting for your turn!");
 			System.out.println( "First Officer Turn Complete" );
-			interrupt.globalRefresh();;
+			interrupt.globalRefresh();
 
 			listenForChargeCommands = false;
 		}
@@ -321,7 +321,7 @@ public class ConnectionManager {
 			interrupt.getSpaceship().setDirection( ois.getNextDirection() );
 			System.out.println( "Engineer Turn Beginning!" );
 			interrupt.setTurn("Your Turn!");
-			interrupt.globalRefresh();;
+			interrupt.globalRefresh();
 
 			listenForDamageCommands = true;
 

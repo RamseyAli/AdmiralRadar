@@ -176,8 +176,6 @@ public class GUIController {
 	public void globalRefresh() {
 		fac.refresh();
 		threadSafeRepaint( fac.getShipPanel() );
-		threadSafeRepaint( fac.getFrame().getInfoPane() );
-
 	}
 
 	public void flyInDirection(Direction south) {
