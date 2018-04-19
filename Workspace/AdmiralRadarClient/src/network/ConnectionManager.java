@@ -296,16 +296,19 @@ public class ConnectionManager {
 
 		while(game){
 			interrupt.getSpaceship().setDirection( ois.getNextDirection() );
-			interrupt.refreshFrame();
 			System.out.println( "XO Turn Beginning!" );
+			interrupt.setTurn("Your Turn!");
+			interrupt.globalRefresh();;
 
 			((ExecutivePane) (interrupt.getGUIFrame().getSP())).enableInteraction();
 			listenForChargeCommands = true;
 
 			System.out.println( " Gumdrop " + ois.getClassOfNext());
 			interrupt.setSpaceship( ois.getNextSpaceship() );
-			interrupt.refreshFrame();
+			interrupt.setTurn("Waiting for your turn!");
 			System.out.println( "First Officer Turn Complete" );
+			interrupt.globalRefresh();;
+
 			listenForChargeCommands = false;
 		}
 
@@ -316,15 +319,18 @@ public class ConnectionManager {
 
 		while(game){
 			interrupt.getSpaceship().setDirection( ois.getNextDirection() );
-			interrupt.refreshFrame();
 			System.out.println( "Engineer Turn Beginning!" );
+			interrupt.setTurn("Your Turn!");
+			interrupt.globalRefresh();;
 
 			listenForDamageCommands = true;
 
 			System.out.println( " Hershy Kiss " + ois.getClassOfNext());
 			interrupt.setSpaceship( ois.getNextSpaceship() );
-			interrupt.refreshFrame();
 			System.out.println( "Engineer Turn Complete" );
+			interrupt.setTurn("Waiting for your turn!");
+			interrupt.globalRefresh();;
+			
 			listenForDamageCommands = false;
 		}
 
@@ -338,11 +344,14 @@ public class ConnectionManager {
 		oos.reset();
 		interrupt.setSpaceship( ois.getNextSpaceship() );
 
-		while(game){
+		while (game) {
 			
 			
-			switch(ois.getNextString()){
-				case "Your turn" : break;
+			switch ( ois.getNextString() ) {
+				case "Your turn" : 
+					interrupt.setTurn("Your Turn!");
+					interrupt.globalRefresh();
+					break;
 				case "Game Ended": 
 					JOptionPane.showMessageDialog(interrupt.getGUIFrame(), "Game Over!");
 					interrupt.quit(); 
@@ -357,7 +366,8 @@ public class ConnectionManager {
 			//Send Direction to Server
 			
 			interrupt.setSpaceship( ois.getNextSpaceship() );
-			interrupt.refreshFrame();
+			interrupt.setTurn("Waiting for your turn!");
+			interrupt.globalRefresh();
 			
 			
 
