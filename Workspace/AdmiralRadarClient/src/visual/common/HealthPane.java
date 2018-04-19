@@ -20,6 +20,7 @@ public class HealthPane extends ShipPanel {
 	public void draw() {
 
 		int health = control.getSpaceship().getHealth();
+		System.out.println( "HEALTH READING:" + health );
 
 		g.setColor( ColorPallate.HEALTH_BACKG );
 		int x = getSize().width;

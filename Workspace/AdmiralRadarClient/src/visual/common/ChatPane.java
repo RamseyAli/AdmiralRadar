@@ -137,7 +137,7 @@ public class ChatPane extends ShipPanel implements ActionListener, ComponentList
 		int w_m = (int) ( getWidth() * ( 5.0 / 6 ) );
 
 		Rectangle2D r_outer = new Rectangle2D.Double( ( getWidth() - w_m ) , 0 , w_m , getHeight() );
-
+		
 		g.setColor( ColorPallate.CHAT_PANEL_BORDER );
 		g.fill( r_outer );
 		swell( r_outer , -2 * VisualPreferences.GENERAL_BORDER , -2 * VisualPreferences.GENERAL_BORDER );
@@ -192,7 +192,7 @@ public class ChatPane extends ShipPanel implements ActionListener, ComponentList
 	
 	@Override
     public void componentResized(ComponentEvent e) {
-		draw();
+		if (g != null) draw();
     }
 
 	@Override

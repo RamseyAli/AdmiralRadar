@@ -28,9 +28,11 @@ public class TestServerSam implements Runnable {
 
 		int portNumber = GamePreferences.getPort();
 		boolean listening = true;
-		
+
 		boolean xa = true;
 		Spaceship sp = new Spaceship();
+		
+	//	sp.setHealth(0);
 
 		try (ServerSocket serverSocket = new ServerSocket( portNumber )) {
 			while (listening) {
@@ -63,29 +65,55 @@ public class TestServerSam implements Runnable {
 									out.sendMap( new GameMap() );
 									out.sendRole( ro );
 								}
-								
+
+								if (ro == Role.ENGINE) {
+									sp.getShipSystem().disableSystemComponent( 12 );
+									sp.getShipSystem().disableSystemComponent( 13 );
+									sp.getShipSystem().disableSystemComponent( 14 );
+									
+									sp.getShipSystem().disableSystemComponent( 0 );
+									sp.getShipSystem().disableSystemComponent( 1 );
+									sp.getShipSystem().disableSystemComponent( 2 );
+									
+									sp.getShipSystem().disableSystemComponent( 6 );
+									sp.getShipSystem().disableSystemComponent( 7 );
+									sp.getShipSystem().disableSystemComponent( 8 );
+								}
 								out.sendSpaceShip( sp );
 								
-								ArrayList<Direction> dir = new ArrayList<Direction>();
-								dir.add( Direction.NORTH );
-								out.sendPath( dir );
-								Thread.sleep( 2000 );
-								dir.add( Direction.WEST );
-								out.sendPath( dir );
-								Thread.sleep( 2000 );
 								
-								while(xa){
-									dir.add( Direction.NORTH );
-									dir.add( Direction.EAST );
-									dir = new ArrayList<Direction>(dir);
-									out.sendPath( dir );
-									System.out.println( "I just sent " + dir );
-									out.flush();
-									Thread.sleep( 2000 );
-									
-									
+								if (ro == Role.CAPTAIN) out.sendString( "Your turn" );
+								
+								if (ro == Role.ENGINE) {
+									out.sendDirection( Direction.NORTH );
+									String str2 = in.getNextString();
+									System.out.println( "PAYLOAD:" + str2 );
+									sp.getShipSystem().disableSystemComponent( Integer.parseInt( str2 )  );
+									out.reset();
+									out.sendSpaceShip( sp );
 								}
-								
+
+								if (ro == Role.RADIO){
+									ArrayList<Direction> dir = new ArrayList<Direction>();
+									dir.add( Direction.NORTH );
+									out.sendPath( dir );
+									Thread.sleep( 2000 );
+									dir.add( Direction.WEST );
+									out.sendPath( dir );
+									Thread.sleep( 2000 );
+
+									while(xa){
+										dir.add( Direction.SOUTH );
+										dir.add( Direction.WEST );
+										dir = new ArrayList<Direction>(dir);
+										out.sendPath( dir );
+										System.out.println( "I just sent " + dir );
+										out.flush();
+										Thread.sleep( 2000 );
+
+
+									}
+								}
 								break;
 							}
 							case USER: {

@@ -365,49 +365,63 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 			} 
 
 			else if 		(droneBox.contains( e.getPoint() )){
-				commandHasBeenSent = true;
-				setup();
-				Systems x =  Systems.DRONE;
-				x.setPayload( "" + droneSector );
-				control.specialAction(x);
+				if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.DRONE )){
+					commandHasBeenSent = true;
+					setup();
+					Systems x =  Systems.DRONE;
+					x.setPayload( "" + droneSector );
+					control.specialAction(x);
+				}
 			}
 			else if (radarBox.contains( e.getPoint() )){
-				commandHasBeenSent = true;
-				setup();
-				control.specialAction(Systems.RADAR);
+				if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.RADAR )){
+					commandHasBeenSent = true;
+					setup();
+					control.specialAction(Systems.RADAR);
+				}
 			}
 			else if (missleBox.contains( e.getPoint() )){
-				commandHasBeenSent = true;
-				setup();
-				Systems x =  Systems.MISSILE;
-				x.setPayload( "" + JOptionPane.showInputDialog(this, "MISSILE COORDINATES:") );
-				control.specialAction(x);
+				if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.MISSILE )){
+					commandHasBeenSent = true;
+					setup();
+					Systems x =  Systems.MISSILE;
+					x.setPayload( "" + JOptionPane.showInputDialog(this, "MISSILE COORDINATES:") );
+					control.specialAction(x);
+				}
 			}
 			else if (dropMine.contains( e.getPoint() )){
-				commandHasBeenSent = true;
-				setup();
-				Systems x =  Systems.MINE;
-				x.setPayload("Drop " + JOptionPane.showInputDialog(this, "DROP MINE COORDINATES:"));
-				control.specialAction(x);
+				if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.MINE )){
+					commandHasBeenSent = true;
+					setup();
+					Systems x =  Systems.MINE;
+					x.setPayload("Drop " + JOptionPane.showInputDialog(this, "DROP MINE COORDINATES:"));
+					control.specialAction(x);
+				}
 			}
 			else if (blastMineBox.contains( e.getPoint() )){
-				commandHasBeenSent = true;
-				setup();
-				Systems x =  Systems.MINE;
-				x.setPayload( "Blast " + + selectedMine );
-				control.specialAction(x);
+				if (control.getSpaceship().getShipMines().getMines().size() != 0){
+					commandHasBeenSent = true;
+					setup();
+					Systems x =  Systems.MINE;
+					x.setPayload( "Blast " + + selectedMine );
+
+					control.specialAction(x);
+				}
 			}
 			else if (boostBox.contains( e.getPoint() )){
-				commandHasBeenSent = true;
-				setup();
-				Systems x =  Systems.BOOST;
-				x.setPayload( "Boost " + boostPower );
-				control.specialAction(x);
+				if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.BOOST )){
+					commandHasBeenSent = true;
+					setup();
+					Systems x =  Systems.BOOST;
+					x.setPayload( "Boost " + boostPower );
+					control.specialAction(x);
+				}
 			}
 			else if (walkBox.contains( e.getPoint() )){
 				commandHasBeenSent = true;
 				setup();
 				control.specialAction(Systems.SPACEWALK);
+
 			}
 
 			else if (cruiseBox.contains( e.getPoint() )){
@@ -438,10 +452,10 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 	private void increaseSelectedMine() {
 		selectedMine++;
 		if (control.getSpaceship().getShipMines() != null)
-		if (selectedMine > control.
-				getSpaceship().
-				getShipMines().
-				getMines().size()) selectedMine = 0;
+			if (selectedMine > control.
+					getSpaceship().
+					getShipMines().
+					getMines().size()) selectedMine = 0;
 	}
 
 	@Override
@@ -479,36 +493,36 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 			overlay[1] = false;
 			overlay[2] = false;
 			overlay[3] = false;
-	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
-	        setCursor(cursor);
+			Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+			setCursor(cursor);
 		} else if (south.contains( e.getPoint() )) {
 			overlay[0] = false;
 			overlay[1] = true;
 			overlay[2] = false;
-	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
-	        setCursor(cursor);
+			Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+			setCursor(cursor);
 			overlay[3] = false;
 		} else if (east.contains( e.getPoint() )) {
 			overlay[0] = false;
 			overlay[1] = false;
 			overlay[2] = true;
 			overlay[3] = false;
-	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
-	        setCursor(cursor);
+			Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+			setCursor(cursor);
 		} else if (west.contains( e.getPoint() )) {
 			overlay[0] = false;
 			overlay[1] = false;
 			overlay[2] = false;
 			overlay[3] = true;
-	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
-	        setCursor(cursor);
+			Cursor cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR); 
+			setCursor(cursor);
 		} else {
 			overlay[0] = false;
 			overlay[1] = false;
 			overlay[2] = false;
 			overlay[3] = false;
-	        Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR); 
-	        setCursor(cursor);
+			Cursor cursor = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR); 
+			setCursor(cursor);
 		}
 
 
@@ -547,8 +561,8 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 						addMouseListener( this );
 						addMouseMotionListener( this );
 					} else phaseOfTurn = 3;
-					
-					
+
+
 				}
 				System.out.println( "Captain Window Turn Start --------------------------------------------YE" + phaseOfTurn );
 				break;
@@ -571,7 +585,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 		phaseOfTurn = 1;
 		directionHasBeenSent = false;
 		commandHasBeenSent = false;
-		
+
 	}
 
 }

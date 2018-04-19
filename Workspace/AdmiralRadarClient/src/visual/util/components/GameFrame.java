@@ -196,4 +196,9 @@ public class GameFrame extends JFrame implements ComponentListener {
 		return i;
 	}
 
+	public HealthPane getHealthPanel() {
+		return h;
+		
+	}
+
 }
