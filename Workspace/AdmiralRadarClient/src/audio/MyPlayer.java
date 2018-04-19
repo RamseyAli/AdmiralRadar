@@ -1,5 +1,7 @@
 package audio;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -16,7 +18,7 @@ public class MyPlayer extends Application{
 	public MyPlayer(String s){
 		name = s;
 		com.sun.javafx.application.PlatformImpl.startup(()->{});
-		med = new Media("file:" + System.getProperty( "file.separator" ) + System.getProperty( "file.separator" ) + GamePreferences.RESOURCES_PATH + name + ".mp3");
+		med = new Media((new File(GamePreferences.RESOURCES_PATH + name + ".mp3")).toURI().toString());
         mp = new MediaPlayer(med);
         
 	}
