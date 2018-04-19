@@ -145,7 +145,13 @@ public class AdmRadarServer {
 				// Do nothing
 			}
 			
-			
+			for(int i=0; i<2; i++) {
+				if(!gameShip.get(i).gameWon()) {
+					gameOngoing = false;
+					//clearTeamMessages();
+					//clearGlobalMessages();
+				}
+			}
 		}
 		
 		public void run() {
@@ -294,6 +300,9 @@ public class AdmRadarServer {
 														mpos.sendString(message);
 														Systems action = mpis.getNextCommand();
 														processSpecialAction(action);								
+														if(!gameOngoing) {
+															continue;
+														}
 														
 														moveComplete[oppTeamNo()] = false;
 														
@@ -388,6 +397,18 @@ public class AdmRadarServer {
 			catch (Exception ex) {
 				//ex.printStackTrace( System.err );
 				gameOngoing = false;
+				clearTeamMessages();
+				clearGlobalMessages();
+				Spaceship newTempShip = new Spaceship();
+				gameShip.set(teamNo, newTempShip);
+				moveComplete[teamNo] = false;
+				teamNo = -1;
+				turnNo = -1;
+				boostInitiated = false;
+				role = Role.NETWORK;
+				turn = 0;
+				turnMiss = 0;
+				nPlayers = 0;
 				if (sock != null && !sock.isClosed()) {
 					try {
 						clearGlobalMessages();
