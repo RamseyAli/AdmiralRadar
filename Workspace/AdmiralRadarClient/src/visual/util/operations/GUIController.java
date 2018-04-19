@@ -32,10 +32,12 @@ public class GUIController {
 	private Role		r	= Role.NETWORK;
 	private Spaceship	s;
 	private Position	sp;
+	private String		turn;
 	
 	private ArrayList<Direction> radioPath;
 
 	public GUIController(GUIFactory guiFactory) {
+		setTurn("Waiting for your turn!");
 		fac = guiFactory;
 	}
 
@@ -174,6 +176,7 @@ public class GUIController {
 	public void globalRefresh() {
 		fac.refresh();
 		threadSafeRepaint( fac.getShipPanel() );
+		threadSafeRepaint( fac.getFrame().getInfoPane() );
 
 	}
 
@@ -224,6 +227,14 @@ public class GUIController {
 
 	public ArrayList<Direction> getRadioPath() {
 		return radioPath;
+	}
+	
+	public void setTurn(String turn) {
+		this.turn = turn;
+	}
+	
+	public String getTurn() {
+		return turn;
 	}
 
 }

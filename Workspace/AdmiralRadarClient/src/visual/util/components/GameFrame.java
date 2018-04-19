@@ -191,5 +191,9 @@ public class GameFrame extends JFrame implements ComponentListener {
 	public ChatPane getChatPane() {
 		return c;
 	}
+	
+	public InfoPane getInfoPane() {
+		return i;
+	}
 
 }
