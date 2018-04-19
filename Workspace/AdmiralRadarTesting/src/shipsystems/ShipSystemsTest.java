@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import game.GameMap;
 import game.Position;
 import game.Role;
@@ -13,6 +15,7 @@ import static pref.GamePreferences.*;
 @SuppressWarnings("unused")
 public class ShipSystemsTest {
 	private static ArrayList<Spaceship> ships = new ArrayList<Spaceship>();
+	private static final boolean FISHER = true;
 	
 	private static void printPos(int index)	{
 		System.out.print("Ship #");
@@ -42,19 +45,24 @@ public class ShipSystemsTest {
 		System.out.println();
 	}	
 	private static void testDrone() {
-		final int lengthX = 20, lengthY = 30;
-		final int TEST_SIZE = lengthX * lengthY;
-		final int startX = -5, startY = -5;
+		final int LENGTHX = 20, LENGTHY = 30;
+		final int TEST_SIZE = LENGTHX * LENGTHY;
+		final int STARTX = -5, STARTY = -5;
 		
 		int i, j, x, y;
-		
 		Spaceship tempShip;
+		
+		ships.clear();
 		
 		for (i = 0; i < TEST_SIZE; ++i)
 		{
 			ships.add( new Spaceship() );
-			ships.get(i).toGameStartCondition(new Position(startX + i % lengthX, startY + i / lengthX));
+			ships.get(i).toGameStartCondition(new Position(STARTX + i % LENGTHX, STARTY + i / LENGTHX));
 		}
+		
+		// Shuffle //
+		if (FISHER)
+			Collections.shuffle(ships);
 		
 		for (i = 0; i < TEST_SIZE; ++i)
 		{
@@ -124,17 +132,22 @@ public class ShipSystemsTest {
 		return false;
 	}
 	private static void testRadar() {
-		final int lengthX = 15, lengthY = 15;
-		final int TEST_SIZE = lengthX * lengthY;
-		final int startX = 0, startY = 0;
+		final int LENGTHX = 15, LENGTHY = 15;
+		final int TEST_SIZE = LENGTHX * LENGTHY;
+		final int STARTX = 0, STARTY = 0;
 		
 		int i, j, totalSuccess = 0;
+		
+		ships.clear();
 		
 		for (i = 0; i < TEST_SIZE; ++i)
 		{
 			ships.add( new Spaceship() );
-			ships.get(i).toGameStartCondition(new Position(startX + i % lengthX, startY + i / lengthX));
+			ships.get(i).toGameStartCondition(new Position(STARTX + i % LENGTHX, STARTY + i / LENGTHX));
 		}
+		
+		if (FISHER)
+			Collections.shuffle(ships);
 		
 		for (i = 0; i < TEST_SIZE; ++i)
 		{
