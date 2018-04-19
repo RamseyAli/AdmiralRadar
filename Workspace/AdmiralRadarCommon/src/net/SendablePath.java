@@ -20,5 +20,9 @@ public class SendablePath implements Serializable, MyPacketable {
 	public ArrayList<Direction> getContent() {
 		return content;
 	}
+	
+	public String toString(){
+		return content.toString();
+	}
 
 }

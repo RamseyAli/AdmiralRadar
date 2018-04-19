@@ -58,7 +58,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 	JLabel							cxnStatus;
 
 	// Connection Interactor Declarations
-	JTextField		usr;
+	public JTextField		usr;
 	JPasswordField	pwd;
 	public JButton	cxt, clr, log, ready, reg;
 
@@ -325,6 +325,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		SoundManager.playSoundEffect(SoundManager.MSE_CLK_SOUND);
+		System.out.println( "Sound Played" );
 		if (e.getSource() == cxt) {
 			String s = (String) svr.getSelectedItem();
 			if (!GamePreferences.getIPArrayList().contains( s )) {
@@ -336,6 +337,7 @@ public class NetworkPane extends ShipPanel implements ActionListener, ComponentL
 				setState( control.connect( InetAddress.getByName( s ) ) );
 			}
 			catch (IOException e1) {
+				System.out.println( "EXCEPTION STATE NP340:" + e );
 				setState( 2 );
 			}
 		} else if (e.getSource() == clr) {

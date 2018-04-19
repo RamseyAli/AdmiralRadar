@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Base64;
 
 import javax.crypto.SecretKey;
@@ -55,6 +56,7 @@ public class ConnectionManager {
 	public int connectToServer(InetAddress svr) {
 
 		try {
+			System.out.println( "beep!" );
 			s = new Socket( svr , GamePreferences.getPort() );
 
 			out = new PrintWriter( s.getOutputStream() , true );
@@ -278,7 +280,13 @@ public class ConnectionManager {
 	}
 
 	private void radioOfficerNetworkLoop() throws IOException {
-		// Listens for RO commands
+		interrupt.setSpaceship( ois.getNextSpaceship() );
+
+		while(game){
+			interrupt.setRadioPath(ois.getNextPath());
+			interrupt.refreshFrame();
+			
+		}
 
 	}
 

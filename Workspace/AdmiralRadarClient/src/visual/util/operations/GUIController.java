@@ -32,6 +32,8 @@ public class GUIController {
 	private Role		r	= Role.NETWORK;
 	private Spaceship	s;
 	private Position	sp;
+	
+	private ArrayList<Direction> radioPath;
 
 	public GUIController(GUIFactory guiFactory) {
 		fac = guiFactory;
@@ -213,6 +215,15 @@ public class GUIController {
 
 	public ConnectionManager getConnectionManager() {
 		return cm;
+	}
+
+	public void setRadioPath(ArrayList<Direction> pth) {
+		radioPath = pth;
+		
+	}
+
+	public ArrayList<Direction> getRadioPath() {
+		return radioPath;
 	}
 
 }

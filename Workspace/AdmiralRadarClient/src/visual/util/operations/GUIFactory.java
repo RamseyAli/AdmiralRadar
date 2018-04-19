@@ -42,6 +42,7 @@ public class GUIFactory {
 
 
 		SoundManager.startRoleTrack( Role.NETWORK );
+		
 		f.setSize( r.getSize() );
 		f.setLocation( r.getLocation() );
 
@@ -51,6 +52,7 @@ public class GUIFactory {
 		
 		h.repaint();
 		f.setVisible( true );
+		System.out.println( "Got Here" );
 
 	}
 

@@ -84,7 +84,7 @@ public class MyPacketOutputStream extends ObjectOutputStream {
 	}
 
 	public void sendPath(ArrayList<Direction> p) throws IOException {
-		if (debug) System.out.println( "Sending Path" );
+		if (debug) System.out.println( "Sending Path:"  + p);
 		writeUnshared( new MyPacket( new SendablePath( p ) ) );
 		flush();
 	}

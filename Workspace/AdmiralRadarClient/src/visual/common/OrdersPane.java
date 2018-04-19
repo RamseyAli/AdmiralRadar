@@ -529,7 +529,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 			case CAPTAIN:
 				removeMouseMotionListener(this);
 				removeMouseListener(this);
-				System.out.println( control.getSpaceship().getPosition() );
+				System.out.println("POS: " + control.getSpaceship().getPosition() );
 				if (!control.getSpaceship().getPosition().isValid()){
 					System.out.println( "Captain Window Turn Start --------------------------------------------NOT" );
 					phaseOfTurn = 0;

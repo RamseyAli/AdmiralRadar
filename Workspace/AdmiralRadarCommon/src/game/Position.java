@@ -76,4 +76,20 @@ public class Position implements Serializable, MyPacketable {
 	public void setY(int y) {
 		this.y = y;
 	}
+
+	public Position getNeighbor(Direction d) {
+		switch (d){
+			case EAST:
+				return new Position(x + 1 , y);
+			case NORTH:
+				return new Position(x , y - 1);
+			case SOUTH:
+				return new Position(x , y + 1);
+			case WEST:
+				return new Position(x - 1 , y);
+			case STOP:
+			default: return getPosition();
+			
+		}
+	}
 }

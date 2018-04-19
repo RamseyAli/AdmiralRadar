@@ -61,6 +61,8 @@ public class ColorPallate {
 	public static final Color	ENGR_CIRCUIT_NNNE	= setTransparency(Color.ORANGE , 120);
 	public static final Color	ENGR_CIRCUIT_WWWE	= setTransparency(Color.BLUE , 120);
 	public static final Color	ENGR_CIRCUIT_SSSE	= setTransparency(Color.WHITE , 120);
+
+	public static final Color MAP_PATH_COLOR = setTransparency(Color.RED , 250);
 	
 	private static Color setTransparency(Color c, int alpha){
 		return new Color(c.getRed() , c.getGreen() , c.getBlue() , alpha);

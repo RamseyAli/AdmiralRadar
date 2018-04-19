@@ -3,13 +3,17 @@ package graphic;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Random;
 
+import game.Direction;
 import game.GameMap;
 import game.Role;
+import game.Spaceship;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
+import pref.GamePreferences;
 
 public class TestServerSam implements Runnable {
 
@@ -22,13 +26,16 @@ public class TestServerSam implements Runnable {
 	@Override
 	public void run() {
 
-		int portNumber = 2069;
+		int portNumber = GamePreferences.getPort();
 		boolean listening = true;
+		
+		boolean xa = true;
+		Spaceship sp = new Spaceship();
 
 		try (ServerSocket serverSocket = new ServerSocket( portNumber )) {
 			while (listening) {
 				System.out.println( "Loop!" + serverSocket.getInetAddress() );
-				
+
 				Socket s = serverSocket.accept();
 				System.out.println( "New Connection" );
 
@@ -42,6 +49,7 @@ public class TestServerSam implements Runnable {
 							case MAP:
 								break;
 							case POSITION:
+
 								break;
 							case ROLE:
 								break;
@@ -55,6 +63,29 @@ public class TestServerSam implements Runnable {
 									out.sendMap( new GameMap() );
 									out.sendRole( ro );
 								}
+								
+								out.sendSpaceShip( sp );
+								
+								ArrayList<Direction> dir = new ArrayList<Direction>();
+								dir.add( Direction.NORTH );
+								out.sendPath( dir );
+								Thread.sleep( 2000 );
+								dir.add( Direction.WEST );
+								out.sendPath( dir );
+								Thread.sleep( 2000 );
+								
+								while(xa){
+									dir.add( Direction.NORTH );
+									dir.add( Direction.EAST );
+									dir = new ArrayList<Direction>(dir);
+									out.sendPath( dir );
+									System.out.println( "I just sent " + dir );
+									out.flush();
+									Thread.sleep( 2000 );
+									
+									
+								}
+								
 								break;
 							}
 							case USER: {
@@ -78,6 +109,10 @@ public class TestServerSam implements Runnable {
 
 					}
 
+				}
+				catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 
 			}
