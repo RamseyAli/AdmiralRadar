@@ -214,6 +214,8 @@ public class AdmRadarServer {
 										
 										teamNo = nPlayers / 4;
 										u.setTeamNo(teamNo);
+										mpos.sendUser(u);
+										mpos.reset();
 										turnNo = nPlayers;
 										myPrint( "team no: " + teamNo + " turn no: " + turnNo );
 										nPlayers++;
@@ -266,7 +268,9 @@ public class AdmRadarServer {
 											if (!gameOngoing) {
 												clearTeamMessages();
 												clearGlobalMessages();
+												myPrint("THE END");
 												mpos.sendString("Game Ended");
+												mpos.reset();
 												Spaceship newTempShip = new Spaceship();
 												gameShip.set(teamNo, newTempShip);
 												moveComplete[teamNo] = false;

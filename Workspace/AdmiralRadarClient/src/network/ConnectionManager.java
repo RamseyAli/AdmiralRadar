@@ -217,6 +217,13 @@ public class ConnectionManager {
 
 		boolean stop = false;
 		
+		try {
+			interrupt.setUser( ois.getNextUser() );
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		while (!stop) {
 			if (ois.getClassOfNext() == ObjEnum.MAP) {
 
