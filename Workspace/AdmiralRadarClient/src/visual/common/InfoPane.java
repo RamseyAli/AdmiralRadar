@@ -22,7 +22,6 @@ public class InfoPane extends ShipPanel implements MouseListener, MouseMotionLis
 
 	public InfoPane(GUIController ctr) {
 		super( ctr );
-		JOptionPane.showMessageDialog(null, ctr.getTurn());
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		instructions = new JLabel(ctr.getTurn());
