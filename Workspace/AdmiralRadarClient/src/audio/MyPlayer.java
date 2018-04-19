@@ -32,6 +32,10 @@ public class MyPlayer extends Application{
 	public void play() {
 		mp.play();
 	}
+	
+	public void stop() {
+		mp.stop();
+	}
     
 
 	@Override

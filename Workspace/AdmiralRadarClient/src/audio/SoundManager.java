@@ -17,9 +17,11 @@ public class SoundManager {
 	public static final int SENSORS_SOUND = 7;
 	public static final int MSE_HVR_SOUND = 8;
 	public static final int MSE_CLK_SOUND = 9;
+	public static final int SHPBOST_SOUND = 10;
+	public static final int SPCWALK_SOUND = 11;
 	
 	private static Map<Role, MyPlayer> 		roleMusic;
-	private static MyPlayer[] 	soundEffects = new MyPlayer[10];
+	private static MyPlayer[] 	soundEffects = new MyPlayer[12];
 	
 	static {
 		// Map Role to Associated Audio File
@@ -31,20 +33,21 @@ public class SoundManager {
 		generatePlayer(Role.RADIO);
 		
 		// Map integer value to every Sound Effect
-		soundEffects[0] = new MyPlayer("MessageSend");
-		soundEffects[1] = new MyPlayer("MessageRecieved");
-		soundEffects[2] = new MyPlayer("MinePlace");
-		soundEffects[3] = new MyPlayer("MineExplosion");
-		soundEffects[4] = new MyPlayer("MissileLaunch");
-		soundEffects[5] = new MyPlayer("MissileExplosion");
-		soundEffects[6] = new MyPlayer("sensorySounds");					// Drone and Sonar
-		soundEffects[7] = new MyPlayer("MouseHover");
-		soundEffects[8] = new MyPlayer("MineClick");
-		soundEffects[9] = new MyPlayer("ShipBoost");
-		soundEffects[10] = new MyPlayer("Spacewalk");
+		soundEffects[MSG_SND_SOUND] = new MyPlayer("MessageSend");
+		soundEffects[MSG_REC_SOUND] = new MyPlayer("MessageRecieved");
+		soundEffects[MIN_PUT_SOUND] = new MyPlayer("MinePlace");
+		soundEffects[MIN_EXP_SOUND] = new MyPlayer("MineExplosion");
+		soundEffects[MIS_LNH_SOUND] = new MyPlayer("MissileLaunch");
+		soundEffects[MIS_EXP_SOUND] = new MyPlayer("MissileExplosion");
+		soundEffects[SENSORS_SOUND] = new MyPlayer("sensorySounds");					// Drone and Sonar
+		soundEffects[MSE_HVR_SOUND] = new MyPlayer("MouseHover");
+		soundEffects[MSE_CLK_SOUND] = new MyPlayer("MouseButtonClick");
+		soundEffects[SHPBOST_SOUND] = new MyPlayer("ShipBoost");
+		soundEffects[SPCWALK_SOUND] = new MyPlayer("Spacewalk");
 	}
 	
 	public static void startRoleTrack(Role r) {
+		stopAllTracks();
 		roleMusic.get( r ).play();
 	}
 	
@@ -63,6 +66,15 @@ public class SoundManager {
 			System.out.println("ERROR: Problem stopping music track...");
 			e.printStackTrace();
 		}
+	}
+	
+	public static void stopAllTracks(){
+		for (MyPlayer mp : roleMusic.values()) {
+		    mp.stop();
+		}
+		
+		for (int i = 1; i < soundEffects.length; i++) 
+			soundEffects[i].stop();
 	}
 	
 	public static void playSoundEffect(int t) {
