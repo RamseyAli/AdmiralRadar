@@ -72,7 +72,7 @@ public class GUIController {
 		if (u == null) {
 			return null;
 		} else {
-			return new String[] { u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar() };
+			return new String[] { u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar(), "" + u.getTeamNo() };
 		}
 	}
 
