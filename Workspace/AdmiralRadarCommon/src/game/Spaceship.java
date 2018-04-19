@@ -169,7 +169,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		if (!systemReady)
 		{
 			// Should throw exception in the future, system is not fully charge
-			// throw new Exception()
+			throw new RuntimeException("Special System not fully charged");
 		} 
 		if (n < 2 || m < 2 || n % m != 0)
 		{
@@ -196,7 +196,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		systemReady = systems.useSystem(Systems.RADAR);
 		if (!systemReady)
 		{
-			// TODO: ship system not ready.
+			throw new RuntimeException("Special System not fully charged");
 		}
 		if (n < 2 || m < 2 || n % m != 0)
 		{
