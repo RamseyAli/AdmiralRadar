@@ -10,6 +10,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import pref.VisualPreferences;
 import visual.util.ColorPallate;
@@ -23,7 +24,7 @@ public class InfoPane extends ShipPanel implements MouseListener, MouseMotionLis
 		super( ctr );
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		instructions = new JLabel("Welcome to Admiral Radar!");
+		instructions = new JLabel(ctr.getTurn());
 		this.setLayout(new BorderLayout());
 		add(instructions, BorderLayout.CENTER);
 	}
