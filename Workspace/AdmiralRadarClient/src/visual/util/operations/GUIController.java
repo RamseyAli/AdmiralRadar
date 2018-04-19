@@ -169,6 +169,7 @@ public class GUIController {
 	public void setSpaceship(Spaceship s) {
 		System.out.println( fac.getFrame().getTitle() + ": I have a spaceship!" );
 		this.s = s;
+		threadSafeRepaint(fac.getFrame().getHealthPanel());
 		globalRefresh();
 
 	}
