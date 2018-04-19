@@ -16,6 +16,7 @@ public class GamePreferences {
 	public static boolean FULLSCREEN = true;
 	// public final static String PREF_FILE = "prefs.rdr";
 	private final static int			PORT	= 12019;
+	public static final String[] DUMMYUSER = new String[]{"XXX", "10", "5", null, "1"};;
 	private static ArrayList<String>	servers;
 
 	static {

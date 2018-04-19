@@ -42,8 +42,6 @@ public class ConnectionManager {
 	boolean					listenForChargeCommands = false;
 	boolean					listenForDamageCommands = false;
 	GUIController interrupt;
-	
-	Role 					currentMusicTrack = Role.NETWORK; // Play main menu music
 
 	public ConnectionManager(GUIController nexus) {
 		interrupt = nexus;
@@ -66,7 +64,7 @@ public class ConnectionManager {
 
 		}
 		catch (IOException e) {
-			System.out.println( e );
+			System.out.println(svr.getHostName() + ":" + e );
 			return 2;
 		}
 
@@ -216,7 +214,7 @@ public class ConnectionManager {
 	private void waitForStart() {
 
 		boolean stop = false;
-		boolean firstLoop = true;
+		
 		while (!stop) {
 			if (ois.getClassOfNext() == ObjEnum.MAP) {
 
@@ -233,9 +231,6 @@ public class ConnectionManager {
 					Role r = null;
 					if (( r = ois.getNextRole() ) != null) {
 						interrupt.setRole( r );
-						if (!firstLoop)
-							SoundManager.stopRoleTrack(currentMusicTrack);
-						SoundManager.startRoleTrack(currentMusicTrack = r);
 						
 						switch (r) {
 							case CAPTAIN: {
@@ -279,7 +274,6 @@ public class ConnectionManager {
 					e.printStackTrace();
 				}
 			}
-			firstLoop = false;
 		}
 	}
 

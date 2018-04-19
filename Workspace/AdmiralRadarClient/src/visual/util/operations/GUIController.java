@@ -16,6 +16,7 @@ import game.Spaceship;
 import game.Systems;
 import network.ConnectionManager;
 import ops.User;
+import pref.GamePreferences;
 import visual.roles.NetworkPane;
 import visual.util.components.GameFrame;
 import visual.util.components.ShipPanel;
@@ -70,7 +71,7 @@ public class GUIController {
 	public String[] getUserInfo() {
 		
 		if (u == null) {
-			return null;
+			return GamePreferences.DUMMYUSER;
 		} else {
 			return new String[] { u.getUsername() , "" + u.getWins() , "" + u.getLosses() , u.getAvatar() };
 		}

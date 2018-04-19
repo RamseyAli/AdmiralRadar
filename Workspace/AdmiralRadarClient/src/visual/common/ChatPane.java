@@ -67,7 +67,7 @@ public class ChatPane extends ShipPanel implements ActionListener, ComponentList
 		
 		userData = control.getUserInfo();
 		if (userData == null) {	//If I cannot get user's data, such as in the start of the game
-			userData = new String[]{"XXX", "10", "5", null, "1"};	//Username, Wins, Losses, Avatar, Team
+			userData = GamePreferences.DUMMYUSER;	//Username, Wins, Losses, Avatar, Team
 		}
 		team = Integer.parseInt(userData[4]);
 		username = userData[0];

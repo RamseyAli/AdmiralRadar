@@ -27,7 +27,8 @@ public class TestServerSam implements Runnable {
 
 		try (ServerSocket serverSocket = new ServerSocket( portNumber )) {
 			while (listening) {
-				System.out.println( "Loop!" );
+				System.out.println( "Loop!" + serverSocket.getInetAddress() );
+				
 				Socket s = serverSocket.accept();
 				System.out.println( "New Connection" );
 

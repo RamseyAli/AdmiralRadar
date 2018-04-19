@@ -41,7 +41,7 @@ public class GUIFactory {
 	public void beginGUI(Rectangle r) {
 
 
-		
+		SoundManager.startRoleTrack( Role.NETWORK );
 		f.setSize( r.getSize() );
 		f.setLocation( r.getLocation() );
 
@@ -66,7 +66,7 @@ public class GUIFactory {
 	public void setGameRole(Role r) {
 		if (nexus.getRole() != r) nexus.setRole( r );
 		
-	//	SoundManager.startRoleTrack( r );
+		SoundManager.startRoleTrack( r );
 
 		switch (r) {
 			case CAPTAIN:
