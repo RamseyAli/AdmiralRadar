@@ -219,6 +219,7 @@ public class ConnectionManager {
 		
 		try {
 			interrupt.setUser( ois.getNextUser() );
+			System.out.println("TEAM No: "+interrupt.getUser().getTeamNo());
 		}
 		catch (IOException e) {
 			e.printStackTrace();

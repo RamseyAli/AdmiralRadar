@@ -87,7 +87,7 @@ public class TestServerSam implements Runnable {
 										sp.getShipSystem().chargeSystem(Systems.RADAR );
 										sp.getShipSystem().chargeSystem(Systems.RADAR );
 										
-										sp.shipMines.mines.add( sp.getPosition().getNeighbor( Direction.WEST ) );
+										sp.getShipMines().addMine( sp.getPosition().getNeighbor( Direction.WEST ) );
 										System.out.println( "I GOT HERE!!!!!!!" );
 								
 								}
