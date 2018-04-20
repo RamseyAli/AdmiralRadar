@@ -90,7 +90,7 @@ public class AdmRadarServer {
 				boolean result = false;
 				
 				sendGlobalMessage(serverName,"Drone activated by team "+teamRealNo);
-				result = gameShip.get(oppTeamNo()).checkSector(sectorGuess, SEG, SEC);
+				result = gameShip.get(teamNo).checkSector(gameShip.get(oppTeamNo()), sectorGuess, SEG, SEC);
 				
 				if (result) {
 					sendTeamMessage(serverName,"Opponent ship located in Sector "+sectorGuess,teamNo);
@@ -102,7 +102,7 @@ public class AdmRadarServer {
 				int result[];
 					
 				sendGlobalMessage(serverName,"Radar activated by team "+teamRealNo);
-				result = gameShip.get(oppTeamNo()).randomRadar(SEG, SEC);
+				result = gameShip.get(teamNo).randomRadar(gameShip.get(oppTeamNo()), SEG, SEC);
 				
 				if (result[0] == -1) {
 					sendTeamMessage(serverName, "Opponent team maybe at row: "+result[1]+", sector: "+result[2],teamNo);

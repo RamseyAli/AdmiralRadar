@@ -161,7 +161,7 @@ public class Spaceship implements Serializable, MyPacketable {
 		return m * ( pos.getY() / secSize ) + ( pos.getX() / secSize );
 	}
 	
-	public boolean checkSector(int guess, int n, int m) // n = dimension of N x N map // m = how many sectors in each row, m x m sectors
+	public boolean checkSector(Spaceship target, int guess, int n, int m) // n = dimension of N x N map // m = how many sectors in each row, m x m sectors
 	{
 		int sector;
 		boolean systemReady;
@@ -177,7 +177,7 @@ public class Spaceship implements Serializable, MyPacketable {
 			throw new MapDimensionException("Incorrect map or sector dimensions");
 		}
 		
-		sector = getSector(n, m);
+		sector = target.getSector(n, m);
 		
 		if (sector == guess)
 			return true;
@@ -187,7 +187,7 @@ public class Spaceship implements Serializable, MyPacketable {
 	// Current radar implementation //
 	// Will return array of 3 integers, representing X, Y, and Sector of ship //
 	// The non-returned value is -1 //
-	public int[] randomRadar(int n, int m) // n = map dimension, m = sector dimension
+	public int[] randomRadar(Spaceship target, int n, int m) // n = map dimension, m = sector dimension
 	{
 		int randNum, lie, correctVal;
 		int ans[] = new int[3]; // return value { x, y, sector }
@@ -205,11 +205,9 @@ public class Spaceship implements Serializable, MyPacketable {
 		}
 		
 		// Correct info //
-		ans[0] = pos.getX();
-		ans[1] = pos.getY();
-		ans[2] = getSector(n, m);
-		
-		//answer.setPosition( pos.getX(), pos.getY() );
+		ans[0] = target.pos.getX();
+		ans[1] = target.pos.getY();
+		ans[2] = target.getSector(n, m);
 		
 		randNum = rand.nextInt(3); 
 		switch (randNum) // which data to leave out
@@ -237,15 +235,15 @@ public class Spaceship implements Serializable, MyPacketable {
 		if (lie < 2) // false coordinate
 		{
 			if (lie == 0)
-				correctVal = pos.getX(); // get true X value
+				correctVal = target.pos.getX(); // get true X value
 			else
-				correctVal = pos.getY();
+				correctVal = target.pos.getY();
 			
 			randNum = rand.nextInt( n - 1 );
 		}
 		else // Give false Sector
 		{
-			correctVal = getSector( n, m );
+			correctVal = target.getSector( n, m );
 			randNum = rand.nextInt( m * m - 1 );
 		}
 		
