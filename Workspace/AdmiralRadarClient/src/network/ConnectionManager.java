@@ -217,19 +217,13 @@ public class ConnectionManager {
 
 		boolean stop = false;
 		
-		try {
-			interrupt.setUser( ois.getNextUser() );
-			System.out.println("TEAM No: "+interrupt.getUser().getTeamNo());
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		while (!stop) {
 			if (ois.getClassOfNext() == ObjEnum.MAP) {
 
 				try {
 					interrupt.setMap( ois.getNextMap() );
+					User ua = ois.getNextUser();
+					interrupt.setUser(ua);
 				}
 				catch (IOException e) {
 					e.printStackTrace();

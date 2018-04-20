@@ -214,8 +214,6 @@ public class AdmRadarServer {
 										
 										teamNo = nPlayers / 4;
 										u.setTeamNo(teamNo);
-										mpos.sendUser(u);
-										mpos.reset();
 										turnNo = nPlayers;
 										myPrint( "team no: " + teamNo + " turn no: " + turnNo );
 										nPlayers++;
@@ -230,6 +228,9 @@ public class AdmRadarServer {
 										map = new GameMap();
 										map = arp.updateMap();
 										mpos.sendMap( map );
+										mpos.reset();
+										mpos.sendUser(u);
+										mpos.reset();
 										
 										myPrint( teamNo + "-" + turnNo );
 										
@@ -263,7 +264,7 @@ public class AdmRadarServer {
 										ship = gameShip.get( teamNo );
 										mpos.sendSpaceShip( ship );
 										mpos.reset();
-	
+										
 										while (true) {
 											if (!gameOngoing) {
 												clearTeamMessages();
