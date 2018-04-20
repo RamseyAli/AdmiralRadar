@@ -10,12 +10,14 @@ import game.GameMap;
 import game.Position;
 import game.Role;
 import game.Spaceship;
+import game.Systems;
+
 import static pref.GamePreferences.*;
 
 @SuppressWarnings("unused")
 public class ShipSystemsTest {
 	private static ArrayList<Spaceship> ships = new ArrayList<Spaceship>();
-	private static final boolean FISHER = true;
+	private static final boolean FISHER = false;
 	
 	private static void printPos(int index)	{
 		System.out.print("Ship #");
@@ -31,6 +33,10 @@ public class ShipSystemsTest {
 		System.out.print(" Verdict: ");
 		try 
 		{
+			ships.get(index).getShipSystem().chargeSystem(Systems.DRONE);
+			ships.get(index).getShipSystem().chargeSystem(Systems.DRONE);
+			ships.get(index).getShipSystem().chargeSystem(Systems.DRONE);
+			ships.get(index).getShipSystem().chargeSystem(Systems.DRONE);
 			if (ships.get(index).checkSector(guess, SEG, SEC))
 				System.out.print("Yes");
 			else
@@ -45,9 +51,9 @@ public class ShipSystemsTest {
 		System.out.println();
 	}	
 	private static void testDrone() {
-		final int LENGTHX = 20, LENGTHY = 30;
+		final int LENGTHX = 15, LENGTHY = 15;
 		final int TEST_SIZE = LENGTHX * LENGTHY;
-		final int STARTX = -5, STARTY = -5;
+		final int STARTX = 0, STARTY = 0;
 		
 		int i, j, x, y;
 		Spaceship tempShip;
@@ -94,7 +100,20 @@ public class ShipSystemsTest {
 		trueInfo[1] = ships.get(index).getPosition().getY();
 		trueInfo[2] = ships.get(index).getSector(SEG, SEC);
 		
-		radarInfo = ships.get(index).randomRadar(SEG, SEC);
+		try 
+		{
+			ships.get(index).getShipSystem().chargeSystem(Systems.RADAR);
+			ships.get(index).getShipSystem().chargeSystem(Systems.RADAR);
+			ships.get(index).getShipSystem().chargeSystem(Systems.RADAR);
+			radarInfo = ships.get(index).randomRadar(SEG, SEC);
+		}
+		catch (RuntimeException ex)
+		{
+			System.out.print("Exception -> ");
+			System.out.println(ex.getMessage());
+			return false;
+		}
+		
 		
 		System.out.println("Radar Gives");
 		
@@ -175,6 +194,7 @@ public class ShipSystemsTest {
 		
 		out = new PrintStream(new FileOutputStream("RadarTest.txt"));
 		System.setOut(out);
+		
 		testRadar();
 		
 		out = new PrintStream(new FileOutputStream("DroneTest.txt"));
