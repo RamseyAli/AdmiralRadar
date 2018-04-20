@@ -82,11 +82,11 @@ public class ShipSystems implements Serializable {
 			mine[CHARGED_STATUS] = CHARGED;
 		else mine[CHARGED_STATUS] = NOT_CHARGED;
 
-		if (drone[POWER_LEVEL] == 4)
+		if (drone[POWER_LEVEL] == 2)
 			drone[CHARGED_STATUS] = CHARGED;
 		else drone[CHARGED_STATUS] = NOT_CHARGED;
 
-		if (boost[POWER_LEVEL] == 6)
+		if (boost[POWER_LEVEL] == 5)
 			boost[CHARGED_STATUS] = CHARGED;
 		else boost[CHARGED_STATUS] = NOT_CHARGED;
 

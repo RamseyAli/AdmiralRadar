@@ -8,8 +8,10 @@ import java.util.Random;
 
 import game.Direction;
 import game.GameMap;
+import game.Position;
 import game.Role;
 import game.Spaceship;
+import game.Systems;
 import net.MyPacketInputStream;
 import net.MyPacketOutputStream;
 import ops.User;
@@ -32,7 +34,7 @@ public class TestServerSam implements Runnable {
 		boolean xa = true;
 		Spaceship sp = new Spaceship();
 		
-	//	sp.setHealth(0);
+		sp.setHealth(2);
 
 		try (ServerSocket serverSocket = new ServerSocket( portNumber )) {
 			while (listening) {
@@ -66,6 +68,31 @@ public class TestServerSam implements Runnable {
 									out.sendRole( ro );
 								}
 
+								
+								if (ro == Role.CAPTAIN) {
+										sp.getShipSystem().chargeSystem(Systems.BOOST );
+										sp.getShipSystem().chargeSystem(Systems.BOOST );
+										sp.getShipSystem().chargeSystem(Systems.BOOST );
+										sp.getShipSystem().chargeSystem(Systems.BOOST );
+										sp.getShipSystem().chargeSystem(Systems.BOOST );
+										sp.getShipSystem().chargeSystem(Systems.MISSILE );
+										sp.getShipSystem().chargeSystem(Systems.MISSILE );
+										sp.getShipSystem().chargeSystem(Systems.MISSILE );
+										sp.getShipSystem().chargeSystem(Systems.MINE );
+										sp.getShipSystem().chargeSystem(Systems.MINE );
+										sp.getShipSystem().chargeSystem(Systems.MINE );
+										sp.getShipSystem().chargeSystem(Systems.DRONE );
+										sp.getShipSystem().chargeSystem(Systems.DRONE );
+										sp.getShipSystem().chargeSystem(Systems.RADAR );
+										sp.getShipSystem().chargeSystem(Systems.RADAR );
+										sp.getShipSystem().chargeSystem(Systems.RADAR );
+										
+										sp.shipMines.mines.add( sp.getPosition().getNeighbor( Direction.WEST ) );
+										System.out.println( "I GOT HERE!!!!!!!" );
+								
+								}
+								
+								
 								if (ro == Role.ENGINE) {
 									sp.getShipSystem().disableSystemComponent( 12 );
 									sp.getShipSystem().disableSystemComponent( 13 );
@@ -79,10 +106,14 @@ public class TestServerSam implements Runnable {
 									sp.getShipSystem().disableSystemComponent( 7 );
 									sp.getShipSystem().disableSystemComponent( 8 );
 								}
+								
+								out.reset();
 								out.sendSpaceShip( sp );
 								
 								
-								if (ro == Role.CAPTAIN) out.sendString( "Your turn" );
+								if (ro == Role.CAPTAIN) {
+									out.sendString( "Your turn" );
+								}
 								
 								if (ro == Role.ENGINE) {
 									out.sendDirection( Direction.NORTH );

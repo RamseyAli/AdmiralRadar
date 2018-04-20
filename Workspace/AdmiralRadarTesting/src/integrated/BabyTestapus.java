@@ -69,6 +69,7 @@ public class BabyTestapus {
 
 		// Log In
 		for (int i = 0; i < 4; i++) {
+			
 			( (NetworkPane) clients[i].factory.getShipPanel() ).setUsername( "alohomora" );//"USER" + (i+1) );
 			( (NetworkPane) clients[i].factory.getShipPanel() ).setPassword( "password" + (i+1) );
 			( (NetworkPane) clients[i].factory.getShipPanel() ).log.doClick();
