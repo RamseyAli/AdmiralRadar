@@ -16,6 +16,7 @@ import static pref.GamePreferences.*;
 
 @SuppressWarnings("unused")
 public class ShipSystemsTest {
+	private static Spaceship sensorShip;
 	private static ArrayList<Spaceship> ships = new ArrayList<Spaceship>();
 	private static final boolean FISHER = false;
 	
@@ -33,11 +34,9 @@ public class ShipSystemsTest {
 		System.out.print(" Verdict: ");
 		try 
 		{
-			ships.get(index).getShipSystem().chargeSystem(Systems.DRONE);
-			ships.get(index).getShipSystem().chargeSystem(Systems.DRONE);
-			ships.get(index).getShipSystem().chargeSystem(Systems.DRONE);
-			ships.get(index).getShipSystem().chargeSystem(Systems.DRONE);
-			if (ships.get(index).checkSector(guess, SEG, SEC))
+			sensorShip.getShipSystem().chargeSystem(Systems.DRONE);
+			sensorShip.getShipSystem().chargeSystem(Systems.DRONE);
+			if (sensorShip.checkSector(ships.get(index), guess, SEG, SEC))
 				System.out.print("Yes");
 			else
 				System.out.print("No");
@@ -102,10 +101,10 @@ public class ShipSystemsTest {
 		
 		try 
 		{
-			ships.get(index).getShipSystem().chargeSystem(Systems.RADAR);
-			ships.get(index).getShipSystem().chargeSystem(Systems.RADAR);
-			ships.get(index).getShipSystem().chargeSystem(Systems.RADAR);
-			radarInfo = ships.get(index).randomRadar(SEG, SEC);
+			sensorShip.getShipSystem().chargeSystem(Systems.RADAR);
+			sensorShip.getShipSystem().chargeSystem(Systems.RADAR);
+			sensorShip.getShipSystem().chargeSystem(Systems.RADAR);
+			radarInfo = sensorShip.randomRadar(ships.get(index), SEG, SEC);
 		}
 		catch (RuntimeException ex)
 		{
@@ -189,6 +188,9 @@ public class ShipSystemsTest {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		sensorShip = new Spaceship();
+		sensorShip.toGameStartCondition(new Position(0, 0));
+		
 		PrintStream stdout = System.out;
 		PrintStream out;
 		
