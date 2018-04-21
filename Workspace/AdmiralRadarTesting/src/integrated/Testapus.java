@@ -61,7 +61,7 @@ public class Testapus {
 
 		// Connect to Server
 		for (int i = 0; i < 8; i++) {
-			( (NetworkPane) clients[i].factory.getShipPanel() ).svr.setSelectedIndex( 2 );
+			( (NetworkPane) clients[i].factory.getShipPanel() ).svr.setSelectedIndex( 0 );
 			( (NetworkPane) clients[i].factory.getShipPanel() ).cxt.doClick();
 		}
 
