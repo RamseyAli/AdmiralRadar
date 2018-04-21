@@ -57,7 +57,7 @@ public class BabyTestapus {
 		//@SuppressWarnings("unused")
 		//ARServer serve = new ARServer();
 
-		System.out.println( "Server Running" );
+		//System.out.println( "Server Running" );
 
 		// Connect to Server
 		for (int i = 0; i < 4; i++)

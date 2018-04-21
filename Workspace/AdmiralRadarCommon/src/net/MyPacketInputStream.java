@@ -99,14 +99,14 @@ public class MyPacketInputStream extends ObjectInputStream {
 	}
 
 	public Direction getNextDirection() throws IOException {
-		System.out.println( label + "Himaleyan Pink Salt!" );
+		System.out.println( label + "Get Next Direction!" );
 		if (getClassOfNext() == ObjEnum.DIRECTION)
 			return (Direction) getBuffer();
 		else throw new PacketPayloadIncompatable(getClassOfNext());
 	}
 	
 	public Systems getNextCommand() throws IOException {
-		System.out.println( label + "Himaleyan Pink Salt!" );
+		System.out.println( label + "Get Next Command!" );
 		if (getClassOfNext() == ObjEnum.SYSTEMS)
 			return (Systems) getBuffer();
 		else throw new PacketPayloadIncompatable(getClassOfNext());
