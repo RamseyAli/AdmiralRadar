@@ -91,13 +91,28 @@
             <classpath refid="AdmiralRadarTesting.classpath"/>
         </java>
     </target>
+    <target name="ManualGUI">
+        <java classname="graphic.ManualGUI" failonerror="true" fork="yes">
+            <classpath refid="AdmiralRadarTesting.classpath"/>
+        </java>
+    </target>
+    <target name="MultiClient">
+        <java classname="graphic.MultiClient" failonerror="true" fork="yes">
+            <classpath refid="AdmiralRadarTesting.classpath"/>
+        </java>
+    </target>
     <target name="ShipSystemsTest">
         <java classname="shipsystems.ShipSystemsTest" failonerror="true" fork="yes">
             <classpath refid="AdmiralRadarTesting.classpath"/>
         </java>
     </target>
-    <target name="Testapus">
-        <java classname="integrated.Testapus" failonerror="true" fork="yes">
+    <target name="TeamIntegrated">
+        <java classname="integrated.TeamIntegrated" failonerror="true" fork="yes">
+            <classpath refid="AdmiralRadarTesting.classpath"/>
+        </java>
+    </target>
+    <target name="BabyTestapus">
+        <java classname="integrated.BabyTestapus" failonerror="true" fork="yes">
             <classpath refid="AdmiralRadarTesting.classpath"/>
         </java>
     </target>
