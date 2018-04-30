@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 
 import javax.swing.SwingUtilities;
 
+import game.Direction;
 import visual.util.ColorPallate;
 import visual.util.components.ShipPanel;
 import visual.util.operations.GUIController;
@@ -194,6 +195,10 @@ public class EngineerPane extends ShipPanel implements MouseListener {
 		
 		for (indexPart = 0; indexPart < 24; indexPart++)
 			if (buttonAreas[indexPart].contains(e.getPoint()))
+				if (((west.contains( e.getPoint() )&&(control.getSpaceship().getDirection() == Direction.WEST)))||
+						((east.contains( e.getPoint() )&&(control.getSpaceship().getDirection() == Direction.EAST)))||
+						((north.contains( e.getPoint() )&&(control.getSpaceship().getDirection() == Direction.NORTH)))||
+						((south.contains( e.getPoint() )&&(control.getSpaceship().getDirection() == Direction.SOUTH))))
 
 		if (buttons[indexPart]){
 			System.out.println( buttons[indexPart] + "Button" + indexPart );

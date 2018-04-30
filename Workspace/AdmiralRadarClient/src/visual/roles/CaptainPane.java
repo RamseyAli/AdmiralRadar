@@ -1,5 +1,6 @@
 package visual.roles;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import game.Position;
@@ -58,9 +59,34 @@ public class CaptainPane extends MapBasedElement {
 			for (Position p : getPositionPath(control.getSpaceship().getPath() , control.getStartLocation()))
 
 				g.fillOval( x0 - k * r + ( p.getX() * sp ) , y0 - k * r + ( p.getY() * sp ) , 2 * k * r , 2 * k * r );
+		
 
 
 
+	}
+	
+	protected void drawMines(Graphics2D g, int x0, int y0, int k, int r, int sp) {
+
+
+		if ((control.getSpaceship() != null) && (control.getStartLocation() != null))
+
+			for (Position p : control.getSpaceship().getShipMines().getMines()){
+
+				g.setColor( Color.PINK );
+				g.fillOval( x0 - k * r + ( p.getX() * sp ) , y0 - k * r + ( p.getY() * sp ) , 2 * k * r , 2 * k * r );
+			}
+		
+		
+		
+
+
+
+	}
+
+	@Override
+	protected void drawOthers(Graphics2D g, int x0, int y0, int k, int r, int sp2) {
+		drawMines(g, x0 , y0 , k , r , sp2);
+		
 	}
 
 }

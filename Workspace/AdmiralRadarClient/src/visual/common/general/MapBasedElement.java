@@ -140,8 +140,12 @@ public abstract class MapBasedElement extends ShipPanel{
 		
 		drawPath(g, x0, y0, k, r, sp);
 		
+		drawOthers(g, x0, y0, k, r, sp);
+		
 		g.setColor( ColorPallate.MAP_DOTS );
 	}
+
+	protected abstract void drawOthers(Graphics2D g, int x0, int y0, int k, int r, int sp2);
 
 	protected abstract void drawPath(Graphics2D g, int x0, int y0, int k, int r, int sp2);
 

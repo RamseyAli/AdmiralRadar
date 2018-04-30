@@ -136,10 +136,10 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 		int[] yp2 = {yp1[0] + 2*hp , yp1[1] - 2*hp , yp1[2] };	
 
 		int[] yd1 = {ytB4 , ytB4 + sysHeight , ytB4 + sysHeight / 2};
-		int[] yd2 = {yp1[0] + 2*hp , yp1[1] - 2*hp , yp1[2] };
+		int[] yd2 = {yd1[0] + 2*hp , yd1[1] - 2*hp , yd1[2] };
 
 		int[] yb1 = {ytB5 , ytB5 + sysHeight , ytB5 + sysHeight / 2};
-		int[] yb2 = {yp1[0] + 2*hp , yp1[1] - 2*hp , yp1[2] };
+		int[] yb2 = {yb1[0] + 2*hp , yb1[1] - 2*hp , yb1[2] };
 
 		bigMineArrow = new Polygon(xp1 , yp1 , 3);
 		litMineArrow = new Polygon(xp2 , yp2 , 3);
@@ -254,7 +254,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 						VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER ,
 						sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
 
-				g.fillPolygon(litMineArrow);
+				g.fillPolygon(litDroneArrow);
 			}
 			if (control.getSpaceship().getShipSystem().isSystemCharged( Systems.RADAR ))
 				g.fillRect( VisualPreferences.GENERAL_BORDER + sysX + VisualPreferences.SYS_BORDER ,
@@ -293,6 +293,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 						VisualPreferences.GENERAL_BORDER + sysYGap + VisualPreferences.SYS_BORDER
 						+ 5 * ( sysYGap + sysHeight ) ,
 						sysWidth - 2 * VisualPreferences.SYS_BORDER , sysHeight - 2 * VisualPreferences.SYS_BORDER );
+		
 				g.fillPolygon(litBoostArrow);
 			}
 			g.setColor( ColorPallate.ORDER_SYSTEM_CAUTION );
@@ -435,7 +436,7 @@ public class OrdersPane extends ShipPanel implements MouseInputListener {
 
 	private void increaseSelectedDroneSector() {
 		droneSector++;
-		if (droneSector > (GamePreferences.SEG * GamePreferences.SEG)) droneSector = 0;
+		if (droneSector > (GamePreferences.SEC * GamePreferences.SEC)) droneSector = 0;
 
 	}
 

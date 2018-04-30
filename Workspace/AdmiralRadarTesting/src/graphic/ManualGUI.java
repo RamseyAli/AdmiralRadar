@@ -1,6 +1,7 @@
 package graphic;
 
 import game.Role;
+import logic.AdmRadarServer;
 import pref.GamePreferences;
 import visual.roles.NetworkPane;
 import visual.util.operations.GUIFactory;
@@ -16,6 +17,8 @@ public class ManualGUI {
 
 		// Create and Show GUI
 		new Thread( () -> factory.beginGUI() ).start();
+		
+		new Thread( () -> new AdmRadarServer() ).start();
 
 	}
 

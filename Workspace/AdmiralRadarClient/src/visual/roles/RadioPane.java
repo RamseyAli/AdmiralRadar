@@ -44,4 +44,10 @@ public class RadioPane extends MapBasedElement {
 
 	}
 
+	@Override
+	protected void drawOthers(Graphics2D g, int x0, int y0, int k, int r, int sp2) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

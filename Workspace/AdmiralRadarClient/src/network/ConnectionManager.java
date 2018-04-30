@@ -327,10 +327,10 @@ public class ConnectionManager {
 
 			listenForDamageCommands = true;
 
-			System.out.println( " Hershy Kiss " + ois.getClassOfNext());
-			interrupt.setSpaceship( ois.getNextSpaceship() );
+	//		System.out.println( " Hershy Kiss " + ois.getClassOfNext());
+			interrupt.setSpaceship( ois.getNextSpaceship() ); 
 			System.out.println( "Engineer Turn Complete" );
-			interrupt.setTurn("Waiting for your turn!");
+	//		interrupt.setTurn("Waiting for your turn!");
 			interrupt.globalRefresh();;
 			
 			listenForDamageCommands = false;

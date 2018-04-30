@@ -1,5 +1,7 @@
 package graphic;
 
+import javax.swing.JOptionPane;
+
 import game.Role;
 import pref.GamePreferences;
 import visual.roles.NetworkPane;
@@ -17,7 +19,37 @@ public class GUITestClass {
 		new Thread( () -> factory.beginGUI() ).start();
 
 		// Start local test server
-		TestServerSam ts = new TestServerSam( Role.CAPTAIN );
+		String[] options = {"Captain",
+				"First Officer",
+		"Engineer",
+		"Radio Officer"};
+		
+		Role rx = Role.NETWORK;
+
+		switch(JOptionPane.showOptionDialog(null,
+				"Which Demo would you like to see?",
+				"Demo Options",
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				null)){
+					case 0:
+						rx = Role.CAPTAIN;
+						break;
+					case 1:
+						rx = Role.FIRST;
+						break;
+					case 2:
+						rx = Role.ENGINE;
+						break;
+					case 3:
+						rx = Role.RADIO;
+						break;
+					default: break;
+		}
+		
+		TestServerSam ts = new TestServerSam( rx );
 		Thread t = new Thread( ts );
 		t.start();
 
@@ -27,7 +59,7 @@ public class GUITestClass {
 		( (NetworkPane) factory.getShipPanel() ).ready.doClick();
 
 		Thread.sleep( 100000 );
-		System.exit( 1 );
+	//	System.exit( 1 );
 
 	}
 
