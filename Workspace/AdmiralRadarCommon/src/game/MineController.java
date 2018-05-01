@@ -39,7 +39,7 @@ public class MineController implements Serializable {
 				if (damageShips) { // exists so that double damage won't be inflicted to ships when launching a missile
 					for (Spaceship ship : ships) {
 						// SAME POSITION
-						if (ship.equals( mine )) ship.removeHealth( 2 );
+						if (ship.getPosition().equals( mine )) ship.removeHealth( 2 );
 						// CORNERS
 						if (mine.isAdjacent( ship.getPosition() )) ship.removeHealth( 1 );
 					}
